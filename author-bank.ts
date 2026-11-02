@@ -7,6 +7,7 @@ import mental from "./mental.ts";
 import { additionalQuestions } from "./additional-questions.ts";
 import siteQuestions from "./site-questions.json" with { type: "json" };
 import supplemental from "./supplemental-questions.json" with { type: "json" };
+import concepts from "./concept-questions.json" with { type: "json" };
 import type { ClinicalCase, Question, Subject } from "./types.ts";
 import { subjects, shuffled, validateQuestions, installQuestionBank } from "./bank.ts";
 export { subjects, shuffled, validateQuestions } from "./bank.ts";
@@ -28,7 +29,9 @@ export const originalQuestions: Question[] = clinicalCases.flatMap((entry, index
   return { id: `${entry.subject}-${String(index + 1).padStart(3, "0")}-${kind + 1}`, subject: entry.subject, topic: entry.topic, stem: `${entry.scenario} ${prompts[kind]}`, options, correctIndex: options.indexOf(correct), rationale: fact.reason, keyPoint: `${entry.title}: ${fact.text}. ${fact.reason}`, source: "https://www.ncbi.nlm.nih.gov/books/NBK590025/", origin: "Original educational scenario; not copied from BoardPal or an official PNLE paper." };
 }));
 export const supplementalQuestions = validateQuestions(supplemental);
-export const questions: Question[] = [...originalQuestions, ...additionalQuestions, ...supplementalQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : [])];
+export const conceptQuestions = validateQuestions(concepts);
+// Keep the first 653 records, their IDs, option order, and keys immutable.
+export const questions: Question[] = [...originalQuestions, ...additionalQuestions, ...supplementalQuestions, ...conceptQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : [])];
 export const questionMap = new Map(questions.map(q => [q.id, q]));
 export const topics = subjects.flatMap(subject => [...new Set(questions.filter(q => q.subject === subject.id).map(q => q.topic))].map(name => ({ id: `${subject.id}:${name}`, name, subject: subject.id, count: questions.filter(q => q.subject === subject.id && q.topic === name).length })));
 

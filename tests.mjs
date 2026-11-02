@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdir,readFile,writeFile,unlink} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {questions,originalQuestions,supplementalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
-import {inCollection,collectionCounts} from './collections.ts';
+import {questions,originalQuestions,supplementalQuestions,conceptQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
+import {inCollection,collectionCounts,parseCollection} from './collections.ts';
 import {decodeContentRelease} from './content-release.ts';
 import {gzipSync} from 'node:zlib';
 import publishedQuestions from './site-questions.json' with { type: 'json' };
@@ -20,7 +20,7 @@ import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourc
 const bank=new Map(questions.map(q=>[q.id,q]));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
 test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
-  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
+  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+conceptQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
   assert.equal(new Set(questions.map(q=>q.stem)).size,questions.length);
   for(const s of subjects)assert.equal(originalQuestions.filter(q=>q.subject===s.id).length,100);
   for(const q of questions){assert.ok(q.rationale.length>20);assert.equal(q.options[q.correctIndex].rationale,q.rationale);assert.ok(q.options.every(o=>o.rationale.length>20));}
@@ -117,8 +117,8 @@ test('protected content survives database JSON key ordering and rejects incomple
 
 
 test('only the two explicitly source-checked corrections are published from the research dataset',()=>{
- assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+publishedQuestions.length);
- assert.deepEqual(collectionCounts(questions),{all:questions.length,nursing:651+publishedQuestions.length,supplemental:2});
+ assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+publishedQuestions.length);
+ assert.deepEqual(collectionCounts(questions),{all:questions.length,nursing:651+conceptQuestions.length+publishedQuestions.length,clinical:651+publishedQuestions.length,concept:conceptQuestions.filter(q=>q.format==='concept').length,comparison:conceptQuestions.filter(q=>q.format==='comparison').length,supplemental:2});
  for(const q of supplementalQuestions){assert.ok(q.id.startsWith('MMCQA-'));assert.equal(q.collection,'supplemental');assert.equal(q.rationaleScope,undefined);assert.ok(q.source.includes('nhs.uk')||q.source.includes('nice.org.uk'));assert.ok(q.origin.includes('Source-based correction:'));assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.options.every(o=>o.rationale.length>40));}
  for(const q of [...originalQuestions,...additionalQuestions]){assert.ok(inCollection(q,'nursing'));assert.ok(!inCollection(q,'supplemental'));}
 });
@@ -157,4 +157,72 @@ test('the authorized-import CLI starts, validates a new batch, rejects bad impor
   await writeFile(fixture,JSON.stringify([value]));result=run();assert.notEqual(result.status,0);assert.match(result.stderr,message);
  }
  assert.equal(await readFile(target,'utf8'),before,'Check-only must leave the published bank untouched.');
+});
+
+
+test('at least 4,771 original question designs are published, with source facts for every new key and alternative',async()=>{
+ const evidence=JSON.parse(await readFile(new URL('./concept-evidence.json',import.meta.url),'utf8'));
+ const facts=new Map(evidence.map(f=>[f.id,f]));
+ const objectives=new Set(),definitions=new Set();
+ assert.ok(originalQuestions.length+additionalQuestions.length+conceptQuestions.length>=4771);
+ assert.ok(conceptQuestions.length>=4120);
+ for(const q of conceptQuestions){
+  const f=facts.get(q.conceptId);assert.ok(f,q.id);
+  assert.equal(q.id,q.conceptId);assert.ok(!objectives.has(q.conceptId));objectives.add(q.conceptId);
+  assert.equal(q.options.length,4);assert.equal(q.options[q.correctIndex].referenceId,f.id);
+  assert.equal(q.options[q.correctIndex].text,f.term);assert.equal(q.rationale,q.options[q.correctIndex].rationale);
+  assert.ok(q.stem.endsWith(f.definition));assert.ok(q.rationale.includes(f.definition));
+  assert.equal(q.source,f.source);assert.equal(f.license,'https://creativecommons.org/licenses/by/4.0/');
+  assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic&&t.slug===f.topicSlug));
+  assert.equal(q.format,f.kind==='definition'?'concept':'comparison');
+  const optionConcepts=new Set();
+  for(const o of q.options){const alternative=facts.get(o.referenceId);assert.ok(alternative);assert.equal(o.text,alternative.term);assert.ok(o.rationale.includes(alternative.definition));assert.equal(o.source,alternative.source);assert.ok(!optionConcepts.has(alternative.canonical));optionConcepts.add(alternative.canonical);if(q.format==='comparison')assert.equal(alternative.poolId,f.poolId);}
+  if(q.format==='concept'){assert.ok(!definitions.has(f.canonical),'Repeated concept: '+f.canonical);definitions.add(f.canonical);}
+ }
+});
+
+test('all 653 previously deployed questions retain their complete published payload',async()=>{
+ assert.equal(await contentDigest(questions.slice(0,653),clinicalCases),'f11fdd496ba4d91bcd96c81028b826e8454f32e89980e61f21f8e0e5906f74b7');
+});
+
+test('the full expanded bank survives the actual compressed multi-page release format',async()=>{
+ const raw=Buffer.from(JSON.stringify({questions,cases:clinicalCases})),base64=gzipSync(raw,{level:9}).toString('base64');
+ assert.ok(raw.length<32000000,'Expanded payload must fit the mobile release limit');
+ const pages=[];for(let offset=0;offset<base64.length;offset+=440000)pages.push({id:`page-${String(pages.length).padStart(4,'0')}`,kind:'page',data:base64.slice(offset,offset+440000)});
+ assert.ok(pages.length>1);const manifest={version:2,encoding:'gzip-base64',pages:pages.length,questionCount:questions.length,caseCount:clinicalCases.length,bytes:raw.length,digest:await contentDigest(questions,clinicalCases)};
+ const loaded=await decodeContentRelease(manifest,[...pages].reverse());assert.deepEqual(loaded.questions,questions);assert.deepEqual(loaded.cases,clinicalCases);
+ await assert.rejects(()=>decodeContentRelease(manifest,pages.slice(1)),/incomplete/);
+});
+
+test('format filters keep all questions reachable and custom flashcard URLs preserve the selected format',()=>{
+ const counts=collectionCounts(questions);assert.equal(counts.clinical+counts.concept+counts.comparison+counts.supplemental,questions.length);
+ for(const format of ['all','nursing','clinical','concept','comparison','supplemental']){assert.equal(parseCollection(format),format);assert.equal(questions.filter(q=>inCollection(q,format)).length,counts[format]);}
+ assert.equal(parseCollection(null),'nursing');assert.equal(parseCollection('unknown'),'nursing');
+});
+
+test('malformed format metadata and per-choice links are removed during import validation',()=>{
+ const q={...originalQuestions[0],format:{bad:true},conceptId:{bad:true},options:originalQuestions[0].options.map(o=>({...o,source:'javascript:alert(1)',referenceId:{bad:true}}))};
+ const [clean]=validateQuestions([q]);assert.equal(clean.format,undefined);assert.equal(clean.conceptId,undefined);for(const o of clean.options){assert.equal(o.source,undefined);assert.equal(o.referenceId,undefined);}
+});
+
+test('the displayed public counts match the protected bank without including any question text',async()=>{
+ const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
+ assert.equal(summary.total,questions.length);assert.equal(summary.original,questions.length-supplementalQuestions.length);assert.equal(summary.topics,155);
+ assert.equal(summary.concept+summary.comparison,conceptQuestions.length);assert.equal(summary.clinical,651);assert.equal(summary.sourceCorrections,2);
+ assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
+});
+
+
+test('the source ablation error is corrected in every occurrence without changing choices or keys',async()=>{
+ const [correction]=JSON.parse(await readFile(new URL('./reference-corrections.json',import.meta.url),'utf8'));
+ const prior=JSON.parse(await readFile(new URL('./concept-questions.json',import.meta.url),'utf8'));
+ const q=conceptQuestions.find(q=>q.id===correction.id);assert.ok(q);assert.equal(q.topic,'Cancer Treatment Modalities');assert.equal(q.source,correction.source);assert.ok(q.stem.endsWith(correction.definition));
+ let affected=0;
+ for(const q of prior){for(const o of q.options){assert.ok(!o.rationale.includes(correction.previousDefinition));if(o.referenceId===correction.id){affected++;assert.equal(o.source,correction.source);assert.ok(o.rationale.includes(correction.definition));}}assert.ok(!q.stem.includes(correction.previousDefinition));}
+ assert.equal(affected,3);
+});
+
+test('reference table line breaks remain readable in questions and explanations',()=>{
+ const mouth=conceptQuestions.find(q=>q.format==='comparison'&&q.options[q.correctIndex].text==='Mouth'&&q.stem.includes('Functions of the Digestive Organs'));
+ assert.ok(mouth);assert.ok(mouth.stem.includes('Ingests food; Chews and mixes food'));assert.ok(!mouth.stem.includes('foodChews'));assert.ok(!mouth.rationale.includes('foodChews'));
 });

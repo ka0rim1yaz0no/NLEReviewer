@@ -38,8 +38,9 @@ export function validateQuestions(value: unknown, options:{allowDuplicateStems?:
     if (new Set(q.options.map((o: { text: string }) => o.text.toLowerCase().trim())).size !== 4 || !Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) throw new Error(`Question ${q.id} has duplicate choices or an invalid answer.`);
   }
   return value.map(q => {
-    const {collection,rationaleScope,sourceId,sourceTopic,...rest}=q;
-    return { ...rest, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}) };
+    const {collection,rationaleScope,sourceId,sourceTopic,format,conceptId,...rest}=q;
+    const options=q.options.map((o:{text:string;rationale:string;source?:unknown;referenceId?:unknown})=>({text:o.text,rationale:o.rationale,...(typeof o.source==="string"&&/^https:\/\//.test(o.source)?{source:o.source}:{}),...(typeof o.referenceId==="string"?{referenceId:o.referenceId}:{})}));
+    return { ...rest, options, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}),...(format==="concept"||format==="comparison"?{format}:{}),...(typeof conceptId==="string"?{conceptId}:{}) };
   });
 }
 export function normalizeQuestionStem(text:string){return text.normalize("NFKC").toLowerCase().replace(/[\p{P}\p{S}]/gu," ").replace(/\s+/g," ").trim();}

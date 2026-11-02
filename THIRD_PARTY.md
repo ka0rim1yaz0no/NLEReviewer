@@ -1,4 +1,31 @@
-# Source-based additions and attribution
+# Reference content, adaptations, and attribution
+
+## Newly constructed Open RN questions
+
+The 4,515 records in `concept-questions.json` are original multiple-choice designs constructed from reference definitions and explanatory tables in the following Open Resources for Nursing (Open RN) books. Existing textbook review questions, case-study question banks, and BoardPal questions were not imported. Reference descriptions are adapted under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+Open RN; editors Kimberly Ernstmeyer and Elizabeth Christman; Chippewa Valley Technical College, Eau Claire, Wisconsin / WisTech Open:
+
+- [Nursing Fundamentals, 2e (2024)](https://www.ncbi.nlm.nih.gov/books/NBK610815/)
+- [Medical Terminology, 2e (2024)](https://www.ncbi.nlm.nih.gov/books/NBK607454/)
+- [Health Alterations (2024)](https://www.ncbi.nlm.nih.gov/books/NBK613078/)
+- [Nursing Health Promotion (2025)](https://www.ncbi.nlm.nih.gov/books/NBK615319/)
+- [Mental Health and Community Concepts, 2e (2025)](https://www.ncbi.nlm.nih.gov/books/NBK616982/)
+- [Nursing Pharmacology, 2e (2023)](https://www.ncbi.nlm.nih.gov/books/NBK595000/)
+- [Nursing Management and Professional Concepts, 2e (2024)](https://www.ncbi.nlm.nih.gov/books/NBK610445/)
+- [Nursing Advanced Skills (2023)](https://www.ncbi.nlm.nih.gov/books/NBK594492/)
+- [Nursing Skills, 2e (2023)](https://www.ncbi.nlm.nih.gov/books/NBK596735/)
+- [Nursing Assistant (2022)](https://www.ncbi.nlm.nih.gov/books/NBK599384/), also authored by Myra Reuter-Sandquist.
+
+Changes: converted reference definitions and selected table relationships into four-choice questions; removed pronunciation guides and reference markers; selected alternative concepts; added answer and alternative explanations; assigned related reviewer topics. Each question identifies its source book, year, chapter, adaptation, and license. Every new choice has its own reference link. No endorsement by the original authors, editors, publisher, NLM, or NIH is implied.
+
+Only content with a CC BY 4.0 license in its reference metadata was selected. Proprietary standardized diagnostic wording and other screened material are excluded. The source text was retrieved November 3, 2026 through the [documented NLM Books-OAI API](https://www.ncbi.nlm.nih.gov/sites/books/about/oai/?report=reader), using sequential requests. XML hashes and source-access details appear in `concept-review-report.json`. The raw cache is ignored and is not served by the app.
+
+One source definition for radiofrequency ablation mixed cardiac conduction-system anatomy with tumor treatment. Before production deployment, its description and every alternative occurrence were replaced with newly worded, checked facts from the [National Cancer Institute Dictionary of Cancer Terms](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/radiofrequency-ablation). The correction preserves question IDs and key positions; `reference-corrections.json` documents the source error and primary-reference check.
+
+The evidence check establishes consistency with cited reference facts. It is not independent clinical approval. Some source content uses international terminology; Philippine laws and programs are covered by the separately authored topic questions and their official sources.
+
+## Two corrected source items
 
 The two published records in `supplemental-questions.json` were substantially
 corrected from [openlifescienceai/medmcqa](https://huggingface.co/datasets/openlifescienceai/medmcqa),

@@ -4,13 +4,24 @@ A BoardPal-inspired nursing study app with username profiles, private progress, 
 
 ## Published content
 
-**653 questions**: 600 original questions in 120 five-part clinical scenarios, 51 individually authored questions for previously empty catalog topics, and two substantially corrected source items checked against primary references. Every published item has four choices, a key, an answer explanation, and a rationale for each choice. Independent clinical/editorial review is still required.
+**5,168 questions across all 155 catalog topics**, including **5,166 original question designs** and two previously published, substantially corrected source items:
 
-The factual catalog contains all **155 reference topic names** and the observed **9,541-question distribution** (13–206 per topic), observed November 2, 2026. All topics have related practice, but depth varies and some have only one item. Related questions can support multiple topics; they count only once toward the bank total. The app does not claim to match the reference bank's content, depth, or per-topic counts.
+| Question format | Count |
+| --- | ---: |
+| Clinical and standalone originals | 651 |
+| Original source-based concept checks | 3,758 |
+| Original reference-comparison questions | 757 |
+| Corrected supplemental source items | 2 |
 
-`question-bank.json` contains all 653 expanded records for review. `additional-questions.ts` contains the 51 topic-specific originals with official clinical/legal sources. `supplemental-corrections.json` documents the two corrected source items and their reference checks. See [THIRD_PARTY.md](THIRD_PARTY.md) for attribution and licensing.
+The original-design total exceeds the requested minimum of 4,771. The 651 prior originals consist of 600 questions within 120 five-part clinical scenarios and 51 individually authored topic questions. The 4,515 new items are newly constructed four-choice questions based on licensed Open RN reference definitions and explanatory tables, not existing textbook review questions. They test terminology, anatomy, mechanisms, findings, functions, and care principles. They are not 4,515 new clinical vignettes. Use the collection picker to study each format separately.
 
-A proposed **4,120-item MedMCQA supplemental set was withheld** after clinical spot-checks found scenario/key mismatches. It remains in an ignored local review queue; it is not an available student bank. The two provisional bulk database releases are excluded by row-level security. The target of at least 4,771 usable questions is **not fulfilled**. No counts are padded with generated duplicates or review candidates.
+Every published item has four choices, a key, an answer explanation, and a rationale for every choice. Each new item's key and all alternatives are matched to specific source facts; its source book/chapter and adaptation credit are displayed in the answer review, with per-choice reference links. A second parser checked the 4,517 factual records against the cached reference XML, covering 18,060 choice explanations with zero extraction mismatches. Editorial review then caught one erroneous source definition; all three affected questions were corrected against the National Cancer Institute, documented in `reference-corrections.json`, and published in a new release. This verifies source consistency, **not independent professional clinical review** or the currency of every clinical statement. Independent clinical/editorial review remains pending.
+
+The factual catalog retains all **155 reference topic names** and the observed **9,541-question distribution** (13–206 per topic), observed November 2, 2026. All topics have related practice; depth varies and some specialized topics still have only one item. Related questions can support multiple topics and count only once in the bank total. This app does not claim to match BoardPal's question content or per-topic depth.
+
+`question-bank.json` contains all expanded published records. `concept-questions.json` freezes the new question designs; `concept-evidence.json` identifies the reference fact behind each key and alternative; `concept-review-report.json` records counts, checksums, source XML hashes, and review limits. See [THIRD_PARTY.md](THIRD_PARTY.md) for attribution and licensing.
+
+A proposed 4,120-item MedMCQA research candidate remains withheld after spot-checks found scenario/key mismatches. It is not counted or available in practice. The two provisional bulk database releases and the superseded first concept-bank candidate remain excluded by row-level security. Only the two separately corrected source items are published from that dataset.
 
 ## Study features
 
@@ -21,9 +32,9 @@ A proposed **4,120-item MedMCQA supplemental set was withheld** after clinical s
 - All 155 topics connected to flashcards, spaced review, resource notes, the planner, and calendar export. Shared topic/resource notes, gathered My Notes, Anki text/TSV/CSV import, and legacy deck/resource links.
 - History, performance, milestones, profile/settings, theme and text-size preferences, JSON backups, and authorized personal question imports.
 - Username profiles backed by separate Supabase identities, isolated progress, cloud sync, retry controls, and a responsive mobile layout.
-- Collection filters for the two source-based additions. Quick practice, diagnostics, mocks, topic decks, and daily flashcards default to original nursing questions and personal imports. Explicitly choose another collection in custom practice or custom flashcards to include the additions.
+- Format filters for clinical/standalone questions, concept checks, reference comparisons, and the two corrected source items. Quick practice, diagnostics, mocks, topic decks, and daily flashcards mix original nursing designs and personal imports. Custom practice and flashcards can focus on one format.
 
-Large sessions render at most 100 navigator buttons at a time. This keeps phone rendering bounded while every question remains reachable. A 653-item custom set is supported; counts are capped at the actual selection.
+Large sessions render at most 100 navigator buttons at a time. This keeps phone rendering bounded while every question remains reachable. The full bank is available to custom sets; counts are capped at the actual selection. Resource key points load 20 at a time. Question-library and result reviews render 10 at a time.
 
 ## Local development
 
@@ -58,9 +69,17 @@ Settings supports authorized JSON imports with unique IDs/stems, a subject (`CRO
 
 `node --experimental-strip-types prepare-bank.mjs authorized-questions.json --check-only` validates a proposed site-wide batch without changing the published bank. Without `--check-only`, it appends valid records to `site-questions.json`. Preserve published IDs, choice order, and keys; changes could invalidate saved answers. Generate a **new immutable release ID**, review it, stage its pages, and publish its manifest last. Structural validation is not clinical validation or permission to republish: obtain the provider's reuse rights before importing its content.
 
-`audit-bank.mjs` writes actual unique counts, topic assignments, related coverage, duplicates, and reference targets. `--require-match` fails while the actual distribution differs from the 9,541-question reference. Regression checksums preserve all 651 previously published questions and their keys.
+`audit-bank.mjs` writes actual unique counts, topic assignments, related coverage, duplicates, and reference targets. `--require-match` fails while the actual distribution differs from the 9,541-question reference. Regression checksums preserve all 653 previously deployed records, including their choice order, keys, explanations, and IDs. Public counts are generated from the real authoring bank at build time.
 
 For the withheld research candidate, `import-medmcqa.py` reads the public training parquet at `outputs/medmcqa-train.parquet` (pandas and pyarrow required). It writes the 4,120 screened candidates to **`outputs/supplemental-review.json`**, never directly to student practice. Only the two explicitly source-checked corrections enter `supplemental-questions.json`. Source data SHA-256: `b119434ba551517a6ec0ba1f7e0b4c029165ed284a4704f262ce37c791c493c5`. Filtering and duplicate checks cannot establish clinical correctness. New content needs primary-reference checks and independent clinical/editorial review.
+
+## Original reference-question preparation
+
+`collect-openrn.py` retrieves only CC BY 4.0 Open RN reference text through NLM’s documented Books-OAI API, using sequential requests and an ignored local XML cache. It never crawls paid content or imports a textbook question bank. `prepare-openrn.py` removes pronunciation aliases and duplicate definitions, screens unsuitable references, and selects explanatory table relations. `openrn-topic-map.py` assigns related catalog topics using explicit editorial rules.
+
+`build-concept-bank.py` creates a candidate in `outputs/openrn/`; it does not publish. Choices come from related reference concepts, with synonym/overlap checks, stable concept IDs, and fact-specific explanations. `verify-openrn.py` re-parses the source XML and checks every candidate key and alternative against its definition or table cell. Foreign legal/accreditation rules, proprietary diagnostic wording, dependent table rows, uncertain mechanisms, and selected outdated terms are excluded.
+
+After editorial checks, `freeze-concept-bank.py` promotes a source-verified candidate and refuses to change any already frozen record. Preserve existing IDs and options when adding questions; do not regenerate the live bank with a different distractor pool. A clinical correction requires a deliberate reviewed release that accounts for saved progress. `correct-reference-facts.py` applies the documented NCI correction to every keyed/alternative occurrence without shuffling choices. `format-reference-facts.py` preserves reference line breaks and copyedits comparison prompts and explanations without changing the reference words, choice labels, order, or keys. Generate a new immutable content release, stage all its pages, and publish its manifest last.
 
 ## Verification and limits
 

@@ -1,0 +1,13 @@
+[
+  {
+    "id": "ORN-00b7d41377c1a9c3e139",
+    "term": "Radiofrequency ablation",
+    "checkedAt": "2026-11-03",
+    "previousSource": "https://www.ncbi.nlm.nih.gov/books/NBK607444/",
+    "previousDefinition": "A medical procedure in which part of the electrical conduction system of a tumor or other dysfunctional tissue is ablated using the heat generated from high-frequency alternating current.",
+    "definition": "A procedure that delivers radiofrequency energy through electrodes to heat and destroy abnormal tissue.",
+    "source": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/radiofrequency-ablation",
+    "topicSlug": "cancer-treatment-modalities",
+    "reason": "The source wording incorrectly attributed an electrical conduction system to a tumor. The revised description uses NCI's documented heat-destruction mechanism and does not combine tumor treatment with cardiac conduction-system anatomy."
+  }
+]

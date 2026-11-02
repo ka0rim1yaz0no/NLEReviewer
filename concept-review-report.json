@@ -1,0 +1,95 @@
+{
+  "preparedAt": "2026-11-03",
+  "newOriginalQuestionDesigns": 4515,
+  "conceptChecks": 3758,
+  "referenceComparisons": 757,
+  "previousOriginalClinicalAndStandaloneQuestions": 651,
+  "totalOriginalQuestionDesigns": 5166,
+  "previousCorrectedSourceItems": 2,
+  "totalPublishedQuestions": 5168,
+  "sourceEvidenceFacts": 4517,
+  "choicesMatchedToReferenceFacts": 18060,
+  "sourceXmlMismatches": 0,
+  "duplicateNormalizedStems": 0,
+  "independentClinicalReview": false,
+  "questionFileSha256": "8181943387f73db1b181ce977b35a1cf8bd2a259eed32d548248d5287a28dca1",
+  "evidenceFileSha256": "a334ae2c7423db20ce42e421b1e81fc108e352c39fc9c189a9cdf7ed3448323d",
+  "bySubject": {
+    "NP2": 1079,
+    "CROSS": 921,
+    "NP4": 919,
+    "NP1": 275,
+    "NP5": 715,
+    "NP3": 606
+  },
+  "sourceXmlFiles": [
+    {
+      "file": "openrnas-0.xml",
+      "sha256": "029b0ef2c4727aa7b1e20bb60a29766fc23fe02776c4acda06e27eac9a2f1f97"
+    },
+    {
+      "file": "openrnha-0.xml",
+      "sha256": "5743f1e7aeba883c571e5a4a1c92eef008347e646c7ebdcca00fb3f536ff5c98"
+    },
+    {
+      "file": "openrnmhcc2-0.xml",
+      "sha256": "25aa00c9028010b299eb8f595e5d603fc39ff0b7eb1d6beb792e9418b03bd261"
+    },
+    {
+      "file": "openrnmt2e-0.xml",
+      "sha256": "7dc6b2040c615acfd4deadc99054283649fc1b43854e4ca841413058f334806e"
+    },
+    {
+      "file": "openrnna-0.xml",
+      "sha256": "67ed051857f233e6464a695423782dbfe6091bcffd8cdd28955b02087a33e2e2"
+    },
+    {
+      "file": "openrnnf2e-0.xml",
+      "sha256": "132f60df013f3ff7503ac5b782134cd5f8795b5026c527346b333eb7a5eb1fe7"
+    },
+    {
+      "file": "openrnnf2e-1.xml",
+      "sha256": "ad26feb8adec39a08f08d00aabfab897228225653a5269d1e0e90c07eda2467b"
+    },
+    {
+      "file": "openrnnhp-0.xml",
+      "sha256": "dd31b0d5d5a745185ac24d5657fcc783850ed987ca808a02da5235d31380459e"
+    },
+    {
+      "file": "openrnnhp-1.xml",
+      "sha256": "7a999d4a1f98bdea51600dc223d341e5eec2ca9883ab0663a08272495784b898"
+    },
+    {
+      "file": "openrnnmpc2e-0.xml",
+      "sha256": "383c28a12f18574be4dfc433c3f11a4a13690b119dff50e94621e0c0c9604820"
+    },
+    {
+      "file": "openrnnmpc2e-1.xml",
+      "sha256": "4242f5cb0cf4950720905372576f391aa3c1c97e64980e2206ef17c98f40a121"
+    },
+    {
+      "file": "openrnnp-0.xml",
+      "sha256": "73a41319420fd4247ea373729f5370e4a2f0f6de6b15c2910ca37ffc6f043625"
+    },
+    {
+      "file": "openrnns2e-0.xml",
+      "sha256": "00ffe45a842a576908d0f5239de0115c1316128c6a2d471466396f3c80dd48e8"
+    },
+    {
+      "file": "openrnns2e-1.xml",
+      "sha256": "7da889579c2bc4736034c13bbe3f211d553b2e4c117d8b4d36925b85dddf75a7"
+    }
+  ],
+  "sourceAccess": "NLM documented Books-OAI full-text API, sequential requests; CC BY 4.0 books only.",
+  "questionDesign": "New concept-identification and reference-comparison questions; no existing textbook review questions or BoardPal questions were imported.",
+  "checks": "Reference XML terms, definitions and selected table cells match the keyed and alternative facts; four distinct choices; duplicate objectives and similar definitions screened; dependent rows, proprietary standardized definitions and foreign legal rules excluded.",
+  "limits": "Source matching checks consistency with cited reference text. It is not independent professional clinical review, guideline currency validation for every statement, or a guarantee of zero errors.",
+  "primaryReferenceCorrections": 1,
+  "correctedQuestionIds": [
+    "ORN-00b7d41377c1a9c3e139",
+    "ORN-46a58f2cc812a568d96a",
+    "ORN-689dbb311b1a1bab7feb"
+  ],
+  "sourceVerificationNote": "The initial reference extraction matched its XML. Subsequent editorial review identified one error in the source wording. The corrected fact and every keyed/alternative occurrence use the documented NCI reference; see reference-corrections.json. Source matching is not independent clinical approval.",
+  "formattingReview": "XML line-break elements are preserved as readable separators. Comparison prompts and alternative explanations were copyedited before production deployment. No IDs, option labels, order, or key positions were changed."
+}
