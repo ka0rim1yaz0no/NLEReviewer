@@ -1,0 +1,4127 @@
+{
+  "release": "2026-11-03-scenario-expansion-1",
+  "reviewDate": "2026-11-03",
+  "previousRelease": "2026-11-03-reference-recheck-1",
+  "previousContentDigest": "b5c72b42ef5fdd1c2d4bfbcb67f0465684a28a49e3f53e97e1ccd1a940a64e54",
+  "candidateSha256": "fd3d0df3b5805feaed77afa1297000c355959860df669f674ab0b65b5fba1990",
+  "scope": {
+    "addedQuestions": 155,
+    "topics": 155,
+    "additionalQuestionsPerTopic": 1,
+    "choiceExplanations": 620,
+    "standaloneScenarios": 155
+  },
+  "independentClinicianApproval": false,
+  "reviewer": "Assistant editorial and reference review; no independent clinician sign-off",
+  "reviewedQuestionIds": [
+    "EXP2-CROSS-laboratory-values",
+    "EXP2-CROSS-pharmacology-core-principles",
+    "EXP2-CROSS-nursing-process-prioritization",
+    "EXP2-CROSS-professional-ethics-legal-foundations",
+    "EXP2-CROSS-health-assessment-vital-signs",
+    "EXP2-CROSS-dosage-calculation-medication-administration",
+    "EXP2-CROSS-asepsis-iv-therapy-wound-care",
+    "EXP2-CROSS-basic-needs-mobility-comfort-elimination-oxygenation",
+    "EXP2-CROSS-pharmacology-drug-classes",
+    "EXP2-CROSS-leadership-management",
+    "EXP2-CROSS-nursing-research",
+    "EXP2-CROSS-professional-adjustment-jurisprudence",
+    "EXP2-NP1-non-communicable-diseases",
+    "EXP2-NP1-communicable-diseases-basic-concepts",
+    "EXP2-NP1-tuberculosis",
+    "EXP2-NP1-leprosy",
+    "EXP2-NP1-mosquito-borne-diseases",
+    "EXP2-NP1-integumentary-related-cds",
+    "EXP2-NP1-neuro-related-cds",
+    "EXP2-NP1-common-infectious-diseases-summary",
+    "EXP2-NP1-family-nursing-process",
+    "EXP2-NP1-care-of-families-normal-at-risk",
+    "EXP2-NP1-care-of-population-groups-with-other-health-priorities",
+    "EXP2-NP1-ph-health-care-delivery-system-doh",
+    "EXP2-NP1-universal-health-care-uhc-sdgs",
+    "EXP2-NP1-primary-health-care-phc",
+    "EXP2-NP1-community-health-nursing-process",
+    "EXP2-NP1-expanded-program-on-immunization-epi",
+    "EXP2-NP1-epidemiology-vital-statistics-demography",
+    "EXP2-NP1-maternal-child-health-mch-programs",
+    "EXP2-NP1-nutrition-programs",
+    "EXP2-NP1-sanitation-environmental-health",
+    "EXP2-NP1-disaster-nursing-in-the-community",
+    "EXP2-NP1-school-occupational-health-nursing",
+    "EXP2-NP1-recording-reporting-health-information",
+    "EXP2-NP1-referral-system",
+    "EXP2-NP1-community-mental-health-program",
+    "EXP2-NP1-integrated-management-of-childhood-illness-imci",
+    "EXP2-NP1-health-education-research-utilization-in-chn",
+    "EXP2-NP1-laws-nursing-practice-health-workforce",
+    "EXP2-NP1-laws-disease-reporting-control",
+    "EXP2-NP1-laws-health-financing-insurance",
+    "EXP2-NP1-laws-maternal-child-reproductive-health",
+    "EXP2-NP1-laws-ncd-environmental-occupational-nutrition",
+    "EXP2-NP2-normal-pregnancy",
+    "EXP2-NP2-complications-during-pregnancy",
+    "EXP2-NP2-normal-labor-delivery",
+    "EXP2-NP2-complications-during-labor",
+    "EXP2-NP2-normal-puerperium",
+    "EXP2-NP2-postpartum-complications",
+    "EXP2-NP2-family-planning-methods",
+    "EXP2-NP2-female-male-reproductive-systems",
+    "EXP2-NP2-fertilization-genetics-fertility",
+    "EXP2-NP2-ethico-moral-management-in-maternal-care",
+    "EXP2-NP2-theories-of-growth-development",
+    "EXP2-NP2-developmental-milestones",
+    "EXP2-NP2-health-promotion-disease-prevention-pedia",
+    "EXP2-NP2-adolescent-health",
+    "EXP2-NP2-pediatric-cardiovascular-disorders",
+    "EXP2-NP2-pediatric-respiratory-disorders",
+    "EXP2-NP2-pediatric-gastrointestinal-disorders",
+    "EXP2-NP2-pediatric-hematologic-oncologic-disorders",
+    "EXP2-NP2-pediatric-neurologic-disorders",
+    "EXP2-NP2-pediatric-renal-disorders",
+    "EXP2-NP2-pediatric-integumentary-musculoskeletal-disorders",
+    "EXP2-NP2-legal-principles-collaboration-teamwork-in-pedia",
+    "EXP2-NP3-classification-of-surgery",
+    "EXP2-NP3-pre-operative-phase",
+    "EXP2-NP3-intra-operative-phase",
+    "EXP2-NP3-post-operative-phase",
+    "EXP2-NP3-upper-airway-disorders",
+    "EXP2-NP3-bronchial-asthma",
+    "EXP2-NP3-copd",
+    "EXP2-NP3-ards",
+    "EXP2-NP3-pneumonia-cap-hap-vap",
+    "EXP2-NP3-pneumothorax-hemothorax-chest-tubes",
+    "EXP2-NP3-pulmonary-embolism-pulmonary-hypertension",
+    "EXP2-NP3-heart-anatomy-ecg-basics",
+    "EXP2-NP3-acute-coronary-syndrome-acs",
+    "EXP2-NP3-peripheral-vascular-diseases-hypertension",
+    "EXP2-NP3-hematologic-disorders",
+    "EXP2-NP3-iv-fluids",
+    "EXP2-NP3-electrolyte-imbalances",
+    "EXP2-NP3-acid-base-balance-abg",
+    "EXP2-NP3-acute-kidney-injury-aki",
+    "EXP2-NP3-chronic-kidney-disease-ckd",
+    "EXP2-NP3-dialysis-hemodialysis-peritoneal",
+    "EXP2-NP3-infectious-disorders",
+    "EXP2-NP3-inflammatory-bowel-neuro-inflammatory-disorders",
+    "EXP2-NP3-immunologic-connective-tissue-disorders",
+    "EXP2-NP3-basic-concepts-in-cancer",
+    "EXP2-NP3-cancer-treatment-modalities",
+    "EXP2-NP3-oncologic-emergencies",
+    "EXP2-NP3-site-specific-cancers",
+    "EXP2-NP3-health-education-quality-improvement",
+    "EXP2-NP4-malnutrition",
+    "EXP2-NP4-oral-esophageal-gastric-disorders",
+    "EXP2-NP4-hepatobiliary-disorders",
+    "EXP2-NP4-gi-absorption-elimination",
+    "EXP2-NP4-ostomies",
+    "EXP2-NP4-adh-disorders",
+    "EXP2-NP4-adrenal-gland-disorders",
+    "EXP2-NP4-pituitary-gland-disorders",
+    "EXP2-NP4-thyroid-disorders",
+    "EXP2-NP4-parathyroid-disorders",
+    "EXP2-NP4-diabetes-mellitus",
+    "EXP2-NP4-endocrine-emergencies-summary",
+    "EXP2-NP4-neuroanatomy-assessment-basics",
+    "EXP2-NP4-increased-intracranial-pressure-iicp",
+    "EXP2-NP4-cerebrovascular-accident-stroke",
+    "EXP2-NP4-parkinson-s-disease",
+    "EXP2-NP4-multiple-sclerosis-ms",
+    "EXP2-NP4-myasthenia-gravis-mg",
+    "EXP2-NP4-guillain-barr-syndrome-gbs",
+    "EXP2-NP4-autonomic-dysreflexia",
+    "EXP2-NP4-alzheimer-s-disease-dementia",
+    "EXP2-NP4-seizure-disorders",
+    "EXP2-NP4-spinal-cord-injuries-sci",
+    "EXP2-NP4-peripheral-neuropathies",
+    "EXP2-NP4-amyotrophic-lateral-sclerosis-als",
+    "EXP2-NP4-musculoskeletal-review-interventions",
+    "EXP2-NP4-musculoskeletal-trauma",
+    "EXP2-NP4-metabolic-bone-disorders",
+    "EXP2-NP4-inflammatory-infectious-bone-joint-disorders",
+    "EXP2-NP4-spinal-other-msk-conditions",
+    "EXP2-NP4-eye-anatomy-assessment-refractive-disorders",
+    "EXP2-NP4-glaucoma-cataract",
+    "EXP2-NP4-retinal-detachment-macular-degeneration",
+    "EXP2-NP4-other-eye-conditions-surgery-care",
+    "EXP2-NP4-ear-anatomy-assessment-hearing-loss",
+    "EXP2-NP4-ear-disorders-surgery-care",
+    "EXP2-NP4-documentation-professional-development",
+    "EXP2-NP5-foundations-of-mental-health-nursing",
+    "EXP2-NP5-therapeutic-stress-models",
+    "EXP2-NP5-anxiety-anxiety-related-disorders",
+    "EXP2-NP5-trauma-related-disorders",
+    "EXP2-NP5-mood-disorders",
+    "EXP2-NP5-schizophrenia-other-psychoses",
+    "EXP2-NP5-personality-disorders",
+    "EXP2-NP5-eating-disorders",
+    "EXP2-NP5-substance-use-disorders",
+    "EXP2-NP5-cognitive-other-psychiatric-disorders",
+    "EXP2-NP5-therapeutic-communication-relationship",
+    "EXP2-NP5-crisis-intervention",
+    "EXP2-NP5-psychiatric-assessment-symptomatology",
+    "EXP2-NP5-somatic-behavioral-therapies",
+    "EXP2-NP5-psychopharmacology",
+    "EXP2-NP5-altered-ventilatory-function",
+    "EXP2-NP5-altered-tissue-perfusion",
+    "EXP2-NP5-altered-elimination",
+    "EXP2-NP5-altered-perception",
+    "EXP2-NP5-multi-system-problems-shock-sepsis",
+    "EXP2-NP5-high-acuity-emergency-situations",
+    "EXP2-NP5-critical-care-equipment",
+    "EXP2-NP5-collaboration-communication-in-critical-care"
+  ],
+  "method": [
+    "Read all 155 stems, keys, and 620 choice explanations. Check the clinical distinction against linked explanatory references, not textbook exercise answer keys.",
+    "Review official primary/public-health guidance and Philippine statutes where relevant; use nursing texts for foundational care, and specialist guidelines for condition-specific decisions.",
+    "Check answer arithmetic, all-topic coverage, distinct four-choice structure, balanced answer positions, source metadata, and exact normalized-stem uniqueness against all prior records.",
+    "Screen stem/key similarity against 740 prior active clinical situations and among the new scenarios, then assess the flagged clinical overlap editorially. Lexical scores alone are not duplicate verdicts.",
+    "Replace overlapping drafts before publication, freeze the reviewed candidate hash, and verify every pre-existing record with the prior full-content digest."
+  ],
+  "referenceCorrections": [
+    "Replace moved URLs with the actual relevant page or official PDF; retain a separate availability report for access-denied references.",
+    "Use published KDIGO AKI guidance rather than an unfinalized update; use 2026 SCCM sepsis guidance and 2025 AHA resuscitation guidance for the relevant new items.",
+    "Verify the GCS component scores against the visually rendered official assessment aid; specify a two-part motor command.",
+    "Use the NSW mental-health guide to distinguish circumstantiality (eventually returns to the point) from tangentiality.",
+    "Use the actual NTSP laryngectomy algorithm, current DIANEAL and desmopressin labels, the ATS ARDS guideline, and ISMP hard/soft-limit definitions.",
+    "Verify Philippine RA 11332 section 7: the President declares a State of Public Health Emergency for the specified national-security threat."
+  ],
+  "arithmeticChecks": {
+    "gravityDrip": "1000 mL * 15 drops/mL / 480 min = 31.25, rounded to 31 drops/min",
+    "coverage": "25% to 45% = 20 percentage points",
+    "prevalence": "45 / 1000 * 100 = 4.5%",
+    "absoluteRiskReduction": "10% - 5% = 5 percentage points",
+    "peakFlow": "Highest of 360, 390, and 380 = 390 L/min",
+    "ARDS": "6 mL/kg * 50 kg predicted weight = 300 mL",
+    "urineOutput": "1800 mL drainage - 1500 mL irrigant = 300 mL",
+    "falls": "5/500*1000 = 10; 6/1000*1000 = 6",
+    "GCS": "E3 + V4 + M6 = 13",
+    "MAP": "(82 + 2*40)/3 = 54 mmHg",
+    "AKI": "20 mL/h / 70 kg = 0.286 mL/kg/h for 8 hours, below 0.5 for at least 6 hours"
+  },
+  "overlapDraftReplacements": [
+    "Transfusion effects on HbA1c instead of another HIT case",
+    "Apixaban monitoring instead of another bisphosphonate administration case",
+    "Pain self-report despite appearance instead of another mobility goal",
+    "Stage 3 pressure injury instead of another urinary-bag question",
+    "Antipsychotic metabolic follow-up instead of another alcohol-withdrawal scenario",
+    "Adult START simulation instead of another psychological-first-aid case",
+    "Spacer technique instead of another epistaxis case",
+    "Nonprogressive cerebral-palsy disturbance instead of another swallowing case",
+    "Crohn surgery and recurrence instead of another B12 case",
+    "Spinal shock versus neurogenic shock instead of another shock-management case",
+    "Remote crisis location and callback instead of another safety-contract case",
+    "Post-sedation escort instead of another vomiting/airway case",
+    "Hard versus soft pump limits instead of a generic alert case"
+  ],
+  "duplicateAdjudications": [
+    {
+      "pair": "MAP calculation / prior CPP calculation",
+      "decision": "Retain distinct learning objective",
+      "reason": "Different formulas and physiological quantities; the shared numeric answer does not make them the same question."
+    },
+    {
+      "pair": "IMCI count technique / prior respiratory threshold",
+      "decision": "Retain distinct learning objective",
+      "reason": "The new item tests a valid calm full-minute count; the earlier item applies an age-specific fast-breathing threshold."
+    },
+    {
+      "pair": "Mixed ABG / prior respiratory acidosis",
+      "decision": "Retain distinct learning objective",
+      "reason": "Both PaCO2 and bicarbonate now acidify the blood; the earlier bicarbonate did not indicate this mixed process."
+    },
+    {
+      "pair": "Apixaban / prior warfarin",
+      "decision": "Retain distinct learning objective",
+      "reason": "The new question tests why routine INR titration does not apply to the direct oral anticoagulant."
+    },
+    {
+      "pair": "CKD chronicity / prior CKD complication cases",
+      "decision": "Retain distinct learning objective",
+      "reason": "The new item asks whether one illness-associated eGFR establishes a chronic diagnosis."
+    },
+    {
+      "pair": "Sickle-cell fever / prior acute chest syndrome",
+      "decision": "Retain distinct learning objective",
+      "reason": "Urgent infection assessment in a child differs from the chest pain and hypoxemia complication in the prior adult case."
+    },
+    {
+      "pair": "Mastitis / prior engorgement",
+      "decision": "Retain distinct learning objective",
+      "reason": "Fever and focal spreading redness distinguish the new case from uncomplicated bilateral fullness."
+    },
+    {
+      "pair": "Orthostasis after SCI / prior autonomic dysreflexia",
+      "decision": "Retain distinct learning objective",
+      "reason": "The new item discriminates a low pressure after sitting from the previous hypertensive autonomic syndrome."
+    },
+    {
+      "pair": "Two new screening questions",
+      "decision": "Retain distinct learning objective",
+      "reason": "Cervical-screen follow-up and developmental-screen referral share a general screening principle but address different populations and clinical pathways."
+    },
+    {
+      "pair": "Two new labor questions",
+      "decision": "Retain distinct learning objective",
+      "reason": "Fetal assessment after membrane rupture differs from interpreting a late-deceleration tracing."
+    },
+    {
+      "pair": "Two new orthostatic questions",
+      "decision": "Retain distinct learning objective",
+      "reason": "One tests measured orthostatic vital-sign safety; the SCI topic specifically differentiates orthostatic hypotension from autonomic dysreflexia."
+    },
+    {
+      "pair": "New spinal shock / new orthostasis after SCI",
+      "decision": "Retain distinct learning objective",
+      "reason": "Early areflexia below an acute lesion and a position-related fall in pressure are separate neurological and circulatory findings."
+    },
+    {
+      "pair": "New percentage questions",
+      "decision": "Retain distinct learning objective",
+      "reason": "Coverage change and an absolute intervention risk reduction use different denominators and clinical interpretations."
+    }
+  ],
+  "sourceAvailability": {
+    "note": "HTTP availability is not clinical validation. Access challenges were not bypassed. For the blocked primary pages, official indexed text or linked official documents were reviewed separately. A transient 403 is recorded rather than misrepresented as a successful direct read.",
+    "references": [
+      {
+        "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+        "title": "Principles of Epidemiology | Lesson 3 - Section 1",
+        "sha256": "c82ae989d43649146ef9e605ac8c3da17873437039ec81abfa9d6c83adf98aab"
+      },
+      {
+        "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html",
+        "title": "Principles of Epidemiology | Lesson 3 - Section 2",
+        "sha256": "76755f77c88da7ae0c76d0780b2a5786d78e041c99aea630ce565566f580fc65"
+      },
+      {
+        "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section6.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section6.html",
+        "title": "Principles of Epidemiology | Lesson 3 - Section 6",
+        "sha256": "8afd2a81a3312daa1398cd74e412ac1ba0641af9c43a975bd31a7b485c4c62c1"
+      },
+      {
+        "url": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf",
+        "title": "",
+        "sha256": "d10fd1d040bdbdb6db4254b8095e1d1722d0a3d2f80c3651b3003301a8a6959f",
+        "format": "pdf"
+      },
+      {
+        "url": "https://cdn.who.int/media/docs/default-source/mca-documents/nbh/enc-course/revised-resources/core-materials/web-who-enc-2---provider-guide---may-2024.pdf",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://cdn.who.int/media/docs/default-source/mca-documents/nbh/enc-course/revised-resources/core-materials/web-who-enc-2---provider-guide---may-2024.pdf",
+        "title": "",
+        "sha256": "c26f46cfeee5bcdd2a5233e4f7aabe7e6096a03701e44d62b2fd4dfee696ce2c",
+        "format": "pdf"
+      },
+      {
+        "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/",
+        "status": 403,
+        "available": false,
+        "challenge": true,
+        "finalUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/",
+        "title": "Attention Required! | Cloudflare",
+        "sha256": "1ca310fa9da9ef61a3a1a315c989a7007221dc0091be6cbd5810719866a077a7"
+      },
+      {
+        "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aa268d3f-7389-4f25-801f-5d4825495f08",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aa268d3f-7389-4f25-801f-5d4825495f08",
+        "title": "DailyMed - DIANEAL PD-2 WITH DEXTROSE- sodium chloride, sodium lactate, calcium chloride, magnesium chloride and dextrose injection, solution DIANEAL LOW CALCIUM WITH DEXTROSE- sodium chloride, sodium lactate, calcium chloride, magnesium chloride and dextrose injection, solution",
+        "sha256": "0a8f6d5bf89218058800b34b9d65f5739fa9901f0cf94e03b327540339bba282"
+      },
+      {
+        "url": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=8034989a-45f5-436b-8b1f-42108ee2a21a&type=display",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=8034989a-45f5-436b-8b1f-42108ee2a21a&type=display",
+        "title": "These highlights do not include all the information needed to use DESMOPRESSIN NASAL SPRAY SOLUTION safely and effectively. See full prescribing information for DESMOPRESSIN NASAL SPRAY SOLUTION. DESMOPRESSIN nasal spray solution Initial U.S. Approval: 1978",
+        "sha256": "02e6260731f458e29248849469369371f4d20d7d7870a5d3c4f8e60167237cd9"
+      },
+      {
+        "url": "https://gi.org/journals-publications/ebgi/schoenfeld_sep2024/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://gi.org/journals-publications/ebgi/schoenfeld_sep2024/",
+        "title": "ACG Guideline on Treatment of Helicobacter pylori: New Recommendations… Will Practice Change? - American College of Gastroenterology",
+        "sha256": "d71dc25272b39fa74b05643465f2334d1c916701885ad85acaad843ad62c08e3"
+      },
+      {
+        "url": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+        "title": "",
+        "sha256": "ba719281c07725b8d3e7eabf046f678f928e39e89496a789bb0c1843765ca776",
+        "format": "pdf"
+      },
+      {
+        "url": "https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf",
+        "title": "",
+        "sha256": "20db2b44ea228cd1006ea9f867ee8d830663fae04c7f1ac3d24aaab7388ed1ad",
+        "format": "pdf"
+      },
+      {
+        "url": "https://lawphil.net/executive/execord/eo1986/eo_51_1986.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://lawphil.net/executive/execord/eo1986/eo_51_1986.html",
+        "title": "Executive Order No. 51",
+        "sha256": "4d9fd7698cc1360f7491c4a9bdb79acbe926b43c54e801fd2855a078b05a489c"
+      },
+      {
+        "url": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+        "title": "R.A. 6675",
+        "sha256": "d581b5d7e9b9d7cf8596f27ae1dd03c46ccd7c3fe65b0ca3d1f94e02802ff56e"
+      },
+      {
+        "url": "https://lawphil.net/statutes/repacts/ra1992/ra_7305_1992.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://lawphil.net/statutes/repacts/ra1992/ra_7305_1992.html",
+        "title": "R.A. 7305",
+        "sha256": "1b09562f145ec237e63313c3186991479c0bf1c8c49135678079c4867bf8dec1"
+      },
+      {
+        "url": "https://lawphil.net/statutes/repacts/ra2009/ra_9711_2009.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://lawphil.net/statutes/repacts/ra2009/ra_9711_2009.html",
+        "title": "R.A. 9711",
+        "sha256": "b499442334ea517f7a1b37ea35957f3ea4725c6a4ffcc8dd1d1cf47e78297594"
+      },
+      {
+        "url": "https://lawphil.net/statutes/repacts/ra2012/ra_10173_2012.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://lawphil.net/statutes/repacts/ra2012/ra_10173_2012.html",
+        "title": "Republic Act No. 10173",
+        "sha256": "d9f00c3e74239247ad7896bf20ae76e4835b2ffed975f143296b9591b767d20f"
+      },
+      {
+        "url": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html",
+        "title": "Republic Act No. 11223",
+        "sha256": "ab0b18b50f27cd9a9dbf0df52305e26252eb3b01476333aa631e89efc17b9975"
+      },
+      {
+        "url": "https://lawphil.net/statutes/repacts/ra2019/ra_11332_2019.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://lawphil.net/statutes/repacts/ra2019/ra_11332_2019.html",
+        "title": "Republic Act No. 11332",
+        "sha256": "371840b6bc7db02d020a433ca07baffe4cdd9a35f7e2c70bdc108da3d77c9e13"
+      },
+      {
+        "url": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+        "status": 403,
+        "available": false,
+        "challenge": true,
+        "finalUrl": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+        "title": "Access Denied",
+        "sha256": "6dca0780a8a3431382858babc23daa5e000166564936695ace241264f074a646"
+      },
+      {
+        "url": "https://online.ecri.org/hubfs/ISMP/Resources/ISMP_Smart_Infusion_Pumps_Guidelines.pdf",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://online.ecri.org/hubfs/ISMP/Resources/ISMP_Smart_Infusion_Pumps_Guidelines.pdf",
+        "title": "",
+        "sha256": "924e212c62c1fb30de730d56073d629a06bb28e5bb64d06d134b86c89aed7276",
+        "format": "pdf"
+      },
+      {
+        "url": "https://openstax.org/books/psychology-2e/pages/6-3-operant-conditioning",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://openstax.org/books/psychology-2e/pages/6-3-operant-conditioning",
+        "title": "6.3 Operant Conditioning - Psychology 2e | OpenStax",
+        "sha256": "28700e650026d400bbab42edada676e37a592a64cd0baa966a66976854b53669"
+      },
+      {
+        "url": "https://openstax.org/books/psychology/pages/14-1-what-is-stress",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://openstax.org/books/psychology/pages/14-1-what-is-stress",
+        "title": "14.1 What Is Stress? - Psychology | OpenStax",
+        "sha256": "cece54f0ebb8281db4dabb98955b6f2ca9666cf08107aedcdc26dd0a04f2c15e"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+        "title": "Hyperglycemic Crises in Adults With Diabetes: A Consensus Report - PMC",
+        "sha256": "dd1f54483f7818aedbeb085d65a38e499f4be2a98c4cbb29c71b4af7b5c40bf6"
+      },
+      {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5314810/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5314810/",
+        "title": "SOCIETY FOR ENDOCRINOLOGY ENDOCRINE EMERGENCY GUIDANCE: Emergency management of pituitary apoplexy in adult patients - PMC",
+        "sha256": "a571d7acfacfd3e0cefe6e7fd4b44abe3a81e9afce37724e1fee3fb17ef49fb9"
+      },
+      {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33125793/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://pubmed.ncbi.nlm.nih.gov/33125793/",
+        "title": "The Use of Visceral Proteins as Nutrition Markers: An ASPEN Position Paper - PubMed",
+        "sha256": "00cc29901322b92cd87da471a37dccf9934fcf7ea1b114711897b8d4fc10d9d0"
+      },
+      {
+        "url": "https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment",
+        "title": "Safe Sleep Environment | Safe to Sleep®",
+        "sha256": "f34a5adc480a8ab4dc21c0c41c2977fde3018ceb24a5740bdb6350b4091186d1"
+      },
+      {
+        "url": "https://sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026",
+        "title": "Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2026 | SCCM",
+        "sha256": "18cb483efaa403b5d51638256bf22d960f4e62dd940f7be968d3bb4d29466a1f"
+      },
+      {
+        "url": "https://telehealth.hhs.gov/providers/best-practice-guides/telehealth-for-behavioral-health/preparing-patients-for-telebehavioral-health/creating-a-telehealth-emergency-plan",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://telehealth.hhs.gov/providers/best-practice-guides/telehealth-for-behavioral-health/preparing-patients-for-telebehavioral-health/creating-a-telehealth-emergency-plan",
+        "title": "Creating an emergency plan for telebehavioral health | Telehealth.HHS.gov",
+        "sha256": "e3cd747a5bd567d7b236d4d0d0d781037f04d7d7e27727fb8fd06f63011c4690"
+      },
+      {
+        "url": "https://tracheostomy.org.uk/healthcare-staff/emergency-care/emergency-tracheostomy-laryngectomy",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://tracheostomy.org.uk/healthcare-staff/emergency-care/emergency-tracheostomy-laryngectomy",
+        "title": "Tracheostomy",
+        "sha256": "f07510d49fe3c6b1e93ae6d496fbc79482cedcbf420f4fb488e024f75fa266b6"
+      },
+      {
+        "url": "https://www.ahrq.gov/patient-safety/settings/hospital/fall-prevention/toolkit/measure-program.html",
+        "status": 202,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.ahrq.gov/patient-safety/settings/hospital/fall-prevention/toolkit/measure-program.html",
+        "title": "",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "url": "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html",
+        "title": "ERROR: The request could not be satisfied",
+        "sha256": "2a9e7fe1a38173ed5ce29344ac63b7fc16f4121277d3b8e20c1f85bb215b332e"
+      },
+      {
+        "url": "https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/cus.html",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/cus.html",
+        "title": "ERROR: The request could not be satisfied",
+        "sha256": "c09b0306fe1b615c5dfa241bf0315f152606ad389fbee0e5fdb49c49775cc176"
+      },
+      {
+        "url": "https://www.cancer.gov/about-cancer/treatment/types/radiation-therapy/external-beam",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cancer.gov/about-cancer/treatment/types/radiation-therapy/external-beam",
+        "title": "External Beam Radiation Therapy for Cancer - NCI",
+        "sha256": "d6f7cb42948d27915cf2b8008c2a014dc6febd41668ce3fe5e438c4ba3abe427"
+      },
+      {
+        "url": "https://www.cancer.gov/about-cancer/understanding/what-is-cancer",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cancer.gov/about-cancer/understanding/what-is-cancer",
+        "title": "What Is Cancer? - NCI",
+        "sha256": "c01fb52944dd997a314c7f319f4d6f0b38e78cd23063923fc967d07a04c2e5e2"
+      },
+      {
+        "url": "https://www.cdc.gov/act-early/about/developmental-monitoring-and-screening.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/act-early/about/developmental-monitoring-and-screening.html",
+        "title": "Developmental Monitoring and Screening | Learn the Signs. Act Early. | CDC",
+        "sha256": "d50173452259005e4d61f363936db14affd1db039e47f98057fadf7c5f651835"
+      },
+      {
+        "url": "https://www.cdc.gov/cerebral-palsy/about/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/cerebral-palsy/about/index.html",
+        "title": "About Cerebral Palsy | Cerebral Palsy (CP) | CDC",
+        "sha256": "bb7c1e50471a490b888e353be7e19bb72ea88fa558acf1fcb1d47f820659b065"
+      },
+      {
+        "url": "https://www.cdc.gov/chikungunya/hcp/treatment-prevention/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/chikungunya/hcp/treatment-prevention/index.html",
+        "title": "Treatment and Prevention of Chikungunya Virus Disease | Chikungunya Virus | CDC",
+        "sha256": "55869d86a976bc12e97d0491447c7a3d211dbe99441afb3dfef6e539c63241f9"
+      },
+      {
+        "url": "https://www.cdc.gov/contact-lenses/causes/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/contact-lenses/causes/index.html",
+        "title": "What Causes Contact Lens-related Eye Infections | Healthy Contact Lens Wear and Care | CDC",
+        "sha256": "546d845a307a756541e20279a2392c23a433d659b2b686f5478491aa43cd4487"
+      },
+      {
+        "url": "https://www.cdc.gov/contraception/hcp/usmec/combined-hormonal-contraceptives.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/contraception/hcp/usmec/combined-hormonal-contraceptives.html",
+        "title": "Appendix D: Classifications for Combined Hormonal Contraceptives | Contraception | CDC",
+        "sha256": "02862291fe6c3960c6603b0be559865ca91b47502e420ddd18096e1ba9ad415d"
+      },
+      {
+        "url": "https://www.cdc.gov/folic-acid/about/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/folic-acid/about/index.html",
+        "title": "About Folic Acid | Folic Acid | CDC",
+        "sha256": "f6633a34e8bfe7a4539d2e56c5d927824cd29a63008c39210752a43b8f129155"
+      },
+      {
+        "url": "https://www.cdc.gov/heads-up/response/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/heads-up/response/index.html",
+        "title": "Responding to a Sports-related Concussion | HEADS UP | CDC",
+        "sha256": "45c455bb1059407fb625dace4b518982495466fda7b88a984f23a7ec315046cc"
+      },
+      {
+        "url": "https://www.cdc.gov/heat-health/risk-factors/heat-and-older-adults-aged-65.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/heat-health/risk-factors/heat-and-older-adults-aged-65.html",
+        "title": "Heat and Older Adults (Aged 65+) | Heat Health | CDC",
+        "sha256": "3375bc36831a5f4027172a1381b3647a6f869f589cf49a375c3eddc30e387937"
+      },
+      {
+        "url": "https://www.cdc.gov/hepatitis-a/hcp/diagnosis-testing/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/hepatitis-a/hcp/diagnosis-testing/index.html",
+        "title": "Clinical Screening and Diagnosis for Hepatitis A | Hepatitis A | CDC",
+        "sha256": "596712e20833622a29f57b68aee96f614870819d25682dbce802f32b7dbbae43"
+      },
+      {
+        "url": "https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html",
+        "title": "Appendix A: Type and Duration of Precautions Recommended for Selected Infections and Conditions | Infection Control | CDC",
+        "sha256": "232b952dd00174814f16513225c527845e0cde4d9ecd490b0e826a7f090b88b3"
+      },
+      {
+        "url": "https://www.cdc.gov/infection-control/hcp/measles/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/infection-control/hcp/measles/index.html",
+        "title": "Interim Infection Prevention and Control Recommendations for Measles in Healthcare Settings | Infection Control | CDC",
+        "sha256": "8c5afa2cdc6a5da7c1f8f93d1939a762b15904927b04bdbd0510a9b9ee587708"
+      },
+      {
+        "url": "https://www.cdc.gov/injection-safety/hcp/clinical-safety/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/injection-safety/hcp/clinical-safety/index.html",
+        "title": "Preventing Unsafe Injection Practices | Injection Safety | CDC",
+        "sha256": "f3af6b186f558d2082c9177aad172a5b4cc2610f427f7a2a7319af528237397c"
+      },
+      {
+        "url": "https://www.cdc.gov/niosh/asthma/hcp/diagnosing/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/niosh/asthma/hcp/diagnosing/index.html",
+        "title": "Diagnosing Work-related Asthma | Asthma | CDC",
+        "sha256": "c6d97e7429a6dc304749319a7fded807d1fc154308084bbd5b153a5c7019b198"
+      },
+      {
+        "url": "https://www.cdc.gov/rabies/hcp/clinical-care/post-exposure-prophylaxis.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/rabies/hcp/clinical-care/post-exposure-prophylaxis.html",
+        "title": "Rabies Post-exposure Prophylaxis Guidance | Rabies | CDC",
+        "sha256": "cc580195dd2aa09ef12da2aaf21f2006e8220e93ac5940ae7e9fdd0cd9be721a"
+      },
+      {
+        "url": "https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-MeasuringBP-508.pdf",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-MeasuringBP-508.pdf",
+        "title": "",
+        "sha256": "9d356790bd19a4d801bccc5ae03f8a449167a34c7c655bc68faa005652d1cfdc",
+        "format": "pdf"
+      },
+      {
+        "url": "https://www.cdc.gov/tb/hcp/testing-diagnosis/interferon-gamma-release-assay.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/tb/hcp/testing-diagnosis/interferon-gamma-release-assay.html",
+        "title": "Clinical Testing Guidance for Tuberculosis: Interferon Gamma Release Assay | Tuberculosis (TB) | CDC",
+        "sha256": "4791076e790873b08f87c7763a633032850cda8bebdfe5656b5ae8df7257282c"
+      },
+      {
+        "url": "https://www.cdc.gov/vaccines/hcp/imz-best-practices/timing-spacing-immunobiologics.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/vaccines/hcp/imz-best-practices/timing-spacing-immunobiologics.html",
+        "title": "Timing and Spacing of Immunobiologics | Vaccines &amp; Immunizations | CDC",
+        "sha256": "6ff24bc91b9e139dc750e36945d06128801df72b58740198bc3e74fb35f29d55"
+      },
+      {
+        "url": "https://www.cdc.gov/water-emergency/about/index.html",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.cdc.gov/water-emergency/about/index.html",
+        "title": "How to Make Water Safe in an Emergency | Water, Sanitation, and Hygiene (WASH)-related Emergencies and Outbreaks | CDC",
+        "sha256": "784b6c05a5bd8f6d97db197d27e883ad1be3f3b4a20d52761c85a5cde99ae2ec"
+      },
+      {
+        "url": "https://www.genomicseducation.hee.nhs.uk/taking-and-drawing-a-family-history/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.genomicseducation.hee.nhs.uk/taking-and-drawing-a-family-history/",
+        "title": "Taking and drawing a family history - Genomics Education Programme",
+        "sha256": "f712a492c18b5b54b7a77263c5ab685eac18569cfb3d1ea51ba44dd7c91b5838"
+      },
+      {
+        "url": "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/",
+        "title": "Laparoscopic cholecystectomy Removal of the gallbladder",
+        "sha256": "82a817e51802f43fde84c41b2a46d1ce8c18880eeacc8e215db43d86cbf5429c"
+      },
+      {
+        "url": "https://www.gov.uk/drug-safety-update/methotrexate-once-weekly-for-autoimmune-diseases-new-measures-to-reduce-risk-of-fatal-overdose-due-to-inadvertent-daily-instead-of-weekly-dosing",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.gov.uk/drug-safety-update/methotrexate-once-weekly-for-autoimmune-diseases-new-measures-to-reduce-risk-of-fatal-overdose-due-to-inadvertent-daily-instead-of-weekly-dosing",
+        "title": "Methotrexate once-weekly for autoimmune diseases: new measures to reduce risk of fatal overdose due to inadvertent daily instead of weekly dosing - GOV.UK",
+        "sha256": "6b559563a3a9f69519b0bced88ce5efc92f0938530191e90439faa94d68b9b31"
+      },
+      {
+        "url": "https://www.health.nsw.gov.au/mentalhealth/resources/Publications/mental-health-ed-guide.pdf",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.health.nsw.gov.au/mentalhealth/resources/Publications/mental-health-ed-guide.pdf",
+        "title": "",
+        "sha256": "d7582542d23eb41e9c3bcbd2b98612533f61c0e138c51910a390d7870507e331",
+        "format": "pdf"
+      },
+      {
+        "url": "https://www.health.nsw.gov.au/patients/acp/pages/default.aspx",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.health.nsw.gov.au/patients/acp/pages/default.aspx",
+        "title": "Advance Care Planning",
+        "sha256": "85f7d307126e8426a9cb29c6d3b52b885b061d8c994a1e6c0e8694d625dec0b3"
+      },
+      {
+        "url": "https://www.idsociety.org/practice-guideline/hap_vap/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.idsociety.org/practice-guideline/hap_vap/",
+        "title": "ATS/IDSA 2016 Clinical Practice Guidelines for the Management of Adults With Hospital-Acquired and Ventilator-Associated Pneumonia",
+        "sha256": "a8a4dd40753a49b6b4c05bdb129ccc7a622d0ddd68d13bf1f3c1ea60be47f367"
+      },
+      {
+        "url": "https://www.kidney.org/kidney-topics/chronic-kidney-disease-ckd",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.kidney.org/kidney-topics/chronic-kidney-disease-ckd",
+        "title": "Chronic kidney disease (CKD) - Symptoms, causes, treatment | National Kidney Foundation",
+        "sha256": "011ecde392d1b429f1591d74db9c2857fd0efb40b54894a75b5d3dd8ba18fade"
+      },
+      {
+        "url": "https://www.merckmanuals.com/en-ca/professional/neurologic-disorders/coma-and-impaired-consciousness/brain-herniation",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.merckmanuals.com/en-ca/professional/neurologic-disorders/coma-and-impaired-consciousness/brain-herniation",
+        "title": "Brain Herniation - Neurology - Merck Manual Professional Edition",
+        "sha256": "a4094d05a1e9f627b8d47daa27647f702942ca5577fc301ec4818229f88a1bc7"
+      },
+      {
+        "url": "https://www.merckmanuals.com/home/ear-nose-and-throat-disorders/hearing-loss-and-deafness/hearing-loss",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.merckmanuals.com/home/ear-nose-and-throat-disorders/hearing-loss-and-deafness/hearing-loss",
+        "title": "Hearing Loss - Ear, Nose, and Throat Disorders - Merck Manual Consumer Version",
+        "sha256": "4bb4900cb8df5f37c2b62e417adf787166dbd6988c153dccbdd4fbd01debb114"
+      },
+      {
+        "url": "https://www.merckmanuals.com/professional/critical-care-medicine/how-to-do-other-airway-procedures/how-to-do-noninvasive-positive-pressure-ventilation",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.merckmanuals.com/professional/critical-care-medicine/how-to-do-other-airway-procedures/how-to-do-noninvasive-positive-pressure-ventilation",
+        "title": "How To Do Noninvasive Positive Pressure Ventilation - Critical Care Medicine - Merck Manual Professional Edition",
+        "sha256": "2bf26d3ce2239d15f94061a67ae9a266e372f7a8a9a9ba0b444ae780f5eb800a"
+      },
+      {
+        "url": "https://www.merckmanuals.com/professional/endocrine-and-metabolic-disorders/acid-base-regulation-and-disorders/acid-base-disorders",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.merckmanuals.com/professional/nephrology/acid-base-regulation-and-disorders/acid-base-disorders?autoredirectid=37399",
+        "title": "Acid-Base Disorders - Nephrology - Merck Manual Professional Edition",
+        "sha256": "78c6bf243968f0924335706f9598c0194be2ce206d1676c5e1eed6a6055d5b8a"
+      },
+      {
+        "url": "https://www.merckmanuals.com/professional/injuries-poisoning/spinal-trauma/spinal-trauma",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.merckmanuals.com/professional/injuries-poisoning/spinal-trauma/spinal-trauma",
+        "title": "Spinal Trauma - Injuries; Poisoning - Merck Manual Professional Edition",
+        "sha256": "dc38bc28d88d7746a6d6484585192c5cfc7682b2641ba5b6a384bc67ec2515aa"
+      },
+      {
+        "url": "https://www.merckmanuals.com/professional/nephrology/electrolyte-disorders/hypomagnesemia",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.merckmanuals.com/professional/nephrology/electrolyte-disorders/hypomagnesemia",
+        "title": "Hypomagnesemia - Nephrology - Merck Manual Professional Edition",
+        "sha256": "d78c7d554a6aa127e50d3785d69176552d759d6d4cd3afe0edc4d538ee6147fa"
+      },
+      {
+        "url": "https://www.mskcc.org/cancer-care/patient-education/caring-for-your-ileostomy-colostomy",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.mskcc.org/cancer-care/patient-education/caring-for-your-ileostomy-colostomy",
+        "title": "Caring for Your Ileostomy or Colostomy | Memorial Sloan Kettering Cancer Center",
+        "sha256": "7dca4c316fe50be9f188b1431ad731bf27baffbdabe73265b335aae28b94f571"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK594490/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK594490"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK594493"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK594995/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK594995"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK596725/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK596725"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK596732"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK610440/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK610440"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK610457/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK610457"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK610469/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK610469"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK610473/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK610473"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK610814/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK610814"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK610831/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK610831"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK610839/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK610839"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK613065/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK613065"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK613066"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK613069/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK613069"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK613072/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK613072"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK615334"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK615335/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK615335"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK615337"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK615351/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK615351"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK615369/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK615369"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK616961/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK616961"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK616973/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK616973"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK617004/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK617004"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK617006/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK617006"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
+        "available": true,
+        "method": "Previously retrieved official NLM Books-OAI chapter XML",
+        "chapterId": "NBK617009"
+      },
+      {
+        "url": "https://www.ncbi.nlm.nih.gov/medgen/1830648",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.ncbi.nlm.nih.gov/medgen/1830648",
+        "title": "Mean arterial pressure (Concept Id: C5780931) - MedGen - NCBI",
+        "sha256": "19dc31349481cdf006623f3f2257f4e71649b06d8d036f1571479a93e46704e1"
+      },
+      {
+        "url": "https://www.nei.nih.gov/eye-health-information/clinical-trials/age-related-eye-disease-studies-aredsareds2/aredsareds2-frequently-asked-questions",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nei.nih.gov/eye-health-information/clinical-trials/age-related-eye-disease-studies-aredsareds2/aredsareds2-frequently-asked-questions",
+        "title": "AREDS/AREDS2 Frequently Asked Questions | National Eye Institute",
+        "sha256": "d77bb571522455f2a6e28bd962808b7d593970d139d4f2fc9e8ab847a75c2c5b"
+      },
+      {
+        "url": "https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/nearsightedness-myopia",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/nearsightedness-myopia",
+        "title": "Nearsightedness (Myopia) | National Eye Institute",
+        "sha256": "179b7acf0da17b6e9ce2b33e158e30e3a27ceef832fc0c5096f4c56e716e7b2b"
+      },
+      {
+        "url": "https://www.nhlbi.nih.gov/health/disseminated-intravascular-coagulation",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhlbi.nih.gov/health/disseminated-intravascular-coagulation",
+        "title": "Blood Clotting Disorders - Disseminated Intravascular Coagulation (DIC) | NHLBI, NIH",
+        "sha256": "e93d8130156865d4dfb29d8f5e44976799e385e1afc9b94bb1a2854935a80340"
+      },
+      {
+        "url": "https://www.nhs.uk/conditions/ear-infections/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/conditions/ear-infections/",
+        "title": "Ear infections - NHS",
+        "sha256": "ab011822435d45c987eba90ca10d5230f97a0c69ec6b3967181fc811880523c7"
+      },
+      {
+        "url": "https://www.nhs.uk/conditions/mastitis/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/conditions/mastitis/",
+        "title": "Mastitis - NHS",
+        "sha256": "b6320d52bb76c072a132dd540d34a9b72c5d6a47d4dc234916de920ed24980b8"
+      },
+      {
+        "url": "https://www.nhs.uk/conditions/peak-flow-test/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/tests-and-treatments/peak-flow-test/",
+        "title": "Peak flow test - NHS",
+        "sha256": "8622500bbd25e71462eb1208dafa62b7c536d7c499a880228e6aa072baef4440"
+      },
+      {
+        "url": "https://www.nhs.uk/conditions/rhesus-disease/prevention/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/conditions/rhesus-disease-hdfn/",
+        "title": "Haemolytic disease of the fetus and newborn (HDFN) - NHS",
+        "sha256": "e4e41054636bd3a7fb26fb2ef56dc91c608d11dd9d6efdbe51c4e9b15e74abbe"
+      },
+      {
+        "url": "https://www.nhs.uk/medicines/anticoagulants/dosage/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/medicines/anticoagulants/dosage/",
+        "title": "Anticoagulant medicines - Dosage - NHS",
+        "sha256": "da8ad8babd86ed30439b6514b09d627351865021d973558b7604f78054fbe058"
+      },
+      {
+        "url": "https://www.nhs.uk/medicines/baclofen/how-and-when-to-take-baclofen/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/medicines/baclofen/",
+        "title": "Baclofen: medicine that relieves muscle spasms - NHS",
+        "sha256": "9cbb19099f87f9cce8b19443b02a62b43dda62e0e66a0f7b3e23b35753ae4de8"
+      },
+      {
+        "url": "https://www.nhs.uk/medicines/ferrous-sulfate/how-and-when-to-take-ferrous-sulfate/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/medicines/ferrous-sulfate/how-and-when-to-take-ferrous-sulfate/",
+        "title": "How and when to take ferrous sulfate - NHS",
+        "sha256": "aae9e90511da5c4121a8d102b861678b139f2e039a3d5c379f1ee403e44a5749"
+      },
+      {
+        "url": "https://www.nhs.uk/medicines/insulin/short-acting-insulin/side-effects-of-short-acting-insulin/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/medicines/insulin/short-acting-insulin/side-effects-of-short-acting-insulin/",
+        "title": "Side effects of short-acting insulin - NHS",
+        "sha256": "9cf6f8666a6b5134d3cf3ae9e613548222c45c48c8efcc7974be3fdb36d3f744"
+      },
+      {
+        "url": "https://www.nhs.uk/medicines/latanoprost/how-and-when-to-use-latanoprost/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/medicines/latanoprost/how-and-when-to-use-latanoprost/",
+        "title": "How and when to use latanoprost - NHS",
+        "sha256": "9e6621b0869a6882636c0d621616f65709728698498cb0511682c487c7ef7ff0"
+      },
+      {
+        "url": "https://www.nhs.uk/medicines/tiotropium-inhalers/about-tiotropium-inhalers/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/medicines/tiotropium-inhalers/about-tiotropium-inhalers/",
+        "title": "About tiotropium inhalers - NHS",
+        "sha256": "e0230d99b078f3276b1e3e8deb93efa91c1c8538d2373bc1e4f17cf79a09b700"
+      },
+      {
+        "url": "https://www.nhs.uk/medicines/valproic-acid/pregnancy-breastfeeding-and-fertility-while-taking-valproic-acid/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nhs.uk/medicines/valproic-acid/pregnancy-breastfeeding-and-fertility-while-taking-valproic-acid/",
+        "title": "Pregnancy, breastfeeding and fertility while taking valproic acid - NHS",
+        "sha256": "7ccab3dd066053ec3d2bb5eeeaf3874c62ba889b9399a3b2438704e561e1576b"
+      },
+      {
+        "url": "https://www.niams.nih.gov/health-topics/bone-mineral-density-tests-what-numbers-mean",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niams.nih.gov/health-topics/bone-mineral-density-tests-what-numbers-mean",
+        "title": "Bone Mineral Density Tests: What the Numbers Mean | NIAMS",
+        "sha256": "128383893cf679847c0a700231a0202b9638efeba3a4a0ec409a16bfbedee571"
+      },
+      {
+        "url": "https://www.niams.nih.gov/health-topics/scoliosis",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niams.nih.gov/health-topics/scoliosis",
+        "title": "Scoliosis Symptoms &amp; Causes | NIAMS",
+        "sha256": "9df3d897aa3f369b49d4304b92da4c80e1f54f4d2240d1c118b8d9d63a7ed83d"
+      },
+      {
+        "url": "https://www.nice.org.uk/guidance/cg178/chapter/recommendations",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nice.org.uk/guidance/cg178/chapter/recommendations",
+        "title": "Recommendations | Psychosis and schizophrenia in adults: prevention and management | Guidance | NICE",
+        "sha256": "f0f4ef97e671c4276db2a131bfc6ce400bac4fc2f2739955340ae01654a2fb66"
+      },
+      {
+        "url": "https://www.nice.org.uk/guidance/ng158/chapter/recommendations",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nice.org.uk/guidance/ng158/chapter/recommendations",
+        "title": "Recommendations | Venous thromboembolic diseases: diagnosis, management and thrombophilia testing | Guidance | NICE",
+        "sha256": "59f9646228da504c2eff688c461a37be891198596ff9a77bdfa44f08386c23b7"
+      },
+      {
+        "url": "https://www.nice.org.uk/guidance/ng219/chapter/recommendations",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nice.org.uk/guidance/ng219/chapter/recommendations",
+        "title": "Recommendations | Gout: diagnosis and management | Guidance | NICE",
+        "sha256": "a46a2598093c7fae4c199f5bc52954b7a30cb942eb8dbb1b087620eea1b42b3d"
+      },
+      {
+        "url": "https://www.nice.org.uk/guidance/ng43/chapter/recommendations",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nice.org.uk/guidance/ng43/chapter/recommendations",
+        "title": "Recommendations | Transition from children&#x2019;s to adults&#x2019; services for young people using health or social care services | Guidance | NICE",
+        "sha256": "276ac07148d3528b470dcd06b5cbcebc32480dc4ea59748406a98df4f3e582d0"
+      },
+      {
+        "url": "https://www.nice.org.uk/guidance/ng69/chapter/recommendations",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nice.org.uk/guidance/ng69/chapter/recommendations",
+        "title": "Recommendations | Eating disorders: recognition and treatment | Guidance | NICE",
+        "sha256": "c4c8edc9695f4696f13e8a89e7704e46303fcdb3c6ab73a8bc83e8fc41afb1c0"
+      },
+      {
+        "url": "https://www.nice.org.uk/guidance/ng97/chapter/recommendations",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nice.org.uk/guidance/ng97/chapter/recommendations",
+        "title": "Recommendations | Dementia: assessment, management and support for people living with dementia and their carers | Guidance | NICE",
+        "sha256": "70b01e299b7e7b3e3827a91e714522550b4e63b92a8c6108db37e1da60857d30"
+      },
+      {
+        "url": "https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test",
+        "title": "The A1C Test & Diabetes - NIDDK",
+        "sha256": "d3f920f82c9f25c9d7517552820057e3346819c0c6a0ff3b84094c9b632d0c71"
+      },
+      {
+        "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+        "title": "Treatment for Crohn’s Disease - NIDDK",
+        "sha256": "d0c450030f0e5122f949a5b532c6522674081d6db1ee9ce9e31145d9906cc2cb"
+      },
+      {
+        "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/diagnosis",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/diagnosis",
+        "title": "Diagnosis of Irritable Bowel Syndrome - NIDDK",
+        "sha256": "028a83b2bf5d649c2f1c76b1157f08fcd834eeb1efdf5938997929a6ef786ef1"
+      },
+      {
+        "url": "https://www.niddk.nih.gov/health-information/endocrine-diseases/adrenal-insufficiency-addisons-disease/definition-facts",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niddk.nih.gov/health-information/endocrine-diseases/adrenal-insufficiency-addisons-disease/definition-facts",
+        "title": "Definition & Facts of Adrenal Insufficiency & Addison's Disease - NIDDK",
+        "sha256": "d20b27db203cfc46f88a1844aa27c09e9c3af140175dfd90c86761b48ab4ca3d"
+      },
+      {
+        "url": "https://www.niddk.nih.gov/health-information/endocrine-diseases/hyperthyroidism",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niddk.nih.gov/health-information/endocrine-diseases/hyperthyroidism",
+        "title": "Hyperthyroidism (Overactive Thyroid) - NIDDK",
+        "sha256": "3db81e2a1fea35b0d73f0fd7e3b408b55dee192f549299d3d9bb9fa36b12b532"
+      },
+      {
+        "url": "https://www.niddk.nih.gov/health-information/endocrine-diseases/primary-hyperparathyroidism",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niddk.nih.gov/health-information/endocrine-diseases/primary-hyperparathyroidism",
+        "title": "Primary Hyperparathyroidism - NIDDK",
+        "sha256": "a4401224c548d72ac3d8bba922926c2df12d4a443917423e3c4f6356fe1591d2"
+      },
+      {
+        "url": "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-retention/treatment",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-retention/treatment",
+        "title": "Treatment of Urinary Retention - NIDDK",
+        "sha256": "d6f4c3eeabfec72a75891ddce06997dfea2a2710d4ec54d78af5c820c4fe062a"
+      },
+      {
+        "url": "https://www.nimh.nih.gov/health/publications/depression",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nimh.nih.gov/health/publications/depression",
+        "title": "Depression - National Institute of Mental Health (NIMH)",
+        "sha256": "b7cada4696a5398cc6149a2c0b93d53c96e50bea96e59538e8d8cfcdf3f96330"
+      },
+      {
+        "url": "https://www.nimh.nih.gov/health/publications/post-traumatic-stress-disorder-ptsd",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.nimh.nih.gov/health/publications/post-traumatic-stress-disorder-ptsd",
+        "title": "Post-Traumatic Stress Disorder - National Institute of Mental Health (NIMH)",
+        "sha256": "89f29b5a431e8fa48caa9233a1938f38138392001da027ab0ebb3624a0f3983a"
+      },
+      {
+        "url": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+        "title": "403 Forbidden",
+        "sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4"
+      },
+      {
+        "url": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+        "title": "403 Forbidden",
+        "sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4"
+      },
+      {
+        "url": "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms",
+        "title": "403 Forbidden",
+        "sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4"
+      },
+      {
+        "url": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+        "title": "403 Forbidden",
+        "sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4"
+      },
+      {
+        "url": "https://www.ninds.nih.gov/health-information/disorders/myasthenia-gravis",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/myasthenia-gravis",
+        "title": "403 Forbidden",
+        "sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4"
+      },
+      {
+        "url": "https://www.parkinson.org/resources-support/professionals/our-care-strategy/hospital-care-initiative",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.parkinson.org/resources-support/professionals/our-care-strategy/hospital-care-initiative",
+        "title": "Hospital Care Initiative | Parkinson&#039;s Foundation",
+        "sha256": "a7c0116895eba7a9aadf0b2ea6a676fcf602638960c8f91df2058164e25151fd"
+      },
+      {
+        "url": "https://www.rch.org.au/clinicalguide/guideline_index/Bone_and_joint_infection/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.rch.org.au/clinicalguide/guideline_index/Bone_and_joint_infection/",
+        "title": "Clinical Practice Guidelines : Bone and joint infection",
+        "sha256": "8356566daa759ef4a1dcfc3bd9fff8b7df58654ae53d76968cc99025e7478eab"
+      },
+      {
+        "url": "https://www.rch.org.au/clinicalguide/guideline_index/Enuresis_-_Bed_wetting_and_Monosymptomatic_Enuresis/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.rch.org.au/clinicalguide/guideline_index/Enuresis_-_Bed_wetting_and_Monosymptomatic_Enuresis/",
+        "title": "Clinical Practice Guidelines : Enuresis - Bed wetting and Monosymptomatic Enuresis",
+        "sha256": "533f3106465d3a6992b7bd3a0882790020d97c72454d04f971f63f9582782255"
+      },
+      {
+        "url": "https://www.rch.org.au/clinicalguide/guideline_index/Kawasaki_disease/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.rch.org.au/clinicalguide/guideline_index/Kawasaki_disease/",
+        "title": "Clinical Practice Guidelines : Kawasaki disease",
+        "sha256": "4974665547a22119829080b69368215a518fc7c6e6dc2eff236ef4f894d645ed"
+      },
+      {
+        "url": "https://www.rch.org.au/clinicalguide/guideline_index/Sickle_Cell_Disease/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.rch.org.au/clinicalguide/guideline_index/Sickle_Cell_Disease/",
+        "title": "Clinical Practice Guidelines : Sickle cell disease",
+        "sha256": "d4ef8bc26eaf3b7746f7a8b8e8600c18143c1a8a750c761a159eb2e2d9a86c5c"
+      },
+      {
+        "url": "https://www.rch.org.au/clinicalguide/guideline_index/Vomiting/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.rch.org.au/clinicalguide/guideline_index/Vomiting/",
+        "title": "Clinical Practice Guidelines : Vomiting",
+        "sha256": "abb08933ca4c6b06342ff88a643fa12fdbe2be5b73e6ba35c1aa619694569566"
+      },
+      {
+        "url": "https://www.rch.org.au/kidsinfo/fact_sheets/Asthma_use_of_spacers/",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.rch.org.au/kidsinfo/fact_sheets/Asthma_use_of_spacers/",
+        "title": "Kids Health Info : Asthma spacers",
+        "sha256": "edef608413c5a0983c8e3e8bd60c4e2c315ab14aafb8bbb11446eabc4e08db06"
+      },
+      {
+        "url": "https://www.remm.hhs.gov/startalgotext.htm",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.remm.hhs.gov/startalgotext.htm",
+        "title": "Start Adult Triage (Text Version) - Radiation Emergency Medical Management",
+        "sha256": "0feab8c86a6ed9c38622d7a8d675d2621a2cec6c35a788810ca297075035c836"
+      },
+      {
+        "url": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+        "status": 403,
+        "available": false,
+        "challenge": false,
+        "finalUrl": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+        "title": "403 Forbidden",
+        "sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4"
+      },
+      {
+        "url": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+        "status": 403,
+        "available": false,
+        "challenge": true,
+        "finalUrl": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+        "title": "Attention Required! | Cloudflare",
+        "sha256": "fe648b88aedd490cffc1350a4a5147690d3675531bf99993e0de99a942f36e4b"
+      },
+      {
+        "url": "https://www.thoracic.org/statements/resources/cc/ards-guidelines.pdf",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.thoracic.org/statements/resources/cc/ards-guidelines.pdf",
+        "title": "",
+        "sha256": "d13578b49baec701a333bce1eb3776ae72cdf1705b6d95865d6d8c8e9d4755ce",
+        "format": "pdf"
+      },
+      {
+        "url": "https://www.who.int/news-room/fact-sheets/detail/cervical-cancer",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/cervical-cancer",
+        "title": "Cervical cancer",
+        "sha256": "c8ea127785248eeb8ebf5cea596f47273571318a128f889f95f2fdb88b2a6ef7"
+      },
+      {
+        "url": "https://www.who.int/news-room/fact-sheets/detail/endometriosis",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/endometriosis",
+        "title": "Endometriosis",
+        "sha256": "3b3224ae737fff8fba7e861f968f5323f7ec8728109c14e4f7c2155310aab036"
+      },
+      {
+        "url": "https://www.who.int/news-room/fact-sheets/detail/infant-and-young-child-feeding",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/infant-and-young-child-feeding",
+        "title": "Infant and young child feeding",
+        "sha256": "5fa014c842002570999f495150e7738238eacaa437bd3e38c3fd37a5ef0b39fb"
+      },
+      {
+        "url": "https://www.who.int/news-room/fact-sheets/detail/leprosy",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/leprosy",
+        "title": "Leprosy",
+        "sha256": "d5c527ef56b779450645d8d2bf4168e1d592bc9acdd801f7a7123d2bc26fca45"
+      },
+      {
+        "url": "https://www.who.int/news-room/fact-sheets/detail/primary-health-care",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/primary-health-care",
+        "title": "Primary health care",
+        "sha256": "dfc8fb930acd52318569c4a32aca4ca9c130a48c5f4cc346cd90a73b7595e364"
+      },
+      {
+        "url": "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)",
+        "title": "Universal health coverage (UHC)",
+        "sha256": "4151419b7b824b3043eaa91f8aa7e5f98c797db6be933d2d5786f2e277ede685"
+      },
+      {
+        "url": "https://www.who.int/news/item/20-01-2020-smoking-greatly-increases-risk-of-complications-after-surgery",
+        "status": 200,
+        "available": true,
+        "challenge": false,
+        "finalUrl": "https://www.who.int/news/item/20-01-2020-smoking-greatly-increases-risk-of-complications-after-surgery",
+        "title": "Smoking greatly increases risk of complications after surgery",
+        "sha256": "b2f8aa08eebd84ade90968dbcfec5a4c8a0be46e199897c6cfdbfe483b3a81a8"
+      }
+    ]
+  },
+  "questionReview": [
+    {
+      "id": "EXP2-CROSS-laboratory-values",
+      "topic": "Laboratory Values",
+      "subject": "CROSS",
+      "objective": "interpretation",
+      "source": "https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test",
+      "keyedClinicalPoint": "Recent transfusion can alter HbA1c and make the result unreliable",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-pharmacology-core-principles",
+      "topic": "Pharmacology Core Principles",
+      "subject": "CROSS",
+      "objective": "safety",
+      "source": "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html",
+      "keyedClinicalPoint": "Reconcile the orders and verify the last administration with the sending team",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-nursing-process-prioritization",
+      "topic": "Nursing Process & Prioritization",
+      "subject": "CROSS",
+      "objective": "assessment",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610831/",
+      "keyedClinicalPoint": "Record the self-report and assess pain characteristics, function, and the treatment plan",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-professional-ethics-legal-foundations",
+      "topic": "Professional Ethics & Legal Foundations",
+      "subject": "CROSS",
+      "objective": "action",
+      "source": "https://www.health.nsw.gov.au/patients/acp/pages/default.aspx",
+      "keyedClinicalPoint": "Explore and document the client's current wishes and involve the treating team",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-health-assessment-vital-signs",
+      "topic": "Health Assessment & Vital Signs",
+      "subject": "CROSS",
+      "objective": "action",
+      "source": "https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-MeasuringBP-508.pdf",
+      "keyedClinicalPoint": "Assist the client to a safe supported position and evaluate the symptomatic pressure drop",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-dosage-calculation-medication-administration",
+      "topic": "Dosage Calculation & Medication Administration",
+      "subject": "CROSS",
+      "objective": "calculation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+      "keyedClinicalPoint": "31 drops/min",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-asepsis-iv-therapy-wound-care",
+      "topic": "Asepsis, IV Therapy & Wound Care",
+      "subject": "CROSS",
+      "objective": "classification",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK596725/",
+      "keyedClinicalPoint": "Stage 3 pressure injury",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-basic-needs-mobility-comfort-elimination-oxygenation",
+      "topic": "Basic Needs: Mobility, Comfort, Elimination & Oxygenation",
+      "subject": "CROSS",
+      "objective": "planning",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610814/",
+      "keyedClinicalPoint": "Coordinate nonurgent care and reduce nighttime noise and light around essential monitoring",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-pharmacology-drug-classes",
+      "topic": "Pharmacology — Drug Classes & Nursing Considerations",
+      "subject": "CROSS",
+      "objective": "teaching",
+      "source": "https://www.nhs.uk/medicines/anticoagulants/dosage/",
+      "keyedClinicalPoint": "Apixaban is not routinely dose-adjusted to an INR target like warfarin",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-leadership-management",
+      "topic": "Leadership & Management",
+      "subject": "CROSS",
+      "objective": "planning",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610440/",
+      "keyedClinicalPoint": "Clarify the protocol with staff, demonstrate critical steps, and check understanding across shifts",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-nursing-research",
+      "topic": "Nursing Research",
+      "subject": "CROSS",
+      "objective": "interpretation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610457/",
+      "keyedClinicalPoint": "Assess clinical importance, harms, cost, and applicability before changing practice",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-CROSS-professional-adjustment-jurisprudence",
+      "topic": "Professional Adjustment & Nursing Jurisprudence",
+      "subject": "CROSS",
+      "objective": "safety",
+      "source": "https://lawphil.net/statutes/repacts/ra2012/ra_10173_2012.html",
+      "keyedClinicalPoint": "Do not publish the identifiable health information",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-non-communicable-diseases",
+      "topic": "Non-Communicable Diseases",
+      "subject": "NP1",
+      "objective": "teaching",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/cervical-cancer",
+      "keyedClinicalPoint": "Explain that screening identifies risk and that the recommended follow-up determines the next step",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-communicable-diseases-basic-concepts",
+      "topic": "Communicable Diseases — Basic Concepts",
+      "subject": "NP1",
+      "objective": "safety",
+      "source": "https://www.cdc.gov/injection-safety/hcp/clinical-safety/index.html",
+      "keyedClinicalPoint": "Stop the practice and require a new sterile needle and syringe for each client",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-tuberculosis",
+      "topic": "Tuberculosis",
+      "subject": "NP1",
+      "objective": "teaching",
+      "source": "https://www.cdc.gov/tb/hcp/testing-diagnosis/interferon-gamma-release-assay.html",
+      "keyedClinicalPoint": "The immune response may not yet be detectable, so follow-up testing remains important",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-leprosy",
+      "topic": "Leprosy",
+      "subject": "NP1",
+      "objective": "teaching",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/leprosy",
+      "keyedClinicalPoint": "Explain that casual contact does not spread leprosy and support treatment and program follow-up",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-mosquito-borne-diseases",
+      "topic": "Mosquito-Borne Diseases",
+      "subject": "NP1",
+      "objective": "safety",
+      "source": "https://www.cdc.gov/chikungunya/hcp/treatment-prevention/index.html",
+      "keyedClinicalPoint": "Avoid aspirin and NSAIDs until dengue is excluded and use the clinician's recommended alternative",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-integumentary-related-cds",
+      "topic": "Integumentary-Related CDs",
+      "subject": "NP1",
+      "objective": "safety",
+      "source": "https://www.cdc.gov/infection-control/hcp/measles/index.html",
+      "keyedClinicalPoint": "Promptly separate the child and institute the facility's airborne-precaution pathway",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-neuro-related-cds",
+      "topic": "Neuro-Related CDs",
+      "subject": "NP1",
+      "objective": "teaching",
+      "source": "https://www.cdc.gov/rabies/hcp/clinical-care/post-exposure-prophylaxis.html",
+      "keyedClinicalPoint": "Perform immediate wound care and obtain prompt assessment for the previously vaccinated post-exposure regimen",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-common-infectious-diseases-summary",
+      "topic": "Common Infectious Diseases Summary",
+      "subject": "NP1",
+      "objective": "interpretation",
+      "source": "https://www.cdc.gov/hepatitis-a/hcp/diagnosis-testing/index.html",
+      "keyedClinicalPoint": "The pattern is compatible with past infection or vaccination, rather than proving acute hepatitis A",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-family-nursing-process",
+      "topic": "Family Nursing Process",
+      "subject": "NP1",
+      "objective": "assessment",
+      "source": "https://www.genomicseducation.hee.nhs.uk/taking-and-drawing-a-family-history/",
+      "keyedClinicalPoint": "A genogram",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-care-of-families-normal-at-risk",
+      "topic": "Care of Families (Normal & At-Risk)",
+      "subject": "NP1",
+      "objective": "planning",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615335/",
+      "keyedClinicalPoint": "Invite the parent and chosen support people to discuss evidence-based advice, roles, and a shared plan",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-care-of-population-groups-with-other-health-priorities",
+      "topic": "Care of Population Groups with Other Health Priorities",
+      "subject": "NP1",
+      "objective": "planning",
+      "source": "https://www.cdc.gov/heat-health/risk-factors/heat-and-older-adults-aged-65.html",
+      "keyedClinicalPoint": "Arrange an accessible cooling option, regular check-ins, and individualized fluid and medicine advice",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-ph-health-care-delivery-system-doh",
+      "topic": "PH Health Care Delivery System / DOH",
+      "subject": "NP1",
+      "objective": "application",
+      "source": "https://lawphil.net/statutes/repacts/ra2009/ra_9711_2009.html",
+      "keyedClinicalPoint": "The Food and Drug Administration under the DOH framework",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-universal-health-care-uhc-sdgs",
+      "topic": "Universal Health Care (UHC) & SDGs",
+      "subject": "NP1",
+      "objective": "evaluation",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/universal-health-coverage-(uhc)",
+      "keyedClinicalPoint": "Financial protection from hardship caused by health spending",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-primary-health-care-phc",
+      "topic": "Primary Health Care (PHC)",
+      "subject": "NP1",
+      "objective": "application",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/primary-health-care",
+      "keyedClinicalPoint": "Comprehensive care that responds to changing health needs",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-community-health-nursing-process",
+      "topic": "Community Health Nursing Process",
+      "subject": "NP1",
+      "objective": "evaluation",
+      "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+      "keyedClinicalPoint": "Coverage rose from 25% to 45%, an increase of 20 percentage points",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-expanded-program-on-immunization-epi",
+      "topic": "Expanded Program on Immunization (EPI)",
+      "subject": "NP1",
+      "objective": "scheduling",
+      "source": "https://www.cdc.gov/vaccines/hcp/imz-best-practices/timing-spacing-immunobiologics.html",
+      "keyedClinicalPoint": "Separate the two injectable live vaccines by at least 28 days when not given on the same day",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-epidemiology-vital-statistics-demography",
+      "topic": "Epidemiology, Vital Statistics & Demography",
+      "subject": "NP1",
+      "objective": "calculation",
+      "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html",
+      "keyedClinicalPoint": "4.5%",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-maternal-child-health-mch-programs",
+      "topic": "Maternal & Child Health (MCH) Programs",
+      "subject": "NP1",
+      "objective": "teaching",
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/nbh/enc-course/revised-resources/core-materials/web-who-enc-2---provider-guide---may-2024.pdf",
+      "keyedClinicalPoint": "Keep the stump clean and dry and avoid applying ash or other unprescribed substances",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-nutrition-programs",
+      "topic": "Nutrition Programs",
+      "subject": "NP1",
+      "objective": "teaching",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/infant-and-young-child-feeding",
+      "keyedClinicalPoint": "Begin appropriate nutrient-dense complementary foods while continuing breastfeeding",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-sanitation-environmental-health",
+      "topic": "Sanitation & Environmental Health",
+      "subject": "NP1",
+      "objective": "safety",
+      "source": "https://www.cdc.gov/water-emergency/about/index.html",
+      "keyedClinicalPoint": "Use a verified safe alternative water source and follow the specific advisory",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-disaster-nursing-in-the-community",
+      "topic": "Disaster Nursing in the Community",
+      "subject": "NP1",
+      "objective": "triage",
+      "source": "https://www.remm.hhs.gov/startalgotext.htm",
+      "keyedClinicalPoint": "Deceased or black category under the START tagging convention",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-school-occupational-health-nursing",
+      "topic": "School & Occupational Health Nursing",
+      "subject": "NP1",
+      "objective": "assessment",
+      "source": "https://www.cdc.gov/niosh/asthma/hcp/diagnosing/index.html",
+      "keyedClinicalPoint": "A detailed timeline of symptoms, tasks, exposures, and changes on workdays versus days off",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-recording-reporting-health-information",
+      "topic": "Recording, Reporting & Health Information",
+      "subject": "NP1",
+      "objective": "safety",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610473/",
+      "keyedClinicalPoint": "Correct the date through the authorized amendment process, preserving the audit trail",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-referral-system",
+      "topic": "Referral System",
+      "subject": "NP1",
+      "objective": "evaluation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610469/",
+      "keyedClinicalPoint": "Contact the receiving service, verify receipt and urgency, and agree on responsibility for follow-up",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-community-mental-health-program",
+      "topic": "Community Mental Health Program",
+      "subject": "NP1",
+      "objective": "planning",
+      "source": "https://www.nice.org.uk/guidance/cg178/chapter/recommendations",
+      "keyedClinicalPoint": "Coordinate metabolic monitoring and a shared physical- and mental-health plan",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-integrated-management-of-childhood-illness-imci",
+      "topic": "Integrated Management of Childhood Illness (IMCI)",
+      "subject": "NP1",
+      "objective": "assessment",
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf",
+      "keyedClinicalPoint": "Count for a full minute while the child is calm, then apply the age-specific criteria",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-health-education-research-utilization-in-chn",
+      "topic": "Health Education & Research Utilization in CHN",
+      "subject": "NP1",
+      "objective": "interpretation",
+      "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section6.html",
+      "keyedClinicalPoint": "The absolute reduction is 5 percentage points, from 10% to 5%",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-laws-nursing-practice-health-workforce",
+      "topic": "Laws: Nursing Practice & Health Workforce",
+      "subject": "NP1",
+      "objective": "application",
+      "source": "https://lawphil.net/statutes/repacts/ra1992/ra_7305_1992.html",
+      "keyedClinicalPoint": "Normal hours should not exceed 8 hours a day or 40 hours a week",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-laws-disease-reporting-control",
+      "topic": "Laws: Disease Reporting & Control",
+      "subject": "NP1",
+      "objective": "application",
+      "source": "https://lawphil.net/statutes/repacts/ra2019/ra_11332_2019.html",
+      "keyedClinicalPoint": "The President of the Republic of the Philippines",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-laws-health-financing-insurance",
+      "topic": "Laws: Health Financing & Insurance",
+      "subject": "NP1",
+      "objective": "application",
+      "source": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html",
+      "keyedClinicalPoint": "Population-based health services are financed through the national government through the DOH",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-laws-maternal-child-reproductive-health",
+      "topic": "Laws: Maternal, Child & Reproductive Health",
+      "subject": "NP1",
+      "objective": "safety",
+      "source": "https://lawphil.net/executive/execord/eo1986/eo_51_1986.html",
+      "keyedClinicalPoint": "Decline routine promotional distribution and follow the facility's Milk Code policy",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition",
+      "topic": "Laws: NCD, Environmental, Occupational & Nutrition",
+      "subject": "NP1",
+      "objective": "application",
+      "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+      "keyedClinicalPoint": "Prescriptions must use the generic name; a brand name may also be included",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-normal-pregnancy",
+      "topic": "Normal Pregnancy",
+      "subject": "NP2",
+      "objective": "teaching",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+      "keyedClinicalPoint": "Try smaller meals and remain upright after eating",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-complications-during-pregnancy",
+      "topic": "Complications During Pregnancy",
+      "subject": "NP2",
+      "objective": "reasoning",
+      "source": "https://www.nhs.uk/conditions/rhesus-disease/prevention/",
+      "keyedClinicalPoint": "Reduce the risk that exposure to fetal RhD-positive cells will cause maternal sensitization",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-normal-labor-delivery",
+      "topic": "Normal Labor & Delivery",
+      "subject": "NP2",
+      "objective": "assessment",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+      "keyedClinicalPoint": "Assess the fetal heart rate and the maternal-fetal condition",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-complications-during-labor",
+      "topic": "Complications During Labor",
+      "subject": "NP2",
+      "objective": "interpretation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+      "keyedClinicalPoint": "A late-deceleration pattern requiring prompt evaluation of fetal oxygenation and contributing causes",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-normal-puerperium",
+      "topic": "Normal Puerperium",
+      "subject": "NP2",
+      "objective": "reasoning",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615369/",
+      "keyedClinicalPoint": "Breastfeeding-related oxytocin can cause afterpains as the uterus involutes",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-postpartum-complications",
+      "topic": "Postpartum Complications",
+      "subject": "NP2",
+      "objective": "action",
+      "source": "https://www.nhs.uk/conditions/mastitis/",
+      "keyedClinicalPoint": "Arrange assessment for mastitis and support appropriate ongoing milk removal and feeding advice",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-family-planning-methods",
+      "topic": "Family Planning Methods",
+      "subject": "NP2",
+      "objective": "safety",
+      "source": "https://www.cdc.gov/contraception/hcp/usmec/combined-hormonal-contraceptives.html",
+      "keyedClinicalPoint": "Arrange contraceptive review because rifampin can reduce the effectiveness of some hormonal methods",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-female-male-reproductive-systems",
+      "topic": "Female & Male Reproductive Systems",
+      "subject": "NP2",
+      "objective": "assessment",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/endometriosis",
+      "keyedClinicalPoint": "Arrange evaluation for causes such as endometriosis and assess the impact on daily life",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-fertilization-genetics-fertility",
+      "topic": "Fertilization, Genetics & Fertility",
+      "subject": "NP2",
+      "objective": "teaching",
+      "source": "https://www.cdc.gov/folic-acid/about/index.html",
+      "keyedClinicalPoint": "Begin the recommended folic acid intake before conception and continue through early pregnancy",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-ethico-moral-management-in-maternal-care",
+      "topic": "Ethico-Moral & Management in Maternal Care",
+      "subject": "NP2",
+      "objective": "ethics",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610457/",
+      "keyedClinicalPoint": "Coercion that undermines voluntary informed consent",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-theories-of-growth-development",
+      "topic": "Theories of Growth & Development",
+      "subject": "NP2",
+      "objective": "planning",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615351/",
+      "keyedClinicalPoint": "Allow the caregiver to remain close and introduce contact gradually",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-developmental-milestones",
+      "topic": "Developmental Milestones",
+      "subject": "NP2",
+      "objective": "application",
+      "source": "https://www.cdc.gov/act-early/about/developmental-monitoring-and-screening.html",
+      "keyedClinicalPoint": "Explain that screening identifies a need for further developmental evaluation",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-health-promotion-disease-prevention-pedia",
+      "topic": "Health Promotion & Disease Prevention (Pedia)",
+      "subject": "NP2",
+      "objective": "teaching",
+      "source": "https://safetosleep.nichd.nih.gov/reduce-risk/safe-sleep-environment",
+      "keyedClinicalPoint": "Place the infant on the back on a firm, flat, separate sleep surface without loose soft items",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-adolescent-health",
+      "topic": "Adolescent Health",
+      "subject": "NP2",
+      "objective": "safety",
+      "source": "https://www.cdc.gov/heads-up/response/index.html",
+      "keyedClinicalPoint": "Remove the student from play and arrange assessment for a possible concussion",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-pediatric-cardiovascular-disorders",
+      "topic": "Pediatric Cardiovascular Disorders",
+      "subject": "NP2",
+      "objective": "recognition",
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Kawasaki_disease/",
+      "keyedClinicalPoint": "Possible Kawasaki disease with risk of coronary artery involvement",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-pediatric-respiratory-disorders",
+      "topic": "Pediatric Respiratory Disorders",
+      "subject": "NP2",
+      "objective": "technique",
+      "source": "https://www.rch.org.au/kidsinfo/fact_sheets/Asthma_use_of_spacers/",
+      "keyedClinicalPoint": "Deliver one puff at a time and use the prescribed spacer breathing technique for each puff",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-pediatric-gastrointestinal-disorders",
+      "topic": "Pediatric Gastrointestinal Disorders",
+      "subject": "NP2",
+      "objective": "recognition",
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Vomiting/",
+      "keyedClinicalPoint": "Arrange urgent assessment for possible intestinal obstruction",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-pediatric-hematologic-oncologic-disorders",
+      "topic": "Pediatric Hematologic & Oncologic Disorders",
+      "subject": "NP2",
+      "objective": "action",
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Sickle_Cell_Disease/",
+      "keyedClinicalPoint": "Seek urgent clinical assessment because serious infection is a significant risk",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-pediatric-neurologic-disorders",
+      "topic": "Pediatric Neurologic Disorders",
+      "subject": "NP2",
+      "objective": "reasoning",
+      "source": "https://www.cdc.gov/cerebral-palsy/about/index.html",
+      "keyedClinicalPoint": "The underlying brain disturbance is nonprogressive, although functional needs can change",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-pediatric-renal-disorders",
+      "topic": "Pediatric Renal Disorders",
+      "subject": "NP2",
+      "objective": "teaching",
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Enuresis_-_Bed_wetting_and_Monosymptomatic_Enuresis/",
+      "keyedClinicalPoint": "Use a supportive assessment, including bowel habits and a bladder diary, without punishment",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-pediatric-integumentary-musculoskeletal-disorders",
+      "topic": "Pediatric Integumentary & Musculoskeletal Disorders",
+      "subject": "NP2",
+      "objective": "recognition",
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Bone_and_joint_infection/",
+      "keyedClinicalPoint": "Arrange prompt evaluation for a bone or joint infection",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP2-legal-principles-collaboration-teamwork-in-pedia",
+      "topic": "Legal Principles, Collaboration & Teamwork in Pedia",
+      "subject": "NP2",
+      "objective": "planning",
+      "source": "https://www.nice.org.uk/guidance/ng43/chapter/recommendations",
+      "keyedClinicalPoint": "Prepare a shared transition plan covering self-management, medicines, records, contacts, and follow-up responsibilities",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-classification-of-surgery",
+      "topic": "Classification of Surgery",
+      "subject": "NP3",
+      "objective": "application",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+      "keyedClinicalPoint": "Reconstructive",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-pre-operative-phase",
+      "topic": "Pre-operative Phase",
+      "subject": "NP3",
+      "objective": "teaching",
+      "source": "https://www.who.int/news/item/20-01-2020-smoking-greatly-increases-risk-of-complications-after-surgery",
+      "keyedClinicalPoint": "Encourage cessation now and arrange practical support",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-intra-operative-phase",
+      "topic": "Intra-operative Phase",
+      "subject": "NP3",
+      "objective": "safety",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+      "keyedClinicalPoint": "Notify the surgeon and follow the retained-item search and verification protocol",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-post-operative-phase",
+      "topic": "Post-operative Phase",
+      "subject": "NP3",
+      "objective": "discharge-safety",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+      "keyedClinicalPoint": "Resolve the transport and supervision plan before discharge",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-upper-airway-disorders",
+      "topic": "Upper Airway Disorders",
+      "subject": "NP3",
+      "objective": "action",
+      "source": "https://tracheostomy.org.uk/healthcare-staff/emergency-care/emergency-tracheostomy-laryngectomy",
+      "keyedClinicalPoint": "To the laryngectomy stoma",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-bronchial-asthma",
+      "topic": "Bronchial Asthma",
+      "subject": "NP3",
+      "objective": "technique",
+      "source": "https://www.nhs.uk/conditions/peak-flow-test/",
+      "keyedClinicalPoint": "390 L/min",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-copd",
+      "topic": "COPD",
+      "subject": "NP3",
+      "objective": "teaching",
+      "source": "https://www.nhs.uk/medicines/tiotropium-inhalers/about-tiotropium-inhalers/",
+      "keyedClinicalPoint": "Use the prescribed rescue plan and seek urgent help for severe or unrelieved symptoms",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-ards",
+      "topic": "ARDS",
+      "subject": "NP3",
+      "objective": "calculation",
+      "source": "https://www.thoracic.org/statements/resources/cc/ards-guidelines.pdf",
+      "keyedClinicalPoint": "300 mL",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-pneumonia-cap-hap-vap",
+      "topic": "Pneumonia (CAP, HAP, VAP)",
+      "subject": "NP3",
+      "objective": "classification",
+      "source": "https://www.idsociety.org/practice-guideline/hap_vap/",
+      "keyedClinicalPoint": "Hospital-acquired pneumonia",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-pneumothorax-hemothorax-chest-tubes",
+      "topic": "Pneumothorax, Hemothorax & Chest Tubes",
+      "subject": "NP3",
+      "objective": "assessment",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK594490/",
+      "keyedClinicalPoint": "Assess the client and inspect tubing and drainage-system patency",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-pulmonary-embolism-pulmonary-hypertension",
+      "topic": "Pulmonary Embolism & Pulmonary Hypertension",
+      "subject": "NP3",
+      "objective": "interpretation",
+      "source": "https://www.nice.org.uk/guidance/ng158/chapter/recommendations",
+      "keyedClinicalPoint": "A positive D-dimer is not specific and must be interpreted in the diagnostic pathway",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-heart-anatomy-ecg-basics",
+      "topic": "Heart Anatomy & ECG Basics",
+      "subject": "NP3",
+      "objective": "interpretation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+      "keyedClinicalPoint": "First-degree AV block",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-acute-coronary-syndrome-acs",
+      "topic": "Acute Coronary Syndrome (ACS)",
+      "subject": "NP3",
+      "objective": "reasoning",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK594995/",
+      "keyedClinicalPoint": "Inhibiting platelet aggregation to limit thrombus formation",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-peripheral-vascular-diseases-hypertension",
+      "topic": "Peripheral Vascular Diseases & Hypertension",
+      "subject": "NP3",
+      "objective": "interpretation",
+      "source": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+      "keyedClinicalPoint": "A high ABI may indicate noncompressible arteries and needs further vascular evaluation",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-hematologic-disorders",
+      "topic": "Hematologic Disorders",
+      "subject": "NP3",
+      "objective": "teaching",
+      "source": "https://www.nhs.uk/medicines/ferrous-sulfate/how-and-when-to-take-ferrous-sulfate/",
+      "keyedClinicalPoint": "Calcium and tea can reduce iron absorption when taken together",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-iv-fluids",
+      "topic": "IV Fluids",
+      "subject": "NP3",
+      "objective": "reasoning",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610839/",
+      "keyedClinicalPoint": "After glucose metabolism, D5W supplies free water and is not equivalent to isotonic saline",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-electrolyte-imbalances",
+      "topic": "Electrolyte Imbalances",
+      "subject": "NP3",
+      "objective": "reasoning",
+      "source": "https://www.merckmanuals.com/professional/nephrology/electrolyte-disorders/hypomagnesemia",
+      "keyedClinicalPoint": "Magnesium depletion can contribute to ongoing potassium loss and difficulty correcting hypokalemia",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-acid-base-balance-abg",
+      "topic": "Acid-Base Balance & ABG",
+      "subject": "NP3",
+      "objective": "interpretation",
+      "source": "https://www.merckmanuals.com/professional/endocrine-and-metabolic-disorders/acid-base-regulation-and-disorders/acid-base-disorders",
+      "keyedClinicalPoint": "Combined respiratory and metabolic acidosis",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-acute-kidney-injury-aki",
+      "topic": "Acute Kidney Injury (AKI)",
+      "subject": "NP3",
+      "objective": "assessment",
+      "source": "https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf",
+      "keyedClinicalPoint": "Recognize sustained low urine output and promptly assess perfusion, obstruction, and the clinical context",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-chronic-kidney-disease-ckd",
+      "topic": "Chronic Kidney Disease (CKD)",
+      "subject": "NP3",
+      "objective": "interpretation",
+      "source": "https://www.kidney.org/kidney-topics/chronic-kidney-disease-ckd",
+      "keyedClinicalPoint": "Further assessment and evidence of chronicity are needed before labeling CKD",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-dialysis-hemodialysis-peritoneal",
+      "topic": "Dialysis (Hemodialysis & Peritoneal)",
+      "subject": "NP3",
+      "objective": "safety",
+      "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aa268d3f-7389-4f25-801f-5d4825495f08",
+      "keyedClinicalPoint": "Use the approved dry-heat warming method and prescribed temperature checks",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-infectious-disorders",
+      "topic": "Infectious Disorders",
+      "subject": "NP3",
+      "objective": "safety",
+      "source": "https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html",
+      "keyedClinicalPoint": "Airborne and contact precautions in addition to standard precautions",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-inflammatory-bowel-neuro-inflammatory-disorders",
+      "topic": "Inflammatory Bowel & Neuro-Inflammatory Disorders",
+      "subject": "NP3",
+      "objective": "teaching",
+      "source": "https://www.niddk.nih.gov/health-information/digestive-diseases/crohns-disease/treatment",
+      "keyedClinicalPoint": "Surgery treats complications but does not cure Crohn disease, so follow-up remains important",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-immunologic-connective-tissue-disorders",
+      "topic": "Immunologic & Connective Tissue Disorders",
+      "subject": "NP3",
+      "objective": "safety",
+      "source": "https://www.gov.uk/drug-safety-update/methotrexate-once-weekly-for-autoimmune-diseases-new-measures-to-reduce-risk-of-fatal-overdose-due-to-inadvertent-daily-instead-of-weekly-dosing",
+      "keyedClinicalPoint": "Do not follow the conflicting daily instruction; obtain urgent prescription clarification",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-basic-concepts-in-cancer",
+      "topic": "Basic Concepts in Cancer",
+      "subject": "NP3",
+      "objective": "reasoning",
+      "source": "https://www.cancer.gov/about-cancer/understanding/what-is-cancer",
+      "keyedClinicalPoint": "A benign mass can still cause harm through its location and pressure effects",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-cancer-treatment-modalities",
+      "topic": "Cancer Treatment Modalities",
+      "subject": "NP3",
+      "objective": "teaching",
+      "source": "https://www.cancer.gov/about-cancer/treatment/types/radiation-therapy/external-beam",
+      "keyedClinicalPoint": "External-beam treatment does not make the client radioactive",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-oncologic-emergencies",
+      "topic": "Oncologic Emergencies",
+      "subject": "NP3",
+      "objective": "recognition",
+      "source": "https://www.nhlbi.nih.gov/health/disseminated-intravascular-coagulation",
+      "keyedClinicalPoint": "Disseminated intravascular coagulation",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-site-specific-cancers",
+      "topic": "Site-Specific Cancers",
+      "subject": "NP3",
+      "objective": "calculation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK613065/",
+      "keyedClinicalPoint": "300 mL",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP3-health-education-quality-improvement",
+      "topic": "Health Education & Quality Improvement",
+      "subject": "NP3",
+      "objective": "evaluation",
+      "source": "https://www.ahrq.gov/patient-safety/settings/hospital/fall-prevention/toolkit/measure-program.html",
+      "keyedClinicalPoint": "Unit A has the higher rate: 10 versus 6 falls per 1,000 patient-days",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-malnutrition",
+      "topic": "Malnutrition",
+      "subject": "NP4",
+      "objective": "interpretation",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/33125793/",
+      "keyedClinicalPoint": "Assess nutrition using the history and clinical findings rather than albumin alone",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-oral-esophageal-gastric-disorders",
+      "topic": "Oral & Esophageal / Gastric Disorders",
+      "subject": "NP4",
+      "objective": "follow-up",
+      "source": "https://gi.org/journals-publications/ebgi/schoenfeld_sep2024/",
+      "keyedClinicalPoint": "Complete the recommended test of cure with correct timing and medicine instructions",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-hepatobiliary-disorders",
+      "topic": "Hepatobiliary Disorders",
+      "subject": "NP4",
+      "objective": "reasoning",
+      "source": "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/",
+      "keyedClinicalPoint": "Referred discomfort from gas used during laparoscopy",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-gi-absorption-elimination",
+      "topic": "GI Absorption & Elimination",
+      "subject": "NP4",
+      "objective": "assessment",
+      "source": "https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/diagnosis",
+      "keyedClinicalPoint": "Arrange evaluation of alarm features rather than attribute them automatically to IBS",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-ostomies",
+      "topic": "Ostomies",
+      "subject": "NP4",
+      "objective": "safety",
+      "source": "https://www.mskcc.org/cancer-care/patient-education/caring-for-your-ileostomy-colostomy",
+      "keyedClinicalPoint": "Do not transfer colostomy irrigation instructions to an ileostomy; consult the stoma team",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-adh-disorders",
+      "topic": "ADH Disorders",
+      "subject": "NP4",
+      "objective": "medication-safety",
+      "source": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=8034989a-45f5-436b-8b1f-42108ee2a21a&type=display",
+      "keyedClinicalPoint": "Verify the formulation-specific prescription before administration",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-adrenal-gland-disorders",
+      "topic": "Adrenal Gland Disorders",
+      "subject": "NP4",
+      "objective": "interpretation",
+      "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/adrenal-insufficiency-addisons-disease/definition-facts",
+      "keyedClinicalPoint": "Primary adrenal insufficiency",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-pituitary-gland-disorders",
+      "topic": "Pituitary Gland Disorders",
+      "subject": "NP4",
+      "objective": "recognition",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5314810/",
+      "keyedClinicalPoint": "Possible pituitary apoplexy with acute hormonal and neurological compromise",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-thyroid-disorders",
+      "topic": "Thyroid Disorders",
+      "subject": "NP4",
+      "objective": "safety",
+      "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/hyperthyroidism",
+      "keyedClinicalPoint": "Pause the treatment pathway and promptly notify the specialist team",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-parathyroid-disorders",
+      "topic": "Parathyroid Disorders",
+      "subject": "NP4",
+      "objective": "assessment",
+      "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/primary-hyperparathyroidism",
+      "keyedClinicalPoint": "Bone loss can occur without pain, and DXA helps assess skeletal effects",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-diabetes-mellitus",
+      "topic": "Diabetes Mellitus",
+      "subject": "NP4",
+      "objective": "teaching",
+      "source": "https://www.nhs.uk/medicines/insulin/short-acting-insulin/side-effects-of-short-acting-insulin/",
+      "keyedClinicalPoint": "Avoid the affected lump and review systematic rotation and dosing with the diabetes team",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-endocrine-emergencies-summary",
+      "topic": "Endocrine Emergencies Summary",
+      "subject": "NP4",
+      "objective": "reasoning",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+      "keyedClinicalPoint": "Continue the prescribed DKA protocol with dextrose and insulin adjustments until ketoacidosis resolves",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-neuroanatomy-assessment-basics",
+      "topic": "Neuroanatomy & Assessment Basics",
+      "subject": "NP4",
+      "objective": "calculation",
+      "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+      "keyedClinicalPoint": "13: E3, V4, M6",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-increased-intracranial-pressure-iicp",
+      "topic": "Increased Intracranial Pressure (IICP)",
+      "subject": "NP4",
+      "objective": "recognition",
+      "source": "https://www.merckmanuals.com/en-ca/professional/neurologic-disorders/coma-and-impaired-consciousness/brain-herniation",
+      "keyedClinicalPoint": "A concerning late pattern of raised intracranial pressure requiring emergency escalation",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-cerebrovascular-accident-stroke",
+      "topic": "Cerebrovascular Accident (Stroke)",
+      "subject": "NP4",
+      "objective": "assessment",
+      "source": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+      "keyedClinicalPoint": "22:00 as the last-known-well time",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-parkinson-s-disease",
+      "topic": "Parkinson's Disease",
+      "subject": "NP4",
+      "objective": "medication-safety",
+      "source": "https://www.parkinson.org/resources-support/professionals/our-care-strategy/hospital-care-initiative",
+      "keyedClinicalPoint": "Dopamine blockade can worsen Parkinson symptoms, so the prescription needs review",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-multiple-sclerosis-ms",
+      "topic": "Multiple Sclerosis (MS)",
+      "subject": "NP4",
+      "objective": "safety",
+      "source": "https://www.nhs.uk/medicines/baclofen/how-and-when-to-take-baclofen/",
+      "keyedClinicalPoint": "Arrange prompt assessment for possible baclofen withdrawal and a supervised medicine plan",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-myasthenia-gravis-mg",
+      "topic": "Myasthenia Gravis (MG)",
+      "subject": "NP4",
+      "objective": "reasoning",
+      "source": "https://www.ninds.nih.gov/health-information/disorders/myasthenia-gravis",
+      "keyedClinicalPoint": "Impaired transmission at the neuromuscular junction",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-guillain-barr-syndrome-gbs",
+      "topic": "Guillain-Barré Syndrome (GBS)",
+      "subject": "NP4",
+      "objective": "treatment-reasoning",
+      "source": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+      "keyedClinicalPoint": "IVIG and plasma exchange can modify the immune attack; corticosteroids have not shown benefit for GBS",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-autonomic-dysreflexia",
+      "topic": "Autonomic Dysreflexia",
+      "subject": "NP4",
+      "objective": "interpretation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK613069/",
+      "keyedClinicalPoint": "Support a safe position and assess orthostatic hypotension",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-alzheimer-s-disease-dementia",
+      "topic": "Alzheimer's Disease & Dementia",
+      "subject": "NP4",
+      "objective": "shared-planning",
+      "source": "https://www.nice.org.uk/guidance/ng97/chapter/recommendations",
+      "keyedClinicalPoint": "Arrange swallowing assessment and discuss goals, benefits, burdens, and individualized feeding support",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-seizure-disorders",
+      "topic": "Seizure Disorders",
+      "subject": "NP4",
+      "objective": "medication-safety",
+      "source": "https://www.nhs.uk/medicines/valproic-acid/pregnancy-breastfeeding-and-fertility-while-taking-valproic-acid/",
+      "keyedClinicalPoint": "Seek urgent specialist preconception review without abruptly stopping the medicine",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-spinal-cord-injuries-sci",
+      "topic": "Spinal Cord Injuries (SCI)",
+      "subject": "NP4",
+      "objective": "distinction",
+      "source": "https://www.merckmanuals.com/professional/injuries-poisoning/spinal-trauma/spinal-trauma",
+      "keyedClinicalPoint": "Spinal shock",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-peripheral-neuropathies",
+      "topic": "Peripheral Neuropathies",
+      "subject": "NP4",
+      "objective": "localization",
+      "source": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+      "keyedClinicalPoint": "Median nerve compression at the carpal tunnel",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-amyotrophic-lateral-sclerosis-als",
+      "topic": "Amyotrophic Lateral Sclerosis (ALS)",
+      "subject": "NP4",
+      "objective": "assessment",
+      "source": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+      "keyedClinicalPoint": "Encourage assessment because ALS can include cognitive or behavioral involvement",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-musculoskeletal-review-interventions",
+      "topic": "Musculoskeletal Review & Interventions",
+      "subject": "NP4",
+      "objective": "safety",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK613072/",
+      "keyedClinicalPoint": "Leave the frame settings unchanged and contact the orthopedic team",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-musculoskeletal-trauma",
+      "topic": "Musculoskeletal Trauma",
+      "subject": "NP4",
+      "objective": "prevention",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK613072/",
+      "keyedClinicalPoint": "Prolonged knee flexion can lead to a contracture that interferes with rehabilitation",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-metabolic-bone-disorders",
+      "topic": "Metabolic Bone Disorders",
+      "subject": "NP4",
+      "objective": "interpretation",
+      "source": "https://www.niams.nih.gov/health-topics/bone-mineral-density-tests-what-numbers-mean",
+      "keyedClinicalPoint": "Osteoporosis range",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-inflammatory-infectious-bone-joint-disorders",
+      "topic": "Inflammatory & Infectious Bone/Joint Disorders",
+      "subject": "NP4",
+      "objective": "interpretation",
+      "source": "https://www.nice.org.uk/guidance/ng219/chapter/recommendations",
+      "keyedClinicalPoint": "A normal urate during a flare does not by itself exclude gout",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-spinal-other-msk-conditions",
+      "topic": "Spinal & Other MSK Conditions",
+      "subject": "NP4",
+      "objective": "assessment",
+      "source": "https://www.niams.nih.gov/health-topics/scoliosis",
+      "keyedClinicalPoint": "Arrange assessment for possible scoliosis rather than dismiss the asymmetry",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-eye-anatomy-assessment-refractive-disorders",
+      "topic": "Eye Anatomy, Assessment & Refractive Disorders",
+      "subject": "NP4",
+      "objective": "reasoning",
+      "source": "https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/nearsightedness-myopia",
+      "keyedClinicalPoint": "In front of the retina",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-glaucoma-cataract",
+      "topic": "Glaucoma & Cataract",
+      "subject": "NP4",
+      "objective": "technique",
+      "source": "https://www.nhs.uk/medicines/latanoprost/how-and-when-to-use-latanoprost/",
+      "keyedClinicalPoint": "Leave at least 5 minutes between different eye-drop medicines",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-retinal-detachment-macular-degeneration",
+      "topic": "Retinal Detachment & Macular Degeneration",
+      "subject": "NP4",
+      "objective": "medication-safety",
+      "source": "https://www.nei.nih.gov/eye-health-information/clinical-trials/age-related-eye-disease-studies-aredsareds2/aredsareds2-frequently-asked-questions",
+      "keyedClinicalPoint": "Beta-carotene supplements increase lung-cancer risk in current and former smokers; discuss the appropriate AREDS2 formulation",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-other-eye-conditions-surgery-care",
+      "topic": "Other Eye Conditions & Surgery Care",
+      "subject": "NP4",
+      "objective": "action",
+      "source": "https://www.cdc.gov/contact-lenses/causes/index.html",
+      "keyedClinicalPoint": "Remove the lenses and obtain prompt eye assessment for possible keratitis",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-ear-anatomy-assessment-hearing-loss",
+      "topic": "Ear Anatomy, Assessment & Hearing Loss",
+      "subject": "NP4",
+      "objective": "interpretation",
+      "source": "https://www.merckmanuals.com/home/ear-nose-and-throat-disorders/hearing-loss-and-deafness/hearing-loss",
+      "keyedClinicalPoint": "Left conductive hearing loss",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-ear-disorders-surgery-care",
+      "topic": "Ear Disorders & Surgery Care",
+      "subject": "NP4",
+      "objective": "recognition",
+      "source": "https://www.nhs.uk/conditions/ear-infections/",
+      "keyedClinicalPoint": "Otitis externa",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP4-documentation-professional-development",
+      "topic": "Documentation & Professional Development",
+      "subject": "NP4",
+      "objective": "documentation",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610473/",
+      "keyedClinicalPoint": "Make a clearly identified late entry using the current timestamp and the actual assessment time",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-foundations-of-mental-health-nursing",
+      "topic": "Foundations of Mental Health Nursing",
+      "subject": "NP5",
+      "objective": "application",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK616961/",
+      "keyedClinicalPoint": "Therapeutic milieu",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-therapeutic-stress-models",
+      "topic": "Therapeutic & Stress Models",
+      "subject": "NP5",
+      "objective": "interpretation",
+      "source": "https://openstax.org/books/psychology/pages/14-1-what-is-stress",
+      "keyedClinicalPoint": "Primary appraisal",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-anxiety-anxiety-related-disorders",
+      "topic": "Anxiety & Anxiety-Related Disorders",
+      "subject": "NP5",
+      "objective": "recognition",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK617006/",
+      "keyedClinicalPoint": "Agoraphobic avoidance",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-trauma-related-disorders",
+      "topic": "Trauma-Related Disorders",
+      "subject": "NP5",
+      "objective": "assessment",
+      "source": "https://www.nimh.nih.gov/health/publications/post-traumatic-stress-disorder-ptsd",
+      "keyedClinicalPoint": "Assess acute stress symptoms and safety; the PTSD duration criterion is not yet met",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-mood-disorders",
+      "topic": "Mood Disorders",
+      "subject": "NP5",
+      "objective": "terminology",
+      "source": "https://www.nimh.nih.gov/health/publications/depression",
+      "keyedClinicalPoint": "Anhedonia",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-schizophrenia-other-psychoses",
+      "topic": "Schizophrenia & Other Psychoses",
+      "subject": "NP5",
+      "objective": "terminology",
+      "source": "https://www.health.nsw.gov.au/mentalhealth/resources/Publications/mental-health-ed-guide.pdf",
+      "keyedClinicalPoint": "Thought broadcasting",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-personality-disorders",
+      "topic": "Personality Disorders",
+      "subject": "NP5",
+      "objective": "distinction",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
+      "keyedClinicalPoint": "Obsessive-compulsive personality traits differ from the obsessions and compulsions of OCD",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-eating-disorders",
+      "topic": "Eating Disorders",
+      "subject": "NP5",
+      "objective": "teaching",
+      "source": "https://www.nice.org.uk/guidance/ng69/chapter/recommendations",
+      "keyedClinicalPoint": "Rinse with water or a nonacidic mouthwash and avoid brushing immediately afterward",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-substance-use-disorders",
+      "topic": "Substance Use Disorders",
+      "subject": "NP5",
+      "objective": "medication-safety",
+      "source": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+      "keyedClinicalPoint": "Current opioid exposure and risk of precipitated withdrawal",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-cognitive-other-psychiatric-disorders",
+      "topic": "Cognitive & Other Psychiatric Disorders",
+      "subject": "NP5",
+      "objective": "terminology",
+      "source": "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms",
+      "keyedClinicalPoint": "Apraxia",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-therapeutic-communication-relationship",
+      "topic": "Therapeutic Communication & Relationship",
+      "subject": "NP5",
+      "objective": "application",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK617004/",
+      "keyedClinicalPoint": "Termination",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-crisis-intervention",
+      "topic": "Crisis Intervention",
+      "subject": "NP5",
+      "objective": "remote-assessment",
+      "source": "https://telehealth.hhs.gov/providers/best-practice-guides/telehealth-for-behavioral-health/preparing-patients-for-telebehavioral-health/creating-a-telehealth-emergency-plan",
+      "keyedClinicalPoint": "The client's current physical location, callback number, and emergency response arrangements",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-psychiatric-assessment-symptomatology",
+      "topic": "Psychiatric Assessment & Symptomatology",
+      "subject": "NP5",
+      "objective": "terminology",
+      "source": "https://www.health.nsw.gov.au/mentalhealth/resources/Publications/mental-health-ed-guide.pdf",
+      "keyedClinicalPoint": "Circumstantiality",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-somatic-behavioral-therapies",
+      "topic": "Somatic & Behavioral Therapies",
+      "subject": "NP5",
+      "objective": "application",
+      "source": "https://openstax.org/books/psychology-2e/pages/6-3-operant-conditioning",
+      "keyedClinicalPoint": "Positive reinforcement",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-psychopharmacology",
+      "topic": "Psychopharmacology",
+      "subject": "NP5",
+      "objective": "recognition",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK616973/",
+      "keyedClinicalPoint": "Akathisia",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-altered-ventilatory-function",
+      "topic": "Altered Ventilatory Function",
+      "subject": "NP5",
+      "objective": "action",
+      "source": "https://www.merckmanuals.com/professional/critical-care-medicine/how-to-do-other-airway-procedures/how-to-do-noninvasive-positive-pressure-ventilation",
+      "keyedClinicalPoint": "Remove the mask, protect the airway, and summon immediate clinical support",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-altered-tissue-perfusion",
+      "topic": "Altered Tissue Perfusion",
+      "subject": "NP5",
+      "objective": "calculation",
+      "source": "https://www.ncbi.nlm.nih.gov/medgen/1830648",
+      "keyedClinicalPoint": "54 mmHg, below the ordered target",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-altered-elimination",
+      "topic": "Altered Elimination",
+      "subject": "NP5",
+      "objective": "teaching",
+      "source": "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-retention/treatment",
+      "keyedClinicalPoint": "Follow the individualized emptying schedule because bladder sensation may not reflect fullness",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-altered-perception",
+      "topic": "Altered Perception",
+      "subject": "NP5",
+      "objective": "terminology",
+      "source": "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms",
+      "keyedClinicalPoint": "Visual agnosia",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-multi-system-problems-shock-sepsis",
+      "topic": "Multi-System Problems (Shock & Sepsis)",
+      "subject": "NP5",
+      "objective": "assessment",
+      "source": "https://sccm.org/clinical-resources/guidelines/guidelines/surviving-sepsis-campaign-international-guidelines-for-management-of-sepsis-and-septic-shock-2026",
+      "keyedClinicalPoint": "Continue clinical assessment; a low qSOFA score does not rule out sepsis",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-high-acuity-emergency-situations",
+      "topic": "High Acuity & Emergency Situations",
+      "subject": "NP5",
+      "objective": "resuscitation",
+      "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/",
+      "keyedClinicalPoint": "CPR with rescue breaths and chest compressions, with an AED as available",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-critical-care-equipment",
+      "topic": "Critical Care Equipment",
+      "subject": "NP5",
+      "objective": "equipment-interpretation",
+      "source": "https://online.ecri.org/hubfs/ISMP/Resources/ISMP_Smart_Infusion_Pumps_Guidelines.pdf",
+      "keyedClinicalPoint": "A hard limit blocks programming beyond the configured boundary",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    },
+    {
+      "id": "EXP2-NP5-collaboration-communication-in-critical-care",
+      "topic": "Collaboration & Communication in Critical Care",
+      "subject": "NP5",
+      "objective": "application",
+      "source": "https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/cus.html",
+      "keyedClinicalPoint": "CUS",
+      "choiceExplanationsRead": 4,
+      "status": "Assistant editorial/source pass; independent clinician approval pending"
+    }
+  ],
+  "referenceSiteObservations": {
+    "observed": "2026-11-03",
+    "site": "https://www.nleboardpal.com",
+    "catalog": {
+      "observed": "2026-11-03",
+      "source": "https://www.nleboardpal.com/practice",
+      "topics": [
+        {
+          "count": 186,
+          "name": "Laboratory Values",
+          "slug": "laboratory-values"
+        },
+        {
+          "count": 173,
+          "name": "Pharmacology Core Principles",
+          "slug": "pharmacology-core-principles"
+        },
+        {
+          "count": 206,
+          "name": "Nursing Process & Prioritization",
+          "slug": "nursing-process-prioritization"
+        },
+        {
+          "count": 106,
+          "name": "Professional Ethics & Legal Foundations",
+          "slug": "professional-ethics-legal-foundations"
+        },
+        {
+          "count": 142,
+          "name": "Health Assessment & Vital Signs",
+          "slug": "health-assessment-vital-signs"
+        },
+        {
+          "count": 171,
+          "name": "Dosage Calculation & Medication Administration",
+          "slug": "dosage-calculation-medication-administration"
+        },
+        {
+          "count": 123,
+          "name": "Asepsis, IV Therapy & Wound Care",
+          "slug": "asepsis-iv-therapy-wound-care"
+        },
+        {
+          "count": 108,
+          "name": "Basic Needs: Mobility, Comfort, Elimination & Oxygenation",
+          "slug": "basic-needs-mobility-comfort-elimination-oxygenation"
+        },
+        {
+          "count": 201,
+          "name": "Pharmacology — Drug Classes & Nursing Considerations",
+          "slug": "pharmacology-drug-classes"
+        },
+        {
+          "count": 129,
+          "name": "Leadership & Management",
+          "slug": "leadership-management"
+        },
+        {
+          "count": 98,
+          "name": "Nursing Research",
+          "slug": "nursing-research"
+        },
+        {
+          "count": 75,
+          "name": "Professional Adjustment & Nursing Jurisprudence",
+          "slug": "professional-adjustment-jurisprudence"
+        },
+        {
+          "count": 87,
+          "name": "Non-Communicable Diseases",
+          "slug": "non-communicable-diseases"
+        },
+        {
+          "count": 72,
+          "name": "Communicable Diseases — Basic Concepts",
+          "slug": "communicable-diseases-basic-concepts"
+        },
+        {
+          "count": 85,
+          "name": "Tuberculosis",
+          "slug": "tuberculosis"
+        },
+        {
+          "count": 44,
+          "name": "Leprosy",
+          "slug": "leprosy"
+        },
+        {
+          "count": 67,
+          "name": "Mosquito-Borne Diseases",
+          "slug": "mosquito-borne-diseases"
+        },
+        {
+          "count": 49,
+          "name": "Integumentary-Related CDs",
+          "slug": "integumentary-related-cds"
+        },
+        {
+          "count": 48,
+          "name": "Neuro-Related CDs",
+          "slug": "neuro-related-cds"
+        },
+        {
+          "count": 53,
+          "name": "Common Infectious Diseases Summary",
+          "slug": "common-infectious-diseases-summary"
+        },
+        {
+          "count": 64,
+          "name": "Family Nursing Process",
+          "slug": "family-nursing-process"
+        },
+        {
+          "count": 45,
+          "name": "Care of Families (Normal & At-Risk)",
+          "slug": "care-of-families-normal-at-risk"
+        },
+        {
+          "count": 31,
+          "name": "Care of Population Groups with Other Health Priorities",
+          "slug": "care-of-population-groups-with-other-health-priorities"
+        },
+        {
+          "count": 35,
+          "name": "PH Health Care Delivery System / DOH",
+          "slug": "ph-health-care-delivery-system-doh"
+        },
+        {
+          "count": 56,
+          "name": "Universal Health Care (UHC) & SDGs",
+          "slug": "universal-health-care-uhc-sdgs"
+        },
+        {
+          "count": 85,
+          "name": "Primary Health Care (PHC)",
+          "slug": "primary-health-care-phc"
+        },
+        {
+          "count": 57,
+          "name": "Community Health Nursing Process",
+          "slug": "community-health-nursing-process"
+        },
+        {
+          "count": 92,
+          "name": "Expanded Program on Immunization (EPI)",
+          "slug": "expanded-program-on-immunization-epi"
+        },
+        {
+          "count": 72,
+          "name": "Epidemiology, Vital Statistics & Demography",
+          "slug": "epidemiology-vital-statistics-demography"
+        },
+        {
+          "count": 62,
+          "name": "Maternal & Child Health (MCH) Programs",
+          "slug": "maternal-child-health-mch-programs"
+        },
+        {
+          "count": 50,
+          "name": "Nutrition Programs",
+          "slug": "nutrition-programs"
+        },
+        {
+          "count": 50,
+          "name": "Sanitation & Environmental Health",
+          "slug": "sanitation-environmental-health"
+        },
+        {
+          "count": 38,
+          "name": "Disaster Nursing in the Community",
+          "slug": "disaster-nursing-in-the-community"
+        },
+        {
+          "count": 38,
+          "name": "School & Occupational Health Nursing",
+          "slug": "school-occupational-health-nursing"
+        },
+        {
+          "count": 42,
+          "name": "Recording, Reporting & Health Information",
+          "slug": "recording-reporting-health-information"
+        },
+        {
+          "count": 27,
+          "name": "Referral System",
+          "slug": "referral-system"
+        },
+        {
+          "count": 29,
+          "name": "Community Mental Health Program",
+          "slug": "community-mental-health-program"
+        },
+        {
+          "count": 88,
+          "name": "Integrated Management of Childhood Illness (IMCI)",
+          "slug": "integrated-management-of-childhood-illness-imci"
+        },
+        {
+          "count": 43,
+          "name": "Health Education & Research Utilization in CHN",
+          "slug": "health-education-research-utilization-in-chn"
+        },
+        {
+          "count": 41,
+          "name": "Laws: Nursing Practice & Health Workforce",
+          "slug": "laws-nursing-practice-health-workforce"
+        },
+        {
+          "count": 40,
+          "name": "Laws: Disease Reporting & Control",
+          "slug": "laws-disease-reporting-control"
+        },
+        {
+          "count": 13,
+          "name": "Laws: Health Financing & Insurance",
+          "slug": "laws-health-financing-insurance"
+        },
+        {
+          "count": 30,
+          "name": "Laws: Maternal, Child & Reproductive Health",
+          "slug": "laws-maternal-child-reproductive-health"
+        },
+        {
+          "count": 42,
+          "name": "Laws: NCD, Environmental, Occupational & Nutrition",
+          "slug": "laws-ncd-environmental-occupational-nutrition"
+        },
+        {
+          "count": 93,
+          "name": "Normal Pregnancy",
+          "slug": "normal-pregnancy"
+        },
+        {
+          "count": 118,
+          "name": "Complications During Pregnancy",
+          "slug": "complications-during-pregnancy"
+        },
+        {
+          "count": 85,
+          "name": "Normal Labor & Delivery",
+          "slug": "normal-labor-delivery"
+        },
+        {
+          "count": 62,
+          "name": "Complications During Labor",
+          "slug": "complications-during-labor"
+        },
+        {
+          "count": 62,
+          "name": "Normal Puerperium",
+          "slug": "normal-puerperium"
+        },
+        {
+          "count": 68,
+          "name": "Postpartum Complications",
+          "slug": "postpartum-complications"
+        },
+        {
+          "count": 66,
+          "name": "Family Planning Methods",
+          "slug": "family-planning-methods"
+        },
+        {
+          "count": 52,
+          "name": "Female & Male Reproductive Systems",
+          "slug": "female-male-reproductive-systems"
+        },
+        {
+          "count": 35,
+          "name": "Fertilization, Genetics & Fertility",
+          "slug": "fertilization-genetics-fertility"
+        },
+        {
+          "count": 39,
+          "name": "Ethico-Moral & Management in Maternal Care",
+          "slug": "ethico-moral-management-in-maternal-care"
+        },
+        {
+          "count": 59,
+          "name": "Theories of Growth & Development",
+          "slug": "theories-of-growth-development"
+        },
+        {
+          "count": 67,
+          "name": "Developmental Milestones",
+          "slug": "developmental-milestones"
+        },
+        {
+          "count": 52,
+          "name": "Health Promotion & Disease Prevention (Pedia)",
+          "slug": "health-promotion-disease-prevention-pedia"
+        },
+        {
+          "count": 44,
+          "name": "Adolescent Health",
+          "slug": "adolescent-health"
+        },
+        {
+          "count": 49,
+          "name": "Pediatric Cardiovascular Disorders",
+          "slug": "pediatric-cardiovascular-disorders"
+        },
+        {
+          "count": 51,
+          "name": "Pediatric Respiratory Disorders",
+          "slug": "pediatric-respiratory-disorders"
+        },
+        {
+          "count": 52,
+          "name": "Pediatric Gastrointestinal Disorders",
+          "slug": "pediatric-gastrointestinal-disorders"
+        },
+        {
+          "count": 49,
+          "name": "Pediatric Hematologic & Oncologic Disorders",
+          "slug": "pediatric-hematologic-oncologic-disorders"
+        },
+        {
+          "count": 64,
+          "name": "Pediatric Neurologic Disorders",
+          "slug": "pediatric-neurologic-disorders"
+        },
+        {
+          "count": 51,
+          "name": "Pediatric Renal Disorders",
+          "slug": "pediatric-renal-disorders"
+        },
+        {
+          "count": 45,
+          "name": "Pediatric Integumentary & Musculoskeletal Disorders",
+          "slug": "pediatric-integumentary-musculoskeletal-disorders"
+        },
+        {
+          "count": 39,
+          "name": "Legal Principles, Collaboration & Teamwork in Pedia",
+          "slug": "legal-principles-collaboration-teamwork-in-pedia"
+        },
+        {
+          "count": 57,
+          "name": "Classification of Surgery",
+          "slug": "classification-of-surgery"
+        },
+        {
+          "count": 57,
+          "name": "Pre-operative Phase",
+          "slug": "pre-operative-phase"
+        },
+        {
+          "count": 45,
+          "name": "Intra-operative Phase",
+          "slug": "intra-operative-phase"
+        },
+        {
+          "count": 74,
+          "name": "Post-operative Phase",
+          "slug": "post-operative-phase"
+        },
+        {
+          "count": 38,
+          "name": "Upper Airway Disorders",
+          "slug": "upper-airway-disorders"
+        },
+        {
+          "count": 55,
+          "name": "Bronchial Asthma",
+          "slug": "bronchial-asthma"
+        },
+        {
+          "count": 55,
+          "name": "COPD",
+          "slug": "copd"
+        },
+        {
+          "count": 43,
+          "name": "ARDS",
+          "slug": "ards"
+        },
+        {
+          "count": 57,
+          "name": "Pneumonia (CAP, HAP, VAP)",
+          "slug": "pneumonia-cap-hap-vap"
+        },
+        {
+          "count": 54,
+          "name": "Pneumothorax, Hemothorax & Chest Tubes",
+          "slug": "pneumothorax-hemothorax-chest-tubes"
+        },
+        {
+          "count": 45,
+          "name": "Pulmonary Embolism & Pulmonary Hypertension",
+          "slug": "pulmonary-embolism-pulmonary-hypertension"
+        },
+        {
+          "count": 53,
+          "name": "Heart Anatomy & ECG Basics",
+          "slug": "heart-anatomy-ecg-basics"
+        },
+        {
+          "count": 78,
+          "name": "Acute Coronary Syndrome (ACS)",
+          "slug": "acute-coronary-syndrome-acs"
+        },
+        {
+          "count": 52,
+          "name": "Peripheral Vascular Diseases & Hypertension",
+          "slug": "peripheral-vascular-diseases-hypertension"
+        },
+        {
+          "count": 91,
+          "name": "Hematologic Disorders",
+          "slug": "hematologic-disorders"
+        },
+        {
+          "count": 49,
+          "name": "IV Fluids",
+          "slug": "iv-fluids"
+        },
+        {
+          "count": 76,
+          "name": "Electrolyte Imbalances",
+          "slug": "electrolyte-imbalances"
+        },
+        {
+          "count": 68,
+          "name": "Acid-Base Balance & ABG",
+          "slug": "acid-base-balance-abg"
+        },
+        {
+          "count": 36,
+          "name": "Acute Kidney Injury (AKI)",
+          "slug": "acute-kidney-injury-aki"
+        },
+        {
+          "count": 43,
+          "name": "Chronic Kidney Disease (CKD)",
+          "slug": "chronic-kidney-disease-ckd"
+        },
+        {
+          "count": 37,
+          "name": "Dialysis (Hemodialysis & Peritoneal)",
+          "slug": "dialysis-hemodialysis-peritoneal"
+        },
+        {
+          "count": 65,
+          "name": "Infectious Disorders",
+          "slug": "infectious-disorders"
+        },
+        {
+          "count": 51,
+          "name": "Inflammatory Bowel & Neuro-Inflammatory Disorders",
+          "slug": "inflammatory-bowel-neuro-inflammatory-disorders"
+        },
+        {
+          "count": 48,
+          "name": "Immunologic & Connective Tissue Disorders",
+          "slug": "immunologic-connective-tissue-disorders"
+        },
+        {
+          "count": 49,
+          "name": "Basic Concepts in Cancer",
+          "slug": "basic-concepts-in-cancer"
+        },
+        {
+          "count": 58,
+          "name": "Cancer Treatment Modalities",
+          "slug": "cancer-treatment-modalities"
+        },
+        {
+          "count": 54,
+          "name": "Oncologic Emergencies",
+          "slug": "oncologic-emergencies"
+        },
+        {
+          "count": 58,
+          "name": "Site-Specific Cancers",
+          "slug": "site-specific-cancers"
+        },
+        {
+          "count": 48,
+          "name": "Health Education & Quality Improvement",
+          "slug": "health-education-quality-improvement"
+        },
+        {
+          "count": 61,
+          "name": "Malnutrition",
+          "slug": "malnutrition"
+        },
+        {
+          "count": 81,
+          "name": "Oral & Esophageal / Gastric Disorders",
+          "slug": "oral-esophageal-gastric-disorders"
+        },
+        {
+          "count": 72,
+          "name": "Hepatobiliary Disorders",
+          "slug": "hepatobiliary-disorders"
+        },
+        {
+          "count": 63,
+          "name": "GI Absorption & Elimination",
+          "slug": "gi-absorption-elimination"
+        },
+        {
+          "count": 45,
+          "name": "Ostomies",
+          "slug": "ostomies"
+        },
+        {
+          "count": 50,
+          "name": "ADH Disorders",
+          "slug": "adh-disorders"
+        },
+        {
+          "count": 66,
+          "name": "Adrenal Gland Disorders",
+          "slug": "adrenal-gland-disorders"
+        },
+        {
+          "count": 36,
+          "name": "Pituitary Gland Disorders",
+          "slug": "pituitary-gland-disorders"
+        },
+        {
+          "count": 67,
+          "name": "Thyroid Disorders",
+          "slug": "thyroid-disorders"
+        },
+        {
+          "count": 46,
+          "name": "Parathyroid Disorders",
+          "slug": "parathyroid-disorders"
+        },
+        {
+          "count": 79,
+          "name": "Diabetes Mellitus",
+          "slug": "diabetes-mellitus"
+        },
+        {
+          "count": 38,
+          "name": "Endocrine Emergencies Summary",
+          "slug": "endocrine-emergencies-summary"
+        },
+        {
+          "count": 53,
+          "name": "Neuroanatomy & Assessment Basics",
+          "slug": "neuroanatomy-assessment-basics"
+        },
+        {
+          "count": 60,
+          "name": "Increased Intracranial Pressure (IICP)",
+          "slug": "increased-intracranial-pressure-iicp"
+        },
+        {
+          "count": 79,
+          "name": "Cerebrovascular Accident (Stroke)",
+          "slug": "cerebrovascular-accident-stroke"
+        },
+        {
+          "count": 52,
+          "name": "Parkinson's Disease",
+          "slug": "parkinson-s-disease"
+        },
+        {
+          "count": 56,
+          "name": "Multiple Sclerosis (MS)",
+          "slug": "multiple-sclerosis-ms"
+        },
+        {
+          "count": 50,
+          "name": "Myasthenia Gravis (MG)",
+          "slug": "myasthenia-gravis-mg"
+        },
+        {
+          "count": 43,
+          "name": "Guillain-Barré Syndrome (GBS)",
+          "slug": "guillain-barr-syndrome-gbs"
+        },
+        {
+          "count": 36,
+          "name": "Autonomic Dysreflexia",
+          "slug": "autonomic-dysreflexia"
+        },
+        {
+          "count": 52,
+          "name": "Alzheimer's Disease & Dementia",
+          "slug": "alzheimer-s-disease-dementia"
+        },
+        {
+          "count": 60,
+          "name": "Seizure Disorders",
+          "slug": "seizure-disorders"
+        },
+        {
+          "count": 58,
+          "name": "Spinal Cord Injuries (SCI)",
+          "slug": "spinal-cord-injuries-sci"
+        },
+        {
+          "count": 42,
+          "name": "Peripheral Neuropathies",
+          "slug": "peripheral-neuropathies"
+        },
+        {
+          "count": 58,
+          "name": "Amyotrophic Lateral Sclerosis (ALS)",
+          "slug": "amyotrophic-lateral-sclerosis-als"
+        },
+        {
+          "count": 50,
+          "name": "Musculoskeletal Review & Interventions",
+          "slug": "musculoskeletal-review-interventions"
+        },
+        {
+          "count": 56,
+          "name": "Musculoskeletal Trauma",
+          "slug": "musculoskeletal-trauma"
+        },
+        {
+          "count": 39,
+          "name": "Metabolic Bone Disorders",
+          "slug": "metabolic-bone-disorders"
+        },
+        {
+          "count": 51,
+          "name": "Inflammatory & Infectious Bone/Joint Disorders",
+          "slug": "inflammatory-infectious-bone-joint-disorders"
+        },
+        {
+          "count": 43,
+          "name": "Spinal & Other MSK Conditions",
+          "slug": "spinal-other-msk-conditions"
+        },
+        {
+          "count": 41,
+          "name": "Eye Anatomy, Assessment & Refractive Disorders",
+          "slug": "eye-anatomy-assessment-refractive-disorders"
+        },
+        {
+          "count": 53,
+          "name": "Glaucoma & Cataract",
+          "slug": "glaucoma-cataract"
+        },
+        {
+          "count": 41,
+          "name": "Retinal Detachment & Macular Degeneration",
+          "slug": "retinal-detachment-macular-degeneration"
+        },
+        {
+          "count": 40,
+          "name": "Other Eye Conditions & Surgery Care",
+          "slug": "other-eye-conditions-surgery-care"
+        },
+        {
+          "count": 36,
+          "name": "Ear Anatomy, Assessment & Hearing Loss",
+          "slug": "ear-anatomy-assessment-hearing-loss"
+        },
+        {
+          "count": 46,
+          "name": "Ear Disorders & Surgery Care",
+          "slug": "ear-disorders-surgery-care"
+        },
+        {
+          "count": 45,
+          "name": "Documentation & Professional Development",
+          "slug": "documentation-professional-development"
+        },
+        {
+          "count": 63,
+          "name": "Foundations of Mental Health Nursing",
+          "slug": "foundations-of-mental-health-nursing"
+        },
+        {
+          "count": 58,
+          "name": "Therapeutic & Stress Models",
+          "slug": "therapeutic-stress-models"
+        },
+        {
+          "count": 62,
+          "name": "Anxiety & Anxiety-Related Disorders",
+          "slug": "anxiety-anxiety-related-disorders"
+        },
+        {
+          "count": 46,
+          "name": "Trauma-Related Disorders",
+          "slug": "trauma-related-disorders"
+        },
+        {
+          "count": 75,
+          "name": "Mood Disorders",
+          "slug": "mood-disorders"
+        },
+        {
+          "count": 74,
+          "name": "Schizophrenia & Other Psychoses",
+          "slug": "schizophrenia-other-psychoses"
+        },
+        {
+          "count": 47,
+          "name": "Personality Disorders",
+          "slug": "personality-disorders"
+        },
+        {
+          "count": 38,
+          "name": "Eating Disorders",
+          "slug": "eating-disorders"
+        },
+        {
+          "count": 69,
+          "name": "Substance Use Disorders",
+          "slug": "substance-use-disorders"
+        },
+        {
+          "count": 42,
+          "name": "Cognitive & Other Psychiatric Disorders",
+          "slug": "cognitive-other-psychiatric-disorders"
+        },
+        {
+          "count": 68,
+          "name": "Therapeutic Communication & Relationship",
+          "slug": "therapeutic-communication-relationship"
+        },
+        {
+          "count": 53,
+          "name": "Crisis Intervention",
+          "slug": "crisis-intervention"
+        },
+        {
+          "count": 53,
+          "name": "Psychiatric Assessment & Symptomatology",
+          "slug": "psychiatric-assessment-symptomatology"
+        },
+        {
+          "count": 46,
+          "name": "Somatic & Behavioral Therapies",
+          "slug": "somatic-behavioral-therapies"
+        },
+        {
+          "count": 59,
+          "name": "Psychopharmacology",
+          "slug": "psychopharmacology"
+        },
+        {
+          "count": 55,
+          "name": "Altered Ventilatory Function",
+          "slug": "altered-ventilatory-function"
+        },
+        {
+          "count": 58,
+          "name": "Altered Tissue Perfusion",
+          "slug": "altered-tissue-perfusion"
+        },
+        {
+          "count": 58,
+          "name": "Altered Elimination",
+          "slug": "altered-elimination"
+        },
+        {
+          "count": 52,
+          "name": "Altered Perception",
+          "slug": "altered-perception"
+        },
+        {
+          "count": 60,
+          "name": "Multi-System Problems (Shock & Sepsis)",
+          "slug": "multi-system-problems-shock-sepsis"
+        },
+        {
+          "count": 74,
+          "name": "High Acuity & Emergency Situations",
+          "slug": "high-acuity-emergency-situations"
+        },
+        {
+          "count": 54,
+          "name": "Critical Care Equipment",
+          "slug": "critical-care-equipment"
+        },
+        {
+          "count": 44,
+          "name": "Collaboration & Communication in Critical Care",
+          "slug": "collaboration-communication-in-critical-care"
+        }
+      ]
+    },
+    "resources": [
+      {
+        "title": "Neuro C — Spinal Cord Injury & Peripheral Nerves",
+        "url": "https://www.nleboardpal.com/resources/cram/06753af3-45c1-46c5-b0c9-8c5ec4d28ea5",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Anatomy and Physiology",
+        "url": "https://www.nleboardpal.com/resources/cram/22bfbe40-5b82-4926-ad25-c8ab3c7b8a48",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Respiratory A — Upper Airway, Asthma & COPD",
+        "url": "https://www.nleboardpal.com/resources/cram/28a2958d-9b4a-455f-8c00-deac15ca67f9",
+        "subject": "NP3 · Surgery & Med-Surg"
+      },
+      {
+        "title": "Perioperative Nursing",
+        "url": "https://www.nleboardpal.com/resources/cram/3ab1371b-c29c-476b-87ef-85e8426aee42",
+        "subject": "NP3 · Surgery & Med-Surg"
+      },
+      {
+        "title": "Communicable Diseases B — Parasites, Fungi & the Other Infections",
+        "url": "https://www.nleboardpal.com/resources/cram/0346a29d-c4e5-457c-8562-fe41fd7b2df2",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Communicable Diseases",
+        "url": "https://www.nleboardpal.com/resources/cram/ff5f4007-4259-42cb-83e3-8f7d410bf559",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Growth & Development — Well-Child & Adolescent Care",
+        "url": "https://www.nleboardpal.com/resources/cram/a104af63-23fa-48e0-b1aa-2ebab3dd8efe",
+        "subject": "NP2 · MCN & Pedia"
+      },
+      {
+        "title": "Diabetes Mellitus & Endocrine Emergencies",
+        "url": "https://www.nleboardpal.com/resources/cram/c99e5c7b-c318-4a23-88e5-2925cd30de92",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Renal & Urinary Elimination",
+        "url": "https://www.nleboardpal.com/resources/cram/6bbfbe92-8b32-42c5-977a-daaa711cf0cc",
+        "subject": "NP3 · Surgery & Med-Surg"
+      },
+      {
+        "title": "Dosage Calculation",
+        "url": "https://www.nleboardpal.com/resources/cram/f28ad5d8-442a-438d-8444-4fc2a6be184e",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Metabolism & Endocrine",
+        "url": "https://www.nleboardpal.com/resources/cram/ddf79951-5d3d-4559-8d19-eb7fa75fa7e0",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Epidemiology, Biostatistics & Research in CHN",
+        "url": "https://www.nleboardpal.com/resources/cram/e206c76d-9e5f-43fb-b7b6-80f19e744a61",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Immunization, Maternal & Child Health & Nutrition",
+        "url": "https://www.nleboardpal.com/resources/cram/36ed8cbb-0ee7-40e9-8262-3e87af96c2c7",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Sensory — Eye and Ear Disorders",
+        "url": "https://www.nleboardpal.com/resources/cram/8a36ee8e-55d2-4346-8036-fa0499a290e4",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Care of Families & Population Groups",
+        "url": "https://www.nleboardpal.com/resources/cram/cd2c7106-3387-4796-9239-fdac5b17d8de",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Reproductive Health — Cycles, Conception, Genetics & the Ethics of Maternal Care",
+        "url": "https://www.nleboardpal.com/resources/cram/fe0e1c83-f2ca-481e-85f3-e7566ad9d004",
+        "subject": "NP2 · MCN & Pedia"
+      },
+      {
+        "title": "Mental Health Concepts & Therapeutic Models",
+        "url": "https://www.nleboardpal.com/resources/cram/88fbd724-ea2f-44ab-9045-267e9c1bdc2d",
+        "subject": "NP5 · Psych & Critical Care"
+      },
+      {
+        "title": "Fundamentals & Health Assessment",
+        "url": "https://www.nleboardpal.com/resources/cram/2c941a5a-038e-483e-a160-a9431147de05",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Cardiovascular",
+        "url": "https://www.nleboardpal.com/resources/cram/ea2f2cd9-b877-4c5e-8fcd-7f9d6871ee17",
+        "subject": "NP3 · Surgery & Med-Surg"
+      },
+      {
+        "title": "Critical Care & Emergency Nursing",
+        "url": "https://www.nleboardpal.com/resources/cram/d2731e94-7da6-4146-9a76-10ab314e97a7",
+        "subject": "NP5 · Psych & Critical Care"
+      },
+      {
+        "title": "Neuro A — Assessment, ICP, Stroke & Seizures",
+        "url": "https://www.nleboardpal.com/resources/cram/04569b8f-90bc-493a-afca-888aa3216290",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Infectious, Inflammatory & Immunologic Disorders",
+        "url": "https://www.nleboardpal.com/resources/cram/3f021f20-e2a0-4f90-90ad-0e133615c14f",
+        "subject": "NP3 · Surgery & Med-Surg"
+      },
+      {
+        "title": "Labs, Fluids & Electrolytes",
+        "url": "https://www.nleboardpal.com/resources/cram/bb1e5244-1be5-4aac-91a8-ff3ed9ec2dc4",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Philippine Health Laws & Legislation",
+        "url": "https://www.nleboardpal.com/resources/cram/786038e0-916c-4222-a2af-9e9709567576",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Leadership & Management",
+        "url": "https://www.nleboardpal.com/resources/cram/ca095e25-626f-4510-bb66-73ce9a7d3a2c",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Nutrition & Gastrointestinal",
+        "url": "https://www.nleboardpal.com/resources/cram/95566856-b029-4757-801d-189fda4d5ade",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Psychopathology A — Anxiety, Trauma, Mood & Eating",
+        "url": "https://www.nleboardpal.com/resources/cram/7da950f4-7717-47cd-bdb2-9b12f9757f00",
+        "subject": "NP5 · Psych & Critical Care"
+      },
+      {
+        "title": "Musculoskeletal — Fractures, Casts, Traction & Joints",
+        "url": "https://www.nleboardpal.com/resources/cram/519af470-a8bf-45f7-9ec1-20d247dadc88",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Neuro B — Parkinson's, MS, Myasthenia & GBS",
+        "url": "https://www.nleboardpal.com/resources/cram/9f9c1ff2-7437-4a93-83bc-e887e4a2f37e",
+        "subject": "NP4 · GI, Endocrine & Neuro"
+      },
+      {
+        "title": "Non-Communicable Diseases",
+        "url": "https://www.nleboardpal.com/resources/cram/b6b6c84f-d5df-41f9-943e-7b23ff3f7c37",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Intrapartum — Labor & Delivery",
+        "url": "https://www.nleboardpal.com/resources/cram/2c4a065d-a1f5-4880-9665-518ebf3ff799",
+        "subject": "NP2 · MCN & Pedia"
+      },
+      {
+        "title": "Antepartum — Normal & Complicated Pregnancy",
+        "url": "https://www.nleboardpal.com/resources/cram/4ab01cb4-d8fa-461d-a78a-5ad10262b48f",
+        "subject": "NP2 · MCN & Pedia"
+      },
+      {
+        "title": "Postpartum, Newborn & Family Planning",
+        "url": "https://www.nleboardpal.com/resources/cram/7cef372f-6227-4f3e-b99c-44f6efef0cd5",
+        "subject": "NP2 · MCN & Pedia"
+      },
+      {
+        "title": "Theoretical Foundations & the Nursing Process",
+        "url": "https://www.nleboardpal.com/resources/cram/8a45e021-79c4-4f57-bca0-4b0dfbdf2a78",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Nursing Research & Evidence-Based Practice",
+        "url": "https://www.nleboardpal.com/resources/cram/3f4df898-4e71-4885-8e33-1ae52173e6e2",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Sick Child A — Heart, Airway & Gut Disorders",
+        "url": "https://www.nleboardpal.com/resources/cram/2a29f1e4-1bce-4e5b-a703-e4857be8fd5c",
+        "subject": "NP2 · MCN & Pedia"
+      },
+      {
+        "title": "Sick Child B — Blood, Brain, Kidney, Skin & Bones",
+        "url": "https://www.nleboardpal.com/resources/cram/132981aa-d94a-4ea5-84fb-86298b6333c3",
+        "subject": "NP2 · MCN & Pedia"
+      },
+      {
+        "title": "PH Health System, UHC & Primary Health Care",
+        "url": "https://www.nleboardpal.com/resources/cram/e9ffc138-db9e-4c07-9bef-f5a78e605327",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Pharmacology Core",
+        "url": "https://www.nleboardpal.com/resources/cram/e3723b5f-acc6-4575-b9c0-d06d3f89e2b5",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Respiratory B — Pneumonia, ARDS, Chest Trauma & PE",
+        "url": "https://www.nleboardpal.com/resources/cram/947fc521-42c9-40a7-b8aa-9ab8f6a12fe9",
+        "subject": "NP3 · Surgery & Med-Surg"
+      },
+      {
+        "title": "Nurse Law & Patient Rights — Negligence, Torts, Consent & the Record",
+        "url": "https://www.nleboardpal.com/resources/cram/543ebc1a-ac40-4e14-a829-cad75130bae8",
+        "subject": "ALL · Foundations & Fundamentals"
+      },
+      {
+        "title": "Psychiatric Assessment, Therapies & Psychopharmacology",
+        "url": "https://www.nleboardpal.com/resources/cram/b54ab6fd-ed03-48d1-bf15-fdd29b9e8bb1",
+        "subject": "NP5 · Psych & Critical Care"
+      },
+      {
+        "title": "Environmental Health, Disaster & Records",
+        "url": "https://www.nleboardpal.com/resources/cram/9c57c701-bc97-4c63-a0b0-c0fb39581fd1",
+        "subject": "NP1 · Community Health Nursing"
+      },
+      {
+        "title": "Psychopathology B — Schizophrenia, Personality, Substance Use & Cognitive",
+        "url": "https://www.nleboardpal.com/resources/cram/c5f04633-517e-4f27-9201-afe56b6f751d",
+        "subject": "NP5 · Psych & Critical Care"
+      },
+      {
+        "title": "Hematology & Oncology",
+        "url": "https://www.nleboardpal.com/resources/cram/a2595e64-9f9a-46b9-9477-2992a9c45286",
+        "subject": "NP3 · Surgery & Med-Surg"
+      },
+      {
+        "title": "Therapeutic Communication & Crisis Intervention",
+        "url": "https://www.nleboardpal.com/resources/cram/1734bc19-8d9a-4d98-9cfe-6c761ad8a244",
+        "subject": "NP5 · Psych & Critical Care"
+      }
+    ],
+    "findings": [
+      "155 topics and 9,541 listed questions; factual topic names/slugs match the local catalog.",
+      "46 listed cram sheets; titles and URLs recorded, not paid sheet text.",
+      "Practice gives immediate feedback; exam mode defers answers. New/wrong/all filters, configurable set lengths, question navigation, and per-question timing are visible.",
+      "The About page identifies source families, including DOH, WHO, nursing references and Philippine law; a complete item-level bibliography was not available."
+    ],
+    "publicBlueprintSources": [
+      "https://www.prc.gov.ph/sites/default/files/2025-10%20%20published%20Enhanced%20TOS%20nuse.pdf",
+      "https://www.prc.gov.ph/sites/default/files/2025-16%20annex%20A%20nurse.pdf"
+    ],
+    "accountActivity": "No question was answered, exam started, or study progress changed. No paid question, rationale, or cram-sheet text was copied."
+  },
+  "limits": [
+    "Reference review is not independent clinical certification or psychometric validation.",
+    "These are original educational questions, not BoardPal subscription questions or official PNLE questions.",
+    "This batch does not claim exact paid-bank topic weighting or a complete copy of the reference site bibliography.",
+    "Earlier clinical review reports retain their historical scope; this report adds 155 standalone items."
+  ]
+}
