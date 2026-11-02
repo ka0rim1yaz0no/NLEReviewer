@@ -23,12 +23,15 @@ const bank=new Map(questions.map(q=>[q.id,q]));
 // checking the original release digests. All stems, options, keys, and facts
 // outside this small allowlist must still match the deployed snapshots.
 const legacyContext=JSON.parse(await readFile(new URL('./legacy-context-corrections.json',import.meta.url),'utf8'));
+const legacyRationaleBaseline=JSON.parse(await readFile(new URL('./legacy-rationale-baseline.json',import.meta.url),'utf8'));
+const legacyRationaleMap=new Map(legacyRationaleBaseline.questions.map(q=>[q.id,q]));
 function beforeAudit(qs=originalQuestions){return qs.map(q=>{
  if(!originalQuestions.some(o=>o.id===q.id))return q;
  let stem=q.stem;for(const c of legacyContext)stem=stem.replace(c.current,c.previous);
- return {...q,stem,source:'https://www.ncbi.nlm.nih.gov/books/NBK590025/',options:q.options.map(({source,referenceId,...o})=>o)};
+ const baseline=legacyRationaleMap.get(q.id);
+ return {...q,stem,rationale:baseline.rationale,keyPoint:baseline.keyPoint,source:'https://www.ncbi.nlm.nih.gov/books/NBK590025/',options:q.options.map(({source,contextSource,referenceId,...o},index)=>({...o,rationale:baseline.optionRationales[index]}))};
 });}
-const casesBeforeAudit=clinicalCases.map(c=>({...c,scenario:legacyContext.find(x=>x.current===c.scenario)?.previous??c.scenario}));
+const casesBeforeAudit=legacyRationaleBaseline.cases.map(c=>({...c,scenario:legacyContext.find(x=>x.current===c.scenario)?.previous??c.scenario}));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
 test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
   assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
@@ -214,8 +217,8 @@ test('format filters keep all questions reachable and custom flashcard URLs pres
 });
 
 test('malformed format metadata and per-choice links are removed during import validation',()=>{
- const q={...originalQuestions[0],format:{bad:true},conceptId:{bad:true},options:originalQuestions[0].options.map(o=>({...o,source:'javascript:alert(1)',referenceId:{bad:true}}))};
- const [clean]=validateQuestions([q]);assert.equal(clean.format,undefined);assert.equal(clean.conceptId,undefined);for(const o of clean.options){assert.equal(o.source,undefined);assert.equal(o.referenceId,undefined);}
+ const q={...originalQuestions[0],format:{bad:true},conceptId:{bad:true},options:originalQuestions[0].options.map(o=>({...o,source:'javascript:alert(1)',contextSource:'javascript:alert(2)',referenceId:{bad:true}}))};
+ const [clean]=validateQuestions([q]);assert.equal(clean.format,undefined);assert.equal(clean.conceptId,undefined);for(const o of clean.options){assert.equal(o.source,undefined);assert.equal(o.contextSource,undefined);assert.equal(o.referenceId,undefined);}
 });
 
 test('the displayed public counts match the protected bank without including any question text',async()=>{
@@ -295,8 +298,8 @@ test('the audit covers every original case and replaces semantic repeats without
  const log=JSON.parse(await readFile(new URL('./situational-audit-log.json',import.meta.url),'utf8'));
  const report=JSON.parse(await readFile(new URL('./situational-review-report.json',import.meta.url),'utf8'));
  assert.equal(log.reviewedCaseSets,740);assert.equal(log.reviewedSituationalQuestions,4940);assert.equal(new Set(log.reviewedCaseIds).size,740);
- assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,135);
- assert.equal(activeQuestions.length,9508);assert.equal(questions.filter(q=>q.retired).length,945);assert.equal(activeQuestions.filter(isSituational).length,4940);
+ assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,140);
+ assert.equal(activeQuestions.length,9508);assert.equal(questions.filter(q=>q.retired).length,980);assert.equal(activeQuestions.filter(isSituational).length,4940);
  for(const r of report.retirements){
   const old=questions.filter(q=>q.caseId===r.retiredCaseId),replacement=questions.filter(q=>q.caseId===r.replacementCaseId);
   assert.equal(old.length,7);assert.equal(replacement.length,7);assert.ok(old.every(q=>q.retired));assert.ok(replacement.every(q=>!q.retired));
@@ -351,4 +354,61 @@ test('browsers without workers use the same verified content path and reject dam
  const manifest={version:2,encoding:'gzip-base64',pages:1,questionCount:q.length,caseCount:c.length,bytes:raw.length,digest:await contentDigest(q,c)};
  assert.equal(typeof Worker,'undefined');assert.deepEqual((await processContentRelease(manifest,pages)).questions,q);
  await assert.rejects(()=>processContentRelease({...manifest,digest:'invalid'},pages),/integrity check/);
+});
+
+
+test('the reference recheck preserves all 5,885 previously stored situational answer identities',async()=>{
+ const ledger=JSON.parse(await readFile(new URL('./published-reference-recheck-keys.json',import.meta.url),'utf8'));
+ const changes=JSON.parse(await readFile(new URL('./rationale-reference-corrections.json',import.meta.url),'utf8'));
+ assert.equal(ledger.length,5885);
+ for(const previous of ledger){
+  const q=bank.get(previous.id);assert.ok(q,previous.id);assert.equal(q.correctIndex,previous.correctIndex,previous.id);
+  assert.deepEqual(q.options.map(o=>o.referenceId??null),previous.references,previous.id);
+  for(const [index,option] of q.options.entries()){
+   const [caseId,field]=option.referenceId.split(':');
+   const evidenceField=field==='reasoning'?'reason':field;
+   const allowed=changes.situations[caseId]?.[evidenceField]||(field==='safe-plan'&&changes.situations[caseId]?.action===option.text);
+   if(!allowed)assert.equal(option.text,previous.texts[index],q.id+' option '+index);
+  }
+ }
+});
+
+test('every situational choice explains its own clinical basis and the case-specific answer',async()=>{
+ const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8'));
+ const cases=new Map(evidence.map(c=>[c.id,c]));
+ const legacy=new Map(clinicalCases.map((c,i)=>[c.subject+'-'+String(i+1).padStart(3,'0'),c]));
+ const selected=activeQuestions.filter(isSituational);assert.equal(selected.length*4,19760);
+ for(const q of selected){
+  assert.equal(q.options[q.correctIndex].rationale,q.rationale,q.id);
+  for(const [index,o] of q.options.entries()){
+   assert.ok(o.rationale.length>40,q.id);assert.ok(o.source?.startsWith('https://'),q.id);
+   if(index===q.correctIndex)continue;
+   if(q.caseId&&q.clinicalObjective!=='safety'){
+    const current=cases.get(q.caseId),peer=cases.get(o.referenceId.split(':')[0]);
+    assert.ok(o.rationale.includes(peer.reason),q.id+' must explain the alternative');
+    assert.ok(o.rationale.includes(current.reason),q.id+' must explain the current priority');
+    assert.equal(o.source,peer.source,q.id);
+    assert.equal(o.contextSource,peer.source!==current.source?current.source:undefined,q.id);
+   }else if(!q.caseId&&!o.referenceId.endsWith(':safe-plan')){
+    const [id,field]=o.referenceId.split(':'),peer=legacy.get(id);
+    assert.ok(o.rationale.includes(peer.facts[Number(field)].reason),q.id);
+    assert.ok(o.contextSource?.startsWith('https://'),q.id);
+   }else assert.match(o.rationale,/does not require correction/i,q.id);
+  }
+ }
+});
+
+test('legacy clinical clarifications are explicitly bounded and the corrected-age calculation is independent',async()=>{
+ const changes=JSON.parse(await readFile(new URL('./rationale-reference-corrections.json',import.meta.url),'utf8'));
+ for(const [index,c] of clinicalCases.entries()){
+  const baseline=legacyRationaleBaseline.cases[index],id=c.subject+'-'+String(index+1).padStart(3,'0'),change=changes.legacy[id];
+  assert.equal(c.scenario,change?.scenario??baseline.scenario,id);
+  assert.equal(c.title,baseline.title,id);assert.equal(c.subject,baseline.subject,id);assert.equal(c.topic,baseline.topic,id);
+  c.facts.forEach((f,kind)=>{assert.equal(f.text,baseline.facts[kind].text,id);assert.equal(f.reason,change?.reasons?.[kind]??baseline.facts[kind].reason,id);});
+ }
+ assert.equal(16-(40-32),8);
+ const corrected=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8')).find(c=>c.id==='SIT-NP2-developmental-milestones-04-R3');
+ assert.ok(corrected.reason.includes('equals 8 weeks'));
+ assert.ok(clinicalCases[36].scenario.includes('confirmed hypertension'));
+ assert.ok(clinicalCases[42].facts[1].reason.includes('calcium gluconate'));
 });

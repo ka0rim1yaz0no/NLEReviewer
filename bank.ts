@@ -39,7 +39,7 @@ export function validateQuestions(value: unknown, options:{allowDuplicateStems?:
   }
   return value.map(q => {
     const {collection,rationaleScope,sourceId,sourceTopic,format,conceptId,caseId,clinicalObjective,retired,...rest}=q;
-    const options=q.options.map((o:{text:string;rationale:string;source?:unknown;referenceId?:unknown})=>({text:o.text,rationale:o.rationale,...(typeof o.source==="string"&&/^https:\/\//.test(o.source)?{source:o.source}:{}),...(typeof o.referenceId==="string"?{referenceId:o.referenceId}:{})}));
+    const options=q.options.map((o:{text:string;rationale:string;source?:unknown;contextSource?:unknown;referenceId?:unknown})=>({text:o.text,rationale:o.rationale,...(typeof o.source==="string"&&/^https:\/\//.test(o.source)?{source:o.source}:{}),...(typeof o.contextSource==="string"&&/^https:\/\//.test(o.contextSource)?{contextSource:o.contextSource}:{}),...(typeof o.referenceId==="string"?{referenceId:o.referenceId}:{})}));
     return { ...rest, options, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}),...(format==="concept"||format==="comparison"||format==="situational"?{format}:{}),...(typeof conceptId==="string"?{conceptId}:{}),...(typeof caseId==="string"?{caseId}:{}),...(typeof clinicalObjective==="string"?{clinicalObjective}:{}),...(retired===true?{retired:true}:{}) };
   });
 }

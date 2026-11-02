@@ -4,6 +4,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import catalog from './topic-catalog.json' with {type:'json'};
 import clarifications from './situational-clarifications.json' with {type:'json'};
+import recheck from './rationale-reference-corrections.json' with {type:'json'};
 import {renderSituation} from './situational-authoring.mjs';
 import {validateQuestions,normalizeQuestionStem} from './bank.ts';
 const read=name=>readFile(new URL(name,import.meta.url),'utf8');
@@ -30,23 +31,34 @@ for(const raw of (await read('./audited-replacements.txt')).split(/\r?\n/)){
  replacements.push({...previous,id,scenario,problem,action,teaching,outcome,unsafe,reason,source});
  retirements.push({retiredCaseId:retiredId,replacementCaseId:id});
 }
+for(const raw of (await read('./rationale-replacements.txt')).split(/\r?\n/)){
+ const line=raw.trim();if(!line||line.startsWith('#'))continue;
+ const [retiredId,scenario,problem,action,teaching,outcome,unsafe,reason,source]=line.split('|');
+ const previous=[...base,...replacements].find(c=>c.id===retiredId);
+ if(!previous||!source||retirements.some(r=>r.retiredCaseId===retiredId))throw Error('Invalid recheck replacement '+retiredId);
+ const id=retiredId+'-R3';
+ replacements.push({...previous,id,scenario,problem,action,teaching,outcome,unsafe,reason,source});
+ retirements.push({retiredCaseId:retiredId,replacementCaseId:id,review:'choice-rationale-reference-recheck'});
+}
 const retired=new Set(retirements.map(r=>r.retiredCaseId));
-const allEvidence=base.map(c=>retired.has(c.id)?{...c,retired:true}:c).concat(replacements);
+const allEvidence=[...base,...replacements].map(c=>({...c,...recheck.situations[c.id],...(retired.has(c.id)?{retired:true}:{})}));
 const active=allEvidence.filter(c=>!c.retired);
 if(active.length!==620||new Set(active.map(c=>normalizeQuestionStem(c.scenario))).size!==620)throw Error('Active case roster is not distinct and complete');
 for(const t of catalog)if(active.filter(c=>c.topicSlug===t.slug).length!==4)throw Error('Four active cases required: '+t.slug);
 const result=[];
-for(const c of base){
- const old=published.filter(q=>q.caseId===c.id);if(old.length!==7)throw Error('Missing published case '+c.id);
- const rendered=renderSituation(c,allEvidence,old);
+for(const c of allEvidence){
+ const old=published.filter(q=>q.caseId===c.id);
+ if(old.length!==7&&!c.id.endsWith('-R3'))throw Error('Missing published case '+c.id);
+ // Published R2 cases need the same protection as the original roster. Adding
+ // or retiring a peer must never reshuffle what a student's saved answer meant.
+ const rendered=renderSituation(c,old.length?allEvidence:active,old);
  result.push(...rendered.map(q=>retired.has(c.id)?{...q,retired:true}:q));
 }
-for(const c of replacements)result.push(...renderSituation(c,active));
 validateQuestions(result);
 if(result.filter(q=>!q.retired).length!==4340)throw Error('Expected 4,340 active seven-part questions');
 const destination=new URL(process.argv.includes('--draft')?'./outputs/audited-draft/':'./',import.meta.url);
 await mkdir(destination,{recursive:true});
-await writeFile(new URL('situational-questions.json',destination),JSON.stringify(result,null,2)+'\n');
+await writeFile(new URL('situational-questions.json',destination),JSON.stringify(result)+'\n');
 await writeFile(new URL('situational-evidence.json',destination),JSON.stringify(allEvidence,null,2)+'\n');
 const report={preparedAt:'2026-11-03',activeClinicalSituationSets:620,activeSevenPartQuestions:4340,existingFivePartSituationalQuestions:600,totalExplicitSituationalQuestions:4940,topics:155,replacedCaseSets:retirements.length,retiredHistoricalQuestions:retirements.length*7,questionsPerNewSituation:7,competencies:['recognition','action','teaching','safety','planning','evaluation','reasoning'],independentClinicalReview:false,notes:'All 740 original shared case evidence sets were reviewed. Linked questions intentionally use distinct nursing-process objectives. Semantic repeats were replaced by new clinical situations with new IDs; historical IDs and key positions remain resolvable. Structural and source review is not independent clinician approval.',retirements};
 await writeFile(new URL('situational-review-report.json',destination),JSON.stringify(report,null,2)+'\n');

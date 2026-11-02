@@ -10,12 +10,18 @@ import supplemental from "./supplemental-questions.json" with { type: "json" };
 import concepts from "./concept-questions.json" with { type: "json" };
 import situations from "./situational-questions.json" with { type: "json" };
 import legacyReferences from "./legacy-case-references.json" with { type: "json" };
+import recheck from "./rationale-reference-corrections.json" with { type: "json" };
 import type { ClinicalCase, Question, Subject } from "./types.ts";
 import { subjects, shuffled, validateQuestions, installQuestionBank } from "./bank.ts";
 export { subjects, shuffled, validateQuestions } from "./bank.ts";
-export const clinicalCases: ClinicalCase[] = [...foundations, ...community, ...maternal, ...medsurg, ...neuro, ...mental];
+type LegacyClarification={scenario?:string;source?:string;reasons?:Record<string,string>};
+const legacyClarifications:Record<string,LegacyClarification>=recheck.legacy;
+export const clinicalCases: ClinicalCase[] = [...foundations, ...community, ...maternal, ...medsurg, ...neuro, ...mental].map((c,index)=>{
+ const id=`${c.subject}-${String(index+1).padStart(3,"0")}`,change=legacyClarifications[id];
+ return {...c,scenario:change?.scenario??c.scenario,facts:c.facts.map((f,kind)=>({...f,reason:change?.reasons?.[kind]??f.reason}))};
+});
 const caseIds=new Map(clinicalCases.map((c,index)=>[c,`${c.subject}-${String(index+1).padStart(3,"0")}`]));
-const caseSource=(c:ClinicalCase)=>(legacyReferences as Record<string,string>)[caseIds.get(c)!];
+const caseSource=(c:ClinicalCase)=>legacyClarifications[caseIds.get(c)!]?.source??(legacyReferences as Record<string,string>)[caseIds.get(c)!];
 const prompts = [
   "Which assessment finding is most directly associated with this situation?",
   "Which nursing action best addresses the immediate care need in this situation?",
@@ -23,14 +29,21 @@ const prompts = [
   "Which result most directly shows that the care goal has been met?",
   "Which statement about care in this situation requires correction?",
 ];
+function legacyRationale(entry:ClinicalCase,kind:number){
+ const fact=entry.facts[kind],finding=entry.facts[0],response=entry.facts[1];
+ if(kind===4)return `This proposed statement requires correction. ${fact.reason} The appropriate care response is: ${response.text}. ${response.reason}`;
+ if(kind===0||kind===3)return `${fact.reason} The relevant care response is: ${response.text}. ${response.reason}`;
+ return `${fact.reason} The focused assessment context is: ${finding.text}. ${finding.reason}`;
+}
 export const originalQuestions: Question[] = clinicalCases.flatMap((entry, index) => entry.facts.map((fact, kind) => {
   const peers = shuffled(clinicalCases.filter(c => c.subject === entry.subject && c.title !== entry.title && c.facts[kind].text !== fact.text), (index + 17) * (kind + 53));
   const distractors = kind === 4
-    ? [entry.facts[1], entry.facts[2], entry.facts[3]].map(f => ({ text: f.text, rationale: `This is an appropriate statement, so it does not require correction. ${f.reason}`,source:caseSource(entry),referenceId:caseIds.get(entry)+":safe-plan" }))
-    : peers.slice(0, 3).map(c => ({ text: c.facts[kind].text, rationale: `This choice relates most directly to ${c.title.toLowerCase()}. For ${entry.title.toLowerCase()}, the best answer is: ${fact.text.toLowerCase()}. ${fact.reason}`,source:caseSource(c),referenceId:caseIds.get(c)+":"+kind }));
-  const correct = { text: fact.text, rationale: fact.reason,source:caseSource(entry),referenceId:caseIds.get(entry)+":"+kind };
+    ? [entry.facts[1], entry.facts[2], entry.facts[3]].map((f,i) => ({ text: f.text, rationale: `This is an appropriate statement, so it does not require correction. ${legacyRationale(entry,i+1)}`,source:caseSource(entry),referenceId:caseIds.get(entry)+":safe-plan" }))
+    : peers.slice(0, 3).map(c => ({ text: c.facts[kind].text, rationale: `This choice is relevant to ${c.title.toLowerCase()}. Its clinical context is: ${c.scenario} ${c.facts[kind].reason} The question here concerns ${entry.title.toLowerCase()}: ${entry.scenario} ${fact.reason} This alternative does not best address the specific finding, care need, or outcome asked about in the present case.`,source:caseSource(c),contextSource:caseSource(entry),referenceId:caseIds.get(c)+":"+kind }));
+  const rationale=legacyRationale(entry,kind);
+  const correct = { text: fact.text, rationale,source:caseSource(entry),referenceId:caseIds.get(entry)+":"+kind };
   const options = shuffled([correct, ...distractors], index * 47 + kind * 97 + 5);
-  return { id: `${entry.subject}-${String(index + 1).padStart(3, "0")}-${kind + 1}`, subject: entry.subject, topic: entry.topic, stem: `${entry.scenario} ${prompts[kind]}`, options, correctIndex: options.indexOf(correct), rationale: fact.reason, keyPoint: `${entry.title}: ${fact.text}. ${fact.reason}`, source: caseSource(entry), origin: "Original educational scenario; not copied from BoardPal or an official PNLE paper." };
+  return { id: `${entry.subject}-${String(index + 1).padStart(3, "0")}-${kind + 1}`, subject: entry.subject, topic: entry.topic, stem: `${entry.scenario} ${prompts[kind]}`, options, correctIndex: options.indexOf(correct), rationale, keyPoint: `${entry.title}: ${fact.text}. ${fact.reason}`, source: caseSource(entry), origin: "Original educational scenario; not copied from BoardPal or an official PNLE paper." };
 }));
 export const supplementalQuestions = validateQuestions(supplemental);
 export const conceptQuestions = validateQuestions(concepts);

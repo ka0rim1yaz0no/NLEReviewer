@@ -839,7 +839,7 @@
     "outcome": "The symptoms and medicines are reviewed promptly and a safe plan is established",
     "unsafe": "Ignore the jaundice because all TB-drug effects are harmless",
     "reason": "Jaundice and systemic symptoms can indicate serious toxicity and require prompt clinical review rather than routine reassurance.",
-    "source": "https://www.who.int/news-room/fact-sheets/detail/tuberculosis"
+    "source": "https://www.cdc.gov/tb/hcp/treatment/adverse-events.html"
   },
   {
     "id": "SIT-NP1-tuberculosis-04",
@@ -909,7 +909,8 @@
     "outcome": "The wound is managed and further pressure or thermal injury is prevented",
     "unsafe": "Use pain intensity alone to judge whether the foot needs care",
     "reason": "Loss of protective sensation can hide substantial injury; inspection and protection are needed even when the wound does not hurt.",
-    "source": "https://www.who.int/news-room/fact-sheets/detail/leprosy"
+    "source": "https://www.who.int/news-room/fact-sheets/detail/leprosy",
+    "retired": true
   },
   {
     "id": "SIT-NP1-mosquito-borne-diseases-01",
@@ -1322,7 +1323,7 @@
     "outcome": "Local reports are comparable and follow the authorized surveillance standard",
     "unsafe": "Create a different case definition for each barangay without coordination",
     "reason": "National technical standards support consistent surveillance and communication across local health services.",
-    "source": "https://ro2.doh.gov.ph/mandates/"
+    "source": "https://ro9.doh.gov.ph/agency-mandate-and-functions/"
   },
   {
     "id": "SIT-NP1-ph-health-care-delivery-system-doh-02",
@@ -1336,7 +1337,7 @@
     "outcome": "The client reaches an appropriate receiving service with usable clinical information",
     "unsafe": "Send the family away without confirming the appropriate destination",
     "reason": "A coordinated referral connects different service levels and reduces information loss and avoidable delay.",
-    "source": "https://ro2.doh.gov.ph/mandates/"
+    "source": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html"
   },
   {
     "id": "SIT-NP1-ph-health-care-delivery-system-doh-03",
@@ -1365,7 +1366,7 @@
     "outcome": "The local plan includes prevention, early detection, and appropriate treatment access",
     "unsafe": "Replace all community prevention with hospital admission services",
     "reason": "A health system includes promotion and prevention as well as treatment and referral; hospital care does not replace all community functions.",
-    "source": "https://ro2.doh.gov.ph/mandates/"
+    "source": "https://www.who.int/health-topics/primary-health-care"
   },
   {
     "id": "SIT-NP1-universal-health-care-uhc-sdgs-01",
@@ -1634,7 +1635,7 @@
     "outcome": "The investigation uses a defined exposed population and consistent illness information",
     "unsafe": "Use the total national population as the denominator for this meal-specific risk",
     "reason": "An attack rate describes illness among a defined exposed group; the denominator must correspond to the exposure being investigated.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK616972/"
+    "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html"
   },
   {
     "id": "SIT-NP1-epidemiology-vital-statistics-demography-04",
@@ -1648,7 +1649,7 @@
     "outcome": "The report uses infant deaths and the corresponding live-birth denominator",
     "unsafe": "Publish the mislabeled consultation-based calculation as infant mortality",
     "reason": "Infant mortality relates deaths before the first birthday to live births, not to an unrelated count of consultations.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK616972/"
+    "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section3.html"
   },
   {
     "id": "SIT-NP1-maternal-child-health-mch-programs-01",
@@ -1718,7 +1719,7 @@
     "outcome": "The child receives appropriate assessment and supervised nutritional treatment",
     "unsafe": "Treat edema as proof that nutrition is adequate",
     "reason": "Nutritional edema can mask wasting; weight or visible swelling alone cannot establish adequate nutrition.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615325/"
+    "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
   },
   {
     "id": "SIT-NP1-nutrition-programs-02",
@@ -2142,7 +2143,7 @@
     "outcome": "Respiratory severity is classified and appropriate care is arranged",
     "unsafe": "Treat the cough alone without checking respiratory effort or danger signs",
     "reason": "Childhood respiratory assessment must consider work of breathing and general condition, not merely the presence of cough.",
-    "source": "https://www.who.int/publications/i/item/9789241506823"
+    "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
   },
   {
     "id": "SIT-NP1-integrated-management-of-childhood-illness-imci-04",
@@ -2156,7 +2157,7 @@
     "outcome": "The child receives timely assessment for an ear-infection complication",
     "unsafe": "Continue home treatment without assessing the new postauricular swelling",
     "reason": "Tender swelling behind the ear can indicate a serious complication and changes the urgency of assessment.",
-    "source": "https://www.who.int/publications/i/item/9789241506823"
+    "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
   },
   {
     "id": "SIT-NP1-health-education-research-utilization-in-chn-01",
@@ -2841,7 +2842,7 @@
     "outcome": "Blood pressure and neurological symptoms are assessed and managed urgently",
     "unsafe": "Assume delivery has eliminated every risk of preeclampsia",
     "reason": "Hypertensive complications can present after birth; delivery does not make severe new symptoms safe to ignore.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615365/"
+    "source": "https://www.nice.org.uk/guidance/ng133/chapter/Recommendations"
   },
   {
     "id": "SIT-NP2-family-planning-methods-01",
@@ -3180,7 +3181,8 @@
     "outcome": "The child's motor function is assessed and support is matched to the findings",
     "unsafe": "Tell the family that persistent weakness never needs professional review",
     "reason": "Motor concerns need evaluation of development and health rather than a blanket assurance based on expected variation alone.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615351/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615351/",
+    "retired": true
   },
   {
     "id": "SIT-NP2-health-promotion-disease-prevention-pedia-01",
@@ -3423,7 +3425,7 @@
     "outcome": "Fluid and electrolyte deficits are addressed before definitive treatment",
     "unsafe": "Keep giving larger feeds despite repeated forceful vomiting and dehydration",
     "reason": "Persistent obstructive vomiting can cause substantial fluid and electrolyte loss and needs assessment before continued feeding.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_Stenosis/"
   },
   {
     "id": "SIT-NP2-pediatric-gastrointestinal-disorders-02",
@@ -3467,7 +3469,7 @@
     "outcome": "Symptoms and growth are reassessed as the family follows the agreed diet",
     "unsafe": "Assume a small amount of wheat is always harmless in confirmed celiac disease",
     "reason": "Gluten exposure can sustain intestinal injury and malabsorption; practical dietary review supports effective treatment.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/eating-diet-nutrition"
   },
   {
     "id": "SIT-NP2-pediatric-hematologic-oncologic-disorders-01",
@@ -3481,7 +3483,7 @@
     "outcome": "Bleeding is addressed and joint pain and swelling improve safely",
     "unsafe": "Vigorously massage the swollen joint to disperse the blood",
     "reason": "Hemarthrosis can damage joints; prompt appropriate treatment and protection are preferable to traumatic manipulation.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/clinicalguide/guideline_index/haemophilia/"
   },
   {
     "id": "SIT-NP2-pediatric-hematologic-oncologic-disorders-02",
@@ -3495,7 +3497,7 @@
     "outcome": "Pain and hydration improve with complications appropriately assessed",
     "unsafe": "Withhold all pain relief until the child proves the pain is severe",
     "reason": "Sickle cell pain requires timely treatment and assessment; dismissing pain can delay care and miss serious complications.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/clinicalguide/guideline_index/sickle_cell_disease_guideline/"
   },
   {
     "id": "SIT-NP2-pediatric-hematologic-oncologic-disorders-03",
@@ -3524,7 +3526,7 @@
     "outcome": "The child is assessed without unnecessary tumor manipulation",
     "unsafe": "Allow repeated vigorous abdominal palpation for teaching practice",
     "reason": "A suspected Wilms tumor should not be repeatedly manipulated because rupture or disruption can complicate management.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.stjude.org/research/progress/2021/wilms-tumor-treatment-guidelines.html"
   },
   {
     "id": "SIT-NP2-pediatric-neurologic-disorders-01",
@@ -3553,7 +3555,7 @@
     "outcome": "The possible shunt complication is investigated without avoidable delay",
     "unsafe": "Dismiss the new drowsiness as ordinary tiredness without assessment",
     "reason": "A child with a shunt and new neurological or vomiting symptoms needs assessment for obstruction, infection, or increased pressure.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus"
   },
   {
     "id": "SIT-NP2-pediatric-neurologic-disorders-03",
@@ -3567,7 +3569,7 @@
     "outcome": "The tissue remains protected while definitive care is arranged",
     "unsafe": "Place pressure directly over the exposed sac",
     "reason": "Exposed neural tissue requires protection from trauma, drying, and contamination while specialist management is organized.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.health.qld.gov.au/__data/assets/pdf_file/0017/144026/g-stabil.pdf"
   },
   {
     "id": "SIT-NP2-pediatric-neurologic-disorders-04",
@@ -3596,7 +3598,7 @@
     "outcome": "Renal status, pressure, and fluid balance are assessed and managed",
     "unsafe": "Encourage unlimited salt and fluid intake without assessment",
     "reason": "Glomerular disease can reduce filtration and cause fluid retention and hypertension, requiring monitored individualized care.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/post-streptococcal-glomerulonephritis.html"
   },
   {
     "id": "SIT-NP2-pediatric-renal-disorders-02",
@@ -3610,7 +3612,7 @@
     "outcome": "Infection is evaluated promptly and fluid status remains monitored",
     "unsafe": "Treat the new fever as an unimportant expected feature of edema",
     "reason": "Nephrotic syndrome and its treatment can increase infection risk; a new fever warrants assessment rather than routine reassurance.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/clinicalguide/guideline_index/nephrotic_syndrome/"
   },
   {
     "id": "SIT-NP2-pediatric-renal-disorders-03",
@@ -3624,7 +3626,7 @@
     "outcome": "The renal and hematological changes receive timely supervised care",
     "unsafe": "Use an antidiarrheal as the only response to the new systemic findings",
     "reason": "The combination of reduced urine, pallor, and bruising after diarrhea raises concern for a serious systemic complication.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.cdc.gov/ecoli/signs-symptoms/hus.html"
   },
   {
     "id": "SIT-NP2-pediatric-renal-disorders-04",
@@ -3638,7 +3640,7 @@
     "outcome": "The investigation uses an appropriately collected interpretable specimen",
     "unsafe": "Use urine from a soiled diaper as the definitive culture sample",
     "reason": "Contamination can make a urine culture unreliable; the collection method matters when confirming infection.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/clinicalguide/guideline_index/Urinary_tract_infection/"
   },
   {
     "id": "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-01",
@@ -3666,7 +3668,7 @@
     "outcome": "Skin comfort and integrity improve without signs of infection",
     "unsafe": "Increase harsh scented washing each time the child scratches",
     "reason": "Gentle skin care and appropriate moisturization support barrier function; irritants can worsen inflammation and scratching.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/clinicalguide/guideline_index/Eczema/"
   },
   {
     "id": "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-03",
@@ -3695,7 +3697,7 @@
     "outcome": "Skin is protected while the prescribed orthopedic position is maintained",
     "unsafe": "Tighten or redesign the harness without professional guidance",
     "reason": "Orthopedic devices require correct fitting; unapproved adjustments can injure skin or compromise the intended correction.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/kidsinfo/fact_sheets/Pavlik_Harness_for_DDH/"
   },
   {
     "id": "SIT-NP2-legal-principles-collaboration-teamwork-in-pedia-01",
@@ -4034,7 +4036,7 @@
     "outcome": "The obstruction clears or deterioration triggers prompt appropriate emergency care",
     "unsafe": "Perform a blind finger sweep despite ongoing effective coughing",
     "reason": "An effective cough can help clear an obstruction; blind sweeps may push material deeper or injure the airway.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK610832/"
+    "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
   },
   {
     "id": "SIT-NP3-bronchial-asthma-01",
@@ -4090,7 +4092,7 @@
     "outcome": "Respiratory symptoms and the medication plan are reviewed safely",
     "unsafe": "Dismiss the timing because cardiovascular medicines cannot affect airways",
     "reason": "Nonselective beta blockade can worsen bronchoconstriction in susceptible people and requires review when compatible symptoms develop.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613070/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK594995/"
   },
   {
     "id": "SIT-NP3-copd-01",
@@ -4161,7 +4163,7 @@
     "outcome": "Oxygenation and work of breathing improve under closely monitored treatment",
     "unsafe": "Treat escalating hypoxemia as an expected harmless effect of fever",
     "reason": "Inflammatory lung injury can impair alveolar gas exchange and require advanced monitored respiratory support.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613070/"
+    "source": "https://www.nhlbi.nih.gov/health/ards/treatment"
   },
   {
     "id": "SIT-NP3-ards-02",
@@ -4175,7 +4177,7 @@
     "outcome": "The prescribed position is achieved with airway and devices secured",
     "unsafe": "Turn the client without assigning anyone to protect the airway",
     "reason": "Prone positioning in critical illness requires coordinated handling to prevent dislodgement and pressure or access injuries.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613070/"
+    "source": "https://ics.ac.uk/resource/prone-position-in-adult-critical-care.html"
   },
   {
     "id": "SIT-NP3-ards-03",
@@ -4203,7 +4205,7 @@
     "outcome": "Fluid management is reviewed with oxygenation and circulation assessed together",
     "unsafe": "Independently give large additional fluid volumes without reassessing the worsening respiratory status",
     "reason": "Fluid decisions in lung injury must balance organ perfusion with worsening edema and require coordinated monitored review.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613070/"
+    "source": "https://www.nhlbi.nih.gov/health/ards/treatment"
   },
   {
     "id": "SIT-NP3-pneumonia-cap-hap-vap-01",
@@ -4471,7 +4473,7 @@
     "outcome": "The chest-pain plan is reviewed without exposing the client to an unsafe combination",
     "unsafe": "Give the nitrate without checking the interacting medicine history",
     "reason": "Nitrates can cause dangerous hypotension with recent PDE5-inhibitor exposure such as sildenafil, and low blood pressure adds concern. Verify the specific drug, timing, and clinical status before administration; not every erectile-dysfunction treatment has identical precautions.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613064/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK594995/"
   },
   {
     "id": "SIT-NP3-acute-coronary-syndrome-acs-04",
@@ -4993,7 +4995,7 @@
     "outcome": "The severe infection is assessed and treated without avoidable delay",
     "unsafe": "Treat severe disproportionate pain as a minor cosmetic skin problem",
     "reason": "Rapid progression and systemic deterioration can indicate a serious deep infection requiring urgent escalation.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613063/"
+    "source": "https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/necrotizing-fasciitis.html"
   },
   {
     "id": "SIT-NP3-inflammatory-bowel-neuro-inflammatory-disorders-01",
@@ -5150,7 +5152,8 @@
     "outcome": "The client can explain why the biopsy is planned without assuming an unconfirmed diagnosis",
     "unsafe": "Tell the client that every lesion referred for biopsy is definitely malignant",
     "reason": "Clinical suspicion and a confirmed tissue diagnosis are different; accurate explanation supports informed participation without false certainty.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613063/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613063/",
+    "retired": true
   },
   {
     "id": "SIT-NP3-basic-concepts-in-cancer-04",
@@ -5648,7 +5651,7 @@
     "outcome": "Ostomy losses and hydration are managed through a monitored plan",
     "unsafe": "Assume a functioning stoma excludes dehydration",
     "reason": "High intestinal output can cause substantial fluid and electrolyte losses even when the stoma itself appears healthy.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK610825/"
+    "source": "https://medlineplus.gov/ency/patientinstructions/000071.htm"
   },
   {
     "id": "SIT-NP4-ostomies-03",
@@ -5662,7 +5665,7 @@
     "outcome": "Effluent is contained and the surrounding skin begins to recover",
     "unsafe": "Leave the leaking appliance unchanged to avoid touching the skin",
     "reason": "Exposure to effluent can injure peristomal skin; a suitable seal protects the skin and supports wear time.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK610825/"
+    "source": "https://medlineplus.gov/ency/patientinstructions/000071.htm"
   },
   {
     "id": "SIT-NP4-ostomies-04",
@@ -5720,7 +5723,7 @@
     "outcome": "The medication and water-balance problem is assessed before further deterioration",
     "unsafe": "Continue escalating doses whenever thirst occurs",
     "reason": "Excess antidiuretic effect can retain water and lower sodium; unsupervised dose changes can be dangerous.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://www.endocrine.org/patient-engagement/endocrine-library/diabetes-insipidus"
   },
   {
     "id": "SIT-NP4-adh-disorders-04",
@@ -5734,7 +5737,7 @@
     "outcome": "Trends in water balance are available for timely treatment decisions",
     "unsafe": "Estimate urine volume from memory at the end of several days",
     "reason": "ADH disorders can alter water balance quickly; reliable trends help clinicians adjust treatment safely.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://www.niddk.nih.gov/health-information/kidney-disease/diabetes-insipidus"
   },
   {
     "id": "SIT-NP4-adrenal-gland-disorders-01",
@@ -5805,7 +5808,7 @@
     "outcome": "The possible leak is evaluated and protective measures are followed",
     "unsafe": "Encourage forceful nose blowing to clear the drainage",
     "reason": "New clear persistent drainage after transsphenoidal surgery can signal a leak and needs surgical evaluation.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://www.uclh.nhs.uk/patients-and-visitors/patient-information-pages/endoscopic-transsphenoidal-pituitary-surgery"
   },
   {
     "id": "SIT-NP4-pituitary-gland-disorders-02",
@@ -5819,7 +5822,7 @@
     "outcome": "Vision changes are assessed and avoidable collision injuries are reduced",
     "unsafe": "Dismiss the visual complaint because central reading vision remains intact",
     "reason": "Pituitary-region masses can affect the optic pathways, including peripheral fields, despite retained central vision.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://www.cancer.gov/types/pituitary/symptoms"
   },
   {
     "id": "SIT-NP4-pituitary-gland-disorders-03",
@@ -5833,7 +5836,7 @@
     "outcome": "The breathing problem is assessed and treatment needs are identified",
     "unsafe": "Assume severe snoring is harmless when daytime fatigue is present",
     "reason": "Upper airway tissue changes can contribute to obstructive sleep problems and impaired daytime alertness.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/acromegaly"
   },
   {
     "id": "SIT-NP4-pituitary-gland-disorders-04",
@@ -5847,7 +5850,7 @@
     "outcome": "The client identifies essential medicines and when to seek urgent advice",
     "unsafe": "Stop every replacement medication whenever appetite is poor",
     "reason": "Pituitary hormone deficits may require multiple replacements; illness plans prevent unsafe interruption of essential therapy.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://www.endocrine.org/clinical-practice-guidelines/hormone-replacement-in-hypopituitarism"
   },
   {
     "id": "SIT-NP4-thyroid-disorders-01",
@@ -6049,7 +6052,7 @@
     "outcome": "Osmotic and circulatory abnormalities are corrected under monitoring",
     "unsafe": "Dismiss the emergency because significant ketones are absent",
     "reason": "Severe hyperglycemia can cause dangerous hyperosmolar dehydration and neurological changes without marked ketosis.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/"
   },
   {
     "id": "SIT-NP4-endocrine-emergencies-summary-03",
@@ -6077,7 +6080,7 @@
     "outcome": "Potassium and cardiac risks are managed while the metabolic problem is treated",
     "unsafe": "Ignore falling potassium because only glucose matters during treatment",
     "reason": "Insulin and correction of metabolic disturbances can shift potassium into cells, creating dangerous depletion that requires monitoring.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/"
   },
   {
     "id": "SIT-NP4-neuroanatomy-assessment-basics-01",
@@ -6432,7 +6435,7 @@
     "outcome": "Ventilatory support needs are identified before exhaustion",
     "unsafe": "Wait for a very low oxygen saturation before assessing respiratory muscle failure",
     "reason": "Respiratory muscle weakness can progress before obvious oxygen desaturation, so mechanics and clinical assessment are important.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613069/"
+    "source": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome"
   },
   {
     "id": "SIT-NP4-guillain-barr-syndrome-gbs-02",
@@ -6446,7 +6449,7 @@
     "outcome": "Hemodynamic instability is recognized and managed promptly",
     "unsafe": "Assume all pressure fluctuations are harmless anxiety",
     "reason": "Guillain-Barre syndrome can affect autonomic function and produce clinically important cardiovascular instability.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613069/"
+    "source": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome"
   },
   {
     "id": "SIT-NP4-guillain-barr-syndrome-gbs-03",
@@ -6460,7 +6463,7 @@
     "outcome": "Skin remains protected and immobility complications are monitored",
     "unsafe": "Leave the client in one position because sensation may be altered",
     "reason": "Severe weakness increases complications of immobility; prevention should continue while neurological treatment proceeds.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613069/"
+    "source": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome"
   },
   {
     "id": "SIT-NP4-guillain-barr-syndrome-gbs-04",
@@ -7084,7 +7087,8 @@
     "outcome": "The client transfers within the actual prescribed precautions",
     "unsafe": "Apply the same assumed restrictions to every surgical approach without checking",
     "reason": "Hip precautions depend on the procedure and care plan; verification avoids both unsafe movement and unnecessary restrictions.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613072/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613072/",
+    "retired": true
   },
   {
     "id": "SIT-NP4-spinal-other-msk-conditions-04",
@@ -8513,7 +8517,7 @@
     "outcome": "Potassium and fluid losses are replaced and reassessed safely",
     "unsafe": "Ignore potassium because the elimination problem is intestinal rather than renal",
     "reason": "Intestinal losses can significantly deplete electrolytes and affect neuromuscular and cardiac function.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613065/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK610839/"
   },
   {
     "id": "SIT-NP5-altered-elimination-04",
@@ -8527,7 +8531,7 @@
     "outcome": "The cause of intolerance is assessed and feeding resumes through a safe plan",
     "unsafe": "Continue the same feeding rate despite persistent vomiting and distention",
     "reason": "Persistent vomiting and distention may indicate impaired gastrointestinal transit or another complication and require review.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613065/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK610830/"
   },
   {
     "id": "SIT-NP5-altered-perception-01",
@@ -8698,7 +8702,8 @@
     "outcome": "Rescue proceeds without creating an additional electrical casualty",
     "unsafe": "Touch the person directly while the live current remains connected",
     "reason": "Scene safety is essential because ongoing electrical contact can injure the rescuer as well as the affected person.",
-    "source": "https://www.nhs.uk/conditions/burns-and-scalds/"
+    "source": "https://www.nhs.uk/conditions/burns-and-scalds/",
+    "retired": true
   },
   {
     "id": "SIT-NP5-critical-care-equipment-01",
@@ -8821,12 +8826,12 @@
     "topicSlug": "laboratory-values",
     "scenario": "A laboratory phones a potassium of 6.5 mmol/L from a markedly hemolyzed specimen. The client is comfortable, and an initial ECG shows no obvious change.",
     "problem": "Possible spurious hyperkalemia that still requires urgent verification",
-    "action": "Assess the client, notify the responsible clinician, and obtain a promptly collected repeat specimen under the critical-result protocol",
+    "action": "Arrange urgent cardiac monitoring, assess the client, notify the responsible clinician, and promptly repeat the specimen under the critical-result protocol",
     "teaching": "Explain why a critical result needs confirmation and report weakness or palpitations",
     "outcome": "A reliable potassium result and current assessment guide timely treatment",
     "unsafe": "Discard the critical result solely because the ECG appears normal",
-    "reason": "Hemolysis can falsely elevate potassium, but a normal ECG cannot exclude dangerous true hyperkalemia. Prompt reassessment and careful repeat collection distinguish artifact without ignoring risk.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK594493/"
+    "reason": "Hemolysis can falsely elevate potassium, but a normal ECG cannot exclude dangerous true hyperkalemia. A result of 6.5 mmol/L needs urgent monitoring and clinical review while a carefully collected repeat specimen verifies possible artifact; confirmation must not become a reason to ignore deterioration.",
+    "source": "https://www.ukkidney.org/health-professionals/guidelines/treatment-acute-hyperkalaemia-adults-0"
   },
   {
     "id": "SIT-CROSS-pharmacology-core-principles-04-R2",
@@ -9050,7 +9055,7 @@
     "outcome": "The prescribed treatment starts only after its specific safety requirements are confirmed",
     "unsafe": "Start the medicine without checking G6PD status because all antimalarials are interchangeable",
     "reason": "Primaquine can cause hemolysis in G6PD deficiency. The indicated assessment and individual eligibility must be confirmed; this does not replace urgent treatment of acute malaria with the appropriate regimen.",
-    "source": "https://www.cdc.gov/malaria/hcp/clinical-guidance/treatment-uncomplicated.html"
+    "source": "https://www.cdc.gov/malaria/hcp/clinical-guidance/treatment-of-uncomplicated-malaria.html"
   },
   {
     "id": "SIT-NP1-integumentary-related-cds-01-R2",
@@ -9204,7 +9209,7 @@
     "outcome": "The classification and plan use the correct age threshold",
     "unsafe": "Use the younger infant threshold and dismiss 44/min as normal for this age",
     "reason": "For children 12 months to under 5 years, IMCI fast breathing is at least 40 breaths/min when assessed appropriately. Age, danger signs, and other findings must all inform classification.",
-    "source": "https://www.who.int/publications/i/item/9789241506823"
+    "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
   },
   {
     "id": "SIT-NP1-integrated-management-of-childhood-illness-imci-02-R2",
@@ -9218,7 +9223,7 @@
     "outcome": "The prolonged illness receives the correct age-appropriate assessment and follow-up",
     "unsafe": "Ignore the duration because only today's stool count matters",
     "reason": "Diarrhea lasting at least 14 days meets the persistent-diarrhea definition. Hydration, nutritional status, and associated findings determine the appropriate management pathway.",
-    "source": "https://www.who.int/publications/i/item/9789241506823"
+    "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
   },
   {
     "id": "SIT-NP1-ph-health-care-delivery-system-doh-03-R2",
@@ -9232,7 +9237,7 @@
     "outcome": "The local unit implements the program with relevant technical guidance",
     "unsafe": "Replace national standards with an unsupported local rule simply because services are locally delivered",
     "reason": "Decentralized implementation still operates within national health standards and technical support arrangements. Clarifying responsibilities promotes coordinated service quality.",
-    "source": "https://issuances-library.senate.gov.ph/executive-issuance/executive-order-no-119-s-1987"
+    "source": "https://ro9.doh.gov.ph/agency-mandate-and-functions/"
   },
   {
     "id": "SIT-NP1-laws-health-financing-insurance-02-R2",
@@ -9497,8 +9502,8 @@
     "teaching": "Keep choking hazards out of reach and obtain child first-aid training",
     "outcome": "Effective airway management begins without avoidable delay",
     "unsafe": "Perform a blind finger sweep without seeing a removable object",
-    "reason": "A sudden event during eating with ineffective cough and absent voice indicates severe obstruction. Age-appropriate trained action is urgent; blind sweeps can push material deeper or cause injury.",
-    "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines"
+    "reason": "For a responsive child with severe obstruction, the 2025 AHA/AAP guidance recommends repeated cycles of five back blows followed by five abdominal thrusts, continuing until relief or unresponsiveness. If the child becomes unresponsive, start the trained pediatric CPR pathway. A blind sweep can push material deeper; remove only a visible object when appropriate. Infant techniques differ.",
+    "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support"
   },
   {
     "id": "SIT-NP2-pediatric-respiratory-disorders-02-R2",
@@ -9554,7 +9559,7 @@
     "outcome": "The potentially serious bowel complication is assessed and treated promptly",
     "unsafe": "Assume diarrhea proves the obstruction-related condition is harmless",
     "reason": "Enterocolitis can occur in Hirschsprung disease and can be life-threatening. Diarrhea does not exclude a serious bowel complication when systemic illness and distention develop.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.niddk.nih.gov/health-information/digestive-diseases/hirschsprung-disease/definition-facts"
   },
   {
     "id": "SIT-NP2-pediatric-hematologic-oncologic-disorders-03-R2",
@@ -9610,7 +9615,7 @@
     "outcome": "Itching is addressed without damaging the covered skin",
     "unsafe": "Scratch beneath the cast with a sharp or rigid household object",
     "reason": "Objects beneath a cast can abrade skin that cannot be inspected easily. New focal pain or other warning signs require assessment rather than repeated scratching.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615329/"
+    "source": "https://www.rch.org.au/rchcpg/hospital_clinical_guideline_index/Cast_Care/"
   },
   {
     "id": "SIT-NP2-family-planning-methods-04-R2",
@@ -9862,7 +9867,7 @@
     "outcome": "Stool frequency, hydration, and cognition are brought toward the individualized treatment goals",
     "unsafe": "Assume that more watery diarrhea always means better encephalopathy control",
     "reason": "Lactulose is titrated to the prescribed clinical and stool goals. Excessive diarrhea can cause volume and electrolyte problems and needs review while preserving appropriate encephalopathy treatment.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613074/"
+    "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ff6b4568-1383-46b6-a1c6-385fc31fb210"
   },
   {
     "id": "SIT-NP4-hepatobiliary-disorders-04-R2",
@@ -10002,7 +10007,7 @@
     "outcome": "The abnormal paired results are assessed in their clinical context",
     "unsafe": "Declare parathyroid disease impossible because calcium and PTH rise together",
     "reason": "PTH normally falls in response to high calcium. An inappropriately high result can support a parathyroid-driven process, but diagnosis requires the full clinical and laboratory assessment.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613062/"
+    "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/primary-hyperparathyroidism"
   },
   {
     "id": "SIT-NP4-parathyroid-disorders-03-R2",
@@ -10016,7 +10021,7 @@
     "outcome": "The mineral-bone disorder is assessed and treated within the renal plan",
     "unsafe": "Assume elevated PTH always means the same primary parathyroid disorder",
     "reason": "Kidney disease can disrupt phosphate handling and vitamin D activity, stimulating secondary PTH elevation. Treatment depends on the entire renal mineral pattern rather than PTH alone.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613065/"
+    "source": "https://www.niddk.nih.gov/health-information/kidney-disease/mineral-bone-disorder"
   },
   {
     "id": "SIT-NP4-diabetes-mellitus-01-R2",
@@ -10030,7 +10035,7 @@
     "outcome": "The diabetes regimen is reviewed against the acute renal status",
     "unsafe": "Give extra metformin because reduced kidney clearance makes it less effective",
     "reason": "Renal impairment can increase metformin-related safety risk. Acute withholding and restart decisions require the specific renal function and clinical plan, rather than automatic continuation or a guessed dose change.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK595005/"
+    "source": "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=54bb8030-8e80-4b38-8deb-89c99d73bf09"
   },
   {
     "id": "SIT-NP4-endocrine-emergencies-summary-01-R2",
@@ -10583,14 +10588,14 @@
     "subject": "NP5",
     "topic": "Altered Tissue Perfusion",
     "topicSlug": "altered-tissue-perfusion",
-    "scenario": "A trained team prepares synchronized cardioversion for a client with an unstable organized tachyarrhythmia and a pulse. The device is not showing synchronization markers on the R waves.",
+    "scenario": "A trained team prepares synchronized cardioversion for a client with an unstable regular narrow-complex tachycardia and a pulse. The device is not showing synchronization markers on the R waves.",
     "problem": "An unverified synchronization setting before cardioversion",
     "action": "Confirm the correct synchronization and markers with the trained team and follow the emergency rhythm protocol",
     "teaching": "Explain the procedure and sedation plan when feasible without delaying urgent treatment",
     "outcome": "The indicated synchronized treatment is delivered using verified device settings",
     "unsafe": "Assume unsynchronized discharge is equivalent for every organized rhythm with a pulse",
-    "reason": "Synchronization times discharge to the appropriate part of the cardiac cycle. The rhythm, pulse, device, and protocol determine the correct mode; this differs from defibrillation for a shockable pulseless arrest.",
-    "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines"
+    "reason": "For this unstable regular narrow-complex tachycardia with a pulse, synchronized cardioversion is the indicated trained pathway. Synchronization avoids discharge during the vulnerable portion of repolarization. Verify the markers and device settings; polymorphic ventricular tachycardia and shockable pulseless arrest require different defibrillation pathways.",
+    "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support"
   },
   {
     "id": "SIT-NP5-altered-tissue-perfusion-03-R2",
@@ -10674,7 +10679,7 @@
     "outcome": "CPR and appropriate nonshockable-rhythm treatment proceed with minimal interruption",
     "unsafe": "Deliver repeated defibrillation shocks for confirmed asystole",
     "reason": "Confirmed asystole is not a shockable rhythm. High-quality CPR, the indicated algorithm, and treatment of reversible causes are priorities; uncertainty about equipment should be checked without unnecessary interruption.",
-    "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines"
+    "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support"
   },
   {
     "id": "SIT-NP5-critical-care-equipment-01-R2",
@@ -10688,7 +10693,7 @@
     "outcome": "A correctly leveled measurement and clinical findings guide care",
     "unsafe": "Titrate a vasoactive infusion from the abrupt number without checking client or transducer position",
     "reason": "An incorrectly leveled transducer introduces hydrostatic error. The reference level depends on the monitoring purpose, so the ordered setup and clinical state must be verified before titration.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK613064/"
+    "source": "https://www.lhsc.on.ca/critical-care-trauma-centre/standard-of-care-arterial-line-monitoring"
   },
   {
     "id": "SIT-NP5-critical-care-equipment-02-R2",
@@ -10703,5 +10708,75 @@
     "unsafe": "Release a pressurized occluded line blindly toward the client",
     "reason": "Pressure can accumulate during an occlusion and release an unintended bolus when flow resumes. Device-specific troubleshooting and assessment of interrupted delivery reduce both overdose and underdelivery risk.",
     "source": "https://www.fda.gov/medical-devices/infusion-pumps/infusion-pump-risk-reduction-strategies-clinicians"
+  },
+  {
+    "id": "SIT-NP1-leprosy-04-R3",
+    "subject": "NP1",
+    "topic": "Leprosy",
+    "topicSlug": "leprosy",
+    "scenario": "An adult household contact of a person newly diagnosed with leprosy feels well and believes contact assessment is unnecessary until a skin patch appears.",
+    "problem": "A leprosy contact needing program-based screening and prevention assessment",
+    "action": "Arrange confidential contact screening and assessment for eligible post-exposure prophylaxis through the leprosy program",
+    "teaching": "Attend contact assessment even without symptoms and do not share the index patient's multidrug medicines",
+    "outcome": "The contact receives an assessed screening and prevention plan with appropriate follow-up",
+    "unsafe": "Borrow the index patient's medicines without examination or eligibility review",
+    "reason": "WHO recommends screening relevant contacts and considering single-dose rifampicin prophylaxis for eligible contacts after the required assessment. Feeling well does not remove the need for screening; eligibility, contraindications, and exclusion of active disease must be checked by the program.",
+    "source": "https://www.who.int/news-room/fact-sheets/detail/leprosy"
+  },
+  {
+    "id": "SIT-NP2-developmental-milestones-04-R3",
+    "subject": "NP2",
+    "topic": "Developmental Milestones",
+    "topicSlug": "developmental-milestones",
+    "scenario": "An infant born at 32 weeks of gestation is now 16 weeks old by the calendar. The caregiver compares the baby's skills only with those of a term-born 16-week-old and has not discussed corrected age.",
+    "problem": "A need to interpret early development using corrected age and the infant's actual progress",
+    "action": "Explain the 8-week prematurity correction, use an approximately 8-week corrected developmental age, and continue individualized developmental surveillance",
+    "teaching": "Use corrected age for early milestone comparisons while still reporting lost skills or other developmental concerns",
+    "outcome": "The caregiver distinguishes calendar age from corrected age and attends appropriate follow-up",
+    "unsafe": "Dismiss every developmental concern simply because the infant was premature",
+    "reason": "Corrected age subtracts the weeks born before 40 weeks from chronological age: 16 minus (40 minus 32) equals 8 weeks. It supports early developmental interpretation, commonly during the first two years; it does not rule out genuine delay or regression and is not a reason to postpone every routine health service.",
+    "source": "https://www.healthychildren.org/English/ages-stages/baby/preemie/Pages/Corrected-Age-For-Preemies.aspx"
+  },
+  {
+    "id": "SIT-NP3-basic-concepts-in-cancer-03-R3",
+    "subject": "NP3",
+    "topic": "Basic Concepts in Cancer",
+    "topicSlug": "basic-concepts-in-cancer",
+    "scenario": "A client previously treated for breast cancer receives a pathology report describing a lung deposit as metastatic breast carcinoma. The client assumes that its location alone makes it a new primary lung cancer.",
+    "problem": "Confusion between a metastatic deposit and a new primary cancer",
+    "action": "Explain the documented tissue origin and help the client discuss its treatment implications with the oncology team",
+    "teaching": "A metastatic tumor retains the identity of its original cancer; ask the team to explain the actual pathology",
+    "outcome": "The client understands the documented origin without assuming that location alone determines cancer type",
+    "unsafe": "Relabel a documented breast-cancer metastasis as primary lung cancer solely because it is in the lung",
+    "reason": "Metastatic cancer consists of cells that spread from the original primary site. A confirmed breast-cancer deposit in the lung is metastatic breast cancer, while a separate primary lung cancer would require its own diagnostic evidence. Nursing explanation should follow the actual pathology rather than infer identity from location.",
+    "source": "https://www.cancer.gov/types/breast/stages/metastatic-breast-cancer"
+  },
+  {
+    "id": "SIT-NP4-spinal-other-msk-conditions-03-R3",
+    "subject": "NP4",
+    "topic": "Spinal & Other MSK Conditions",
+    "topicSlug": "spinal-other-msk-conditions",
+    "scenario": "A client with confirmed ankylosing spondylitis has an individualized physiotherapy program but plans to stop all exercises indefinitely because stiffness is expected to be permanent.",
+    "problem": "A self-management gap affecting spinal mobility in inflammatory axial disease",
+    "action": "Review symptoms and the prescribed physiotherapy plan and support appropriate regular movement with the rehabilitation team",
+    "teaching": "Follow the individualized exercise and posture plan and seek review for new severe pain or neurological changes",
+    "outcome": "The client participates in a suitable program with mobility and symptoms reassessed",
+    "unsafe": "Use forceful unassessed spinal manipulation to break through stiffness",
+    "reason": "Appropriate exercise and physiotherapy can support posture, movement, and symptom control in ankylosing spondylitis. They should be tailored to current disease and safety needs; indefinite inactivity and forceful unassessed manipulation are not substitutes for the prescribed plan.",
+    "source": "https://www.nhs.uk/conditions/ankylosing-spondylitis/treatment/"
+  },
+  {
+    "id": "SIT-NP5-high-acuity-emergency-situations-04-R3",
+    "subject": "NP5",
+    "topic": "High Acuity & Emergency Situations",
+    "topicSlug": "high-acuity-emergency-situations",
+    "scenario": "After power is safely isolated, a 16-year-old who received an electrical shock is alert but reports palpitations and chest discomfort. Only a small skin burn is visible.",
+    "problem": "Possible cardiac or deeper tissue injury after electrical exposure",
+    "action": "Arrange urgent emergency assessment with ECG and indicated monitoring while assessing for associated injuries",
+    "teaching": "Seek prompt assessment after electrical injury with chest symptoms even when the skin mark is small",
+    "outcome": "Cardiac rhythm and associated injury risks are evaluated rather than judged from skin size alone",
+    "unsafe": "Send the adolescent home solely because the external burn is tiny",
+    "reason": "Electrical current can affect the heart and deeper tissues without a large surface burn. Palpitations and chest discomfort require assessment and indicated monitoring after the scene is safe; the exposure history, symptoms, ECG, and clinical findings guide further care.",
+    "source": "https://www.rch.org.au/trauma-service/manual/Burns/"
   }
 ]

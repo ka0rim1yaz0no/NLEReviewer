@@ -8,5 +8,10 @@
     "caseId": "NP4-100",
     "previous": "A patient recovers from posterior-approach hip replacement.",
     "current": "A patient recovers from posterior-approach hip replacement with individually prescribed posterior hip precautions."
+  },
+  {
+    "caseId": "NP1-037",
+    "previous": "A community patient has repeatedly elevated blood-pressure readings.",
+    "current": "A community patient with confirmed hypertension has repeatedly above-target blood-pressure readings but feels well."
   }
 ]

@@ -1,5 +1,5 @@
 """Editorial candidate screening only; similarity is not a duplicate verdict."""
-import json, math, re
+import json, math, re, sys
 from collections import Counter
 from pathlib import Path
 directory = Path(__file__).parent / "outputs" / "situational-audit"
@@ -17,11 +17,11 @@ pairs = []
 for i, left in enumerate(cases):
     for j in range(i + 1, len(cases)):
         right = cases[j]
-        if not (left["id"].endswith("-R2") or right["id"].endswith("-R2")):
+        if '--all' not in sys.argv and not (left["id"].endswith("-R2") or right["id"].endswith("-R2")):
             continue
         score = sum(weight * vectors[j].get(word, 0) for word, weight in vectors[i].items()) / (lengths[i] * lengths[j])
         if score >= 0.35:
             pairs.append({"similarity": round(score, 3), "a": left["id"], "b": right["id"], "aScenario": left["scenario"], "bScenario": right["scenario"]})
 pairs.sort(key=lambda pair: -pair["similarity"])
-(directory / "replacement-similarity-candidates.json").write_text(json.dumps(pairs, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+(directory / ("all-similarity-candidates.json" if '--all' in sys.argv else "replacement-similarity-candidates.json")).write_text(json.dumps(pairs, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 print(json.dumps(pairs, indent=2, ensure_ascii=False))

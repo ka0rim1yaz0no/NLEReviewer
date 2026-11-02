@@ -1,0 +1,269 @@
+{
+  "reviewDate": "2026-11-03",
+  "reviewType": "Assistant editorial reference review; independent clinician approval is pending",
+  "legacy": {
+    "CROSS-011": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610819/"
+    },
+    "CROSS-018": {
+      "source": "https://medlineplus.gov/ency/patientinstructions/000344.htm"
+    },
+    "NP1-026": {
+      "source": "https://www.cdc.gov/field-epi-manual/php/chapters/acute-enteric-disease.html"
+    },
+    "NP1-031": {
+      "source": "https://www.cdc.gov/malaria/hcp/clinical-guidance/evaluation-and-diagnosis.html"
+    },
+    "NP1-035": {
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
+    },
+    "NP1-037": {
+      "scenario": "A community patient with confirmed hypertension has repeatedly above-target blood-pressure readings but feels well."
+    },
+    "NP1-039": {
+      "source": "https://www.who.int/tools/triage"
+    },
+    "NP2-042": {
+      "source": "https://www.nice.org.uk/guidance/ng133/chapter/Recommendations"
+    },
+    "NP2-043": {
+      "source": "https://www.ahrq.gov/patient-safety/settings/labor-delivery/perinatal-care/modules/strategies/medication/tool-safe-mgso4.html",
+      "reasons": {
+        "0": "Loss of deep-tendon reflexes and respiratory depression during magnesium therapy can indicate toxicity. Assess respiration, reflexes, urine output, and the current infusion rather than treating these changes as expected sedation.",
+        "1": "Stop the magnesium infusion and obtain urgent help while supporting airway and breathing. Follow the toxicity protocol, including prescribed calcium gluconate when indicated; renal function and magnesium exposure also need review.",
+        "2": "New weakness, excessive drowsiness, or breathing difficulty may be early signs of clinically important magnesium effects and must be reported promptly. Continued monitoring includes respiratory status, reflexes, and renal clearance.",
+        "3": "Recovery of adequate breathing and reflexes with stable clinical observations supports improvement after treatment. Ongoing monitoring is necessary because accumulated magnesium may persist, particularly with reduced renal clearance.",
+        "4": "Additional magnesium can worsen neuromuscular blockade and respiratory depression when toxicity is suspected. The infusion should be stopped and the emergency toxicity pathway followed rather than giving more of the suspected cause."
+      }
+    },
+    "NP2-052": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615345/"
+    },
+    "NP2-053": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK615345/"
+    },
+    "NP2-058": {
+      "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/index.html"
+    },
+    "NP2-059": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Intussusception/"
+    },
+    "NP2-060": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/nephrotic_syndrome/"
+    },
+    "NP4-087": {
+      "source": "https://academic.oup.com/ejendo/article/170/3/G1/6668028"
+    },
+    "NP4-088": {
+      "source": "https://www.niddk.nih.gov/health-information/kidney-disease/diabetes-insipidus"
+    },
+    "NP4-091": {
+      "source": "https://www.aasld.org/liver-fellow-network/core-series/back-basics/back-basics-decoding-hepatic-encephalopathy"
+    },
+    "NP4-092": {
+      "source": "https://medlineplus.gov/ency/patientinstructions/000071.htm"
+    },
+    "NP4-099": {
+      "source": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/glaucoma"
+    },
+    "NP5-114": {
+      "source": "https://www.nice.org.uk/guidance/cg32/chapter/Recommendations"
+    },
+    "NP1-036": {
+      "source": "https://www.cdc.gov/tb/hcp/treatment/tuberculosis-disease.html"
+    },
+    "NP3-062": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK551644/"
+    },
+    "NP4-082": {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/"
+    }
+  },
+  "situations": {
+    "SIT-NP1-tuberculosis-03": {
+      "source": "https://www.cdc.gov/tb/hcp/treatment/adverse-events.html"
+    },
+    "SIT-NP1-epidemiology-vital-statistics-demography-03": {
+      "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html"
+    },
+    "SIT-NP1-epidemiology-vital-statistics-demography-04": {
+      "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section3.html"
+    },
+    "SIT-NP1-ph-health-care-delivery-system-doh-01": {
+      "source": "https://ro9.doh.gov.ph/agency-mandate-and-functions/"
+    },
+    "SIT-NP1-ph-health-care-delivery-system-doh-02": {
+      "source": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html"
+    },
+    "SIT-NP1-ph-health-care-delivery-system-doh-04": {
+      "source": "https://www.who.int/health-topics/primary-health-care"
+    },
+    "SIT-NP1-ph-health-care-delivery-system-doh-03-R2": {
+      "source": "https://ro9.doh.gov.ph/agency-mandate-and-functions/"
+    },
+    "SIT-NP1-mosquito-borne-diseases-02-R2": {
+      "source": "https://www.cdc.gov/malaria/hcp/clinical-guidance/treatment-of-uncomplicated-malaria.html"
+    },
+    "SIT-NP1-integrated-management-of-childhood-illness-imci-03": {
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
+    },
+    "SIT-NP1-integrated-management-of-childhood-illness-imci-04": {
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
+    },
+    "SIT-NP1-integrated-management-of-childhood-illness-imci-01-R2": {
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
+    },
+    "SIT-NP1-integrated-management-of-childhood-illness-imci-02-R2": {
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
+    },
+    "SIT-NP2-postpartum-complications-04": {
+      "source": "https://www.nice.org.uk/guidance/ng133/chapter/Recommendations"
+    },
+    "SIT-NP2-pediatric-gastrointestinal-disorders-01": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_Stenosis/"
+    },
+    "SIT-NP2-pediatric-gastrointestinal-disorders-04": {
+      "source": "https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/eating-diet-nutrition"
+    },
+    "SIT-NP2-pediatric-gastrointestinal-disorders-03-R2": {
+      "source": "https://www.niddk.nih.gov/health-information/digestive-diseases/hirschsprung-disease/definition-facts"
+    },
+    "SIT-NP2-pediatric-hematologic-oncologic-disorders-01": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/haemophilia/"
+    },
+    "SIT-NP2-pediatric-hematologic-oncologic-disorders-02": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/sickle_cell_disease_guideline/"
+    },
+    "SIT-NP2-pediatric-hematologic-oncologic-disorders-04": {
+      "source": "https://www.stjude.org/research/progress/2021/wilms-tumor-treatment-guidelines.html"
+    },
+    "SIT-NP2-pediatric-neurologic-disorders-02": {
+      "source": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus"
+    },
+    "SIT-NP2-pediatric-neurologic-disorders-03": {
+      "source": "https://www.health.qld.gov.au/__data/assets/pdf_file/0017/144026/g-stabil.pdf"
+    },
+    "SIT-NP2-pediatric-renal-disorders-01": {
+      "source": "https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/post-streptococcal-glomerulonephritis.html"
+    },
+    "SIT-NP2-pediatric-renal-disorders-02": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/nephrotic_syndrome/"
+    },
+    "SIT-NP2-pediatric-renal-disorders-03": {
+      "source": "https://www.cdc.gov/ecoli/signs-symptoms/hus.html"
+    },
+    "SIT-NP2-pediatric-renal-disorders-04": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Urinary_tract_infection/"
+    },
+    "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-02": {
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Eczema/"
+    },
+    "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-04": {
+      "source": "https://www.rch.org.au/kidsinfo/fact_sheets/Pavlik_Harness_for_DDH/"
+    },
+    "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-03-R2": {
+      "source": "https://www.rch.org.au/rchcpg/hospital_clinical_guideline_index/Cast_Care/"
+    },
+    "SIT-NP2-pediatric-respiratory-disorders-01-R2": {
+      "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support",
+      "reason": "For a responsive child with severe obstruction, the 2025 AHA/AAP guidance recommends repeated cycles of five back blows followed by five abdominal thrusts, continuing until relief or unresponsiveness. If the child becomes unresponsive, start the trained pediatric CPR pathway. A blind sweep can push material deeper; remove only a visible object when appropriate. Infant techniques differ."
+    },
+    "SIT-NP3-upper-airway-disorders-04": {
+      "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
+    },
+    "SIT-NP3-infectious-disorders-04": {
+      "source": "https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/necrotizing-fasciitis.html"
+    },
+    "SIT-NP4-ostomies-02": {
+      "source": "https://medlineplus.gov/ency/patientinstructions/000071.htm"
+    },
+    "SIT-NP4-ostomies-03": {
+      "source": "https://medlineplus.gov/ency/patientinstructions/000071.htm"
+    },
+    "SIT-NP4-adh-disorders-03": {
+      "source": "https://www.endocrine.org/patient-engagement/endocrine-library/diabetes-insipidus"
+    },
+    "SIT-NP4-adh-disorders-04": {
+      "source": "https://www.niddk.nih.gov/health-information/kidney-disease/diabetes-insipidus"
+    },
+    "SIT-NP4-pituitary-gland-disorders-01": {
+      "source": "https://www.uclh.nhs.uk/patients-and-visitors/patient-information-pages/endoscopic-transsphenoidal-pituitary-surgery"
+    },
+    "SIT-NP4-pituitary-gland-disorders-02": {
+      "source": "https://www.cancer.gov/types/pituitary/symptoms"
+    },
+    "SIT-NP4-pituitary-gland-disorders-03": {
+      "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/acromegaly"
+    },
+    "SIT-NP4-pituitary-gland-disorders-04": {
+      "source": "https://www.endocrine.org/clinical-practice-guidelines/hormone-replacement-in-hypopituitarism"
+    },
+    "SIT-NP4-hepatobiliary-disorders-01-R2": {
+      "source": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ff6b4568-1383-46b6-a1c6-385fc31fb210"
+    },
+    "SIT-NP4-diabetes-mellitus-01-R2": {
+      "source": "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=54bb8030-8e80-4b38-8deb-89c99d73bf09"
+    },
+    "SIT-NP4-endocrine-emergencies-summary-02": {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/"
+    },
+    "SIT-NP4-endocrine-emergencies-summary-04": {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/"
+    },
+    "SIT-NP4-guillain-barr-syndrome-gbs-01": {
+      "source": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome"
+    },
+    "SIT-NP4-guillain-barr-syndrome-gbs-02": {
+      "source": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome"
+    },
+    "SIT-NP4-guillain-barr-syndrome-gbs-03": {
+      "source": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome"
+    },
+    "SIT-NP5-altered-elimination-03": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610839/"
+    },
+    "SIT-NP5-altered-elimination-04": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK610830/"
+    },
+    "SIT-NP5-altered-tissue-perfusion-02-R2": {
+      "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support",
+      "scenario": "A trained team prepares synchronized cardioversion for a client with an unstable regular narrow-complex tachycardia and a pulse. The device is not showing synchronization markers on the R waves.",
+      "reason": "For this unstable regular narrow-complex tachycardia with a pulse, synchronized cardioversion is the indicated trained pathway. Synchronization avoids discharge during the vulnerable portion of repolarization. Verify the markers and device settings; polymorphic ventricular tachycardia and shockable pulseless arrest require different defibrillation pathways."
+    },
+    "SIT-NP5-high-acuity-emergency-situations-01-R2": {
+      "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support"
+    },
+    "SIT-NP5-critical-care-equipment-01-R2": {
+      "source": "https://www.lhsc.on.ca/critical-care-trauma-centre/standard-of-care-arterial-line-monitoring"
+    },
+    "SIT-NP3-ards-01": {
+      "source": "https://www.nhlbi.nih.gov/health/ards/treatment"
+    },
+    "SIT-NP3-ards-04": {
+      "source": "https://www.nhlbi.nih.gov/health/ards/treatment"
+    },
+    "SIT-NP3-acute-coronary-syndrome-acs-03": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK594995/"
+    },
+    "SIT-NP3-bronchial-asthma-04": {
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK594995/"
+    },
+    "SIT-NP3-ards-02": {
+      "source": "https://ics.ac.uk/resource/prone-position-in-adult-critical-care.html"
+    },
+    "SIT-NP4-parathyroid-disorders-01-R2": {
+      "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/primary-hyperparathyroidism"
+    },
+    "SIT-NP4-parathyroid-disorders-03-R2": {
+      "source": "https://www.niddk.nih.gov/health-information/kidney-disease/mineral-bone-disorder"
+    },
+    "SIT-NP1-nutrition-programs-01": {
+      "source": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf"
+    },
+    "SIT-CROSS-laboratory-values-04-R2": {
+      "source": "https://www.ukkidney.org/health-professionals/guidelines/treatment-acute-hyperkalaemia-adults-0",
+      "action": "Arrange urgent cardiac monitoring, assess the client, notify the responsible clinician, and promptly repeat the specimen under the critical-result protocol",
+      "reason": "Hemolysis can falsely elevate potassium, but a normal ECG cannot exclude dangerous true hyperkalemia. A result of 6.5 mmol/L needs urgent monitoring and clinical review while a carefully collected repeat specimen verifies possible artifact; confirmation must not become a reason to ignore deterioration."
+    }
+  }
+}

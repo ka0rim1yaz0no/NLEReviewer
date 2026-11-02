@@ -25,7 +25,10 @@ function safePlans(c){return [
  {text:`Provide the relevant teaching when immediate needs are addressed: ${c.teaching}`,rationale:`This plan does not require correction. Teaching at an appropriate time supports the care plan. ${finish(c.reason)}`},
  {text:`Reassess and document progress toward this outcome: ${c.outcome}`,rationale:'This plan does not require correction. Reassessment and accurate documentation help determine whether the chosen care is achieving its intended effect.'}
 ].map(o=>({...o,source:c.source,referenceId:c.id+':safe-plan'}));}
-function alternative(c,p,spec){return {text:spec.key==='evaluation'?`Progress toward the planned goal for ${lower(p.problem)}`:choice(p,spec.field),rationale:`This option addresses ${lower(p.problem)}. In the present situation, the relevant concern is ${lower(c.problem)}. ${finish(c.reason)}`,source:p.source,referenceId:p.id+':'+spec.field};}
+function alternative(c,p,spec){
+ const use=spec.key==='evaluation'?'This would evaluate a different care goal':'This option fits a different clinical context';
+ return {text:spec.key==='evaluation'?`Progress toward the planned goal for ${lower(p.problem)}`:choice(p,spec.field),rationale:`${use}: ${finish(p.scenario)} ${finish(p.reason)} Here, the priority is ${lower(c.problem)}. ${finish(c.reason)} The alternative does not best match the specific question and findings.`,source:p.source,...(p.source!==c.source?{contextSource:c.source}:{}),referenceId:p.id+':'+spec.field};
+}
 function peers(c,field,cases){
  const eligible=p=>p.id!==c.id&&p[field].toLowerCase()!==c[field].toLowerCase();
  const ordered=[...shuffled(cases.filter(p=>eligible(p)&&p.topicSlug===c.topicSlug),seed(c.id+field)),...shuffled(cases.filter(p=>eligible(p)&&p.subject===c.subject&&p.topicSlug!==c.topicSlug),seed(field+c.id))];

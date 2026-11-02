@@ -5,8 +5,8 @@
   "existingFivePartSituationalQuestions": 600,
   "totalExplicitSituationalQuestions": 4940,
   "topics": 155,
-  "replacedCaseSets": 135,
-  "retiredHistoricalQuestions": 945,
+  "replacedCaseSets": 140,
+  "retiredHistoricalQuestions": 980,
   "questionsPerNewSituation": 7,
   "competencies": [
     "recognition",
@@ -559,6 +559,31 @@
     {
       "retiredCaseId": "SIT-NP5-critical-care-equipment-02",
       "replacementCaseId": "SIT-NP5-critical-care-equipment-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-leprosy-04",
+      "replacementCaseId": "SIT-NP1-leprosy-04-R3",
+      "review": "choice-rationale-reference-recheck"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-developmental-milestones-04",
+      "replacementCaseId": "SIT-NP2-developmental-milestones-04-R3",
+      "review": "choice-rationale-reference-recheck"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-basic-concepts-in-cancer-03",
+      "replacementCaseId": "SIT-NP3-basic-concepts-in-cancer-03-R3",
+      "review": "choice-rationale-reference-recheck"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-spinal-other-msk-conditions-03",
+      "replacementCaseId": "SIT-NP4-spinal-other-msk-conditions-03-R3",
+      "review": "choice-rationale-reference-recheck"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-high-acuity-emergency-situations-04",
+      "replacementCaseId": "SIT-NP5-high-acuity-emergency-situations-04-R3",
+      "review": "choice-rationale-reference-recheck"
     }
   ]
 }
