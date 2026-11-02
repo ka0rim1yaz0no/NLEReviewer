@@ -1,0 +1,11 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {questions,clinicalCases} from './author-bank.ts';
+import {contentDigest} from './content-integrity.ts';
+const rows=[];
+for(const [kind,data,size]of [['questions',questions,250],['cases',clinicalCases,50]])for(let i=0;i<data.length;i+=size)rows.push({id:`${kind}-${String(i/size).padStart(4,'0')}`,kind,data:data.slice(i,i+size)});
+rows.push({id:'manifest',kind:'manifest',data:{version:1,questionCount:questions.length,caseCount:clinicalCases.length,digest:await contentDigest(questions,clinicalCases)}});
+const quote=value=>"'"+String(value).replaceAll("'","''")+"'";
+const schema=await readFile(new URL('./protected-content.sql',import.meta.url),'utf8');
+const sql=schema+'\ninsert into public.study_content (id,kind,data) values\n'+rows.map(r=>`(${quote(r.id)},${quote(r.kind)},${quote(JSON.stringify(r.data))}::jsonb)`).join(',\n')+'\non conflict (id) do update set kind=excluded.kind,data=excluded.data;\nselect data->>\'questionCount\' as questions,data->>\'caseCount\' as topic_cases from public.study_content where id=\'manifest\';\n';
+await writeFile(new URL('./outputs/protected-content-seed.sql',import.meta.url),sql);
+console.log(`Prepared ${questions.length} questions and ${clinicalCases.length} topic cases in ${rows.length} protected database pages.`);

@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { questions, validateQuestions, normalizeQuestionStem } from './bank.ts';
+import { questions, validateQuestions, normalizeQuestionStem } from './author-bank.ts';
 import { curriculum } from './curriculum.ts';
 import { auditQuestionBank } from './catalog-metrics.ts';
 

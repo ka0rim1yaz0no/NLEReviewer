@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { initialState } from './engine.ts';
+import {validateProtectedContent} from './content-integrity.ts';
 const local = await readFile(new URL('./.env.local',import.meta.url),'utf8').catch(()=> '');
 const values = Object.fromEntries(local.split(/\r?\n/).filter(line=>line.includes('=')).map(line=>{const index=line.indexOf('=');return [line.slice(0,index),line.slice(index+1).trim()];}));
 const url=process.env.VITE_SUPABASE_URL||values.VITE_SUPABASE_URL;
@@ -12,16 +13,20 @@ const client=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:f
 const {data,error}=await client.from('study_states').select('user_id').limit(1);
 if(!error||error.code!=='42501'||data!==null)throw new Error(`Expected denied anonymous access; received ${error?.code||'unexpected access'}.`);
 console.log('PASS: live Supabase denies anonymous reads of student study records.');
+const noAnswers=await client.from('study_content').select('data').limit(1);assert.equal(noAnswers.error?.code,'42501');console.log('PASS: unsigned visitors cannot retrieve questions, answers, rationales, or topic notes.');
 const a=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
 const b=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false}});
 const run=randomUUID().slice(0,12),nameA=`qa-a-${run}`,nameB=`qa-b-${run}`;
 async function signIn(client){const {data,error}=await client.auth.signInAnonymously();assert.equal(error,null,error?.message);assert.ok(data.user?.id);return data.user.id;}
 const idA=await signIn(a),idB=await signIn(b);assert.notEqual(idA,idB);
+const unclaimed=await a.from('study_content').select('data');assert.equal(unclaimed.error,null);assert.deepEqual(unclaimed.data,[]);console.log('PASS: an anonymous auth token without a claimed username cannot read study content.');
 assert.equal((await a.from('study_profiles').insert({user_id:idA,username:nameA})).error,null);
 const duplicate=await b.from('study_profiles').insert({user_id:idB,username:nameA.toUpperCase()});
 assert.equal(duplicate.error?.code,'23505','Usernames must be case-insensitively unique.');
 assert.equal((await b.from('study_profiles').insert({user_id:idB,username:nameB})).error,null);
 console.log('PASS: username-only sign-in creates separate identities and rejects duplicate usernames.');
+const protectedBank=await a.from('study_content').select('id,kind,data').order('id');assert.equal(protectedBank.error,null);const content=await validateProtectedContent(protectedBank.data);assert.ok(content.questions.length>=600);assert.equal(content.cases.length,120);
+const contentWrite=await a.from('study_content').insert({id:'forbidden-qa-write',kind:'questions',data:[]});assert.equal(contentWrite.error?.code,'42501');console.log('PASS: claimed usernames read the complete verified bank and cannot modify the shared content.');
 const stateA=initialState(),stateB=initialState();stateA.profile.name=nameA;stateB.profile.name=nameB;
 for(const [owner,id,data]of [[a,idA,stateA],[b,idB,stateB]]){const {error}=await owner.from('study_states').upsert({user_id:id,data});assert.equal(error,null,error?.message);}
 for(const [owner,id,other,expected]of [[a,idA,idB,nameA],[b,idB,idA,nameB]]){

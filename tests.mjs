@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {questions,originalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './bank.ts';
+import {questions,originalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import publishedQuestions from './site-questions.json' with { type: 'json' };
+import {contentDigest,validateProtectedContent} from './content-integrity.ts';
+import {needsUsername} from './access.ts';
 import {auditQuestionBank,findDuplicateQuestions,referenceTotal,referenceCount,referenceSubjectCount} from './catalog-metrics.ts';
 import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addDays,daysBetween,streak,longestStreak,scheduleCard,parseFlashcardText,sessionScore} from './engine.ts';
 import {validateBackup} from './validation.ts';
@@ -56,4 +58,18 @@ test('a 9,541-item structural fixture is fully audited without truncation or cou
 
 test('malformed optional import metadata cannot become invalid React or flashcard content',()=>{
  const q={...originalQuestions[0],keyPoint:{bad:true},origin:{bad:true},source:42};const [clean]=validateQuestions([q]);assert.equal(clean.keyPoint,q.rationale);assert.equal(clean.origin,'Imported by you');assert.equal(clean.source,'');
+});
+
+test('every question, answer, rationale, note, and study route requires a username',()=>{
+ for(const path of ['/','/dashboard','/questions','/topics','/topics/laboratory-values','/session/x','/results/x','/practice/session?mode=exam','/decks','/resources/read','/resources/bookmarks','/history','/settings','/profile','/mock/1'])assert.equal(needsUsername(path),true,path);
+ for(const path of ['/login','/login?returnTo=%2Fquestions','/help','/about'])assert.equal(needsUsername(path),false,path);
+});
+test('protected content survives database JSON key ordering and rejects incomplete or altered answers',async()=>{
+ const q=originalQuestions.slice(0,5),c=clinicalCases.slice(0,1),manifest={version:1,questionCount:q.length,caseCount:c.length,digest:await contentDigest(q,c)};
+ const rows=[{id:'questions-0000',kind:'questions',data:q},{id:'cases-0000',kind:'cases',data:c},{id:'manifest',kind:'manifest',data:manifest}];
+ function reorder(v){if(Array.isArray(v))return v.map(reorder);if(v&&typeof v==='object')return Object.fromEntries(Object.entries(v).reverse().map(([k,value])=>[k,reorder(value)]));return v;}
+ const loaded=await validateProtectedContent(reorder(rows));assert.deepEqual(loaded.questions,q);assert.deepEqual(loaded.cases,c);
+ await assert.rejects(()=>validateProtectedContent(rows.filter(row=>row.kind!=='questions')),/incomplete/);
+ const tampered=structuredClone(rows);tampered[0].data[0].correctIndex=(tampered[0].data[0].correctIndex+1)%4;await assert.rejects(()=>validateProtectedContent(tampered),/integrity check/);
+ await assert.rejects(()=>validateProtectedContent([]),/manifest/);
 });

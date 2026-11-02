@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { questions, validateQuestions } from './bank.ts';
+import { questions, validateQuestions } from './author-bank.ts';
 import { auditQuestionBank } from './catalog-metrics.ts';
 
 // Read-only audit: an optional authorized JSON bank can be checked without publishing it.
