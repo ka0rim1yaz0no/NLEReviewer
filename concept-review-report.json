@@ -12,8 +12,8 @@
   "sourceXmlMismatches": 0,
   "duplicateNormalizedStems": 0,
   "independentClinicalReview": false,
-  "questionFileSha256": "8181943387f73db1b181ce977b35a1cf8bd2a259eed32d548248d5287a28dca1",
-  "evidenceFileSha256": "a334ae2c7423db20ce42e421b1e81fc108e352c39fc9c189a9cdf7ed3448323d",
+  "questionFileSha256": "82bbfcdcd66a77b77f3227697579ee5bc68c22e521fc6e54edf3cca906af331d",
+  "evidenceFileSha256": "252b636e33aecdddc340ec9fbc21f8789c02c4619010aa03907af7c237ada263",
   "bySubject": {
     "NP2": 1079,
     "CROSS": 921,
@@ -91,5 +91,14 @@
     "ORN-689dbb311b1a1bab7feb"
   ],
   "sourceVerificationNote": "The initial reference extraction matched its XML. Subsequent editorial review identified one error in the source wording. The corrected fact and every keyed/alternative occurrence use the documented NCI reference; see reference-corrections.json. Source matching is not independent clinical approval.",
-  "formattingReview": "XML line-break elements are preserved as readable separators. Comparison prompts and alternative explanations were copyedited before production deployment. No IDs, option labels, order, or key positions were changed."
+  "formattingReview": "XML line-break elements are preserved as readable separators. Comparison prompts and alternative explanations were copyedited before production deployment. No IDs, option labels, order, or key positions were changed.",
+  "terminologyCorrections": 1,
+  "terminologyCorrectedQuestionIds": [
+    "ORN-37ba0d6ff620f643d403",
+    "ORN-40ee1e769eb749135446",
+    "ORN-8de2e5f0fe2a907bbf10",
+    "ORN-943bd6804c6db4442d3b",
+    "ORN-b6a2d9ded7f16a3a27dd",
+    "ORN-bec8fdb2853b10d1c572"
+  ]
 }

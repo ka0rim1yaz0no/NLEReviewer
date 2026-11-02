@@ -27491,7 +27491,7 @@
     "category": "concept"
   },
   {
-    "term": "Ego synotic",
+    "term": "Ego-syntonic",
     "definition": "Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life.",
     "book": "Mental Health and Community Concepts, 2e",
     "bookSet": "openrnmhcc2",
@@ -27502,7 +27502,7 @@
     "entryId": "ptx.gl_DL1_DI6",
     "license": "https://creativecommons.org/licenses/by/4.0/",
     "authors": "Open Resources for Nursing; editors Kimberly Ernstmeyer and Elizabeth Christman; Chippewa Valley Technical College / WisTech Open",
-    "canonical": "ego synotic",
+    "canonical": "ego syntonic",
     "kind": "definition",
     "aliases": [
       "Ego synotic"
@@ -27511,7 +27511,15 @@
     "subject": "NP5",
     "topic": "Personality Disorders",
     "id": "ORN-40ee1e769eb749135446",
-    "category": "concept"
+    "category": "concept",
+    "terminologyCorrection": {
+      "id": "ORN-40ee1e769eb749135446",
+      "previousTerm": "Ego synotic",
+      "term": "Ego-syntonic",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
+      "checkedAt": "2026-11-03",
+      "reason": "Correct the glossary spelling to the spelling used in the same reference chapter's main text. Meaning, question IDs, choice order, and answer positions are unchanged."
+    }
   },
   {
     "book": "Nursing Health Promotion",

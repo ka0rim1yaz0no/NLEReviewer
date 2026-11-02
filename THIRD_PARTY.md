@@ -23,6 +23,8 @@ Only content with a CC BY 4.0 license in its reference metadata was selected. Pr
 
 One source definition for radiofrequency ablation mixed cardiac conduction-system anatomy with tumor treatment. Before production deployment, its description and every alternative occurrence were replaced with newly worded, checked facts from the [National Cancer Institute Dictionary of Cancer Terms](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/radiofrequency-ablation). The correction preserves question IDs and key positions; `reference-corrections.json` documents the source error and primary-reference check.
 
+The glossary label “Ego synotic” was corrected to “Ego-syntonic,” matching the same chapter’s main text. The description and answer positions are unchanged; see `terminology-corrections.json`.
+
 The evidence check establishes consistency with cited reference facts. It is not independent clinical approval. Some source content uses international terminology; Philippine laws and programs are covered by the separately authored topic questions and their official sources.
 
 ## Two corrected source items

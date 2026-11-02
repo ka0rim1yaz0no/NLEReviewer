@@ -39372,8 +39372,8 @@
         "referenceId": "ORN-37ba0d6ff620f643d403"
       },
       {
-        "text": "Ego synotic",
-        "rationale": "Ego synotic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Interpersonal therapy.",
+        "text": "Ego-syntonic",
+        "rationale": "Ego-syntonic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Interpersonal therapy.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-40ee1e769eb749135446"
       },
@@ -46287,32 +46287,32 @@
     "options": [
       {
         "text": "Psychoeducation",
-        "rationale": "Psychoeducation: Education that teaches the client about their medications, psychotherapies, and support groups available in the community. The description in the question instead matches Ego synotic.",
+        "rationale": "Psychoeducation: Education that teaches the client about their medications, psychotherapies, and support groups available in the community. The description in the question instead matches Ego-syntonic.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-bec8fdb2853b10d1c572"
       },
       {
         "text": "Interpersonal therapy",
-        "rationale": "Interpersonal therapy: Therapy that focuses on developing healthy relationships with others. The description in the question instead matches Ego synotic.",
+        "rationale": "Interpersonal therapy: Therapy that focuses on developing healthy relationships with others. The description in the question instead matches Ego-syntonic.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-37ba0d6ff620f643d403"
       },
       {
-        "text": "Ego synotic",
-        "rationale": "Ego synotic is the matching concept. In this reference context: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life.",
+        "text": "Ego-syntonic",
+        "rationale": "Ego-syntonic is the matching concept. In this reference context: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-40ee1e769eb749135446"
       },
       {
         "text": "Personality traits",
-        "rationale": "Personality traits: Characteristics, whether considered good or bad, that make up one’s personality. The description in the question instead matches Ego synotic.",
+        "rationale": "Personality traits: Characteristics, whether considered good or bad, that make up one’s personality. The description in the question instead matches Ego-syntonic.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-8de2e5f0fe2a907bbf10"
       }
     ],
     "correctIndex": 2,
-    "rationale": "Ego synotic is the matching concept. In this reference context: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life.",
-    "keyPoint": "Ego synotic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life.",
+    "rationale": "Ego-syntonic is the matching concept. In this reference context: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life.",
+    "keyPoint": "Ego-syntonic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life.",
     "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
     "origin": "Original NLE Reviewer concept check; newly constructed choices and explanations based on Mental Health and Community Concepts, 2e (2025), Personality Disorders. Reference wording adapted from Open Resources for Nursing (Open RN), edited by Kimberly Ernstmeyer and Elizabeth Christman, Chippewa Valley Technical College / WisTech Open, under CC BY 4.0. Changes: converted reference facts to a four-choice question with answer and alternative explanations. No author endorsement is implied.",
     "format": "concept",
@@ -100172,8 +100172,8 @@
         "referenceId": "ORN-f2b4589d154e50eb1c30"
       },
       {
-        "text": "Ego synotic",
-        "rationale": "Ego synotic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Personality traits.",
+        "text": "Ego-syntonic",
+        "rationale": "Ego-syntonic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Personality traits.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-40ee1e769eb749135446"
       },
@@ -104464,8 +104464,8 @@
         "referenceId": "ORN-37ba0d6ff620f643d403"
       },
       {
-        "text": "Ego synotic",
-        "rationale": "Ego synotic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Cluster B personality disorders.",
+        "text": "Ego-syntonic",
+        "rationale": "Ego-syntonic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Cluster B personality disorders.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-40ee1e769eb749135446"
       }
@@ -128932,8 +128932,8 @@
         "referenceId": "ORN-b6a2d9ded7f16a3a27dd"
       },
       {
-        "text": "Ego synotic",
-        "rationale": "Ego synotic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Ideas of reference.",
+        "text": "Ego-syntonic",
+        "rationale": "Ego-syntonic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Ideas of reference.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-40ee1e769eb749135446"
       },
@@ -134452,8 +134452,8 @@
         "referenceId": "ORN-bec8fdb2853b10d1c572"
       },
       {
-        "text": "Ego synotic",
-        "rationale": "Ego synotic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Psychoeducation.",
+        "text": "Ego-syntonic",
+        "rationale": "Ego-syntonic: Behaviors and thoughts are consistent with the individual’s self-perception and are not seen as problematic by the individual, despite causing significant issues in their life. The description in the question instead matches Psychoeducation.",
         "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
         "referenceId": "ORN-40ee1e769eb749135446"
       },

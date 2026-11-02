@@ -1,0 +1,10 @@
+[
+  {
+    "id": "ORN-40ee1e769eb749135446",
+    "previousTerm": "Ego synotic",
+    "term": "Ego-syntonic",
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
+    "checkedAt": "2026-11-03",
+    "reason": "Correct the glossary spelling to the spelling used in the same reference chapter's main text. Meaning, question IDs, choice order, and answer positions are unchanged."
+  }
+]
