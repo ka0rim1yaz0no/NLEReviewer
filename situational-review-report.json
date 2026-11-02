@@ -1,0 +1,48 @@
+{
+  "preparedAt": "2026-11-03",
+  "clinicalSituationSets": 620,
+  "newSituationalQuestions": 4340,
+  "existingFivePartSituationalQuestions": 600,
+  "totalExplicitSituationalQuestions": 4940,
+  "topics": 155,
+  "questionsPerNewSituation": 7,
+  "competencies": [
+    "recognition",
+    "action",
+    "teaching",
+    "safety",
+    "planning",
+    "evaluation",
+    "reasoning"
+  ],
+  "independentClinicalReview": false,
+  "notes": "Each authored situation supports seven different nursing-process decisions. The question count is not a count of independent patient vignettes. No names-only or age-only variants are generated. Keys and per-choice explanations are tied to their case evidence; clinical sources are recorded per situation.",
+  "checks": {
+    "topicsWithFourNewSituations": 155,
+    "uniqueNewSituations": 620,
+    "distinctChoicesPerQuestion": 4,
+    "explanationsPerQuestion": 4,
+    "old5168PayloadsUnchanged": true,
+    "abgCasesCheckedByEquation": 4,
+    "independentClinicalApproval": false
+  },
+  "questionFileSha256": "809fc1c5b23027c0c0a37ee504089cae2a2ea0aafb234502ba8040cf04159406",
+  "evidenceFileSha256": "09846a45e9ebbd8a4fb473a13463d8cda2ce5f4741716427bb136de550a1133e",
+  "newAnswerPositions": {
+    "A": 1110,
+    "B": 1083,
+    "C": 1086,
+    "D": 1061
+  },
+  "referenceTraceability": {
+    "distinctPrimaryReferenceURLs": 134,
+    "nursingChaptersPresentInOfficialCachedNlmXML": 78,
+    "otherPublicReferenceHTTPResponsesSuccessful": 53,
+    "publicReferencesVerifiedViaWebBecauseOfAutomatedAccessBlocks": [
+      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
+      "https://ro2.doh.gov.ph/mandates/"
+    ],
+    "note": "HTTP and cache checks establish availability and traceability, not independent professional clinical review. Clinical decisions are original authored case evidence."
+  }
+}

@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdir,readFile,writeFile,unlink} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {questions,originalQuestions,supplementalQuestions,conceptQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
-import {inCollection,collectionCounts,parseCollection} from './collections.ts';
+import {questions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
+import {inCollection,collectionCounts,parseCollection,isSituational} from './collections.ts';
 import {decodeContentRelease} from './content-release.ts';
 import {gzipSync} from 'node:zlib';
 import publishedQuestions from './site-questions.json' with { type: 'json' };
@@ -20,7 +20,7 @@ import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourc
 const bank=new Map(questions.map(q=>[q.id,q]));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
 test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
-  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+conceptQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
+  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
   assert.equal(new Set(questions.map(q=>q.stem)).size,questions.length);
   for(const s of subjects)assert.equal(originalQuestions.filter(q=>q.subject===s.id).length,100);
   for(const q of questions){assert.ok(q.rationale.length>20);assert.equal(q.options[q.correctIndex].rationale,q.rationale);assert.ok(q.options.every(o=>o.rationale.length>20));}
@@ -117,8 +117,8 @@ test('protected content survives database JSON key ordering and rejects incomple
 
 
 test('only the two explicitly source-checked corrections are published from the research dataset',()=>{
- assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+publishedQuestions.length);
- assert.deepEqual(collectionCounts(questions),{all:questions.length,nursing:651+conceptQuestions.length+publishedQuestions.length,clinical:651+publishedQuestions.length,concept:conceptQuestions.filter(q=>q.format==='concept').length,comparison:conceptQuestions.filter(q=>q.format==='comparison').length,supplemental:2});
+ assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);
+ assert.deepEqual(collectionCounts(questions),{all:questions.length,nursing:651+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length,situational:4940,newSituational:4340,clinical:651+publishedQuestions.length,concept:conceptQuestions.filter(q=>q.format==='concept').length,comparison:conceptQuestions.filter(q=>q.format==='comparison').length,supplemental:2});
  for(const q of supplementalQuestions){assert.ok(q.id.startsWith('MMCQA-'));assert.equal(q.collection,'supplemental');assert.equal(q.rationaleScope,undefined);assert.ok(q.source.includes('nhs.uk')||q.source.includes('nice.org.uk'));assert.ok(q.origin.includes('Source-based correction:'));assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.options.every(o=>o.rationale.length>40));}
  for(const q of [...originalQuestions,...additionalQuestions]){assert.ok(inCollection(q,'nursing'));assert.ok(!inCollection(q,'supplemental'));}
 });
@@ -195,9 +195,9 @@ test('the full expanded bank survives the actual compressed multi-page release f
 });
 
 test('format filters keep all questions reachable and custom flashcard URLs preserve the selected format',()=>{
- const counts=collectionCounts(questions);assert.equal(counts.clinical+counts.concept+counts.comparison+counts.supplemental,questions.length);
- for(const format of ['all','nursing','clinical','concept','comparison','supplemental']){assert.equal(parseCollection(format),format);assert.equal(questions.filter(q=>inCollection(q,format)).length,counts[format]);}
- assert.equal(parseCollection(null),'nursing');assert.equal(parseCollection('unknown'),'nursing');
+ const counts=collectionCounts(questions);assert.equal(counts.clinical+counts.newSituational+counts.concept+counts.comparison+counts.supplemental,questions.length);
+ for(const format of ['all','nursing','situational','clinical','concept','comparison','supplemental']){assert.equal(parseCollection(format),format);assert.equal(questions.filter(q=>inCollection(q,format)).length,counts[format]);}
+ assert.equal(parseCollection(null),'situational');assert.equal(parseCollection('unknown'),'situational');
 });
 
 test('malformed format metadata and per-choice links are removed during import validation',()=>{
@@ -208,7 +208,7 @@ test('malformed format metadata and per-choice links are removed during import v
 test('the displayed public counts match the protected bank without including any question text',async()=>{
  const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
  assert.equal(summary.total,questions.length);assert.equal(summary.original,questions.length-supplementalQuestions.length);assert.equal(summary.topics,155);
- assert.equal(summary.concept+summary.comparison,conceptQuestions.length);assert.equal(summary.clinical,651);assert.equal(summary.sourceCorrections,2);
+ assert.equal(summary.concept+summary.comparison,conceptQuestions.length);assert.equal(summary.clinical,651);assert.equal(summary.situational,4940);assert.equal(summary.newSituations,620);assert.equal(summary.sourceCorrections,2);
  assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
 });
 
@@ -225,4 +225,55 @@ test('the source ablation error is corrected in every occurrence without changin
 test('reference table line breaks remain readable in questions and explanations',()=>{
  const mouth=conceptQuestions.find(q=>q.format==='comparison'&&q.options[q.correctIndex].text==='Mouth'&&q.stem.includes('Functions of the Digestive Organs'));
  assert.ok(mouth);assert.ok(mouth.stem.includes('Ingests food; Chews and mixes food'));assert.ok(!mouth.stem.includes('foodChews'));assert.ok(!mouth.rationale.includes('foodChews'));
+});
+
+test('at least 4,771 genuinely situational questions cover every topic with complete case evidence',async()=>{
+ const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8'));
+ assert.equal(evidence.length,620);assert.equal(situationalQuestions.length,4340);
+ assert.equal(questions.filter(isSituational).length,4940);
+ const objectives=['recognition','action','teaching','safety','planning','evaluation','reasoning'].sort();
+ assert.equal(new Set(evidence.map(c=>c.scenario.toLowerCase())).size,evidence.length);
+ for(const topic of curriculum){
+  const cases=evidence.filter(c=>c.topicSlug===topic.slug);assert.equal(cases.length,4,topic.slug);
+  assert.equal(situationalQuestions.filter(q=>q.subject===topic.subject&&q.topic===topic.name).length,28,topic.slug);
+ }
+ const positions=[0,0,0,0];
+ for(const c of evidence){
+  const set=situationalQuestions.filter(q=>q.caseId===c.id);assert.equal(set.length,7,c.id);
+  assert.deepEqual(set.map(q=>q.clinicalObjective).sort(),objectives);
+  for(const field of ['scenario','problem','action','teaching','outcome','unsafe','reason'])assert.ok(typeof c[field]==='string'&&c[field].length>=15,c.id+' '+field);
+  for(const q of set){
+   assert.ok(q.stem.startsWith(c.scenario+'\n\n'));assert.equal(q.source,c.source);assert.equal(q.format,'situational');
+   assert.equal(q.rationale,q.options[q.correctIndex].rationale);assert.ok(q.rationale.includes(c.reason),q.id);
+   assert.ok(q.options.every(o=>o.rationale.length>50&&o.source?.startsWith('https://')&&o.referenceId),q.id);
+   if(q.clinicalObjective==='safety')assert.equal(q.options[q.correctIndex].text,c.unsafe);
+   if(q.clinicalObjective==='recognition')assert.equal(q.options[q.correctIndex].text,c.problem);
+   if(q.clinicalObjective==='reasoning')assert.equal(q.options[q.correctIndex].text,c.reason);
+   if(q.clinicalObjective==='evaluation')assert.ok(q.stem.includes('Following care, the nurse observes this change: '+c.outcome));
+   positions[q.correctIndex]++;
+  }
+ }
+ positions.forEach(n=>assert.ok(n>900&&n<1250,'Unbalanced answer positions: '+positions));
+});
+
+test('the four ABG case results are internally consistent with the acid-base equation and keyed disorder',async()=>{
+ const cases=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8')).filter(c=>c.topicSlug==='acid-base-balance-abg');
+ assert.equal(cases.length,4);
+ const expected=[['respiratory acidosis',7.26,60,26],['metabolic acidosis',7.29,30,14],['respiratory alkalosis',7.52,28,22],['metabolic alkalosis',7.49,46,34]];
+ for(let i=0;i<cases.length;i++){
+  const [disorder,pH,co2,bicarbonate]=expected[i];assert.ok(cases[i].problem.toLowerCase().includes(disorder));
+  assert.ok(Math.abs(6.1+Math.log10(bicarbonate/(0.03*co2))-pH)<0.03,disorder);
+  assert.ok(cases[i].scenario.includes(String(pH))&&cases[i].scenario.includes(String(co2))&&cases[i].scenario.includes(String(bicarbonate)));
+ }
+});
+
+test('every earlier question retains its complete payload after the situational expansion',async()=>{
+ assert.equal(await contentDigest(questions.slice(0,5168),clinicalCases),'c3bec64f77352bebc63bb5a5de38be5614a73f88bd661846381977f05b0e369c');
+});
+
+test('situational questions use the existing tutor and exam grading rules without leaking early scores',()=>{
+ const [q,q2]=situationalQuestions,s=session([q.id,q2.id]);s.answers[q.id]={selected:q.correctIndex,submitted:false,confidence:'sure'};
+ let state={...initialState(),sessions:[s]};assert.equal(state.attempts.length,0);
+ state=gradeSession(state,s,bank,3000);assert.equal(state.attempts.length,2);assert.equal(state.attempts.filter(a=>a.correct).length,1);
+ assert.deepEqual(state.vault,[q2.id]);assert.equal(gradeSession(state,s,bank,4000).attempts.length,2);
 });

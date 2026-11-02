@@ -167,6 +167,9 @@ bad_option = re.compile(r'\b(all of|none of|both [a-d]|above|option [a-d]|[a-d] 
 df = pd.read_parquet(ROOT/'outputs/medmcqa-train.parquet')
 candidates = collections.defaultdict(list)
 baseline = json.loads((ROOT/'question-bank.json').read_text(encoding='utf-8'))
+if isinstance(baseline, dict) and baseline.get('format') == 'gzip-json-array':
+    import gzip
+    baseline = json.loads(gzip.decompress((ROOT / baseline['file']).read_bytes()))
 seen = {normalized(q['stem']) for q in baseline if not q['id'].startswith('MMCQA-')}
 for position,row in enumerate(df.to_dict('records')):
     if row['choice_type'] != 'single' or row['subject_name'] in ('Dental','Forensic Medicine','Unknown'):continue
@@ -227,7 +230,7 @@ for topic,(_,source_id,position,row,choices,_) in selected:
       options=[dict(text=c,rationale=explanation if i==key else 'The dataset keys '+choices[key]+'. It supplies a shared answer explanation, not a separate rationale for this alternative. Read the complete source explanation below.') for i,c in enumerate(choices)],
       keyPoint=choices[key]+': '+explanation,
       source=f'https://huggingface.co/datasets/openlifescienceai/medmcqa/viewer/default/train?row={position}',
-      origin='MedMCQA — Ankit Pal, Logesh Kumar Umapathi, Malaikannan Sankarasubbu (2022); published dataset license Apache-2.0. Reformatted and mapped to this reviewer catalog. Not a BoardPal or PNLE item.',
+      origin='MedMCQA â€” Ankit Pal, Logesh Kumar Umapathi, Malaikannan Sankarasubbu (2022); published dataset license Apache-2.0. Reformatted and mapped to this reviewer catalog. Not a BoardPal or PNLE item.',
       collection='supplemental',rationaleScope='shared',sourceId=source_id,
       sourceTopic=clean(row['topic_name']) or row['subject_name'],
     ))

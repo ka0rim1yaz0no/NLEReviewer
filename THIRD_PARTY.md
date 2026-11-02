@@ -1,5 +1,9 @@
 # Reference content, adaptations, and attribution
 
+## Original situational case sets
+
+The 4,340 records in `situational-questions.json` are newly written educational questions across 620 fictional situations. They do not reproduce BoardPal questions or official PNLE items. Each case and its alternative choices retain reference links. Nursing principles were checked against Open RN chapters listed below and the primary sources linked in `situational-evidence.json`, including WHO, CDC, NEI, NHS, NICE, the current AHA resuscitation guidance, and Philippine statutes published by LawPhil. Clinical facts inform original scenarios and explanations; these organizations do not endorse the reviewer. No blanket Creative Commons claim is made for external clinical guidance or legal websites. Source consistency and automated checks do not constitute independent clinical approval.
+
 ## Newly constructed Open RN questions
 
 The 4,515 records in `concept-questions.json` are original multiple-choice designs constructed from reference definitions and explanatory tables in the following Open Resources for Nursing (Open RN) books. Existing textbook review questions, case-study question banks, and BoardPal questions were not imported. Reference descriptions are adapted under [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).

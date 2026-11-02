@@ -4,22 +4,26 @@ A BoardPal-inspired nursing study app with username profiles, private progress, 
 
 ## Published content
 
-**5,168 questions across all 155 catalog topics**, including **5,166 original question designs** and two previously published, substantially corrected source items:
+**4,940 situational nursing questions across all 155 topics**, in a bank of **9,508 total questions**:
 
 | Question format | Count |
 | --- | ---: |
-| Clinical and standalone originals | 651 |
-| Original source-based concept checks | 3,758 |
-| Original reference-comparison questions | 757 |
+| Existing questions in 120 five-part situations | 600 |
+| New questions in 620 seven-part situations | 4,340 |
+| Other earlier standalone originals | 51 |
+| Source-based concept checks | 3,758 |
+| Reference-comparison questions | 757 |
 | Corrected supplemental source items | 2 |
 
-The original-design total exceeds the requested minimum of 4,771. The 651 prior originals consist of 600 questions within 120 five-part clinical scenarios and 51 individually authored topic questions. The 4,515 new items are newly constructed four-choice questions based on licensed Open RN reference definitions and explanatory tables, not existing textbook review questions. They test terminology, anatomy, mechanisms, findings, functions, and care principles. They are not 4,515 new clinical vignettes. Use the collection picker to study each format separately.
+The situational total exceeds the requested minimum of 4,771. Each of the 155 topics has four newly authored situations and 28 new questions. Each new situation tests seven decisions: recognition, action, teaching, safety, planning, evaluation, and reasoning. The count refers to questions within linked situations, not 4,940 independent patient vignettes. Cases cover bedside, community, family, professional, and critical-care decisions. No names-only or age-only variants are generated.
 
-Every published item has four choices, a key, an answer explanation, and a rationale for every choice. Each new item's key and all alternatives are matched to specific source facts; its source book/chapter and adaptation credit are displayed in the answer review, with per-choice reference links. A second parser checked the 4,517 factual records against the cached reference XML, covering 18,060 choice explanations with zero extraction mismatches. Editorial review then caught one erroneous source definition; all three affected questions were corrected against the National Cancer Institute, documented in `reference-corrections.json`, and published in a new release. This verifies source consistency, **not independent professional clinical review** or the currency of every clinical statement. Independent clinical/editorial review remains pending.
+Every question has four distinct choices, one keyed answer, an answer explanation, and explanations for all alternatives. `situational-evidence.json` records the clinical findings, care need, safe response, teaching, desired outcome, unsafe proposal, clinical reasoning, and reference for each new situation. The answer key is checked against this authored evidence. References include Open RN nursing chapters, WHO, CDC, NIH/NEI, NHS, NICE, AHA, and Philippine statutes. Checks include all-topic coverage, complete per-choice explanations, unique situations and questions, balanced answer positions, ABG arithmetic, scoring, and preservation of every earlier record. Reference and structural checking is **not independent professional clinical approval**; clinical/editorial review remains pending.
 
-The factual catalog retains all **155 reference topic names** and the observed **9,541-question distribution** (13–206 per topic), observed November 2, 2026. All topics have related practice; depth varies and some specialized topics still have only one item. Related questions can support multiple topics and count only once in the bank total. This app does not claim to match BoardPal's question content or per-topic depth.
+The 4,515 concept and comparison items remain available for focused review and existing saved sessions. Their reference evidence and corrections are preserved. They are not counted as situational questions. The first 5,168 published question payloads, IDs, options, order, and keys remain unchanged, verified by their earlier release checksum.
 
-`question-bank.json` contains all expanded published records. `concept-questions.json` freezes the new question designs; `concept-evidence.json` identifies the reference fact behind each key and alternative; `concept-review-report.json` records counts, checksums, source XML hashes, and review limits. See [THIRD_PARTY.md](THIRD_PARTY.md) for attribution and licensing.
+The catalog retains the 155 reference topic names and observed 9,541-question reference distribution from November 2, 2026. BoardPal's paid question text is not copied, and this app does not claim the same per-topic counts or official PNLE content.
+
+`question-bank.json` is now a small export manifest; `question-bank.json.gz` contains the complete lossless JSON array. Run `node export-bank.mjs --plain` to write an uncompressed array to `outputs/question-bank.json`, or export the full bank from the app's Settings. The gzip format keeps individual files within GitHub's browser upload limit. `situational-questions.json` freezes the new records, `situational-evidence.json` records case evidence, and `situational-review-report.json` records counts and review limits. The six `situations-*.txt` files and `build-situational-bank.mjs` are authoring-only. Do not regenerate a published bank after changing the peer pool or case facts; create and review a new immutable release instead. See [THIRD_PARTY.md](THIRD_PARTY.md) for references and attribution.
 
 A proposed 4,120-item MedMCQA research candidate remains withheld after spot-checks found scenario/key mismatches. It is not counted or available in practice. The two provisional bulk database releases and the superseded first concept-bank candidate remain excluded by row-level security. Only the two separately corrected source items are published from that dataset.
 
@@ -28,13 +32,13 @@ A proposed 4,120-item MedMCQA research candidate remains withheld after spot-che
 - Tutor mode with immediate explanations; exam mode with deferred grading, blanks counted as incorrect, and full result review.
 - Custom subject/topic sets, new/missed filters, timers, saved sessions, flags, elimination, confidence, highlights, pen annotations, scratch notes, bookmarks, and question notes.
 - Counted Needs work, Not started, Flagged, and Saved topic filters; per-topic redo-miss sets; preserved first-try scores and a Vault for unresolved misses.
-- Five mock variants, each with five 100-item, two-hour sections; a balanced 30-item diagnostic. These use and reshuffle the original nursing bank and are not independent official papers.
+- Five mock variants, each with five 100-item, two-hour sections; a balanced 30-item diagnostic. These use and reshuffle the situational nursing bank and are not independent official papers.
 - All 155 topics connected to flashcards, spaced review, resource notes, the planner, and calendar export. Shared topic/resource notes, gathered My Notes, Anki text/TSV/CSV import, and legacy deck/resource links.
 - History, performance, milestones, profile/settings, theme and text-size preferences, JSON backups, and authorized personal question imports.
 - Username profiles backed by separate Supabase identities, isolated progress, cloud sync, retry controls, and a responsive mobile layout.
-- Format filters for clinical/standalone questions, concept checks, reference comparisons, and the two corrected source items. Quick practice, diagnostics, mocks, topic decks, and daily flashcards mix original nursing designs and personal imports. Custom practice and flashcards can focus on one format.
+- Format filters for situational questions, earlier clinical/standalone items, concept checks, comparisons, and corrected source items. Quick practice, diagnostics, mocks, topic decks, and daily flashcards default to situational questions. Other formats remain available in custom selections.
 
-Large sessions render at most 100 navigator buttons at a time. This keeps phone rendering bounded while every question remains reachable. The full bank is available to custom sets; counts are capped at the actual selection. Resource key points load 20 at a time. Question-library and result reviews render 10 at a time.
+Large sessions render at most 100 navigator buttons at a time. This keeps phone rendering bounded while every question remains reachable. The full bank is available to custom sets; counts are capped at the actual selection. Resource key points load 20 at a time. Question-library, topic-question, and result reviews render 10 at a time.
 
 ## Local development
 
@@ -65,7 +69,7 @@ Active identity is separate per tab; cloud reads/writes use the Supabase UID. Sw
 
 ## Imports and editorial review
 
-Settings supports authorized JSON imports with unique IDs/stems, a subject (`CROSS`, `NP1`–`NP5`), topic, stem, four choices with explanations, `correctIndex` (0–3), and a rationale. Optional fields include a source URL, origin, and key point. Personal imports remain in that profile.
+Settings supports authorized JSON imports with unique IDs/stems, a subject (`CROSS`, `NP1`â€“`NP5`), topic, stem, four choices with explanations, `correctIndex` (0â€“3), and a rationale. Optional fields include a source URL, origin, and key point. Personal imports remain in that profile.
 
 `node --experimental-strip-types prepare-bank.mjs authorized-questions.json --check-only` validates a proposed site-wide batch without changing the published bank. Without `--check-only`, it appends valid records to `site-questions.json`. Preserve published IDs, choice order, and keys; changes could invalidate saved answers. Generate a **new immutable release ID**, review it, stage its pages, and publish its manifest last. Structural validation is not clinical validation or permission to republish: obtain the provider's reuse rights before importing its content.
 
@@ -75,11 +79,11 @@ For the withheld research candidate, `import-medmcqa.py` reads the public traini
 
 ## Original reference-question preparation
 
-`collect-openrn.py` retrieves only CC BY 4.0 Open RN reference text through NLM’s documented Books-OAI API, using sequential requests and an ignored local XML cache. It never crawls paid content or imports a textbook question bank. `prepare-openrn.py` removes pronunciation aliases and duplicate definitions, screens unsuitable references, and selects explanatory table relations. `openrn-topic-map.py` assigns related catalog topics using explicit editorial rules.
+`collect-openrn.py` retrieves only CC BY 4.0 Open RN reference text through NLMâ€™s documented Books-OAI API, using sequential requests and an ignored local XML cache. It never crawls paid content or imports a textbook question bank. `prepare-openrn.py` removes pronunciation aliases and duplicate definitions, screens unsuitable references, and selects explanatory table relations. `openrn-topic-map.py` assigns related catalog topics using explicit editorial rules.
 
 `build-concept-bank.py` creates a candidate in `outputs/openrn/`; it does not publish. Choices come from related reference concepts, with synonym/overlap checks, stable concept IDs, and fact-specific explanations. `verify-openrn.py` re-parses the source XML and checks every candidate key and alternative against its definition or table cell. Foreign legal/accreditation rules, proprietary diagnostic wording, dependent table rows, uncertain mechanisms, and selected outdated terms are excluded.
 
-After editorial checks, `freeze-concept-bank.py` promotes a source-verified candidate and refuses to change any already frozen record. Preserve existing IDs and options when adding questions; do not regenerate the live bank with a different distractor pool. A clinical correction requires a deliberate reviewed release that accounts for saved progress. `correct-reference-facts.py` applies the documented NCI correction to every keyed/alternative occurrence without shuffling choices. `format-reference-facts.py` preserves reference line breaks and copyedits comparison prompts and explanations without changing the reference words, choice labels, order, or keys. `correct-reference-terms.py` corrects the documented glossary typo in `terminology-corrections.json` to match the same chapter’s main text, preserving every ID and answer position. Generate a new immutable content release, stage all its pages, and publish its manifest last.
+After editorial checks, `freeze-concept-bank.py` promotes a source-verified candidate and refuses to change any already frozen record. Preserve existing IDs and options when adding questions; do not regenerate the live bank with a different distractor pool. A clinical correction requires a deliberate reviewed release that accounts for saved progress. `correct-reference-facts.py` applies the documented NCI correction to every keyed/alternative occurrence without shuffling choices. `format-reference-facts.py` preserves reference line breaks and copyedits comparison prompts and explanations without changing the reference words, choice labels, order, or keys. `correct-reference-terms.py` corrects the documented glossary typo in `terminology-corrections.json` to match the same chapterâ€™s main text, preserving every ID and answer position. Generate a new immutable content release, stage all its pages, and publish its manifest last.
 
 ## Verification and limits
 
