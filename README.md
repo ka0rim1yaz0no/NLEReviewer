@@ -14,6 +14,8 @@ A BoardPal-inspired nursing review application focused on useful study tools. No
 
 The source content is **not the proprietary BoardPal question bank** and is not an official PNLE paper. The question sets and short summaries require independent clinical/editorial review before production educational use. No BoardPal answers were submitted during reference inspection.
 
+[question-bank.json](question-bank.json) contains all 600 expanded question records, including answer keys and every choice's rationale, for direct review without running the app.
+
 ## Run locally
 
 ```sh
@@ -34,7 +36,7 @@ Import `ka0rim1yaz0no/NLEReviewer` into Vercel. The included `vercel.json` selec
 1. Choose the intended Supabase project. Run `supabase.sql` once in its SQL Editor. The table has row-level security; authenticated users can access only their own state. Anonymous database access is revoked.
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in Vercel and, for local development, in an ignored `.env.local`. Use the project's public publishable key. **Never use a service-role or secret key in browser code.**
 3. Set the Supabase Auth Site URL to the deployed URL and allow `<deployed-url>/dashboard` and `http://127.0.0.1:5173/dashboard` as redirects. Email magic-link sign-in works with the project's email provider.
-4. GitHub sign-in is optional. Enable the GitHub provider in Supabase and configure the GitHub OAuth application before using the button.
+4. GitHub sign-in is optional. Enable the GitHub provider in Supabase, configure the GitHub OAuth application, and set `VITE_SUPABASE_GITHUB_ENABLED=true` to show its button. It is hidden until configured.
 5. Redeploy after changing Vercel environment variables; Vite embeds public values at build time.
 
 Guest and authenticated workspaces are stored separately. Signing in does not silently upload a different person's guest progress. To move guest progress into an account, export it, sign in, and restore the backup. Cloud snapshots use the most recently updated state; simultaneous edits on different devices are last-write-wins. Keep backups before editing across multiple devices. If sync is unavailable, local study continues and the status states the limitation.

@@ -15,6 +15,7 @@ export function initialState(): State { return { version: 1, updatedAt: 0, profi
 export function firstAttempts(attempts: Attempt[]): Attempt[] { const seen = new Set<string>(); return [...attempts].sort((a,b) => a.at - b.at).filter(a => { if (seen.has(a.questionId)) return false; seen.add(a.questionId); return true; }); }
 export function rating(attempts: Attempt[], minimum = 1): number | null { return attempts.length >= minimum ? 40 + attempts.filter(a => a.correct).length / attempts.length * 60 : null; }
 export function streak(attempts: Attempt[], timezone: string): number { const days = new Set(attempts.map(a => dateKey(a.at, timezone))); let current = dateKey(Date.now(), timezone); if (!days.has(current)) current = addDays(current, -1); let count = 0; while (days.has(current)) { count++; current = addDays(current, -1); } return count; }
+export function longestStreak(attempts: Attempt[], timezone: string): number { const dates=[...new Set(attempts.map(a=>dateKey(a.at,timezone)))].sort();let best=0,current=0,previous="";for(const date of dates){current=previous&&daysBetween(previous,date)===1?current+1:1;best=Math.max(best,current);previous=date;}return best; }
 export function recordAnswer(state: State, session: Session, question: Question, answer: Answer, at = Date.now()): State {
   const id = `${session.id}:${question.id}`;
   if (state.attempts.some(a => a.id === id)) return state;
@@ -22,6 +23,7 @@ export function recordAnswer(state: State, session: Session, question: Question,
   return { ...state, attempts: [...state.attempts, { id, sessionId: session.id, questionId: question.id, selected: answer.selected, correct, confidence: answer.confidence, at }], vault: correct ? state.vault.filter(q => q !== question.id) : [...new Set([...state.vault, question.id])] };
 }
 export function gradeSession(state: State, session: Session, bank: Map<string, Question>, at = Date.now()): State {
+  if (state.sessions.find(s=>s.id===session.id)?.finishedAt) return state;
   let next = state;
   for (const id of session.questionIds) { const q = bank.get(id); if (!q) continue; const answer = session.answers[id] ?? { selected: -1, submitted: true, confidence: "" }; next = recordAnswer(next, session, q, answer, at); }
   return { ...next, sessions: next.sessions.map(s => s.id === session.id ? { ...session, finishedAt: at } : s) };

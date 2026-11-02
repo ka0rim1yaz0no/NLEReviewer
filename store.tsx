@@ -30,14 +30,16 @@ export function Provider({ children }: { children: ReactNode }) {
     async function load(nextUser: User | null) {
       const turn = ++generation.current;
       setReady(false); setUser(nextUser); identity.current = nextUser?.id || "guest";
-      let next = readState(identity.current);
+      let next = readState(identity.current), savedAt = 0;
       let status = nextUser ? "Synced with Supabase" : "Saved on this device";
       if (nextUser) {
-        const { data, error } = await supabase!.from("study_states").select("data").eq("user_id",nextUser.id).maybeSingle();
+        const controller = new AbortController(); const timeout = setTimeout(()=>controller.abort(),8000);
+        const { data, error } = await supabase!.from("study_states").select("data").eq("user_id",nextUser.id).abortSignal(controller.signal).maybeSingle();
+        clearTimeout(timeout);
         if (error) status = "Saved on device · sync needs setup";
-        else if (data?.data) { try { const remote = validateBackup(data.data); if (remote.updatedAt >= next.updatedAt) next=remote; } catch { status="Saved on device · invalid cloud backup"; } }
+        else if (data?.data) { try { const remote = validateBackup(data.data); savedAt=remote.updatedAt; if (remote.updatedAt >= next.updatedAt) next=remote; } catch { status="Saved on device · invalid cloud backup"; } }
       }
-      if (active && turn === generation.current) { lastSaved.current=next.updatedAt;setState(next);setSync(status);setReady(true); }
+      if (active && turn === generation.current) { lastSaved.current=savedAt;setState(next);setSync(status);setReady(true); }
     }
     supabase.auth.getSession().then(({data})=>load(data.session?.user || null)).catch(()=>{setReady(true);setSync("Saved on device · connection unavailable");});
     const {data:{subscription}}=supabase.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_IN" || event==="SIGNED_OUT") setTimeout(()=>void load(session?.user || null),0);});
@@ -51,7 +53,7 @@ export function Provider({ children }: { children: ReactNode }) {
     const task=setTimeout(async()=>{ const target=identity.current; const {error}=await supabase!.from("study_states").upsert({user_id:user.id,data:state,updated_at:new Date().toISOString()}); if(target!==identity.current)return; if(error)setSync("Saved on device · sync failed");else{lastSaved.current=state.updatedAt;setSync("Synced with Supabase");} },900);
     return ()=>clearTimeout(task);
   },[state,ready,user]);
-  useEffect(()=>{ document.documentElement.dataset.theme = state.preferences.theme === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : state.preferences.theme; },[state.preferences.theme]);
+  useEffect(()=>{const media=matchMedia("(prefers-color-scheme: dark)");const apply=()=>{document.documentElement.dataset.theme=state.preferences.theme==="system"?(media.matches?"dark":"light"):state.preferences.theme;};apply();media.addEventListener("change",apply);return ()=>media.removeEventListener("change",apply);},[state.preferences.theme]);
   function navigate(next: string) { if (!next.startsWith("/")) return; history.pushState({},"",next);setPath(next);window.scrollTo({top:0,behavior:"instant"}); }
   function update(fn: (value: State)=>State) { setState(previous=>({...fn(previous), updatedAt:Date.now()})); }
   const bank = [...questions, ...state.importedQuestions.filter(q=>!questions.some(base=>base.id===q.id))];
