@@ -1,0 +1,12 @@
+[
+  {
+    "caseId": "CROSS-002",
+    "previous": "A nurse notices that a sterile dressing drape is wet.",
+    "current": "A nurse notices that moisture has soaked through a porous sterile dressing drape."
+  },
+  {
+    "caseId": "NP4-100",
+    "previous": "A patient recovers from posterior-approach hip replacement.",
+    "current": "A patient recovers from posterior-approach hip replacement with individually prescribed posterior hip precautions."
+  }
+]

@@ -1,10 +1,12 @@
 {
   "preparedAt": "2026-11-03",
-  "clinicalSituationSets": 620,
-  "newSituationalQuestions": 4340,
+  "activeClinicalSituationSets": 620,
+  "activeSevenPartQuestions": 4340,
   "existingFivePartSituationalQuestions": 600,
   "totalExplicitSituationalQuestions": 4940,
   "topics": 155,
+  "replacedCaseSets": 135,
+  "retiredHistoricalQuestions": 945,
   "questionsPerNewSituation": 7,
   "competencies": [
     "recognition",
@@ -16,35 +18,547 @@
     "reasoning"
   ],
   "independentClinicalReview": false,
-  "notes": "Each authored situation supports seven different nursing-process decisions. The question count is not a count of independent patient vignettes. No names-only or age-only variants are generated. Keys and per-choice explanations are tied to their case evidence; clinical sources are recorded per situation.",
-  "checks": {
-    "topicsWithFourNewSituations": 155,
-    "uniqueNewSituations": 620,
-    "distinctChoicesPerQuestion": 4,
-    "explanationsPerQuestion": 4,
-    "old5168PayloadsUnchanged": true,
-    "abgCasesCheckedByEquation": 4,
-    "independentClinicalApproval": false
-  },
-  "questionFileSha256": "1360ab8a1ec9f798a03d6fc3d349b1995313732e52c7d4a7360a90b7dc262ddf",
-  "evidenceFileSha256": "09846a45e9ebbd8a4fb473a13463d8cda2ce5f4741716427bb136de550a1133e",
-  "newAnswerPositions": {
-    "A": 1110,
-    "B": 1083,
-    "C": 1086,
-    "D": 1061
-  },
-  "referenceTraceability": {
-    "distinctPrimaryReferenceURLs": 134,
-    "nursingChaptersPresentInOfficialCachedNlmXML": 78,
-    "otherPublicReferenceHTTPResponsesSuccessful": 53,
-    "publicReferencesVerifiedViaWebBecauseOfAutomatedAccessBlocks": [
-      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
-      "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
-      "https://ro2.doh.gov.ph/mandates/"
-    ],
-    "note": "HTTP and cache checks establish availability and traceability, not independent professional clinical review. Clinical decisions are original authored case evidence."
-  },
-  "release": "2026-11-03-situational-2",
-  "evaluationClarification": "Evaluation labels describe progress toward the planned care goal. All 4,340 question IDs, answer keys, option positions, and reference identities are unchanged from situational release 1; the other 3,720 new items are byte-for-byte unchanged."
+  "notes": "All 740 original shared case evidence sets were reviewed. Linked questions intentionally use distinct nursing-process objectives. Semantic repeats were replaced by new clinical situations with new IDs; historical IDs and key positions remain resolvable. Structural and source review is not independent clinician approval.",
+  "retirements": [
+    {
+      "retiredCaseId": "SIT-CROSS-laboratory-values-04",
+      "replacementCaseId": "SIT-CROSS-laboratory-values-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-pharmacology-core-principles-04",
+      "replacementCaseId": "SIT-CROSS-pharmacology-core-principles-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-nursing-process-prioritization-02",
+      "replacementCaseId": "SIT-CROSS-nursing-process-prioritization-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-health-assessment-vital-signs-01",
+      "replacementCaseId": "SIT-CROSS-health-assessment-vital-signs-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-dosage-calculation-medication-administration-02",
+      "replacementCaseId": "SIT-CROSS-dosage-calculation-medication-administration-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-asepsis-iv-therapy-wound-care-01",
+      "replacementCaseId": "SIT-CROSS-asepsis-iv-therapy-wound-care-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-asepsis-iv-therapy-wound-care-04",
+      "replacementCaseId": "SIT-CROSS-asepsis-iv-therapy-wound-care-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-basic-needs-mobility-comfort-elimination-oxygenation-02",
+      "replacementCaseId": "SIT-CROSS-basic-needs-mobility-comfort-elimination-oxygenation-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-pharmacology-drug-classes-01",
+      "replacementCaseId": "SIT-CROSS-pharmacology-drug-classes-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-CROSS-leadership-management-01",
+      "replacementCaseId": "SIT-CROSS-leadership-management-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-non-communicable-diseases-01",
+      "replacementCaseId": "SIT-NP1-non-communicable-diseases-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-non-communicable-diseases-02",
+      "replacementCaseId": "SIT-NP1-non-communicable-diseases-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-non-communicable-diseases-04",
+      "replacementCaseId": "SIT-NP1-non-communicable-diseases-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-tuberculosis-01",
+      "replacementCaseId": "SIT-NP1-tuberculosis-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-tuberculosis-02",
+      "replacementCaseId": "SIT-NP1-tuberculosis-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-mosquito-borne-diseases-01",
+      "replacementCaseId": "SIT-NP1-mosquito-borne-diseases-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-mosquito-borne-diseases-02",
+      "replacementCaseId": "SIT-NP1-mosquito-borne-diseases-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-integumentary-related-cds-01",
+      "replacementCaseId": "SIT-NP1-integumentary-related-cds-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-neuro-related-cds-01",
+      "replacementCaseId": "SIT-NP1-neuro-related-cds-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-common-infectious-diseases-summary-01",
+      "replacementCaseId": "SIT-NP1-common-infectious-diseases-summary-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-common-infectious-diseases-summary-02",
+      "replacementCaseId": "SIT-NP1-common-infectious-diseases-summary-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-care-of-families-normal-at-risk-01",
+      "replacementCaseId": "SIT-NP1-care-of-families-normal-at-risk-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-expanded-program-on-immunization-epi-02",
+      "replacementCaseId": "SIT-NP1-expanded-program-on-immunization-epi-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-epidemiology-vital-statistics-demography-01",
+      "replacementCaseId": "SIT-NP1-epidemiology-vital-statistics-demography-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-epidemiology-vital-statistics-demography-02",
+      "replacementCaseId": "SIT-NP1-epidemiology-vital-statistics-demography-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-disaster-nursing-in-the-community-02",
+      "replacementCaseId": "SIT-NP1-disaster-nursing-in-the-community-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-community-mental-health-program-01",
+      "replacementCaseId": "SIT-NP1-community-mental-health-program-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-integrated-management-of-childhood-illness-imci-01",
+      "replacementCaseId": "SIT-NP1-integrated-management-of-childhood-illness-imci-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-integrated-management-of-childhood-illness-imci-02",
+      "replacementCaseId": "SIT-NP1-integrated-management-of-childhood-illness-imci-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-ph-health-care-delivery-system-doh-03",
+      "replacementCaseId": "SIT-NP1-ph-health-care-delivery-system-doh-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-laws-health-financing-insurance-02",
+      "replacementCaseId": "SIT-NP1-laws-health-financing-insurance-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-laws-health-financing-insurance-04",
+      "replacementCaseId": "SIT-NP1-laws-health-financing-insurance-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-laws-disease-reporting-control-02",
+      "replacementCaseId": "SIT-NP1-laws-disease-reporting-control-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-communicable-diseases-basic-concepts-02",
+      "replacementCaseId": "SIT-NP1-communicable-diseases-basic-concepts-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP1-laws-disease-reporting-control-01",
+      "replacementCaseId": "SIT-NP1-laws-disease-reporting-control-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-normal-pregnancy-03",
+      "replacementCaseId": "SIT-NP2-normal-pregnancy-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-complications-during-pregnancy-01",
+      "replacementCaseId": "SIT-NP2-complications-during-pregnancy-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-complications-during-pregnancy-02",
+      "replacementCaseId": "SIT-NP2-complications-during-pregnancy-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-complications-during-pregnancy-03",
+      "replacementCaseId": "SIT-NP2-complications-during-pregnancy-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-complications-during-labor-01",
+      "replacementCaseId": "SIT-NP2-complications-during-labor-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-complications-during-labor-02",
+      "replacementCaseId": "SIT-NP2-complications-during-labor-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-postpartum-complications-01",
+      "replacementCaseId": "SIT-NP2-postpartum-complications-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-postpartum-complications-02",
+      "replacementCaseId": "SIT-NP2-postpartum-complications-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-postpartum-complications-03",
+      "replacementCaseId": "SIT-NP2-postpartum-complications-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-ethico-moral-management-in-maternal-care-01",
+      "replacementCaseId": "SIT-NP2-ethico-moral-management-in-maternal-care-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-ethico-moral-management-in-maternal-care-03",
+      "replacementCaseId": "SIT-NP2-ethico-moral-management-in-maternal-care-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-health-promotion-disease-prevention-pedia-02",
+      "replacementCaseId": "SIT-NP2-health-promotion-disease-prevention-pedia-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-adolescent-health-03",
+      "replacementCaseId": "SIT-NP2-adolescent-health-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-respiratory-disorders-01",
+      "replacementCaseId": "SIT-NP2-pediatric-respiratory-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-respiratory-disorders-02",
+      "replacementCaseId": "SIT-NP2-pediatric-respiratory-disorders-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-respiratory-disorders-04",
+      "replacementCaseId": "SIT-NP2-pediatric-respiratory-disorders-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-gastrointestinal-disorders-02",
+      "replacementCaseId": "SIT-NP2-pediatric-gastrointestinal-disorders-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-gastrointestinal-disorders-03",
+      "replacementCaseId": "SIT-NP2-pediatric-gastrointestinal-disorders-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-hematologic-oncologic-disorders-03",
+      "replacementCaseId": "SIT-NP2-pediatric-hematologic-oncologic-disorders-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-neurologic-disorders-01",
+      "replacementCaseId": "SIT-NP2-pediatric-neurologic-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-neurologic-disorders-04",
+      "replacementCaseId": "SIT-NP2-pediatric-neurologic-disorders-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-03",
+      "replacementCaseId": "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP2-family-planning-methods-04",
+      "replacementCaseId": "SIT-NP2-family-planning-methods-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-intra-operative-phase-01",
+      "replacementCaseId": "SIT-NP3-intra-operative-phase-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-post-operative-phase-01",
+      "replacementCaseId": "SIT-NP3-post-operative-phase-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-post-operative-phase-03",
+      "replacementCaseId": "SIT-NP3-post-operative-phase-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-copd-03",
+      "replacementCaseId": "SIT-NP3-copd-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-pulmonary-embolism-pulmonary-hypertension-01",
+      "replacementCaseId": "SIT-NP3-pulmonary-embolism-pulmonary-hypertension-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-acute-coronary-syndrome-acs-01",
+      "replacementCaseId": "SIT-NP3-acute-coronary-syndrome-acs-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-hematologic-disorders-01",
+      "replacementCaseId": "SIT-NP3-hematologic-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-hematologic-disorders-02",
+      "replacementCaseId": "SIT-NP3-hematologic-disorders-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-acute-kidney-injury-aki-01",
+      "replacementCaseId": "SIT-NP3-acute-kidney-injury-aki-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-infectious-disorders-01",
+      "replacementCaseId": "SIT-NP3-infectious-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-immunologic-connective-tissue-disorders-01",
+      "replacementCaseId": "SIT-NP3-immunologic-connective-tissue-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-immunologic-connective-tissue-disorders-03",
+      "replacementCaseId": "SIT-NP3-immunologic-connective-tissue-disorders-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-basic-concepts-in-cancer-01",
+      "replacementCaseId": "SIT-NP3-basic-concepts-in-cancer-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP3-health-education-quality-improvement-01",
+      "replacementCaseId": "SIT-NP3-health-education-quality-improvement-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-malnutrition-02",
+      "replacementCaseId": "SIT-NP4-malnutrition-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-malnutrition-04",
+      "replacementCaseId": "SIT-NP4-malnutrition-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-hepatobiliary-disorders-01",
+      "replacementCaseId": "SIT-NP4-hepatobiliary-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-hepatobiliary-disorders-04",
+      "replacementCaseId": "SIT-NP4-hepatobiliary-disorders-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-gi-absorption-elimination-03",
+      "replacementCaseId": "SIT-NP4-gi-absorption-elimination-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-gi-absorption-elimination-04",
+      "replacementCaseId": "SIT-NP4-gi-absorption-elimination-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-ostomies-01",
+      "replacementCaseId": "SIT-NP4-ostomies-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-adh-disorders-01",
+      "replacementCaseId": "SIT-NP4-adh-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-adh-disorders-02",
+      "replacementCaseId": "SIT-NP4-adh-disorders-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-adrenal-gland-disorders-01",
+      "replacementCaseId": "SIT-NP4-adrenal-gland-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-thyroid-disorders-01",
+      "replacementCaseId": "SIT-NP4-thyroid-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-thyroid-disorders-02",
+      "replacementCaseId": "SIT-NP4-thyroid-disorders-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-parathyroid-disorders-01",
+      "replacementCaseId": "SIT-NP4-parathyroid-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-parathyroid-disorders-03",
+      "replacementCaseId": "SIT-NP4-parathyroid-disorders-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-diabetes-mellitus-01",
+      "replacementCaseId": "SIT-NP4-diabetes-mellitus-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-endocrine-emergencies-summary-01",
+      "replacementCaseId": "SIT-NP4-endocrine-emergencies-summary-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-increased-intracranial-pressure-iicp-01",
+      "replacementCaseId": "SIT-NP4-increased-intracranial-pressure-iicp-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-cerebrovascular-accident-stroke-01",
+      "replacementCaseId": "SIT-NP4-cerebrovascular-accident-stroke-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-cerebrovascular-accident-stroke-02",
+      "replacementCaseId": "SIT-NP4-cerebrovascular-accident-stroke-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-parkinson-s-disease-03",
+      "replacementCaseId": "SIT-NP4-parkinson-s-disease-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-parkinson-s-disease-04",
+      "replacementCaseId": "SIT-NP4-parkinson-s-disease-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-guillain-barr-syndrome-gbs-04",
+      "replacementCaseId": "SIT-NP4-guillain-barr-syndrome-gbs-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-autonomic-dysreflexia-01",
+      "replacementCaseId": "SIT-NP4-autonomic-dysreflexia-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-alzheimer-s-disease-dementia-03",
+      "replacementCaseId": "SIT-NP4-alzheimer-s-disease-dementia-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-alzheimer-s-disease-dementia-04",
+      "replacementCaseId": "SIT-NP4-alzheimer-s-disease-dementia-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-seizure-disorders-01",
+      "replacementCaseId": "SIT-NP4-seizure-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-spinal-cord-injuries-sci-03",
+      "replacementCaseId": "SIT-NP4-spinal-cord-injuries-sci-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-musculoskeletal-review-interventions-01",
+      "replacementCaseId": "SIT-NP4-musculoskeletal-review-interventions-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-musculoskeletal-trauma-01",
+      "replacementCaseId": "SIT-NP4-musculoskeletal-trauma-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-glaucoma-cataract-01",
+      "replacementCaseId": "SIT-NP4-glaucoma-cataract-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-retinal-detachment-macular-degeneration-02",
+      "replacementCaseId": "SIT-NP4-retinal-detachment-macular-degeneration-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-ear-anatomy-assessment-hearing-loss-04",
+      "replacementCaseId": "SIT-NP4-ear-anatomy-assessment-hearing-loss-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-ear-disorders-surgery-care-01",
+      "replacementCaseId": "SIT-NP4-ear-disorders-surgery-care-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-documentation-professional-development-02",
+      "replacementCaseId": "SIT-NP4-documentation-professional-development-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP4-documentation-professional-development-03",
+      "replacementCaseId": "SIT-NP4-documentation-professional-development-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-foundations-of-mental-health-nursing-03",
+      "replacementCaseId": "SIT-NP5-foundations-of-mental-health-nursing-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-anxiety-anxiety-related-disorders-01",
+      "replacementCaseId": "SIT-NP5-anxiety-anxiety-related-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-trauma-related-disorders-01",
+      "replacementCaseId": "SIT-NP5-trauma-related-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-mood-disorders-01",
+      "replacementCaseId": "SIT-NP5-mood-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-mood-disorders-02",
+      "replacementCaseId": "SIT-NP5-mood-disorders-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-schizophrenia-other-psychoses-02",
+      "replacementCaseId": "SIT-NP5-schizophrenia-other-psychoses-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-substance-use-disorders-01",
+      "replacementCaseId": "SIT-NP5-substance-use-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-substance-use-disorders-02",
+      "replacementCaseId": "SIT-NP5-substance-use-disorders-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-cognitive-other-psychiatric-disorders-01",
+      "replacementCaseId": "SIT-NP5-cognitive-other-psychiatric-disorders-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-therapeutic-communication-relationship-01",
+      "replacementCaseId": "SIT-NP5-therapeutic-communication-relationship-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-crisis-intervention-01",
+      "replacementCaseId": "SIT-NP5-crisis-intervention-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-crisis-intervention-02",
+      "replacementCaseId": "SIT-NP5-crisis-intervention-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-psychiatric-assessment-symptomatology-01",
+      "replacementCaseId": "SIT-NP5-psychiatric-assessment-symptomatology-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-psychopharmacology-01",
+      "replacementCaseId": "SIT-NP5-psychopharmacology-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-psychopharmacology-02",
+      "replacementCaseId": "SIT-NP5-psychopharmacology-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-psychopharmacology-03",
+      "replacementCaseId": "SIT-NP5-psychopharmacology-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-psychopharmacology-04",
+      "replacementCaseId": "SIT-NP5-psychopharmacology-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-altered-ventilatory-function-03",
+      "replacementCaseId": "SIT-NP5-altered-ventilatory-function-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-altered-tissue-perfusion-01",
+      "replacementCaseId": "SIT-NP5-altered-tissue-perfusion-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-altered-tissue-perfusion-02",
+      "replacementCaseId": "SIT-NP5-altered-tissue-perfusion-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-altered-tissue-perfusion-03",
+      "replacementCaseId": "SIT-NP5-altered-tissue-perfusion-03-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-altered-tissue-perfusion-04",
+      "replacementCaseId": "SIT-NP5-altered-tissue-perfusion-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-altered-elimination-01",
+      "replacementCaseId": "SIT-NP5-altered-elimination-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-multi-system-problems-shock-sepsis-04",
+      "replacementCaseId": "SIT-NP5-multi-system-problems-shock-sepsis-04-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-multi-system-problems-shock-sepsis-02",
+      "replacementCaseId": "SIT-NP5-multi-system-problems-shock-sepsis-02-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-high-acuity-emergency-situations-01",
+      "replacementCaseId": "SIT-NP5-high-acuity-emergency-situations-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-critical-care-equipment-01",
+      "replacementCaseId": "SIT-NP5-critical-care-equipment-01-R2"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-critical-care-equipment-02",
+      "replacementCaseId": "SIT-NP5-critical-care-equipment-02-R2"
+    }
+  ]
 }

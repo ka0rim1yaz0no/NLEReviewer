@@ -33,7 +33,8 @@ export function scheduleCard(previous: CardProgress | undefined, grade: "again" 
   const interval = grade === "again" ? 1 / 1440 : grade === "hard" ? Math.max(1, base * 1.2) : grade === "good" ? Math.max(3, base * 2) : Math.max(7, base * 3);
   return { interval, due: now + interval * 86400000, reviews: (previous?.reviews || 0) + 1, lastAt: now };
 }
-export function sessionScore(session: Session, bank: Map<string, Question>): number { return session.questionIds.filter(id => session.answers[id]?.selected === bank.get(id)?.correctIndex).length; }
+export function isAnswerCorrect(session:Session,id:string,bank:Map<string,Question>):boolean{const question=bank.get(id),answer=session.answers[id];return !!question&&!!answer&&answer.selected===question.correctIndex;}
+export function sessionScore(session: Session, bank: Map<string, Question>): number { return session.questionIds.filter(id => isAnswerCorrect(session,id,bank)).length; }
 export function parseFlashcardText(text: string, deck: string): CustomCard[] {
   const rows: string[][] = []; let row: string[] = [], value = "", quoted = false;
   const delimiter = text.includes("\t") ? "\t" : ",";

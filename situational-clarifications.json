@@ -1,0 +1,57 @@
+{
+  "SIT-NP1-common-infectious-diseases-summary-04": {
+    "action": "Arrange clinical and public-health review, including time-sensitive protection for eligible household contacts",
+    "teaching": "Use careful hand hygiene and avoid preparing food for others during the infectious period as advised",
+    "reason": "Hepatitis A can spread through the fecal-oral route. Hygiene, avoiding infectious food handling, and prompt assessment of eligible contacts for post-exposure protection help prevent further transmission.",
+    "source": "https://www.cdc.gov/hepatitis-a/hcp/clinical-care/index.html"
+  },
+  "SIT-NP1-laws-maternal-child-reproductive-health-02": {
+    "action": "Explain the newborn-screening requirement and benefits, and follow the specific written religious-belief refusal process if invoked",
+    "teaching": "Ask about the time-sensitive screening and understand the recorded risks and follow-up if the statutory religious refusal is used",
+    "reason": "RA 9288 requires newborn screening and provides a specific parental religious-belief refusal process with written acknowledgment of risk and documentation. Counseling should explain the requirement and risks accurately without coercion.",
+    "source": "https://lawphil.net/statutes/repacts/ra2004/ra_9288_2004.html"
+  },
+  "SIT-NP2-normal-labor-delivery-03": {
+    "problem": "A need for safe monitored third-stage management",
+    "action": "Monitor bleeding and maternal status and implement the prescribed third-stage protocol, including the indicated preventive uterotonic",
+    "reason": "The third stage requires assessment of bleeding, maternal stability, and placental delivery. Recommended preventive uterotonic care and any cord-traction technique must follow the trained protocol rather than untrained force.",
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK619236/"
+  },
+  "SIT-NP2-complications-during-labor-02": {
+    "action": "Stop the oxytocin infusion, assess the client and fetal tracing, and obtain urgent obstetric review under protocol",
+    "reason": "Excessive uterine activity with a concerning fetal pattern requires prompt assessment and action to reduce uterine stimulation. For this case, stop oxytocin and seek urgent review; other protocols may specify reduction or cessation according to the complete findings.",
+    "source": "https://www.nice.org.uk/guidance/ng229/chapter/recommendations"
+  },
+  "SIT-NP2-family-planning-methods-02": {
+    "teaching": "LAM requires amenorrhea, being under six months postpartum, and fully or nearly fully breastfeeding day and night",
+    "reason": "All three LAM conditions must be met: amenorrhea, under six months postpartum, and fully or nearly fully breastfeeding, with feeding intervals no longer than four hours by day or six hours at night. Protection is not guaranteed and another suitable method is needed when criteria no longer apply.",
+    "source": "https://www.cdc.gov/contraception/hcp/usmec/lactational-amenorrhea-method.html"
+  },
+  "SIT-NP2-pediatric-cardiovascular-disorders-01": {
+    "scenario": "A child with known tetralogy of Fallot becomes much more cyanotic and distressed during crying, with a suspected hypercyanotic spell.",
+    "action": "Summon emergency pediatric help and use the trained knee-chest positioning and prescribed spell-management protocol",
+    "reason": "A hypercyanotic spell in tetralogy of Fallot needs urgent assessment and treatment. Knee-chest positioning can increase systemic vascular resistance and reduce right-to-left shunting; this is not a universal instruction for every cyanotic heart defect."
+  },
+  "SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-01": {
+    "action": "Cool the isolated scald with cool running water for 20 minutes when feasible, keep the rest of the child warm, and arrange appropriate assessment",
+    "reason": "Prompt cool running water can limit burn injury. Use 20 minutes when feasible while preventing whole-body hypothermia, and obtain assessment appropriate to the burn. Ice and unreviewed creams can cause further harm.",
+    "source": "https://www.rch.org.au/clinicalguide/guideline_index/Burns/"
+  },
+  "SIT-NP3-bronchial-asthma-02": {
+    "scenario": "A client prescribed a daily maintenance inhaled corticosteroid and a separate reliever stops the daily inhaler whenever symptoms improve.",
+    "teaching": "Follow this prescribed daily maintenance regimen and the separate reliever instructions unless the treating clinician changes the plan",
+    "reason": "For this daily maintenance regimen, symptom improvement does not justify stopping the prescribed inhaled corticosteroid. Asthma regimens differ, including some as-needed ICS-containing approaches, so teaching must match the actual prescription."
+  },
+  "SIT-NP3-acute-coronary-syndrome-acs-03": {
+    "scenario": "A client with ischemic chest pain and low blood pressure reports taking sildenafil recently. A nitrate dose is being considered before medication and timing review.",
+    "reason": "Nitrates can cause dangerous hypotension with recent PDE5-inhibitor exposure such as sildenafil, and low blood pressure adds concern. Verify the specific drug, timing, and clinical status before administration; not every erectile-dysfunction treatment has identical precautions."
+  },
+  "SIT-NP5-altered-perception-02": {
+    "scenario": "An awake intubated client emerging from sedation is frightened and tries to speak without understanding why the endotracheal tube prevents normal speech."
+  },
+  "SIT-CROSS-dosage-calculation-medication-administration-01": {
+    "scenario": "A verified prescription specifies the correct single dose in milligrams. The vial is labeled in milligrams per milliliter, and the nurse is uncertain how to convert that single-dose amount to a volume.",
+    "problem": "An unresolved volume conversion after the correct single-dose amount is established",
+    "reason": "Once the correct single-dose amount is established, dividing the required milligrams by the verified milligrams-per-milliliter concentration gives the volume. This differs from first resolving an error between a total daily amount and each divided dose."
+  }
+}

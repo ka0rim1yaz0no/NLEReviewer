@@ -2,12 +2,14 @@
 import {readFile,writeFile,mkdir,readdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8'));
-const urls=[...new Set(evidence.map(c=>c.source))];
+const legacy=JSON.parse(await readFile(new URL('./legacy-case-references.json',import.meta.url),'utf8'));
+const urls=[...new Set([...evidence.map(c=>c.source),...Object.values(legacy)])];
 const cache=new URL('./outputs/openrn/',import.meta.url);
 const xml=(await Promise.all((await readdir(cache)).filter(n=>n.endsWith('.xml')).map(n=>readFile(new URL(n,cache),'utf8')))).join('\n');
 const results=[];
-for(const url of urls.filter(u=>u.includes('ncbi.nlm.nih.gov'))){const id=url.match(/NBK\d+/)?.[0];results.push({url,method:'cached official NLM Books-OAI reference XML',available:!!id&&new RegExp(id+'\\b').test(xml)});}
-const pending=urls.filter(u=>!u.includes('ncbi.nlm.nih.gov'));
+for(const url of urls.filter(u=>u.includes('ncbi.nlm.nih.gov'))){const id=url.match(/NBK\d+/)?.[0];if(id&&new RegExp(id+'\\b').test(xml))results.push({url,method:'cached official NLM Books-OAI reference XML',available:true});}
+const cached=new Set(results.map(r=>r.url));
+const pending=urls.filter(u=>!cached.has(u));
 let cursor=0;
 await mkdir(new URL('./outputs/situational-references/',import.meta.url),{recursive:true});
 await Promise.all(Array.from({length:4},async()=>{

@@ -1,11 +1,11 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { questions, validateQuestions } from './author-bank.ts';
+import { activeQuestions, validateQuestions } from './author-bank.ts';
 import { auditQuestionBank } from './catalog-metrics.ts';
 
 // Read-only audit: an optional authorized JSON bank can be checked without publishing it.
 const positional=process.argv.slice(2).filter(arg=>!arg.startsWith('--'));
 const input=positional[0];
-const bank=input?validateQuestions(JSON.parse(await readFile(input,'utf8'))):questions;
+const bank=input?validateQuestions(JSON.parse(await readFile(input,'utf8'))).filter(q=>!q.retired):activeQuestions;
 const report=auditQuestionBank(bank);
 const destination=positional[1]||'question-coverage.json';
 await writeFile(destination,JSON.stringify(report,null,2)+'\n');

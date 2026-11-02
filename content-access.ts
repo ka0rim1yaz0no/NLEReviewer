@@ -1,7 +1,8 @@
 import {supabase} from "./auth";
 import {validateProtectedContent} from "./content-integrity";
 import type {ContentRow} from "./content-integrity";
-import {contentRelease,decodeContentRelease} from "./content-release";
+import {contentRelease} from "./content-release";
+import {processContentRelease} from "./content-processing";
 import type {ReleaseManifest} from "./content-release";
 export async function loadProtectedContent(){
  if(!supabase)throw new Error("The study database is not configured.");
@@ -19,7 +20,7 @@ export async function loadProtectedContent(){
     const pageController=new AbortController(),pageTimer=setTimeout(()=>pageController.abort(),20000);
     try{const result=await supabase.from("study_content_releases").select("id,kind,data").eq("release",contentRelease).eq("kind","page").order("id").range(offset,offset+1).abortSignal(pageController.signal);if(result.error)throw new Error("Study questions could not be loaded. Your progress has been kept. Please try again.");pages.push(...(result.data||[]));}finally{clearTimeout(pageTimer);}
    }
-   return await decodeContentRelease(manifest,pages);
+   return await processContentRelease(manifest,pages);
   }
  }finally{clearTimeout(timer);}
  // Backward-compatible fallback while a new release is being staged.

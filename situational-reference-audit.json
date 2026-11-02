@@ -1,0 +1,1545 @@
+{
+  "checkedAt": "2026-11-02T21:16:32.189Z",
+  "referenceCount": 205,
+  "automaticallyAvailable": 197,
+  "accessRestricted": [
+    {
+      "url": "https://ro2.doh.gov.ph/mandates/",
+      "status": 403
+    },
+    {
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "status": 403
+    },
+    {
+      "url": "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
+      "status": 403
+    },
+    {
+      "url": "https://issuances-library.senate.gov.ph/executive-issuance/executive-order-no-119-s-1987",
+      "status": 403
+    },
+    {
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines",
+      "status": 403
+    },
+    {
+      "url": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+      "status": 403
+    },
+    {
+      "url": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+      "status": 403
+    },
+    {
+      "url": "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/coping-agitation-aggression-and-sundowning",
+      "status": 405
+    }
+  ],
+  "note": "HTTP and official XML availability plus editorial source review. Restricted automated access is recorded transparently; it does not establish a broken URL. Not independent clinician approval.",
+  "references": [
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610839/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613075/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK595006/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK595001/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610818/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616992/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596728/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596723/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596716/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596739/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596740/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596727/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594499/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594495/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610817/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610826/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610830/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610825/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610832/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594995/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594996/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613073/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2002/ra_9173_2002.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2002/ra_9173_2002.html",
+      "title": "Republic Act No. 9173",
+      "sha256": "c98cd631e779d16a8dc02cf59d7c7d890e44723ab5da62ca0f5cab436197ed5d"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613064/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613062/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases",
+      "title": "Noncommunicable diseases",
+      "sha256": "1a1d731efb04f1fb20eef57aeb3b9e6b0438e1bdca7ee934294fe9b7a9720180"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613069/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.cdc.gov/infection-control/hcp/basics/standard-precautions.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/infection-control/hcp/basics/standard-precautions.html",
+      "title": "Standard Precautions for All Patient Care | Infection Control | CDC",
+      "sha256": "17f85bf478b8045a8cbc24efef016fda14a03a26aab1b48c3ea79e264ace609e"
+    },
+    {
+      "url": "https://www.cdc.gov/tb-healthcare-settings/hcp/infection-control/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/tb-healthcare-settings/hcp/infection-control/index.html",
+      "title": "Tuberculosis Infection Control | TB Prevention in Health Care Settings | CDC",
+      "sha256": "fe8c415ddc63f6c20aa43be607b5d12355b2e6c031aa8d46490414063cad17e3"
+    },
+    {
+      "url": "https://www.cdc.gov/norovirus/prevention/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/norovirus/prevention/index.html",
+      "title": "How to Prevent Norovirus | Norovirus | CDC",
+      "sha256": "0578cee850a6e4137de3fffab6c70f5e8fc7310e7a24e19b3188f333cc90ed1a"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/tuberculosis",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/tuberculosis",
+      "title": "Tuberculosis",
+      "sha256": "f2108a3f6ddf5b6b81260f44942393d2a8d2772a29384e7e14e23c291c96067b"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/leprosy",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/leprosy",
+      "title": "Leprosy",
+      "sha256": "d5c527ef56b779450645d8d2bf4168e1d592bc9acdd801f7a7123d2bc26fca45"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/dengue-and-severe-dengue",
+      "title": "Dengue",
+      "sha256": "7ceca4ee71ffcac5f3536a2d8b34935adfbbafd874ed1349cc03196d750754ab"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/malaria",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/malaria",
+      "title": "Malaria",
+      "sha256": "c7889b440bd7777764f1647a06627b335419f3acc8dbf488a375840c35c8623a"
+    },
+    {
+      "url": "https://www.cdc.gov/measles/signs-symptoms/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/measles/signs-symptoms/index.html",
+      "title": "Measles Symptoms and Complications | Measles (Rubeola) | CDC",
+      "sha256": "7b4cc9457831954db305983ff7b94a778787f24ee2fe8f6c12a5d3f17d401228"
+    },
+    {
+      "url": "https://www.cdc.gov/chickenpox/hcp/clinical-guidance/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/chickenpox/hcp/clinical-guidance/index.html",
+      "title": "Clinical Guidance for People at Risk for Severe Varicella | Chickenpox (Varicella) | CDC",
+      "sha256": "1c88bbc1cfaafb02d6668973a04456ff0dfff80030daedf145d73563c178c18a"
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/scabies/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/scabies/",
+      "title": "Scabies - NHS",
+      "sha256": "d357a49574d17cf5971939a51289d98aaee6b73dd37d1485c78929c97a4d6861"
+    },
+    {
+      "url": "https://www.cdc.gov/group-a-strep/about/impetigo.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/group-a-strep/about/impetigo.html",
+      "title": "About Impetigo | Group A Strep | CDC",
+      "sha256": "72559ab3281c14e003af83b3aa73bbb6f2213a1f321d5a2653484695727473ba"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/rabies",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/rabies",
+      "title": "Rabies",
+      "sha256": "ce387e1fa9bdbb6899238d9e1c3da413502339035e763970dbd8693c44691752"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/tetanus",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/tetanus",
+      "title": "Tetanus",
+      "sha256": "87ef7e999dcfd098b8edbefc496280290732a9784bfd352ec3ef7cdfa18ea2b6"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/meningitis",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/meningitis",
+      "title": "Meningitis",
+      "sha256": "2f9ea72724892ba62351c853ee89d59efd2723422e6981c969b7fea7f020c800"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/poliomyelitis",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/poliomyelitis",
+      "title": "Poliomyelitis",
+      "sha256": "8d0b09cf83d972a70ac58d7d9c88fbfd0f4ebe7017d5e3e1bbb33e8c4c9bb294"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/cholera",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/cholera",
+      "title": "Cholera",
+      "sha256": "6c2d9a407dff0cb89440b9dba8befa5ad0980d9080680a922c5234b1c2c4a267"
+    },
+    {
+      "url": "https://www.who.int/health-topics/leptospirosis",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/health-topics/leptospirosis",
+      "title": "Leptospirosis",
+      "sha256": "a22a6d26d353c3a8b93b7fdd79ec28103ceb825179a49f80f61a0ea4f22a88c0"
+    },
+    {
+      "url": "https://www.who.int/news-room/fact-sheets/detail/typhoid",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/news-room/fact-sheets/detail/typhoid",
+      "title": "Typhoid",
+      "sha256": "627e5cbbd98a52399f966539f981f8ac0dbebd9fd69ad390300a11f22c748bbb"
+    },
+    {
+      "url": "https://www.cdc.gov/hepatitis-a/hcp/clinical-care/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/hepatitis-a/hcp/clinical-care/index.html",
+      "title": "Clinical Care of Hepatitis A | Hepatitis A | CDC",
+      "sha256": "f6d71cec65b0e0f84b8c715d11607a706c8825b328902e944673cbe9c6d932c2"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615335/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615369/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610816/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610833/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616981/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610831/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://ro2.doh.gov.ph/mandates/",
+      "method": "public reference HTTP request",
+      "status": 403,
+      "available": false,
+      "finalUrl": "https://ro2.doh.gov.ph/mandates/",
+      "title": "Azure WAF",
+      "sha256": "1d3e369b66defbfbd8990bdb37b5ad8b0c62cf17f336f10c2ec5dd1a7afe6710"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2019/ra_11332_2019.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2019/ra_11332_2019.html",
+      "title": "Republic Act No. 11332",
+      "sha256": "d0aeb14f7e6b77d7f92f8dc39123c8783057c96a9a88d262bbfe21636aac7da6"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html",
+      "title": "Republic Act No. 11223",
+      "sha256": "df9c8fbb5a0894b5fbfc1b029c922a3a6721132843c799376b252a1177b928a4"
+    },
+    {
+      "url": "https://www.who.int/health-topics/universal-health-coverage",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/health-topics/universal-health-coverage",
+      "title": "Universal Health Coverage",
+      "sha256": "c04db94670e929e2a39645a644474db808419e8bb207cff9846f1e808b6e5a97"
+    },
+    {
+      "url": "https://www.who.int/health-topics/primary-health-care",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/health-topics/primary-health-care",
+      "title": "Primary health care",
+      "sha256": "e4ad1297d8085fe344369b86d025fcf2f6ab20d5c942e1698f42a7e7fcc82c1e"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616972/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615351/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.cdc.gov/pinkbook/hcp/table-of-contents/chapter-5-vaccine-storage-and-handling.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/pinkbook/hcp/table-of-contents/chapter-5-vaccine-storage-and-handling.html",
+      "title": "Chapter 5: Vaccine Storage and Handling | Pink Book | CDC",
+      "sha256": "10baf59f7460680c2b083c352bedf624af07d99ac6be1e0ed425d2f9c5d09507"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615345/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615325/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK617007/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615365/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616983/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616973/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616968/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.who.int/publications/i/item/9789241506823",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/publications/i/item/9789241506823",
+      "title": "Integrated Management of Childhood Illness (IMCI) set of distance learning modules",
+      "sha256": "c732edbe7e2eb4a37beba3f200e766c5f3c90f3bd0bf12e8a351e36125bea729"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615324/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra1992/ra_7305_1992.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra1992/ra_7305_1992.html",
+      "title": "R.A. 7305",
+      "sha256": "1b09562f145ec237e63313c3186991479c0bf1c8c49135678079c4867bf8dec1"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2017/ra_10932_2017.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2017/ra_10932_2017.html",
+      "title": "Republic Act No. 10932",
+      "sha256": "66ffe25f306f48b212caa38e0f3220b10782ca676a59655184236a681d423c80"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra1992/ra_7600_1992.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra1992/ra_7600_1992.html",
+      "title": "Republic Act No. 7600",
+      "sha256": "4e255ed1e370599dbfe4f4f8d6993ce4d2b7e3e3b4cefebbe73efd7ad8ce56bf"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2004/ra_9288_2004.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2004/ra_9288_2004.html",
+      "title": "Republic Act No. 9288",
+      "sha256": "57722c5ad5ca08a8597088bfed7f475c939b7e35deb15f39c50c082bcf8ff4b1"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2012/ra_10354_2012.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2012/ra_10354_2012.html",
+      "title": "Republic Act No. 10354",
+      "sha256": "8ae20c480a07bbcc043528118f7971cd48ff8cb67b90e577ed7c41c4002387e1"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2010/ra_10028_2010.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2010/ra_10028_2010.html",
+      "title": "R.A. No. 10028",
+      "sha256": "1691dbb37a769f5a1a1f5231d2c010f8409d75ce8a044112b67e499b96f7adc9"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2018/ra_11058_2018.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2018/ra_11058_2018.html",
+      "title": "Republic Act No. 11058",
+      "sha256": "081716ea559e8ee53a0ab96e315170f4681c84ad77598d60829bbfede3353929"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2001/ra_9003_2001.html",
+      "title": "R.A. 9003",
+      "sha256": "e54cca47493aa685af22cc260260a337b93d2b229eb592b7eb1c8c403ef2a417"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra1995/ra_8172_1995.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra1995/ra_8172_1995.html",
+      "title": "Republic Act No. 8172",
+      "sha256": "72c114cf1ae60587702f6b201243c3761946d3f43b81a2680186ed90eba0026b"
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+      "title": "R.A. 6675",
+      "sha256": "948e84fe2dfa984de9f78017a46a72f89ce9dd57b225bab8587ea07b8799ddbe"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK619236/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK619236/",
+      "title": "Checking your browser - reCAPTCHA",
+      "sha256": "dc9b25e746c10ea1576227de0f1729e84a7cd4adeed26cd7114a9724f77bbe30"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng229/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng229/chapter/recommendations",
+      "title": "Recommendations | Fetal monitoring in labour | Guidance | NICE",
+      "sha256": "45b318b7e34f13b83debfb005fd627b1009e553b5b2a3693db08c262ff5fcc81"
+    },
+    {
+      "url": "https://www.cdc.gov/contraception/hcp/usmec/combined-hormonal-contraceptives.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/contraception/hcp/usmec/combined-hormonal-contraceptives.html",
+      "title": "Appendix D: Classifications for Combined Hormonal Contraceptives | Contraception | CDC",
+      "sha256": "02862291fe6c3960c6603b0be559865ca91b47502e420ddd18096e1ba9ad415d"
+    },
+    {
+      "url": "https://www.cdc.gov/contraception/hcp/usmec/lactational-amenorrhea-method.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/contraception/hcp/usmec/lactational-amenorrhea-method.html",
+      "title": "Appendix G: Lactational Amenorrhea Method | Contraception | CDC",
+      "sha256": "d4b14705a1eb79d1f92577e99bdf359ac2517577635edc4ce0f020d82c9a14d7"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615326/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615366/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616963/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615373/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615354/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615347/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.rch.org.au/clinicalguide/guideline_index/Burns/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.rch.org.au/clinicalguide/guideline_index/Burns/",
+      "title": "Clinical Practice Guidelines : Burns - acute management",
+      "sha256": "2369ab1bb3022ad09ad2bb287174e0efdb6d47f10683087cfe1e6e66870075d2"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615330/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613063/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596713/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/nosebleed/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/nosebleed/",
+      "title": "Nosebleed - NHS",
+      "sha256": "e8c721b699135fe5aa27b387efb61b6a1a9e8462731e4998d2c0fd862ebf821a"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610814/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613070/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596733/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594490/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594497/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613065/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.cdc.gov/c-diff/prevention/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/c-diff/prevention/index.html",
+      "title": "Preventing C. diff | C. diff | CDC",
+      "sha256": "36ca62abcf6393899417dced5e98bf128a9a9ae3378f1204fdb5cb049d70a6e0"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613074/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596731/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610835/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK613072/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596724/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/glaucoma",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/glaucoma",
+      "title": "Glaucoma | National Eye Institute",
+      "sha256": "a71470099fefdc9c2f82e386c12ea879ddc20c32185aa978e7e7656f1b093584"
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/cataracts/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/cataracts/",
+      "title": "Cataracts in adults - NHS",
+      "sha256": "07a3a4378d4f74a616591425f14e495e9581451b0544973d37ed7605daf4a39c"
+    },
+    {
+      "url": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/cataracts/cataract-surgery",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/cataracts/cataract-surgery",
+      "title": "Cataract Surgery | National Eye Institute",
+      "sha256": "f6e3d9bbcb6ef3e884a15cbf5aaa39c5cd997bcddae49d5bc68c3e0bcbd85c08"
+    },
+    {
+      "url": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/retinal-detachment",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/retinal-detachment",
+      "title": "Retinal Detachment | National Eye Institute",
+      "sha256": "22ed6e4057dc1d2ebdf1ecffba15e906b0a4999395b853d9570bb263f4ba209c"
+    },
+    {
+      "url": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/age-related-macular-degeneration",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/age-related-macular-degeneration",
+      "title": "Age-Related Macular Degeneration (AMD) | National Eye Institute",
+      "sha256": "6d17658f5901d5b6d06fcb201955b191f0f17ac0c2aa2b58ae85a774cf6bafc5"
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/eye-injuries/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/eye-injuries/",
+      "title": "Eye injuries - NHS",
+      "sha256": "0268b2b9fcddf61e803fd54b28ce8a00666c006fa8fd75d106a09b37f6a2790d"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596720/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng98/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng98/chapter/recommendations",
+      "title": "Recommendations | Hearing loss in adults: assessment and management | Guidance | NICE",
+      "sha256": "fed1262b7b5cc79834bd46e5234adb901c69cb5de53c65524b685018ac97d03b"
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/hearing-loss/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/hearing-loss/",
+      "title": "Hearing loss - NHS",
+      "sha256": "52f10b4a7a91a486109ce9a2301bb1f6120327827bb69976997e05d4b017b32e"
+    },
+    {
+      "url": "https://111.wales.nhs.uk/Mastoiditis/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://111.wales.nhs.uk/Mastoiditis/",
+      "title": "NHS 111 Wales - Health A-Z : Mastoiditis",
+      "sha256": "b31d37129f0df2e919f0e8af77c9e388dfef7d9bd09648893f82cb909ad7c3e8"
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/perforated-eardrum/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/perforated-eardrum/",
+      "title": "Perforated eardrum - NHS",
+      "sha256": "b1ac7aa466283490b1a1c9d2ab36bc2adff4e3728dc31567787d395b51988402"
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/ear-infections/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/ear-infections/",
+      "title": "Ear infections - NHS",
+      "sha256": "bc46cbd152cd6a94cd602bd8a51fbaa0a222d2ec83eeb98f583e5694ecedb850"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610819/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616993/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK610841/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK617006/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK617010/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616988/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616969/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK617009/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616955/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK617004/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK616961/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "method": "public reference HTTP request",
+      "status": 403,
+      "available": false,
+      "finalUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "title": "Attention Required! | Cloudflare",
+      "sha256": "b15fc353382e42fad123a58091b5ca5bcc0b4fd14499332470e640a1c08aeda9"
+    },
+    {
+      "url": "https://www.cdc.gov/niosh/heat-stress/about/illnesses.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/niosh/heat-stress/about/illnesses.html",
+      "title": "Heat-related Illnesses | Heat | CDC",
+      "sha256": "d6ee91c93d4a5f05d8ec47a4e6840053e69096b03784a5f963a73a5c8561699d"
+    },
+    {
+      "url": "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
+      "method": "public reference HTTP request",
+      "status": 403,
+      "available": false,
+      "finalUrl": "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
+      "title": "Just a moment...",
+      "sha256": "d0e8fb1efccbbfb877be76ad72dedac9a9de1dfbd651270aae54a5903b8057bf"
+    },
+    {
+      "url": "https://www.nhs.uk/conditions/burns-and-scalds/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nhs.uk/conditions/burns-and-scalds/",
+      "title": "Burns and scalds - NHS",
+      "sha256": "ba0af931d1528d9894a9a9582ab369ea87aae93b5f0bc95d3d73c9f3aebaec3c"
+    },
+    {
+      "url": "https://medlineplus.gov/ency/article/003400.htm",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://medlineplus.gov/ency/article/003400.htm",
+      "title": "Temperature measurement: MedlinePlus Medical Encyclopedia",
+      "sha256": "aa8c51c64c8f09d21f4407fbc316eaa0240c475de6e46ec85a333dc1dc78a099"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.cdc.gov/tb/hcp/testing-diagnosis/clinical-and-laboratory-diagnosis.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/tb/hcp/testing-diagnosis/clinical-and-laboratory-diagnosis.html",
+      "title": "Clinical and Laboratory Diagnosis for Tuberculosis | Tuberculosis (TB) | CDC",
+      "sha256": "1e221be4a63ed099ddf08eba4590ce8bbf30727505d8cec62fe0457814dc3283"
+    },
+    {
+      "url": "https://www.cdc.gov/tb/hcp/treatment/adverse-events.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/tb/hcp/treatment/adverse-events.html",
+      "title": "Adverse Events During TB Treatment | Tuberculosis (TB) | CDC",
+      "sha256": "fa98e21049c7034436b68c183608d25cea489ea31d7f1107d77a516aa2b61be5"
+    },
+    {
+      "url": "https://www.cdc.gov/dengue/hcp/clinical-signs/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/dengue/hcp/clinical-signs/index.html",
+      "title": "Clinical Features of Dengue | Dengue | CDC",
+      "sha256": "2728eb362fb99dca845c0294d7c31d976bd5e098d3a7bfe31418942fac043bb4"
+    },
+    {
+      "url": "https://www.cdc.gov/malaria/hcp/clinical-guidance/treatment-uncomplicated.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/malaria/hcp/clinical-guidance/treatment-uncomplicated.html",
+      "title": "",
+      "sha256": "10b1b42724e994f9f25b2a11cb8e1d89d72b04fd4dc4879ea3fcfac36c758e16"
+    },
+    {
+      "url": "https://www.cdc.gov/measles/hcp/vaccine-considerations/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/measles/hcp/vaccine-considerations/index.html",
+      "title": "Measles Vaccine Recommendations | Measles (Rubeola) | CDC",
+      "sha256": "963cc3e4d08e3d62f14bc7365d9351344ba79e1f6b2f96823d32efb29e6f8c65"
+    },
+    {
+      "url": "https://www.who.int/publications/i/item/WHO-FCH-CAH-06.1",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.who.int/publications/i/item/WHO-FCH-CAH-06.1",
+      "title": "Oral rehydration salts",
+      "sha256": "bc8335316a2c64fb4be3e328986ae55b2dafcb0228df5fd74c7fe45f95f6dbfb"
+    },
+    {
+      "url": "https://www.cdc.gov/leptospirosis/hcp/clinical-overview/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/leptospirosis/hcp/clinical-overview/index.html",
+      "title": "Clinical Overview of Leptospirosis | Leptospirosis | CDC",
+      "sha256": "f880739f73081a57c861bd49c51442c3cb2ce7c7fe30529d56d69c33da410f7d"
+    },
+    {
+      "url": "https://www.cdc.gov/vaccines/hcp/administration/before.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/vaccines/hcp/administration/before.html",
+      "title": "Vaccine Administration: Before Giving Vaccine | Vaccines &amp; Immunizations | CDC",
+      "sha256": "34172438f50e8a8a9878c3f84e9321a39bc3643deba1c205801aacc334112417"
+    },
+    {
+      "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section5.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section5.html",
+      "title": "Principles of Epidemiology | Lesson 3 - Section 5",
+      "sha256": "6ee97f782a97859a0327cb0a845a65abf0b124b0da786cbdb8933881ddb204d2"
+    },
+    {
+      "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section3.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section3.html",
+      "title": "Principles of Epidemiology | Lesson 3 - Section 3",
+      "sha256": "b80bbdbb89b9efed2e64a4b9ca7129b7379b5feb227afefbc1676b02a44897bc"
+    },
+    {
+      "url": "https://issuances-library.senate.gov.ph/executive-issuance/executive-order-no-119-s-1987",
+      "method": "public reference HTTP request",
+      "status": 403,
+      "available": false,
+      "finalUrl": "https://issuances-library.senate.gov.ph/executive-issuance/executive-order-no-119-s-1987",
+      "title": "Attention Required! | Cloudflare",
+      "sha256": "ac0a33e67602f1d992f2137d323584cf839cc976e9b661af01fc9a70a6ce18ab"
+    },
+    {
+      "url": "https://www.cdc.gov/niosh/ppe/respirators/selection.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/niosh/ppe/respirators/selection.html",
+      "title": "Respirator Selection and Use | Personal Protective Equipment | CDC",
+      "sha256": "b18439bdc624ab14beb3f69e9e0f408d9952f632a81b412e9d01f3694bfceb86"
+    },
+    {
+      "url": "https://www.asahq.org/standards-and-practice-parameters/statement-on-post-dural-puncture-headache-management",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.asahq.org/standards-and-practice-parameters/statement-on-post-dural-puncture-headache-management",
+      "title": "Statement on Post-Dural Puncture Headache Management | American Society of Anesthesiologists (ASA)",
+      "sha256": "e832c8b57d85523706994b2a2f084a625e2223eb6551de3b0e21787386d91bb8"
+    },
+    {
+      "url": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines",
+      "method": "public reference HTTP request",
+      "status": 403,
+      "available": false,
+      "finalUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines",
+      "title": "Attention Required! | Cloudflare",
+      "sha256": "158bb680bc221bd5ac0e8d73d269deb666935a7102a3465f831080161dd5ff74"
+    },
+    {
+      "url": "https://www.cff.org/managing-cf/enzymes",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cff.org/managing-cf/enzymes",
+      "title": "Enzymes | Cystic Fibrosis Foundation",
+      "sha256": "13d119dc9888c07439bbc509074c75f86006663744491760a3410f094508316e"
+    },
+    {
+      "url": "https://www.safercare.vic.gov.au/best-practice-improvement/clinical-guidance/neonatal/oesophageal-atresia-and-tracheo-oesophageal-fistula-in-neonates",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.safercare.vic.gov.au/best-practice-improvement/clinical-guidance/neonatal/oesophageal-atresia-and-tracheo-oesophageal-fistula-in-neonates",
+      "title": "Oesophageal atresia and tracheo-oesophageal fistula in neonates | Safer Care Victoria",
+      "sha256": "d6c2215b814b4acd39762916c8cea518c1bee755ae55a69052fcbbd8f5424592"
+    },
+    {
+      "url": "https://www.cdc.gov/vaccines/hcp/imz-best-practices/altered-immunocompetence.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/vaccines/hcp/imz-best-practices/altered-immunocompetence.html",
+      "title": "Altered Immunocompetence | Vaccines &amp; Immunizations | CDC",
+      "sha256": "5d10eeb608e594f5d3e177830ed706e891c5f108ef4c6d88fdb808050f670ba1"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng143/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng143/chapter/recommendations",
+      "title": "Recommendations | Fever in under 5s: assessment and initial management | Guidance | NICE",
+      "sha256": "996ef2c227e079f0ddd137c1599e41c0473d1003246562291ed96540bc8d676d"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng240/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng240/chapter/recommendations",
+      "title": "Recommendations | Meningitis (bacterial) and meningococcal disease: recognition, diagnosis and management | Guidance | NICE",
+      "sha256": "a5e85354adf9f146e2d72dcfecf2591ba4472d00ab2f414041def2cf6e2c3c1a"
+    },
+    {
+      "url": "https://www.cdc.gov/contraception/hcp/usspr/intrauterine-contraception.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/contraception/hcp/usspr/intrauterine-contraception.html",
+      "title": "Intrauterine Contraception | Contraception | CDC",
+      "sha256": "0a2627195ee27fb0252e0e61a94334f19f85a598d11ea7ca6bfb0f3a981e2ae1"
+    },
+    {
+      "url": "https://www.ontario.ca/page/alert-preventing-surgical-fires-hospital-operating-rooms",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.ontario.ca/page/alert-preventing-surgical-fires-hospital-operating-rooms",
+      "title": "Alert: Preventing surgical fires in hospital operating rooms | ontario.ca",
+      "sha256": "b5ac0b3727c04ccb3e6bee44f448a823318f0ba76df3a46f093cdb57f546fb8c"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/cg65/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/cg65/chapter/recommendations",
+      "title": "Recommendations | Hypothermia: prevention and management in adults having surgery | Guidance | NICE",
+      "sha256": "29542ed2c5bfe1dac70451da06a282b4338e14ad63f8387fef6a5627e042062c"
+    },
+    {
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2a163b77-9e01-4516-b19c-f5a12ce48560",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2a163b77-9e01-4516-b19c-f5a12ce48560",
+      "title": "DailyMed - EPOPROSTENOL injection, powder, lyophilized, for solution",
+      "sha256": "00371a09d84b4ed65c9833abd2a9290c7852a7ff45b7f3f27f18fa637a8aeb13"
+    },
+    {
+      "url": "https://kdigo.org/guidelines/acute-kidney-injury/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://kdigo.org/guidelines/acute-kidney-injury/",
+      "title": "Acute Kidney Injury (AKI) and Acute Kidney Disease (AKD) &#8211; KDIGO",
+      "sha256": "688a41cb7bfc60e18b369c09fb4c68f3086a13cd6612510af3ddf24a14093450"
+    },
+    {
+      "url": "https://www.idsociety.org/practice-guideline/asymptomatic-bacteriuria/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.idsociety.org/practice-guideline/asymptomatic-bacteriuria/",
+      "title": "IDSA 2019 Clinical Practice Guideline Update for the Management of Asymptomatic Bacteriuria",
+      "sha256": "9b189a021a4be2fd4fda8eb01080494ae863a79c9b5806123b9f844ae0f2532f"
+    },
+    {
+      "url": "https://www.resus.org.uk/library/additional-guidance/guidance-anaphylaxis/emergency-treatment",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.resus.org.uk/library/additional-guidance/guidance-anaphylaxis/emergency-treatment-anaphylactic-reactions",
+      "title": "Emergency treatment of anaphylactic reactions: Guidelines for healthcare providers | Resuscitation Council UK",
+      "sha256": "3b034e3572492efb070d3ec2366a9d61ef77183a0df6f5af4c92cf6103b86cc9"
+    },
+    {
+      "url": "https://www.cdc.gov/tb/hcp/treatment/latent-tuberculosis-infection.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/tb/hcp/treatment/latent-tuberculosis-infection.html",
+      "title": "Treatment for Latent Tuberculosis Infection | Tuberculosis (TB) | CDC",
+      "sha256": "f38d34e2ae9077f8893fdcbb0ec7f168621eea6a55074dbb0df54bef5d847c91"
+    },
+    {
+      "url": "https://www.cancer.gov/about-cancer/diagnosis-staging/diagnosis/tumor-grade",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cancer.gov/about-cancer/diagnosis-staging/diagnosis/tumor-grade",
+      "title": "Tumor Grade - NCI",
+      "sha256": "5e8121c53b903443eb17c85f664b075f08960b2187703693190cc1c64d81704c"
+    },
+    {
+      "url": "https://www.fda.gov/consumers/consumer-updates/how-safely-use-glucose-meters-and-test-strips-diabetes",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.fda.gov/consumers/consumer-updates/how-safely-use-glucose-meters-and-test-strips-diabetes",
+      "title": "How to Safely Use Glucose Meters and Test Strips for Diabetes | FDA",
+      "sha256": "a6d02c38f3e564c2ed37d8b1b6ca61b3f08d79b74cd5abd2fa349cbb946c6202"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594494/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.cancer.gov/types/colorectal/screening-fact-sheet",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cancer.gov/types/colorectal/screening-fact-sheet",
+      "title": "Screening Tests to Detect Colorectal Cancer and Polyps - NCI",
+      "sha256": "942bce288dea0de9ff4124b7bde8fccae7b22c6ddb7b0d9a7cfd18f90dc6d139"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK537591/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK537591/",
+      "title": "Checking your browser - reCAPTCHA",
+      "sha256": "63a330930dbb05244351408c36af26d27ffe846f606abb11f6ad47b7f01ea98a"
+    },
+    {
+      "url": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+      "method": "public reference HTTP request",
+      "status": 403,
+      "available": false,
+      "finalUrl": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+      "title": "Just a moment...",
+      "sha256": "f50d80288ae3fc9423585ba034cda75ff2168d826aee4793ee1b65891e279369"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng243/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng243/chapter/recommendations",
+      "title": "Recommendations | Adrenal insufficiency: identification and management | Guidance | NICE",
+      "sha256": "3cc9bcaf1c9def9115e3fbed83f1cf4a0756343e0e159dacc6feb8557d208d65"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK595005/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5723c7a7-2a1d-4ab6-bf39-b2165ae781a6",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5723c7a7-2a1d-4ab6-bf39-b2165ae781a6",
+      "title": "DailyMed - LEVOTHYROXINE SODIUM tablet",
+      "sha256": "48cc75150f1d629d696511f6f32be7993e94cc4f88f6b69151251b4f2ff5ffef"
+    },
+    {
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5777b8a8-ada6-4950-8548-43a1de11f075",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5777b8a8-ada6-4950-8548-43a1de11f075"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng128/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng128/chapter/recommendations",
+      "title": "Recommendations | Stroke and transient ischaemic attack in over 16s: diagnosis and initial management | Guidance | NICE",
+      "sha256": "44563c1db017a93af7a5d92e9345c0fdfd085553dcbee78417d9c5bad4729c78"
+    },
+    {
+      "url": "https://www.activase.com/ais/dosing-and-administration/patient-monitoring.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.activase.com/ais/dosing-and-administration/patient-monitoring.html",
+      "title": "Monitoring Patients in the First 24 Hours | Activase® (alteplase)",
+      "sha256": "b40fe083ce7dd25c9bf4c5a3a4cae8a8e073d08339c9cfad00c6df0c5c247102"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594993/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng71/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng71/chapter/recommendations",
+      "title": "Recommendations | Parkinson&#x2019;s disease in adults | Guidance | NICE",
+      "sha256": "8e7e03ced3c32ded94ca9c44153a796834299a0ebeb2b2d2705c6fa3a7710c5b"
+    },
+    {
+      "url": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+      "method": "public reference HTTP request",
+      "status": 403,
+      "available": false,
+      "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+      "title": "403 Forbidden",
+      "sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4"
+    },
+    {
+      "url": "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/coping-agitation-aggression-and-sundowning",
+      "method": "public reference HTTP request",
+      "status": 405,
+      "available": false,
+      "finalUrl": "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/coping-agitation-aggression-and-sundowning",
+      "title": "Human Verification",
+      "sha256": "77f84de024d19b690ecf46554396ea8afd5c7d4ab8db2f06f77c5e0d62d71ada"
+    },
+    {
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=474fb321-575c-4b97-9dbe-080061652ee4",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=474fb321-575c-4b97-9dbe-080061652ee4",
+      "title": "DailyMed - LAMOTRIGINE KIT- lamotrigine kit LAMOTRIGINE tablet",
+      "sha256": "a79b42b3689391555f3369a8695f69715bcd4c8d500c0c1a27c293387a9aade9"
+    },
+    {
+      "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b686bbad-1ef7-4b94-a316-4d182a40b89a",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b686bbad-1ef7-4b94-a316-4d182a40b89a",
+      "title": "DailyMed - TIMOLOL MALEATE solution/ drops",
+      "sha256": "b272d7bd2b4294e031af0ad8c561f55f54c9d9cdc124c5e5ede304000a224f25"
+    },
+    {
+      "url": "https://curriculum.rcophth.ac.uk/2018/12/ophthalmic-safety-alert-use-of-nitrous-oxide-when-there-is-gas-in-an-operated-eye/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://curriculum.rcophth.ac.uk/2018/12/ophthalmic-safety-alert-use-of-nitrous-oxide-when-there-is-gas-in-an-operated-eye/",
+      "title": "Ophthalmic Safety Alert - Do not use nitrous oxide when there is gas in an operated eye - The Royal College of Ophthalmologists",
+      "sha256": "c6c84cb6ce6eeda8fd02a0208ae5d5bf8655276afbc3a264c3f432256e82521d"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK594998/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://lawphil.net/statutes/repacts/ra2012/ra_10173_2012.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://lawphil.net/statutes/repacts/ra2012/ra_10173_2012.html",
+      "title": "Republic Act No. 10173",
+      "sha256": "9ac2416ff49b71d8c8cc8e407de221fb4819fc72b2580fdab42fad8cef9c4f7c"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/cg31/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/cg31/chapter/recommendations",
+      "title": "Recommendations | Obsessive-compulsive disorder and body dysmorphic disorder: treatment | Guidance | NICE",
+      "sha256": "252172c4a23b2c7e599c238aa5146492ddcb48d16c1929b0eb9391d8e0ae907b"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng116/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng116/chapter/recommendations",
+      "title": "Recommendations | Post-traumatic stress disorder | Guidance | NICE",
+      "sha256": "1a05c9b592683b1192ef8e4dc03121a7e8206e0db1235e2b4ba5a7b9653ca7e1"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/cg185/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/cg185/chapter/recommendations",
+      "title": "Recommendations | Bipolar disorder: assessment and management | Guidance | NICE",
+      "sha256": "495748760cd2d3b4ea8d52f3c7b28da32663b6433f920b7d83ff3bc6c4d34d82"
+    },
+    {
+      "url": "https://www.asam.org/quality-care/clinical-guidelines/alcohol-withdrawal-management-guideline",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.asam.org/quality-care/clinical-guidelines/alcohol-withdrawal-management-guideline",
+      "title": "The ASAM Clinical Practice Guideline on Alcohol Withdrawal Management",
+      "sha256": "e0606d6c7a7d859a2f165b82ef425afcbb07feb54675860800bd60e9542aa2e7"
+    },
+    {
+      "url": "https://www.cdc.gov/overdose-prevention/reversing-overdose/about-naloxone.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/overdose-prevention/reversing-overdose/about-naloxone.html",
+      "title": "5 Things to Know About Naloxone | Overdose Prevention | CDC",
+      "sha256": "bcc00a78ad7bdcc59e82c6d09d69970a16212652da5d77340f5efcff55144298"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng97/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng97/chapter/recommendations",
+      "title": "Recommendations | Dementia: assessment, management and support for people living with dementia and their carers | Guidance | NICE",
+      "sha256": "70b01e299b7e7b3e3827a91e714522550b4e63b92a8c6108db37e1da60857d30"
+    },
+    {
+      "url": "https://www.nimh.nih.gov/health/publications/5-action-steps-for-helping-someone-in-emotional-pain",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nimh.nih.gov/health/publications/5-action-steps-to-help-someone-having-thoughts-of-suicide",
+      "title": "5 Action Steps to Help Someone Having Thoughts of Suicide - National Institute of Mental Health (NIMH)",
+      "sha256": "fdee652a6b931e23d6b47425235927a5a9c72d9e9593156c15af3f192ee8a2ca"
+    },
+    {
+      "url": "https://www.nice.org.uk/guidance/ng10/chapter/recommendations",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.nice.org.uk/guidance/ng10/chapter/recommendations",
+      "title": "Recommendations | Violence and aggression: short-term management in mental health, health and community settings | Guidance | NICE",
+      "sha256": "39522187909a945709176419b7911739dae4a3ac7d19fcc1bc4872717e98265a"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK459387/",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK459387/",
+      "title": "Checking your browser - reCAPTCHA",
+      "sha256": "26c0a8558b3b1ec7d2467cd0bb9c32c94707afc94cd79474b4282d599005bc62"
+    },
+    {
+      "url": "https://www.fda.gov/medical-devices/infusion-pumps/infusion-pump-risk-reduction-strategies-clinicians",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.fda.gov/medical-devices/infusion-pumps/infusion-pump-risk-reduction-strategies-clinicians",
+      "title": "Infusion Pump Risk Reduction Strategies for Clinicians | FDA",
+      "sha256": "3ef5a6ea47c876be97f587d8dab9c2791ee7130e843da1737259d0a437df0c7d"
+    },
+    {
+      "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html",
+      "title": "Principles of Epidemiology | Lesson 3 - Section 2",
+      "sha256": "83d97e00d10772db437afd97c045df830fdfa69f98951a61a0cb5b323bd63fa5"
+    },
+    {
+      "url": "https://www.cdc.gov/measles/hcp/clinical-overview/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/measles/hcp/clinical-overview/index.html",
+      "title": "Clinical Overview of Measles | Measles (Rubeola) | CDC",
+      "sha256": "9e5e3b5d261a4004faac956cf55729c610945734c19115bdac6b279c25a38141"
+    },
+    {
+      "url": "https://www.cdc.gov/rabies/hcp/clinical-care/post-exposure-prophylaxis.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/rabies/hcp/clinical-care/post-exposure-prophylaxis.html",
+      "title": "Rabies Post-exposure Prophylaxis Guidance | Rabies | CDC",
+      "sha256": "cc580195dd2aa09ef12da2aaf21f2006e8220e93ac5940ae7e9fdd0cd9be721a"
+    },
+    {
+      "url": "https://www.cdc.gov/malaria/hcp/clinical-guidance/evaluation-diagnosis.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/malaria/hcp/clinical-guidance/evaluation-diagnosis.html",
+      "title": "",
+      "sha256": "9b55dbffdac82d713b8161aacc98148d4c3cafde4f56f092ce8209670c8aeb13"
+    },
+    {
+      "url": "https://www.cdc.gov/vaccines/hcp/storage-handling/index.html",
+      "method": "public reference HTTP request",
+      "status": 200,
+      "available": true,
+      "finalUrl": "https://www.cdc.gov/vaccines/hcp/storage-handling/index.html",
+      "title": "Vaccine Storage and Handling | Vaccines &amp; Immunizations | CDC",
+      "sha256": "0155303765f218ad27320ca154369fbb293a4fa91439f67e7c28471e1e2490ec"
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    },
+    {
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK596722/",
+      "method": "cached official NLM Books-OAI reference XML",
+      "available": true
+    }
+  ]
+}

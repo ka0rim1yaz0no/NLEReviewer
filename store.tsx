@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { User } from "@supabase/supabase-js";
 import { initialState } from "./engine";
 import type { State } from "./engine";
-import { questions, installQuestionBank } from "./bank";
+import { questions, questionMap, installQuestionBank } from "./bank";
 import { loadProtectedContent } from "./content-access";
 import { supabase, profileLocked, identityChanging, readUsername, rememberSession, rememberedProfiles, lockProfile } from "./auth";
 export { supabase } from "./auth";
@@ -74,8 +74,8 @@ export function Provider({ children }: { children: ReactNode }) {
   const update=useCallback((fn:(value:State)=>State)=>{setState(previous=>{const next=fn(previous);if(!user||accessError)return {...previous,preferences:{...previous.preferences,theme:next.preferences.theme}};return {...next,updatedAt:Date.now()};});},[user,accessError]);
   async function switchProfile(){if(switching.current)return;switching.current=true;setReady(false);setUser(null);setSync("Saving your profile…");try{if(user&&supabase&&!accessError){try{localStorage.setItem(prefix+user.id,JSON.stringify(state));}catch{/* The on-screen storage status remains available. */}if(cloudWritable&&state.updatedAt!==lastSaved.current){const error=await saveCloud(user.id,state);if(error)setMessage("Progress is saved on this device; cloud sync will retry when you return.");}}}finally{lockProfile();navigate("/login");switching.current=false;}}
   const retryContent=()=>{if(user&&!accessError){try{localStorage.setItem(prefix+user.id,JSON.stringify(state));}catch{setMessage("Storage is full. Export a backup before reconnecting.");return;}}window.dispatchEvent(new Event("nle-profile-change"));};
-  const bank=useMemo(()=>{if(!user||accessError)return [];const ids=new Set(questions.map(q=>q.id));return [...questions,...state.importedQuestions.filter(q=>!ids.has(q.id))];},[state.importedQuestions,bankVersion,user,accessError]);
-  const bankMap=useMemo(()=>new Map(bank.map(q=>[q.id,q])),[bank]);
+  const bank=useMemo(()=>{if(!user||accessError)return [];const ids=new Set(questionMap.keys());return [...questions,...state.importedQuestions.filter(q=>!q.retired&&!ids.has(q.id))];},[state.importedQuestions,bankVersion,user,accessError]);
+  const bankMap=useMemo(()=>!user||accessError?new Map():new Map([...questionMap,...bank.map(q=>[q.id,q] as const)]),[bank,user,accessError]);
   return <AppContext.Provider value={{state,update,user,username,switchProfile,ready,sync,accessError,retryContent,toast:setMessage,navigate,path,bank,bankMap}}>{children}{message&&<div role="status" className="toast">{message}</div>}</AppContext.Provider>;
 }
 export function download(name: string, text: string, type="application/json") { const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000); }

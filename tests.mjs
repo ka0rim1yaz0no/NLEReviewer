@@ -3,9 +3,10 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdir,readFile,writeFile,unlink} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {questions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
+import {questions,activeQuestions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import {inCollection,collectionCounts,parseCollection,isSituational} from './collections.ts';
 import {decodeContentRelease} from './content-release.ts';
+import {processContentRelease} from './content-processing.ts';
 import {gzipSync} from 'node:zlib';
 import publishedQuestions from './site-questions.json' with { type: 'json' };
 import {additionalQuestions} from './additional-questions.ts';
@@ -18,6 +19,16 @@ import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addD
 import {validateBackup} from './validation.ts';
 import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourceKeys} from './curriculum.ts';
 const bank=new Map(questions.map(q=>[q.id,q]));
+// Roll back only the explicitly documented context/reference adjustments when
+// checking the original release digests. All stems, options, keys, and facts
+// outside this small allowlist must still match the deployed snapshots.
+const legacyContext=JSON.parse(await readFile(new URL('./legacy-context-corrections.json',import.meta.url),'utf8'));
+function beforeAudit(qs=originalQuestions){return qs.map(q=>{
+ if(!originalQuestions.some(o=>o.id===q.id))return q;
+ let stem=q.stem;for(const c of legacyContext)stem=stem.replace(c.current,c.previous);
+ return {...q,stem,source:'https://www.ncbi.nlm.nih.gov/books/NBK590025/',options:q.options.map(({source,referenceId,...o})=>o)};
+});}
+const casesBeforeAudit=clinicalCases.map(c=>({...c,scenario:legacyContext.find(x=>x.current===c.scenario)?.previous??c.scenario}));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
 test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
   assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
@@ -29,6 +40,8 @@ test('answer positions are distributed and deterministic',()=>{const counts=[0,0
 test('a submitted answer is scored once even after resubmission',()=>{const q=questions[0],s=session();let state=recordAnswer(initialState(),s,q,{selected:q.correctIndex,confidence:'sure',submitted:true},1000);state=recordAnswer(state,s,q,{selected:2,confidence:'',submitted:true},2000);assert.equal(state.attempts.length,1);assert.equal(state.attempts[0].correct,true);});
 test('misses enter the vault and a later correct retry clears them without changing first-try accuracy',()=>{const q=questions[0],s=session();let state=recordAnswer(initialState(),s,q,{selected:(q.correctIndex+1)%4,confidence:'',submitted:true},1000);assert.deepEqual(state.vault,[q.id]);state=recordAnswer(state,{...s,id:'retry'},q,{selected:q.correctIndex,confidence:'',submitted:true},2000);assert.deepEqual(state.vault,[]);assert.equal(firstAttempts(state.attempts).length,1);assert.equal(rating(firstAttempts(state.attempts)),40);});
 test('exam answers are not scored until submission; blank answers count as incorrect',()=>{const q=questions[0],q2=questions[1],s=session([q.id,q2.id]);s.answers[q.id]={selected:q.correctIndex,submitted:false,confidence:''};let state={...initialState(),sessions:[s]};assert.equal(state.attempts.length,0);state=gradeSession(state,s,bank,3000);assert.equal(state.attempts.length,2);assert.equal(state.attempts.filter(a=>a.correct).length,1);assert.equal(state.sessions[0].finishedAt,3000);assert.equal(sessionScore(s,bank),1);assert.equal(gradeSession(state,s,bank,4000).attempts.length,2);});
+
+test('an unavailable question never creates a phantom correct answer',()=>{const q=questions[0],s=session([q.id,'missing-question']);assert.equal(sessionScore(s,bank),0);s.answers[q.id]={selected:q.correctIndex,submitted:false,confidence:''};assert.equal(sessionScore(s,bank),1);s.answers['missing-question']={selected:0,submitted:false,confidence:''};assert.equal(sessionScore(s,bank),1);});
 test('rating gates prevent claims from insufficient data',()=>{assert.equal(rating([],40),null);const qs=questions.slice(0,40),s=session(qs.map(q=>q.id));let state=initialState();for(const q of qs)state=recordAnswer(state,s,q,{selected:q.correctIndex,confidence:'',submitted:true},1000);assert.equal(rating(state.attempts,40),100);assert.equal(rating(state.attempts.slice(0,39),40),null);});
 test('Manila day boundaries, leap dates, and target offsets are correct',()=>{assert.equal(dateKey(Date.parse('2026-11-02T16:00:00Z'),'Asia/Manila'),'2026-11-03');assert.equal(dateKey(Date.parse('2026-11-02T15:59:59Z'),'Asia/Manila'),'2026-11-02');assert.equal(addDays('2028-02-28',1),'2028-02-29');assert.equal(daysBetween('2026-11-02','2027-02-20'),110);});
 test('streak counts consecutive study days and allows a current unstudied day',()=>{const now=dateKey(), yesterday=addDays(now,-1),before=addDays(now,-2);const attempts=[yesterday,before].map((d,i)=>({id:String(i),questionId:'x',sessionId:'x',correct:true,confidence:'',selected:0,at:Date.parse(d+'T04:00:00Z')}));assert.equal(streak(attempts,'Asia/Manila'),2);});
@@ -45,8 +58,8 @@ test('original additions give all 155 catalog topics real practice with sourced 
  for(const q of additionalQuestions){assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.source.startsWith('https://'));assert.ok(q.origin.startsWith('Original NLE Reviewer'));assert.ok(q.options.every(o=>o.rationale.length>20));assert.equal(q.rationale,q.options[q.correctIndex].rationale);}
  const report=auditQuestionBank(questions);assert.equal(report.availableUniqueQuestions,questions.length);assert.ok(report.topics.every(t=>t.relatedAvailableCount>0));assert.equal(report.matchesReferenceDistribution,false);
 });
-test('the initial 600 published questions, options, keys, and cases stay unchanged for saved student progress',async()=>{
- assert.equal(await contentDigest(originalQuestions,clinicalCases),'001a9c92f0dc8ffff584719670f3475228acaf37c0e5565ba8bd25d40d542552');
+test('the initial 600 questions preserve their payload except documented context and reference clarifications',async()=>{
+ assert.equal(await contentDigest(beforeAudit(),casesBeforeAudit),'001a9c92f0dc8ffff584719670f3475228acaf37c0e5565ba8bd25d40d542552');
 });
 test('catalog flashcards and planner selections resolve real questions once and keep legacy decks and note keys usable',()=>{
  for(const topic of curriculum)assert.deepEqual(questionsForSelection([topic.subject+':'+topic.slug],questions).map(q=>q.id),questionsForTopic(topic,questions).map(q=>q.id));
@@ -118,11 +131,11 @@ test('protected content survives database JSON key ordering and rejects incomple
 
 test('only the two explicitly source-checked corrections are published from the research dataset',()=>{
  assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);
- assert.deepEqual(collectionCounts(questions),{all:questions.length,nursing:651+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length,situational:4940,newSituational:4340,clinical:651+publishedQuestions.length,concept:conceptQuestions.filter(q=>q.format==='concept').length,comparison:conceptQuestions.filter(q=>q.format==='comparison').length,supplemental:2});
+ assert.deepEqual(collectionCounts(questions),{all:activeQuestions.length,nursing:activeQuestions.length-2,situational:4940,newSituational:4340,clinical:651+publishedQuestions.length,concept:conceptQuestions.filter(q=>q.format==='concept').length,comparison:conceptQuestions.filter(q=>q.format==='comparison').length,supplemental:2});
  for(const q of supplementalQuestions){assert.ok(q.id.startsWith('MMCQA-'));assert.equal(q.collection,'supplemental');assert.equal(q.rationaleScope,undefined);assert.ok(q.source.includes('nhs.uk')||q.source.includes('nice.org.uk'));assert.ok(q.origin.includes('Source-based correction:'));assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.options.every(o=>o.rationale.length>40));}
  for(const q of [...originalQuestions,...additionalQuestions]){assert.ok(inCollection(q,'nursing'));assert.ok(!inCollection(q,'supplemental'));}
 });
-test('all 651 prior questions and keys are unchanged after the larger import',async()=>{assert.equal(await contentDigest([...originalQuestions,...additionalQuestions],clinicalCases),'1c16de56f5474d9504440deb7fa4c0bc5108b85c29f4261852f993fc76b8ea56');});
+test('all 651 prior questions and keys are unchanged after the larger import',async()=>{assert.equal(await contentDigest(beforeAudit([...originalQuestions,...additionalQuestions]),casesBeforeAudit),'1c16de56f5474d9504440deb7fa4c0bc5108b85c29f4261852f993fc76b8ea56');});
 test('compressed releases verify order, counts, payload integrity, and publication completeness',async()=>{
  const q=originalQuestions.slice(0,4),c=clinicalCases.slice(0,1),raw=Buffer.from(JSON.stringify({questions:q,cases:c})),base64=gzipSync(raw).toString('base64'),split=Math.floor(base64.length/2);
  const pages=[{id:'page-0000',kind:'page',data:base64.slice(0,split)},{id:'page-0001',kind:'page',data:base64.slice(split)}];
@@ -182,12 +195,12 @@ test('at least 4,771 original question designs are published, with source facts 
 });
 
 test('all 653 previously deployed questions retain their complete published payload',async()=>{
- assert.equal(await contentDigest(questions.slice(0,653),clinicalCases),'f11fdd496ba4d91bcd96c81028b826e8454f32e89980e61f21f8e0e5906f74b7');
+ assert.equal(await contentDigest(beforeAudit(questions.slice(0,653)),casesBeforeAudit),'f11fdd496ba4d91bcd96c81028b826e8454f32e89980e61f21f8e0e5906f74b7');
 });
 
 test('the full expanded bank survives the actual compressed multi-page release format',async()=>{
  const raw=Buffer.from(JSON.stringify({questions,cases:clinicalCases})),base64=gzipSync(raw,{level:9}).toString('base64');
- assert.ok(raw.length<32000000,'Expanded payload must fit the mobile release limit');
+ assert.ok(raw.length<40000000,'Active and historical payload must fit the bounded release limit');
  const pages=[];for(let offset=0;offset<base64.length;offset+=440000)pages.push({id:`page-${String(pages.length).padStart(4,'0')}`,kind:'page',data:base64.slice(offset,offset+440000)});
  assert.ok(pages.length>1);const manifest={version:2,encoding:'gzip-base64',pages:pages.length,questionCount:questions.length,caseCount:clinicalCases.length,bytes:raw.length,digest:await contentDigest(questions,clinicalCases)};
  const loaded=await decodeContentRelease(manifest,[...pages].reverse());assert.deepEqual(loaded.questions,questions);assert.deepEqual(loaded.cases,clinicalCases);
@@ -195,7 +208,7 @@ test('the full expanded bank survives the actual compressed multi-page release f
 });
 
 test('format filters keep all questions reachable and custom flashcard URLs preserve the selected format',()=>{
- const counts=collectionCounts(questions);assert.equal(counts.clinical+counts.newSituational+counts.concept+counts.comparison+counts.supplemental,questions.length);
+ const counts=collectionCounts(questions);assert.equal(counts.clinical+counts.newSituational+counts.concept+counts.comparison+counts.supplemental,activeQuestions.length);
  for(const format of ['all','nursing','situational','clinical','concept','comparison','supplemental']){assert.equal(parseCollection(format),format);assert.equal(questions.filter(q=>inCollection(q,format)).length,counts[format]);}
  assert.equal(parseCollection(null),'situational');assert.equal(parseCollection('unknown'),'situational');
 });
@@ -207,7 +220,7 @@ test('malformed format metadata and per-choice links are removed during import v
 
 test('the displayed public counts match the protected bank without including any question text',async()=>{
  const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
- assert.equal(summary.total,questions.length);assert.equal(summary.original,questions.length-supplementalQuestions.length);assert.equal(summary.topics,155);
+ assert.equal(summary.total,activeQuestions.length);assert.equal(summary.original,activeQuestions.length-supplementalQuestions.length);assert.equal(summary.topics,155);
  assert.equal(summary.concept+summary.comparison,conceptQuestions.length);assert.equal(summary.clinical,651);assert.equal(summary.situational,4940);assert.equal(summary.newSituations,620);assert.equal(summary.sourceCorrections,2);
  assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
 });
@@ -228,14 +241,14 @@ test('reference table line breaks remain readable in questions and explanations'
 });
 
 test('at least 4,771 genuinely situational questions cover every topic with complete case evidence',async()=>{
- const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8'));
- assert.equal(evidence.length,620);assert.equal(situationalQuestions.length,4340);
+ const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8')).filter(c=>!c.retired);
+ assert.equal(evidence.length,620);assert.equal(situationalQuestions.filter(q=>!q.retired).length,4340);
  assert.equal(questions.filter(isSituational).length,4940);
  const objectives=['recognition','action','teaching','safety','planning','evaluation','reasoning'].sort();
  assert.equal(new Set(evidence.map(c=>c.scenario.toLowerCase())).size,evidence.length);
  for(const topic of curriculum){
   const cases=evidence.filter(c=>c.topicSlug===topic.slug);assert.equal(cases.length,4,topic.slug);
-  assert.equal(situationalQuestions.filter(q=>q.subject===topic.subject&&q.topic===topic.name).length,28,topic.slug);
+  assert.equal(situationalQuestions.filter(q=>!q.retired&&q.subject===topic.subject&&q.topic===topic.name).length,28,topic.slug);
  }
  const positions=[0,0,0,0];
  for(const c of evidence){
@@ -268,7 +281,7 @@ test('the four ABG case results are internally consistent with the acid-base equ
 });
 
 test('every earlier question retains its complete payload after the situational expansion',async()=>{
- assert.equal(await contentDigest(questions.slice(0,5168),clinicalCases),'c3bec64f77352bebc63bb5a5de38be5614a73f88bd661846381977f05b0e369c');
+ assert.equal(await contentDigest(beforeAudit(questions.slice(0,5168)),casesBeforeAudit),'c3bec64f77352bebc63bb5a5de38be5614a73f88bd661846381977f05b0e369c');
 });
 
 test('situational questions use the existing tutor and exam grading rules without leaking early scores',()=>{
@@ -276,4 +289,66 @@ test('situational questions use the existing tutor and exam grading rules withou
  let state={...initialState(),sessions:[s]};assert.equal(state.attempts.length,0);
  state=gradeSession(state,s,bank,3000);assert.equal(state.attempts.length,2);assert.equal(state.attempts.filter(a=>a.correct).length,1);
  assert.deepEqual(state.vault,[q2.id]);assert.equal(gradeSession(state,s,bank,4000).attempts.length,2);
+});
+
+test('the audit covers every original case and replaces semantic repeats without inflating active totals',async()=>{
+ const log=JSON.parse(await readFile(new URL('./situational-audit-log.json',import.meta.url),'utf8'));
+ const report=JSON.parse(await readFile(new URL('./situational-review-report.json',import.meta.url),'utf8'));
+ assert.equal(log.reviewedCaseSets,740);assert.equal(log.reviewedSituationalQuestions,4940);assert.equal(new Set(log.reviewedCaseIds).size,740);
+ assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,135);
+ assert.equal(activeQuestions.length,9508);assert.equal(questions.filter(q=>q.retired).length,945);assert.equal(activeQuestions.filter(isSituational).length,4940);
+ for(const r of report.retirements){
+  const old=questions.filter(q=>q.caseId===r.retiredCaseId),replacement=questions.filter(q=>q.caseId===r.replacementCaseId);
+  assert.equal(old.length,7);assert.equal(replacement.length,7);assert.ok(old.every(q=>q.retired));assert.ok(replacement.every(q=>!q.retired));
+  assert.notEqual(old[0].stem.split('\n\n')[0],replacement[0].stem.split('\n\n')[0]);
+  for(const q of old)for(const format of ['all','nursing','situational','clinical','concept','comparison','supplemental'])assert.equal(inCollection(q,format),false);
+  assert.ok(inCollection(old[0],'all',true),'Saved history and notes can still display retired records');
+ }
+});
+
+test('all 4,940 previously published answer positions and alternative identities remain stable',async()=>{
+ const ledger=JSON.parse(await readFile(new URL('./published-situational-keys.json',import.meta.url),'utf8'));
+ assert.equal(ledger.length,4940);
+ for(const prior of ledger){const q=bank.get(prior.id);assert.ok(q,prior.id);assert.equal(q.correctIndex,prior.correctIndex,prior.id);if(prior.references.some(Boolean))assert.deepEqual(q.options.map(o=>o.referenceId),prior.references,prior.id);}
+});
+
+test('each active and historical seven-part answer matches its clinical evidence and every alternative is traceable',async()=>{
+ const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8')),cases=new Map(evidence.map(c=>[c.id,c]));
+ const fields={recognition:'problem',action:'action',teaching:'teaching',safety:'unsafe',planning:'outcome',evaluation:'problem',reasoning:'reason'};
+ for(const q of situationalQuestions){
+  const c=cases.get(q.caseId),field=fields[q.clinicalObjective],key=q.options[q.correctIndex];assert.ok(c,q.id);assert.ok(key.text.toLowerCase().includes(c[field].toLowerCase()),q.id);assert.ok(key.rationale.includes(c.reason),q.id);
+  for(const [index,o] of q.options.entries()){
+   const peer=cases.get(o.referenceId?.split(':')[0]);assert.ok(peer,q.id);assert.ok(o.source.startsWith('https://'));assert.ok(o.rationale.length>50);
+   if(index!==q.correctIndex&&q.clinicalObjective!=='safety'){assert.ok(o.text.toLowerCase().includes(peer[field].toLowerCase()),q.id);assert.ok(o.rationale.includes(c.reason),q.id);assert.notEqual(peer.id,c.id,q.id);}
+  }
+ }
+});
+
+test('replacement arithmetic and clinical thresholds are independently checked',async()=>{
+ const cases=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8'));
+ const find=id=>cases.find(c=>c.id===id+'-R2');
+ const dose=find('SIT-CROSS-dosage-calculation-medication-administration-02');assert.equal(18*10/3/30,2);assert.ok(dose.action.includes('2 mL'));assert.ok(dose.reason.includes('180 mg'));
+ assert.equal((40/200)/(10/200),4);assert.ok(find('SIT-NP1-epidemiology-vital-statistics-demography-01').action.includes('ratio of 4'));
+ assert.equal(5/100*100,5);assert.ok(find('SIT-NP1-epidemiology-vital-statistics-demography-02').action.includes('5 percent'));
+ assert.ok(1.2-0.8>=0.3);assert.ok(find('SIT-NP3-acute-kidney-injury-aki-01').reason.includes('0.4 mg/dL'));
+ assert.equal(82-28,54);assert.ok(find('SIT-NP4-increased-intracranial-pressure-iicp-01').action.includes('54 mmHg'));
+ assert.equal(129-118,11);assert.ok(find('SIT-NP4-adh-disorders-02').reason.includes('11 mmol/L in 6 hours'));
+ assert.ok(find('SIT-NP1-integrated-management-of-childhood-illness-imci-01').reason.includes('at least 40'));
+});
+
+test('retirement metadata is sanitized and installed content keeps historical lookup separate from new study selection',async()=>{
+ const module=await import('./bank.ts');module.installQuestionBank(questions,clinicalCases);
+ assert.equal(module.questions.length,9508);assert.equal(module.questionMap.size,questions.length);
+ const retired=questions.find(q=>q.retired);assert.ok(module.questionMap.has(retired.id));assert.ok(!module.questions.some(q=>q.id===retired.id));
+ const restored=validateBackup({...initialState(),sessions:[session([retired.id])]});restored.sessions[0].answers[retired.id]={selected:retired.correctIndex,submitted:false,confidence:''};
+ assert.equal(sessionScore(restored.sessions[0],module.questionMap),1);
+ assert.equal(validateQuestions([{...originalQuestions[0],retired:{bad:true}}])[0].retired,undefined);
+});
+
+test('browsers without workers use the same verified content path and reject damaged releases',async()=>{
+ const q=originalQuestions.slice(0,2),c=clinicalCases.slice(0,1),raw=Buffer.from(JSON.stringify({questions:q,cases:c}));
+ const pages=[{id:'page-0000',kind:'page',data:gzipSync(raw).toString('base64')}];
+ const manifest={version:2,encoding:'gzip-base64',pages:1,questionCount:q.length,caseCount:c.length,bytes:raw.length,digest:await contentDigest(q,c)};
+ assert.equal(typeof Worker,'undefined');assert.deepEqual((await processContentRelease(manifest,pages)).questions,q);
+ await assert.rejects(()=>processContentRelease({...manifest,digest:'invalid'},pages),/integrity check/);
 });

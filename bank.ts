@@ -19,8 +19,8 @@ export let clinicalCases:ClinicalCase[]=[];
 export let questionMap=new Map<string,Question>();
 export let topics:{id:string;name:string;subject:Subject;count:number}[]=[];
 export function installQuestionBank(next:Question[],cases:ClinicalCase[]){
- questions=next.length?validateQuestions(next):[];clinicalCases=cases;
- questionMap=new Map(questions.map(q=>[q.id,q]));
+ const all=next.length?validateQuestions(next):[];questions=all.filter(q=>!q.retired);clinicalCases=cases;
+ questionMap=new Map(all.map(q=>[q.id,q]));
  topics=subjects.flatMap(subject=>[...new Set(questions.filter(q=>q.subject===subject.id).map(q=>q.topic))].map(name=>({id:`${subject.id}:${name}`,name,subject:subject.id,count:questions.filter(q=>q.subject===subject.id&&q.topic===name).length})));
 }
 export function validateQuestions(value: unknown, options:{allowDuplicateStems?:boolean}={}): Question[] {
@@ -38,9 +38,9 @@ export function validateQuestions(value: unknown, options:{allowDuplicateStems?:
     if (new Set(q.options.map((o: { text: string }) => o.text.toLowerCase().trim())).size !== 4 || !Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) throw new Error(`Question ${q.id} has duplicate choices or an invalid answer.`);
   }
   return value.map(q => {
-    const {collection,rationaleScope,sourceId,sourceTopic,format,conceptId,caseId,clinicalObjective,...rest}=q;
+    const {collection,rationaleScope,sourceId,sourceTopic,format,conceptId,caseId,clinicalObjective,retired,...rest}=q;
     const options=q.options.map((o:{text:string;rationale:string;source?:unknown;referenceId?:unknown})=>({text:o.text,rationale:o.rationale,...(typeof o.source==="string"&&/^https:\/\//.test(o.source)?{source:o.source}:{}),...(typeof o.referenceId==="string"?{referenceId:o.referenceId}:{})}));
-    return { ...rest, options, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}),...(format==="concept"||format==="comparison"||format==="situational"?{format}:{}),...(typeof conceptId==="string"?{conceptId}:{}),...(typeof caseId==="string"?{caseId}:{}),...(typeof clinicalObjective==="string"?{clinicalObjective}:{}) };
+    return { ...rest, options, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}),...(format==="concept"||format==="comparison"||format==="situational"?{format}:{}),...(typeof conceptId==="string"?{conceptId}:{}),...(typeof caseId==="string"?{caseId}:{}),...(typeof clinicalObjective==="string"?{clinicalObjective}:{}),...(retired===true?{retired:true}:{}) };
   });
 }
 export function normalizeQuestionStem(text:string){return text.normalize("NFKC").toLowerCase().replace(/[\p{P}\p{S}]/gu," ").replace(/\s+/g," ").trim();}

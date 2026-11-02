@@ -1,0 +1,148 @@
+{
+  "checkedAt": "2026-11-02T21:20:35.052Z",
+  "method": "Browser viewport tests at 320, 390, and 430 CSS pixels; effective content widths exclude the scrollbar. Not a physical-device or exhaustive browser certification.",
+  "checks": [
+    {
+      "label": "dashboard-320",
+      "width": 305,
+      "scrollWidth": 305,
+      "mainWidth": 305,
+      "documentFits": true
+    },
+    {
+      "label": "topics-320",
+      "width": 305,
+      "scrollWidth": 305,
+      "mainWidth": 305,
+      "documentFits": true
+    },
+    {
+      "label": "topic-detail-320",
+      "width": 305,
+      "scrollWidth": 305,
+      "mainWidth": 305,
+      "documentFits": true
+    },
+    {
+      "label": "custom-practice-320",
+      "width": 305,
+      "scrollWidth": 305,
+      "mainWidth": 305,
+      "documentFits": true
+    },
+    {
+      "label": "exam-24px-320",
+      "width": 305,
+      "scrollWidth": 305,
+      "mainWidth": 305,
+      "documentFits": true
+    },
+    {
+      "label": "exam-results-320",
+      "width": 305,
+      "scrollWidth": 305,
+      "mainWidth": 305,
+      "documentFits": true
+    },
+    {
+      "label": "results-worker-390",
+      "width": 375,
+      "scrollWidth": 375,
+      "mainWidth": 375,
+      "documentFits": true
+    },
+    {
+      "label": "revised-dosage-answer-390",
+      "width": 375,
+      "scrollWidth": 375,
+      "mainWidth": 375,
+      "documentFits": true
+    },
+    {
+      "label": "history-390",
+      "width": 375,
+      "scrollWidth": 375,
+      "mainWidth": 375,
+      "documentFits": true
+    },
+    {
+      "label": "large-session-navigator-390",
+      "width": 375,
+      "scrollWidth": 375,
+      "mainWidth": 375,
+      "documentFits": true
+    },
+    {
+      "label": "flashcard-front-390",
+      "width": 375,
+      "scrollWidth": 375,
+      "mainWidth": 375,
+      "documentFits": true
+    },
+    {
+      "label": "flashcard-answer-390",
+      "width": 375,
+      "scrollWidth": 375,
+      "mainWidth": 375,
+      "documentFits": true
+    },
+    {
+      "label": "study-plan-week-430",
+      "width": 415,
+      "scrollWidth": 415,
+      "mainWidth": 415,
+      "documentFits": true
+    },
+    {
+      "label": "study-plan-month-430",
+      "width": 415,
+      "scrollWidth": 415,
+      "mainWidth": 415,
+      "documentFits": true
+    },
+    {
+      "label": "study-plan-day-430",
+      "width": 415,
+      "scrollWidth": 415,
+      "mainWidth": 415,
+      "documentFits": true
+    },
+    {
+      "label": "performance-430",
+      "width": 415,
+      "scrollWidth": 415,
+      "mainWidth": 415,
+      "documentFits": true
+    },
+    {
+      "label": "tutor-rationale-430",
+      "width": 415,
+      "scrollWidth": 415,
+      "mainWidth": 415,
+      "documentFits": true
+    },
+    {
+      "label": "final-tutor-results-320",
+      "width": 305,
+      "scrollWidth": 305,
+      "mainWidth": 305,
+      "documentFits": true
+    }
+  ],
+  "calendar": "Week and month intentionally pan inside an overflow:auto container; the document itself stays within the viewport.",
+  "functionalChecks": [
+    "Username-gated loading of the final protected bank",
+    "Exam: one correct and one blank gives 50%; rationales hidden until submission",
+    "Selected answer, text-size preference, and scratch note survive reload",
+    "Tutor retry gives immediate explanation and 100% for a correct one-item retry",
+    "Flags and answer elimination respond correctly",
+    "Large session navigator renders 100 buttons per page and reaches the selected question",
+    "Four-choice answer reviews and source links render",
+    "Bookmark and question-note editing respond",
+    "Flashcard reveal and Good rating advance the queue",
+    "Planner day/week/month views, task dialog, task creation and completion",
+    "Saved earlier study history remains accessible",
+    "Final release reload restores topic and question notes and tutor results"
+  ],
+  "limitations": "No test suite guarantees zero defects. Independent clinician approval of the educational content has not been completed."
+}
