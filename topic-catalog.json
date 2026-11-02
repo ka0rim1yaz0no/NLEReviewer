@@ -1,0 +1,777 @@
+[
+  {
+    "name": "Laboratory Values",
+    "slug": "laboratory-values",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Pharmacology Core Principles",
+    "slug": "pharmacology-core-principles",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Nursing Process & Prioritization",
+    "slug": "nursing-process-prioritization",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Professional Ethics & Legal Foundations",
+    "slug": "professional-ethics-legal-foundations",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Health Assessment & Vital Signs",
+    "slug": "health-assessment-vital-signs",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Dosage Calculation & Medication Administration",
+    "slug": "dosage-calculation-medication-administration",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Asepsis, IV Therapy & Wound Care",
+    "slug": "asepsis-iv-therapy-wound-care",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Basic Needs: Mobility, Comfort, Elimination & Oxygenation",
+    "slug": "basic-needs-mobility-comfort-elimination-oxygenation",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Pharmacology — Drug Classes & Nursing Considerations",
+    "slug": "pharmacology-drug-classes",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Leadership & Management",
+    "slug": "leadership-management",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Nursing Research",
+    "slug": "nursing-research",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Professional Adjustment & Nursing Jurisprudence",
+    "slug": "professional-adjustment-jurisprudence",
+    "subject": "CROSS"
+  },
+  {
+    "name": "Non-Communicable Diseases",
+    "slug": "non-communicable-diseases",
+    "subject": "NP1"
+  },
+  {
+    "name": "Communicable Diseases — Basic Concepts",
+    "slug": "communicable-diseases-basic-concepts",
+    "subject": "NP1"
+  },
+  {
+    "name": "Tuberculosis",
+    "slug": "tuberculosis",
+    "subject": "NP1"
+  },
+  {
+    "name": "Leprosy",
+    "slug": "leprosy",
+    "subject": "NP1"
+  },
+  {
+    "name": "Mosquito-Borne Diseases",
+    "slug": "mosquito-borne-diseases",
+    "subject": "NP1"
+  },
+  {
+    "name": "Integumentary-Related CDs",
+    "slug": "integumentary-related-cds",
+    "subject": "NP1"
+  },
+  {
+    "name": "Neuro-Related CDs",
+    "slug": "neuro-related-cds",
+    "subject": "NP1"
+  },
+  {
+    "name": "Common Infectious Diseases Summary",
+    "slug": "common-infectious-diseases-summary",
+    "subject": "NP1"
+  },
+  {
+    "name": "Family Nursing Process",
+    "slug": "family-nursing-process",
+    "subject": "NP1"
+  },
+  {
+    "name": "Care of Families (Normal & At-Risk)",
+    "slug": "care-of-families-normal-at-risk",
+    "subject": "NP1"
+  },
+  {
+    "name": "Care of Population Groups with Other Health Priorities",
+    "slug": "care-of-population-groups-with-other-health-priorities",
+    "subject": "NP1"
+  },
+  {
+    "name": "PH Health Care Delivery System / DOH",
+    "slug": "ph-health-care-delivery-system-doh",
+    "subject": "NP1"
+  },
+  {
+    "name": "Universal Health Care (UHC) & SDGs",
+    "slug": "universal-health-care-uhc-sdgs",
+    "subject": "NP1"
+  },
+  {
+    "name": "Primary Health Care (PHC)",
+    "slug": "primary-health-care-phc",
+    "subject": "NP1"
+  },
+  {
+    "name": "Community Health Nursing Process",
+    "slug": "community-health-nursing-process",
+    "subject": "NP1"
+  },
+  {
+    "name": "Expanded Program on Immunization (EPI)",
+    "slug": "expanded-program-on-immunization-epi",
+    "subject": "NP1"
+  },
+  {
+    "name": "Epidemiology, Vital Statistics & Demography",
+    "slug": "epidemiology-vital-statistics-demography",
+    "subject": "NP1"
+  },
+  {
+    "name": "Maternal & Child Health (MCH) Programs",
+    "slug": "maternal-child-health-mch-programs",
+    "subject": "NP1"
+  },
+  {
+    "name": "Nutrition Programs",
+    "slug": "nutrition-programs",
+    "subject": "NP1"
+  },
+  {
+    "name": "Sanitation & Environmental Health",
+    "slug": "sanitation-environmental-health",
+    "subject": "NP1"
+  },
+  {
+    "name": "Disaster Nursing in the Community",
+    "slug": "disaster-nursing-in-the-community",
+    "subject": "NP1"
+  },
+  {
+    "name": "School & Occupational Health Nursing",
+    "slug": "school-occupational-health-nursing",
+    "subject": "NP1"
+  },
+  {
+    "name": "Recording, Reporting & Health Information",
+    "slug": "recording-reporting-health-information",
+    "subject": "NP1"
+  },
+  {
+    "name": "Referral System",
+    "slug": "referral-system",
+    "subject": "NP1"
+  },
+  {
+    "name": "Community Mental Health Program",
+    "slug": "community-mental-health-program",
+    "subject": "NP1"
+  },
+  {
+    "name": "Integrated Management of Childhood Illness (IMCI)",
+    "slug": "integrated-management-of-childhood-illness-imci",
+    "subject": "NP1"
+  },
+  {
+    "name": "Health Education & Research Utilization in CHN",
+    "slug": "health-education-research-utilization-in-chn",
+    "subject": "NP1"
+  },
+  {
+    "name": "Laws: Nursing Practice & Health Workforce",
+    "slug": "laws-nursing-practice-health-workforce",
+    "subject": "NP1"
+  },
+  {
+    "name": "Laws: Disease Reporting & Control",
+    "slug": "laws-disease-reporting-control",
+    "subject": "NP1"
+  },
+  {
+    "name": "Laws: Health Financing & Insurance",
+    "slug": "laws-health-financing-insurance",
+    "subject": "NP1"
+  },
+  {
+    "name": "Laws: Maternal, Child & Reproductive Health",
+    "slug": "laws-maternal-child-reproductive-health",
+    "subject": "NP1"
+  },
+  {
+    "name": "Laws: NCD, Environmental, Occupational & Nutrition",
+    "slug": "laws-ncd-environmental-occupational-nutrition",
+    "subject": "NP1"
+  },
+  {
+    "name": "Normal Pregnancy",
+    "slug": "normal-pregnancy",
+    "subject": "NP2"
+  },
+  {
+    "name": "Complications During Pregnancy",
+    "slug": "complications-during-pregnancy",
+    "subject": "NP2"
+  },
+  {
+    "name": "Normal Labor & Delivery",
+    "slug": "normal-labor-delivery",
+    "subject": "NP2"
+  },
+  {
+    "name": "Complications During Labor",
+    "slug": "complications-during-labor",
+    "subject": "NP2"
+  },
+  {
+    "name": "Normal Puerperium",
+    "slug": "normal-puerperium",
+    "subject": "NP2"
+  },
+  {
+    "name": "Postpartum Complications",
+    "slug": "postpartum-complications",
+    "subject": "NP2"
+  },
+  {
+    "name": "Family Planning Methods",
+    "slug": "family-planning-methods",
+    "subject": "NP2"
+  },
+  {
+    "name": "Female & Male Reproductive Systems",
+    "slug": "female-male-reproductive-systems",
+    "subject": "NP2"
+  },
+  {
+    "name": "Fertilization, Genetics & Fertility",
+    "slug": "fertilization-genetics-fertility",
+    "subject": "NP2"
+  },
+  {
+    "name": "Ethico-Moral & Management in Maternal Care",
+    "slug": "ethico-moral-management-in-maternal-care",
+    "subject": "NP2"
+  },
+  {
+    "name": "Theories of Growth & Development",
+    "slug": "theories-of-growth-development",
+    "subject": "NP2"
+  },
+  {
+    "name": "Developmental Milestones",
+    "slug": "developmental-milestones",
+    "subject": "NP2"
+  },
+  {
+    "name": "Health Promotion & Disease Prevention (Pedia)",
+    "slug": "health-promotion-disease-prevention-pedia",
+    "subject": "NP2"
+  },
+  {
+    "name": "Adolescent Health",
+    "slug": "adolescent-health",
+    "subject": "NP2"
+  },
+  {
+    "name": "Pediatric Cardiovascular Disorders",
+    "slug": "pediatric-cardiovascular-disorders",
+    "subject": "NP2"
+  },
+  {
+    "name": "Pediatric Respiratory Disorders",
+    "slug": "pediatric-respiratory-disorders",
+    "subject": "NP2"
+  },
+  {
+    "name": "Pediatric Gastrointestinal Disorders",
+    "slug": "pediatric-gastrointestinal-disorders",
+    "subject": "NP2"
+  },
+  {
+    "name": "Pediatric Hematologic & Oncologic Disorders",
+    "slug": "pediatric-hematologic-oncologic-disorders",
+    "subject": "NP2"
+  },
+  {
+    "name": "Pediatric Neurologic Disorders",
+    "slug": "pediatric-neurologic-disorders",
+    "subject": "NP2"
+  },
+  {
+    "name": "Pediatric Renal Disorders",
+    "slug": "pediatric-renal-disorders",
+    "subject": "NP2"
+  },
+  {
+    "name": "Pediatric Integumentary & Musculoskeletal Disorders",
+    "slug": "pediatric-integumentary-musculoskeletal-disorders",
+    "subject": "NP2"
+  },
+  {
+    "name": "Legal Principles, Collaboration & Teamwork in Pedia",
+    "slug": "legal-principles-collaboration-teamwork-in-pedia",
+    "subject": "NP2"
+  },
+  {
+    "name": "Classification of Surgery",
+    "slug": "classification-of-surgery",
+    "subject": "NP3"
+  },
+  {
+    "name": "Pre-operative Phase",
+    "slug": "pre-operative-phase",
+    "subject": "NP3"
+  },
+  {
+    "name": "Intra-operative Phase",
+    "slug": "intra-operative-phase",
+    "subject": "NP3"
+  },
+  {
+    "name": "Post-operative Phase",
+    "slug": "post-operative-phase",
+    "subject": "NP3"
+  },
+  {
+    "name": "Upper Airway Disorders",
+    "slug": "upper-airway-disorders",
+    "subject": "NP3"
+  },
+  {
+    "name": "Bronchial Asthma",
+    "slug": "bronchial-asthma",
+    "subject": "NP3"
+  },
+  {
+    "name": "COPD",
+    "slug": "copd",
+    "subject": "NP3"
+  },
+  {
+    "name": "ARDS",
+    "slug": "ards",
+    "subject": "NP3"
+  },
+  {
+    "name": "Pneumonia (CAP, HAP, VAP)",
+    "slug": "pneumonia-cap-hap-vap",
+    "subject": "NP3"
+  },
+  {
+    "name": "Pneumothorax, Hemothorax & Chest Tubes",
+    "slug": "pneumothorax-hemothorax-chest-tubes",
+    "subject": "NP3"
+  },
+  {
+    "name": "Pulmonary Embolism & Pulmonary Hypertension",
+    "slug": "pulmonary-embolism-pulmonary-hypertension",
+    "subject": "NP3"
+  },
+  {
+    "name": "Heart Anatomy & ECG Basics",
+    "slug": "heart-anatomy-ecg-basics",
+    "subject": "NP3"
+  },
+  {
+    "name": "Acute Coronary Syndrome (ACS)",
+    "slug": "acute-coronary-syndrome-acs",
+    "subject": "NP3"
+  },
+  {
+    "name": "Peripheral Vascular Diseases & Hypertension",
+    "slug": "peripheral-vascular-diseases-hypertension",
+    "subject": "NP3"
+  },
+  {
+    "name": "Hematologic Disorders",
+    "slug": "hematologic-disorders",
+    "subject": "NP3"
+  },
+  {
+    "name": "IV Fluids",
+    "slug": "iv-fluids",
+    "subject": "NP3"
+  },
+  {
+    "name": "Electrolyte Imbalances",
+    "slug": "electrolyte-imbalances",
+    "subject": "NP3"
+  },
+  {
+    "name": "Acid-Base Balance & ABG",
+    "slug": "acid-base-balance-abg",
+    "subject": "NP3"
+  },
+  {
+    "name": "Acute Kidney Injury (AKI)",
+    "slug": "acute-kidney-injury-aki",
+    "subject": "NP3"
+  },
+  {
+    "name": "Chronic Kidney Disease (CKD)",
+    "slug": "chronic-kidney-disease-ckd",
+    "subject": "NP3"
+  },
+  {
+    "name": "Dialysis (Hemodialysis & Peritoneal)",
+    "slug": "dialysis-hemodialysis-peritoneal",
+    "subject": "NP3"
+  },
+  {
+    "name": "Infectious Disorders",
+    "slug": "infectious-disorders",
+    "subject": "NP3"
+  },
+  {
+    "name": "Inflammatory Bowel & Neuro-Inflammatory Disorders",
+    "slug": "inflammatory-bowel-neuro-inflammatory-disorders",
+    "subject": "NP3"
+  },
+  {
+    "name": "Immunologic & Connective Tissue Disorders",
+    "slug": "immunologic-connective-tissue-disorders",
+    "subject": "NP3"
+  },
+  {
+    "name": "Basic Concepts in Cancer",
+    "slug": "basic-concepts-in-cancer",
+    "subject": "NP3"
+  },
+  {
+    "name": "Cancer Treatment Modalities",
+    "slug": "cancer-treatment-modalities",
+    "subject": "NP3"
+  },
+  {
+    "name": "Oncologic Emergencies",
+    "slug": "oncologic-emergencies",
+    "subject": "NP3"
+  },
+  {
+    "name": "Site-Specific Cancers",
+    "slug": "site-specific-cancers",
+    "subject": "NP3"
+  },
+  {
+    "name": "Health Education & Quality Improvement",
+    "slug": "health-education-quality-improvement",
+    "subject": "NP3"
+  },
+  {
+    "name": "Malnutrition",
+    "slug": "malnutrition",
+    "subject": "NP4"
+  },
+  {
+    "name": "Oral & Esophageal / Gastric Disorders",
+    "slug": "oral-esophageal-gastric-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Hepatobiliary Disorders",
+    "slug": "hepatobiliary-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "GI Absorption & Elimination",
+    "slug": "gi-absorption-elimination",
+    "subject": "NP4"
+  },
+  {
+    "name": "Ostomies",
+    "slug": "ostomies",
+    "subject": "NP4"
+  },
+  {
+    "name": "ADH Disorders",
+    "slug": "adh-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Adrenal Gland Disorders",
+    "slug": "adrenal-gland-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Pituitary Gland Disorders",
+    "slug": "pituitary-gland-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Thyroid Disorders",
+    "slug": "thyroid-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Parathyroid Disorders",
+    "slug": "parathyroid-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Diabetes Mellitus",
+    "slug": "diabetes-mellitus",
+    "subject": "NP4"
+  },
+  {
+    "name": "Endocrine Emergencies Summary",
+    "slug": "endocrine-emergencies-summary",
+    "subject": "NP4"
+  },
+  {
+    "name": "Neuroanatomy & Assessment Basics",
+    "slug": "neuroanatomy-assessment-basics",
+    "subject": "NP4"
+  },
+  {
+    "name": "Increased Intracranial Pressure (IICP)",
+    "slug": "increased-intracranial-pressure-iicp",
+    "subject": "NP4"
+  },
+  {
+    "name": "Cerebrovascular Accident (Stroke)",
+    "slug": "cerebrovascular-accident-stroke",
+    "subject": "NP4"
+  },
+  {
+    "name": "Parkinson's Disease",
+    "slug": "parkinson-s-disease",
+    "subject": "NP4"
+  },
+  {
+    "name": "Multiple Sclerosis (MS)",
+    "slug": "multiple-sclerosis-ms",
+    "subject": "NP4"
+  },
+  {
+    "name": "Myasthenia Gravis (MG)",
+    "slug": "myasthenia-gravis-mg",
+    "subject": "NP4"
+  },
+  {
+    "name": "Guillain-Barré Syndrome (GBS)",
+    "slug": "guillain-barr-syndrome-gbs",
+    "subject": "NP4"
+  },
+  {
+    "name": "Autonomic Dysreflexia",
+    "slug": "autonomic-dysreflexia",
+    "subject": "NP4"
+  },
+  {
+    "name": "Alzheimer's Disease & Dementia",
+    "slug": "alzheimer-s-disease-dementia",
+    "subject": "NP4"
+  },
+  {
+    "name": "Seizure Disorders",
+    "slug": "seizure-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Spinal Cord Injuries (SCI)",
+    "slug": "spinal-cord-injuries-sci",
+    "subject": "NP4"
+  },
+  {
+    "name": "Peripheral Neuropathies",
+    "slug": "peripheral-neuropathies",
+    "subject": "NP4"
+  },
+  {
+    "name": "Amyotrophic Lateral Sclerosis (ALS)",
+    "slug": "amyotrophic-lateral-sclerosis-als",
+    "subject": "NP4"
+  },
+  {
+    "name": "Musculoskeletal Review & Interventions",
+    "slug": "musculoskeletal-review-interventions",
+    "subject": "NP4"
+  },
+  {
+    "name": "Musculoskeletal Trauma",
+    "slug": "musculoskeletal-trauma",
+    "subject": "NP4"
+  },
+  {
+    "name": "Metabolic Bone Disorders",
+    "slug": "metabolic-bone-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Inflammatory & Infectious Bone/Joint Disorders",
+    "slug": "inflammatory-infectious-bone-joint-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Spinal & Other MSK Conditions",
+    "slug": "spinal-other-msk-conditions",
+    "subject": "NP4"
+  },
+  {
+    "name": "Eye Anatomy, Assessment & Refractive Disorders",
+    "slug": "eye-anatomy-assessment-refractive-disorders",
+    "subject": "NP4"
+  },
+  {
+    "name": "Glaucoma & Cataract",
+    "slug": "glaucoma-cataract",
+    "subject": "NP4"
+  },
+  {
+    "name": "Retinal Detachment & Macular Degeneration",
+    "slug": "retinal-detachment-macular-degeneration",
+    "subject": "NP4"
+  },
+  {
+    "name": "Other Eye Conditions & Surgery Care",
+    "slug": "other-eye-conditions-surgery-care",
+    "subject": "NP4"
+  },
+  {
+    "name": "Ear Anatomy, Assessment & Hearing Loss",
+    "slug": "ear-anatomy-assessment-hearing-loss",
+    "subject": "NP4"
+  },
+  {
+    "name": "Ear Disorders & Surgery Care",
+    "slug": "ear-disorders-surgery-care",
+    "subject": "NP4"
+  },
+  {
+    "name": "Documentation & Professional Development",
+    "slug": "documentation-professional-development",
+    "subject": "NP4"
+  },
+  {
+    "name": "Foundations of Mental Health Nursing",
+    "slug": "foundations-of-mental-health-nursing",
+    "subject": "NP5"
+  },
+  {
+    "name": "Therapeutic & Stress Models",
+    "slug": "therapeutic-stress-models",
+    "subject": "NP5"
+  },
+  {
+    "name": "Anxiety & Anxiety-Related Disorders",
+    "slug": "anxiety-anxiety-related-disorders",
+    "subject": "NP5"
+  },
+  {
+    "name": "Trauma-Related Disorders",
+    "slug": "trauma-related-disorders",
+    "subject": "NP5"
+  },
+  {
+    "name": "Mood Disorders",
+    "slug": "mood-disorders",
+    "subject": "NP5"
+  },
+  {
+    "name": "Schizophrenia & Other Psychoses",
+    "slug": "schizophrenia-other-psychoses",
+    "subject": "NP5"
+  },
+  {
+    "name": "Personality Disorders",
+    "slug": "personality-disorders",
+    "subject": "NP5"
+  },
+  {
+    "name": "Eating Disorders",
+    "slug": "eating-disorders",
+    "subject": "NP5"
+  },
+  {
+    "name": "Substance Use Disorders",
+    "slug": "substance-use-disorders",
+    "subject": "NP5"
+  },
+  {
+    "name": "Cognitive & Other Psychiatric Disorders",
+    "slug": "cognitive-other-psychiatric-disorders",
+    "subject": "NP5"
+  },
+  {
+    "name": "Therapeutic Communication & Relationship",
+    "slug": "therapeutic-communication-relationship",
+    "subject": "NP5"
+  },
+  {
+    "name": "Crisis Intervention",
+    "slug": "crisis-intervention",
+    "subject": "NP5"
+  },
+  {
+    "name": "Psychiatric Assessment & Symptomatology",
+    "slug": "psychiatric-assessment-symptomatology",
+    "subject": "NP5"
+  },
+  {
+    "name": "Somatic & Behavioral Therapies",
+    "slug": "somatic-behavioral-therapies",
+    "subject": "NP5"
+  },
+  {
+    "name": "Psychopharmacology",
+    "slug": "psychopharmacology",
+    "subject": "NP5"
+  },
+  {
+    "name": "Altered Ventilatory Function",
+    "slug": "altered-ventilatory-function",
+    "subject": "NP5"
+  },
+  {
+    "name": "Altered Tissue Perfusion",
+    "slug": "altered-tissue-perfusion",
+    "subject": "NP5"
+  },
+  {
+    "name": "Altered Elimination",
+    "slug": "altered-elimination",
+    "subject": "NP5"
+  },
+  {
+    "name": "Altered Perception",
+    "slug": "altered-perception",
+    "subject": "NP5"
+  },
+  {
+    "name": "Multi-System Problems (Shock & Sepsis)",
+    "slug": "multi-system-problems-shock-sepsis",
+    "subject": "NP5"
+  },
+  {
+    "name": "High Acuity & Emergency Situations",
+    "slug": "high-acuity-emergency-situations",
+    "subject": "NP5"
+  },
+  {
+    "name": "Critical Care Equipment",
+    "slug": "critical-care-equipment",
+    "subject": "NP5"
+  },
+  {
+    "name": "Collaboration & Communication in Critical Care",
+    "slug": "collaboration-communication-in-critical-care",
+    "subject": "NP5"
+  }
+]

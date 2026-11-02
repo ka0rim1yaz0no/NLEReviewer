@@ -5,12 +5,13 @@ A BoardPal-inspired nursing review application focused on useful study tools. No
 ## Included
 
 - **600 original questions** in 120 five-question scenarios across 61 topics. Fundamentals and NP1–NP5 each contain 100 questions.
+- The **complete 155-topic reference catalog**, with the observed 12/32/22/29/37/23 subject structure, topic pages, notes, exact topic search, and custom multi-topic selection. Existing original questions are linked as related practice; missing content is labeled explicitly. Topic names do not imply the proprietary source question bank has been copied.
 - Four choices per question, a correct answer, a rationale, and an explanation for each alternative. Questions cover recognition, action, teaching, evaluation, and safety.
 - Tutor and exam modes; custom subject/topic selection; unanswered and missed filters; timers; persistent sessions; flags, elimination, confidence, highlighting, pen annotations, and scratch notes.
 - Five mock variants, each containing five 100-item, two-hour sections. Variants reuse and reorder the subject bank, rather than claiming 2,500 independent questions.
 - A balanced 30-question diagnostic; result review; first-try performance; history; saved questions and notes; study milestones.
 - Flashcards with a spaced-review schedule; custom decks; Anki text/TSV/CSV import; topic notes; a study plan and calendar export.
-- Local progress, JSON backups, authorized question imports, and optional Supabase authentication and per-user cloud sync.
+- Username-only study profiles, per-profile local progress and Supabase cloud sync, JSON backups, and authorized question imports.
 
 The source content is **not the proprietary BoardPal question bank** and is not an official PNLE paper. The question sets and short summaries require independent clinical/editorial review before production educational use. No BoardPal answers were submitted during reference inspection.
 
@@ -33,13 +34,16 @@ Import `ka0rim1yaz0no/NLEReviewer` into Vercel. The included `vercel.json` selec
 
 ## Supabase
 
-1. Choose the intended Supabase project. Run `supabase.sql` once in its SQL Editor. The table has row-level security; authenticated users can access only their own state. Anonymous database access is revoked.
+1. Choose the intended Supabase project. Run `supabase.sql` and then `username-profiles.sql` once in its SQL Editor. Both tables have row-level security; signed-in profiles can access only records matching their Supabase user ID. Unauthenticated database access is revoked.
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in Vercel and, for local development, in an ignored `.env.local`. Use the project's public publishable key. **Never use a service-role or secret key in browser code.**
-3. Set the Supabase Auth Site URL to the deployed URL and allow `<deployed-url>/dashboard` and `http://127.0.0.1:5173/dashboard` as redirects. Email magic-link sign-in works with the project's email provider.
-4. GitHub sign-in is optional. Enable the GitHub provider in Supabase, configure the GitHub OAuth application, and set `VITE_SUPABASE_GITHUB_ENABLED=true` to show its button. It is hidden until configured.
-5. Redeploy after changing Vercel environment variables; Vite embeds public values at build time.
+3. In Authentication → Sign In / Providers, enable **Allow anonymous sign-ins**. Each username profile receives a separate Supabase anonymous-auth identity in the `authenticated` database role. No email sender, email confirmation, password, or social provider is needed.
+4. Redeploy after changing Vercel environment variables; Vite embeds public values at build time.
 
-Guest and authenticated workspaces are stored separately. Signing in does not silently upload a different person's guest progress. To move guest progress into an account, export it, sign in, and restore the backup. Cloud snapshots use the most recently updated state; simultaneous edits on different devices are last-write-wins. Keep backups before editing across multiple devices. If sync is unavailable, local study continues and the status states the limitation.
+Usernames are case-insensitively unique and limited to 40 characters. This is a **pseudonymous, browser-remembered study profile**, not verified identity. The browser remembers each profile's private Supabase session; anyone using that same browser can reopen its remembered profiles. Knowing a username on a different browser does not grant access to its records. Choose a new username and import a backup to move progress to another browser, or return to the original browser. Clearing browser storage without a backup can lose access to the profile.
+
+The active identity is kept separately in each tab, so opening a second student's profile in another tab does not replace the first tab's identity. Local snapshots are keyed by Supabase user ID, and every cloud read/write is protected by `auth.uid() = user_id`, never by a display name. Switching profiles saves the current workspace before opening the chooser. Backups contain study data, not authentication sessions. Cloud snapshots use the most recently updated state; concurrent edits to the same profile are last-write-wins. If sync is unavailable, local study continues and the status states the limitation. Without Supabase configuration, local development uses a single device-only workspace.
+
+Run `node --experimental-strip-types verify-backend.mjs` against a configured development project to verify unauthenticated denial, username uniqueness, and isolation of two signed-in profiles. This creates two small, clearly named QA profiles; it does not read or modify existing students' records.
 
 ## Question imports
 
