@@ -72,3 +72,5 @@ for each alternative, and structural validation does not establish correctness.
 assignment, and the separation between the review queue and source-checked
 additions. No BoardPal question text, answers, or rationales were fetched for
 this work.
+
+PDF downloads use PDF-LIB (Andrew Dillon / Hopding, MIT license), loaded on demand from the installed package. Publisher PDF references and BoardPal readers are external links only; no redistribution rights or endorsement are implied. Generated topic guides consist of the reviewer's existing original scenario notes and cite their clinical sources.

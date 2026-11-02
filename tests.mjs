@@ -9,6 +9,8 @@ import {decodeContentRelease} from './content-release.ts';
 import {processContentRelease} from './content-processing.ts';
 import {gzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
+import {makeTopicGuide,pdfText} from './pdf-guides.ts';
+import pdfCatalog from './pdf-library-catalog.json' with {type:'json'};
 import publishedQuestions from './site-questions.json' with { type: 'json' };
 import {additionalQuestions} from './additional-questions.ts';
 import {practiceTopicRows} from './practice-metrics.ts';
@@ -20,6 +22,35 @@ import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addD
 import {validateBackup} from './validation.ts';
 import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourceKeys} from './curriculum.ts';
 const bank=new Map(questions.map(q=>[q.id,q]));
+test('all 155 PDF guides include sourced active situational points and exclude archived records',()=>{
+ for(const topic of curriculum){
+  const guide=makeTopicGuide(topic,questions,clinicalCases);
+  assert.ok(guide.sections.length>0,topic.slug);assert.ok(guide.references.length>0,topic.slug);
+  const expected=questionsForTopic(topic,questions).filter(isSituational);
+  assert.equal(guide.questionCount,expected.length,topic.slug);
+  const points=guide.sections.flatMap(s=>s.points);assert.ok(points.length>0);
+  for(const p of points){assert.ok(p.text.length>40);assert.ok(guide.references[p.reference-1].startsWith('https://'));}
+  for(const p of points.filter(p=>p.avoid))assert.ok(p.text.startsWith('AVOID / REQUIRES CORRECTION: '));
+  const retired=questions.filter(q=>q.retired&&q.topic===topic.name);
+  for(const q of retired)assert.ok(!points.some(p=>p.text===q.keyPoint),q.id);
+ }
+ assert.equal(pdfText('A−B — C–D'),'A-B - C-D');
+ const mobility=makeTopicGuide(curriculum.find(t=>t.slug==='basic-needs-mobility-comfort-elimination-oxygenation'),questions,clinicalCases);
+ const unsafe=mobility.sections.flatMap(s=>s.points).find(p=>p.text.includes('Send the dizzy patient to walk alone'));
+ assert.ok(unsafe?.avoid);assert.ok(unsafe.text.startsWith('AVOID'));
+ const labs=makeTopicGuide(curriculum.find(t=>t.slug==='laboratory-values'),questions,clinicalCases);
+ const potassium=labs.sections.flatMap(s=>s.points).find(p=>p.avoid&&p.text.includes('Administer an additional potassium supplement'));
+ assert.ok(potassium);assert.ok(potassium.text.includes('appropriate response'));
+ assert.ok(labs.sections.flatMap(s=>s.points).some(p=>!p.avoid&&p.text.includes('Start urgent cardiac monitoring')));
+});
+test('PDF resources preserve all BoardPal reader links and distinguish files from publisher pages',()=>{
+ assert.equal(pdfCatalog.boardpalReaders.length,46);assert.equal(new Set(pdfCatalog.boardpalReaders.map(r=>r.url)).size,46);
+ assert.deepEqual(['CROSS','NP1','NP2','NP3','NP4','NP5'].map(s=>pdfCatalog.boardpalReaders.filter(r=>r.subject===s).length),[9,9,7,7,8,6]);
+ assert.equal(pdfCatalog.references.filter(r=>r.kind==='pdf').length,12);
+ for(const r of pdfCatalog.boardpalReaders)assert.match(r.url,/^https:\/\/www\.nleboardpal\.com\/resources\/cram\/[a-f0-9-]+$/);
+ for(const r of pdfCatalog.references){assert.equal(new URL(r.url).protocol,'https:');if(r.kind==='pdf'){assert.match(r.url,/\.pdf(?:[?#]|$)/i);assert.ok(Number.isInteger(r.pages)&&r.pages>0);}}
+ assert.ok(needsUsername('/resources/pdfs'));assert.ok(needsUsername('/resources/pdfs?topic=NP4:neuroanatomy-assessment-basics'));
+});
 test('the standalone expansion adds one reviewed scenario per topic without changing any prior payload',async()=>{
  const added=publishedQuestions.filter(q=>q.id.startsWith('EXP2-')&&!q.retired);
  const report=JSON.parse(await readFile(new URL('./expansion-review.json',import.meta.url),'utf8'));

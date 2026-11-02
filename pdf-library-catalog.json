@@ -1,0 +1,464 @@
+{
+  "checkedAt": "2026-11-03",
+  "references": [
+    {
+      "id": "ref-1",
+      "title": "IMCI chart booklet (2014)",
+      "publisher": "WHO",
+      "kind": "pdf",
+      "url": "https://cdn.who.int/media/docs/default-source/mca-documents/child/imci-integrated-management-of-childhood-illness/imci-in-service-training/imci-chart-booklet.pdf",
+      "subjects": [
+        "NP1",
+        "NP2"
+      ],
+      "pages": 80,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-2",
+      "title": "Surgical safety checklist",
+      "publisher": "WHO",
+      "kind": "pdf",
+      "url": "https://www.who.int/docs/default-source/patient-safety/9789241598590-eng-checklist.pdf",
+      "subjects": [
+        "NP3"
+      ],
+      "pages": 1,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-3",
+      "title": "Glasgow Coma Scale assessment aid",
+      "publisher": "Glasgow Coma Scale / NHS Greater Glasgow and Clyde",
+      "kind": "pdf",
+      "url": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+      "subjects": [
+        "NP4"
+      ],
+      "pages": 1,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-4",
+      "title": "Measuring orthostatic blood pressure",
+      "publisher": "CDC STEADI",
+      "kind": "pdf",
+      "url": "https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-MeasuringBP-508.pdf",
+      "subjects": [
+        "CROSS",
+        "NP4"
+      ],
+      "pages": 1,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-5",
+      "title": "Essential newborn care 2: provider guide (2024)",
+      "publisher": "WHO",
+      "kind": "pdf",
+      "url": "https://cdn.who.int/media/docs/default-source/mca-documents/nbh/enc-course/revised-resources/core-materials/web-who-enc-2---provider-guide---may-2024.pdf",
+      "subjects": [
+        "NP1",
+        "NP2"
+      ],
+      "pages": 88,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-6",
+      "title": "Mechanical ventilation in adult ARDS (2017)",
+      "publisher": "ATS / ESICM / SCCM",
+      "kind": "pdf",
+      "url": "https://www.thoracic.org/statements/resources/cc/ards-guidelines.pdf",
+      "subjects": [
+        "NP3",
+        "NP5"
+      ],
+      "pages": 11,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-7",
+      "title": "Acute kidney injury guideline (2012)",
+      "publisher": "KDIGO",
+      "kind": "pdf",
+      "url": "https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf",
+      "subjects": [
+        "NP3"
+      ],
+      "pages": 141,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-8",
+      "title": "Mental health for emergency departments",
+      "publisher": "NSW Health",
+      "kind": "pdf",
+      "url": "https://www.health.nsw.gov.au/mentalhealth/resources/Publications/mental-health-ed-guide.pdf",
+      "subjects": [
+        "NP5"
+      ],
+      "pages": 142,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-9",
+      "title": "Safe use of smart infusion pumps (2020)",
+      "publisher": "ISMP",
+      "kind": "pdf",
+      "url": "https://online.ecri.org/hubfs/ISMP/Resources/ISMP_Smart_Infusion_Pumps_Guidelines.pdf",
+      "subjects": [
+        "CROSS",
+        "NP5"
+      ],
+      "pages": 38,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-10",
+      "title": "Community health assessment and planning (2023)",
+      "publisher": "Minnesota Department of Health",
+      "kind": "pdf",
+      "url": "https://www.health.state.mn.us/communities/practice/assessplan/lph/docs/communityassessmentplanninghb.pdf",
+      "subjects": [
+        "NP1"
+      ],
+      "pages": 36,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-11",
+      "title": "Nursing examination blueprint resolution (2025)",
+      "publisher": "PRC Philippines",
+      "kind": "pdf",
+      "url": "https://www.prc.gov.ph/sites/default/files/2025-10%20%20published%20Enhanced%20TOS%20nuse.pdf",
+      "subjects": [
+        "CROSS",
+        "NP1",
+        "NP2",
+        "NP3",
+        "NP4",
+        "NP5"
+      ],
+      "pages": 3,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "ref-12",
+      "title": "Enhanced nursing table of specifications (2025)",
+      "publisher": "PRC Philippines",
+      "kind": "pdf",
+      "url": "https://www.prc.gov.ph/sites/default/files/2025-16%20annex%20A%20nurse.pdf",
+      "subjects": [
+        "CROSS",
+        "NP1",
+        "NP2",
+        "NP3",
+        "NP4",
+        "NP5"
+      ],
+      "pages": 22,
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "who-respectful-childbirth",
+      "title": "Respectful care during childbirth: publication and downloads",
+      "publisher": "WHO",
+      "kind": "publisher",
+      "url": "https://www.who.int/publications/i/item/WHO-RHR-14.23",
+      "subjects": [
+        "NP2"
+      ],
+      "checkedAt": "2026-11-03"
+    },
+    {
+      "id": "queensland-guidelines",
+      "title": "Queensland Health guideline library",
+      "publisher": "Queensland Health",
+      "kind": "publisher",
+      "url": "https://www.health.qld.gov.au/system-governance/policies-standards/guidelines",
+      "subjects": [
+        "NP2"
+      ],
+      "checkedAt": "2026-11-03"
+    }
+  ],
+  "boardpalReaders": [
+    {
+      "id": "boardpal-1",
+      "title": "Neuro C — Spinal Cord Injury & Peripheral Nerves",
+      "url": "https://www.nleboardpal.com/resources/cram/06753af3-45c1-46c5-b0c9-8c5ec4d28ea5",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-2",
+      "title": "Anatomy and Physiology",
+      "url": "https://www.nleboardpal.com/resources/cram/22bfbe40-5b82-4926-ad25-c8ab3c7b8a48",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-3",
+      "title": "Respiratory A — Upper Airway, Asthma & COPD",
+      "url": "https://www.nleboardpal.com/resources/cram/28a2958d-9b4a-455f-8c00-deac15ca67f9",
+      "subject": "NP3"
+    },
+    {
+      "id": "boardpal-4",
+      "title": "Perioperative Nursing",
+      "url": "https://www.nleboardpal.com/resources/cram/3ab1371b-c29c-476b-87ef-85e8426aee42",
+      "subject": "NP3"
+    },
+    {
+      "id": "boardpal-5",
+      "title": "Communicable Diseases B — Parasites, Fungi & the Other Infections",
+      "url": "https://www.nleboardpal.com/resources/cram/0346a29d-c4e5-457c-8562-fe41fd7b2df2",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-6",
+      "title": "Communicable Diseases",
+      "url": "https://www.nleboardpal.com/resources/cram/ff5f4007-4259-42cb-83e3-8f7d410bf559",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-7",
+      "title": "Growth & Development — Well-Child & Adolescent Care",
+      "url": "https://www.nleboardpal.com/resources/cram/a104af63-23fa-48e0-b1aa-2ebab3dd8efe",
+      "subject": "NP2"
+    },
+    {
+      "id": "boardpal-8",
+      "title": "Diabetes Mellitus & Endocrine Emergencies",
+      "url": "https://www.nleboardpal.com/resources/cram/c99e5c7b-c318-4a23-88e5-2925cd30de92",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-9",
+      "title": "Renal & Urinary Elimination",
+      "url": "https://www.nleboardpal.com/resources/cram/6bbfbe92-8b32-42c5-977a-daaa711cf0cc",
+      "subject": "NP3"
+    },
+    {
+      "id": "boardpal-10",
+      "title": "Dosage Calculation",
+      "url": "https://www.nleboardpal.com/resources/cram/f28ad5d8-442a-438d-8444-4fc2a6be184e",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-11",
+      "title": "Metabolism & Endocrine",
+      "url": "https://www.nleboardpal.com/resources/cram/ddf79951-5d3d-4559-8d19-eb7fa75fa7e0",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-12",
+      "title": "Epidemiology, Biostatistics & Research in CHN",
+      "url": "https://www.nleboardpal.com/resources/cram/e206c76d-9e5f-43fb-b7b6-80f19e744a61",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-13",
+      "title": "Immunization, Maternal & Child Health & Nutrition",
+      "url": "https://www.nleboardpal.com/resources/cram/36ed8cbb-0ee7-40e9-8262-3e87af96c2c7",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-14",
+      "title": "Sensory — Eye and Ear Disorders",
+      "url": "https://www.nleboardpal.com/resources/cram/8a36ee8e-55d2-4346-8036-fa0499a290e4",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-15",
+      "title": "Care of Families & Population Groups",
+      "url": "https://www.nleboardpal.com/resources/cram/cd2c7106-3387-4796-9239-fdac5b17d8de",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-16",
+      "title": "Reproductive Health — Cycles, Conception, Genetics & the Ethics of Maternal Care",
+      "url": "https://www.nleboardpal.com/resources/cram/fe0e1c83-f2ca-481e-85f3-e7566ad9d004",
+      "subject": "NP2"
+    },
+    {
+      "id": "boardpal-17",
+      "title": "Mental Health Concepts & Therapeutic Models",
+      "url": "https://www.nleboardpal.com/resources/cram/88fbd724-ea2f-44ab-9045-267e9c1bdc2d",
+      "subject": "NP5"
+    },
+    {
+      "id": "boardpal-18",
+      "title": "Fundamentals & Health Assessment",
+      "url": "https://www.nleboardpal.com/resources/cram/2c941a5a-038e-483e-a160-a9431147de05",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-19",
+      "title": "Cardiovascular",
+      "url": "https://www.nleboardpal.com/resources/cram/ea2f2cd9-b877-4c5e-8fcd-7f9d6871ee17",
+      "subject": "NP3"
+    },
+    {
+      "id": "boardpal-20",
+      "title": "Critical Care & Emergency Nursing",
+      "url": "https://www.nleboardpal.com/resources/cram/d2731e94-7da6-4146-9a76-10ab314e97a7",
+      "subject": "NP5"
+    },
+    {
+      "id": "boardpal-21",
+      "title": "Neuro A — Assessment, ICP, Stroke & Seizures",
+      "url": "https://www.nleboardpal.com/resources/cram/04569b8f-90bc-493a-afca-888aa3216290",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-22",
+      "title": "Infectious, Inflammatory & Immunologic Disorders",
+      "url": "https://www.nleboardpal.com/resources/cram/3f021f20-e2a0-4f90-90ad-0e133615c14f",
+      "subject": "NP3"
+    },
+    {
+      "id": "boardpal-23",
+      "title": "Labs, Fluids & Electrolytes",
+      "url": "https://www.nleboardpal.com/resources/cram/bb1e5244-1be5-4aac-91a8-ff3ed9ec2dc4",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-24",
+      "title": "Philippine Health Laws & Legislation",
+      "url": "https://www.nleboardpal.com/resources/cram/786038e0-916c-4222-a2af-9e9709567576",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-25",
+      "title": "Leadership & Management",
+      "url": "https://www.nleboardpal.com/resources/cram/ca095e25-626f-4510-bb66-73ce9a7d3a2c",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-26",
+      "title": "Nutrition & Gastrointestinal",
+      "url": "https://www.nleboardpal.com/resources/cram/95566856-b029-4757-801d-189fda4d5ade",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-27",
+      "title": "Psychopathology A — Anxiety, Trauma, Mood & Eating",
+      "url": "https://www.nleboardpal.com/resources/cram/7da950f4-7717-47cd-bdb2-9b12f9757f00",
+      "subject": "NP5"
+    },
+    {
+      "id": "boardpal-28",
+      "title": "Musculoskeletal — Fractures, Casts, Traction & Joints",
+      "url": "https://www.nleboardpal.com/resources/cram/519af470-a8bf-45f7-9ec1-20d247dadc88",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-29",
+      "title": "Neuro B — Parkinson's, MS, Myasthenia & GBS",
+      "url": "https://www.nleboardpal.com/resources/cram/9f9c1ff2-7437-4a93-83bc-e887e4a2f37e",
+      "subject": "NP4"
+    },
+    {
+      "id": "boardpal-30",
+      "title": "Non-Communicable Diseases",
+      "url": "https://www.nleboardpal.com/resources/cram/b6b6c84f-d5df-41f9-943e-7b23ff3f7c37",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-31",
+      "title": "Intrapartum — Labor & Delivery",
+      "url": "https://www.nleboardpal.com/resources/cram/2c4a065d-a1f5-4880-9665-518ebf3ff799",
+      "subject": "NP2"
+    },
+    {
+      "id": "boardpal-32",
+      "title": "Antepartum — Normal & Complicated Pregnancy",
+      "url": "https://www.nleboardpal.com/resources/cram/4ab01cb4-d8fa-461d-a78a-5ad10262b48f",
+      "subject": "NP2"
+    },
+    {
+      "id": "boardpal-33",
+      "title": "Postpartum, Newborn & Family Planning",
+      "url": "https://www.nleboardpal.com/resources/cram/7cef372f-6227-4f3e-b99c-44f6efef0cd5",
+      "subject": "NP2"
+    },
+    {
+      "id": "boardpal-34",
+      "title": "Theoretical Foundations & the Nursing Process",
+      "url": "https://www.nleboardpal.com/resources/cram/8a45e021-79c4-4f57-bca0-4b0dfbdf2a78",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-35",
+      "title": "Nursing Research & Evidence-Based Practice",
+      "url": "https://www.nleboardpal.com/resources/cram/3f4df898-4e71-4885-8e33-1ae52173e6e2",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-36",
+      "title": "Sick Child A — Heart, Airway & Gut Disorders",
+      "url": "https://www.nleboardpal.com/resources/cram/2a29f1e4-1bce-4e5b-a703-e4857be8fd5c",
+      "subject": "NP2"
+    },
+    {
+      "id": "boardpal-37",
+      "title": "Sick Child B — Blood, Brain, Kidney, Skin & Bones",
+      "url": "https://www.nleboardpal.com/resources/cram/132981aa-d94a-4ea5-84fb-86298b6333c3",
+      "subject": "NP2"
+    },
+    {
+      "id": "boardpal-38",
+      "title": "PH Health System, UHC & Primary Health Care",
+      "url": "https://www.nleboardpal.com/resources/cram/e9ffc138-db9e-4c07-9bef-f5a78e605327",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-39",
+      "title": "Pharmacology Core",
+      "url": "https://www.nleboardpal.com/resources/cram/e3723b5f-acc6-4575-b9c0-d06d3f89e2b5",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-40",
+      "title": "Respiratory B — Pneumonia, ARDS, Chest Trauma & PE",
+      "url": "https://www.nleboardpal.com/resources/cram/947fc521-42c9-40a7-b8aa-9ab8f6a12fe9",
+      "subject": "NP3"
+    },
+    {
+      "id": "boardpal-41",
+      "title": "Nurse Law & Patient Rights — Negligence, Torts, Consent & the Record",
+      "url": "https://www.nleboardpal.com/resources/cram/543ebc1a-ac40-4e14-a829-cad75130bae8",
+      "subject": "CROSS"
+    },
+    {
+      "id": "boardpal-42",
+      "title": "Psychiatric Assessment, Therapies & Psychopharmacology",
+      "url": "https://www.nleboardpal.com/resources/cram/b54ab6fd-ed03-48d1-bf15-fdd29b9e8bb1",
+      "subject": "NP5"
+    },
+    {
+      "id": "boardpal-43",
+      "title": "Environmental Health, Disaster & Records",
+      "url": "https://www.nleboardpal.com/resources/cram/9c57c701-bc97-4c63-a0b0-c0fb39581fd1",
+      "subject": "NP1"
+    },
+    {
+      "id": "boardpal-44",
+      "title": "Psychopathology B — Schizophrenia, Personality, Substance Use & Cognitive",
+      "url": "https://www.nleboardpal.com/resources/cram/c5f04633-517e-4f27-9201-afe56b6f751d",
+      "subject": "NP5"
+    },
+    {
+      "id": "boardpal-45",
+      "title": "Hematology & Oncology",
+      "url": "https://www.nleboardpal.com/resources/cram/a2595e64-9f9a-46b9-9477-2992a9c45286",
+      "subject": "NP3"
+    },
+    {
+      "id": "boardpal-46",
+      "title": "Therapeutic Communication & Crisis Intervention",
+      "url": "https://www.nleboardpal.com/resources/cram/1734bc19-8d9a-4d98-9cfe-6c761ad8a244",
+      "subject": "NP5"
+    }
+  ]
+}
