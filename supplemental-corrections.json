@@ -1,0 +1,56 @@
+{
+  "a89ad909-3924-4cf8-803b-f0b2530a84ce": {
+    "stem": "An infant has several days of high fever followed by a pink rash over the chest and abdomen as the fever resolves. Which infection best matches this sequence?",
+    "options": [
+      {
+        "text": "Chickenpox",
+        "rationale": "Chickenpox typically causes itchy, fluid-filled blisters. The described fever-then-rash sequence is more characteristic of roseola."
+      },
+      {
+        "text": "Measles",
+        "rationale": "Measles commonly includes cough, coryza, conjunctivitis, and fever that may rise when the rash appears. That differs from this sequence."
+      },
+      {
+        "text": "Typhoid",
+        "rationale": "This option does not best fit the characteristic infant fever-then-rash sequence described here; roseola is the best match among these choices."
+      },
+      {
+        "text": "Roseola",
+        "rationale": "Roseola commonly causes a high fever for several days, followed by a rash as the temperature settles."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Roseola commonly causes a high fever for several days, followed by a rash as the temperature settles.",
+    "keyPoint": "Roseola: fever first, then a rash as the fever resolves.",
+    "source": "https://www.nhs.uk/conditions/roseola/",
+    "sourceTopic": "Pediatric rash assessment — corrected source item",
+    "correctionNote": "The source stem described rash after fever subsided, but its explanation assumed rash on the first fever day and keyed chickenpox. Rewrote the stem, replaced option D with roseola, changed the key from A to D, and supplied per-choice explanations using NHS roseola and CDC measles/chickenpox references. Applied before this collection's production publication. Independent clinical review remains required."
+  },
+  "bf1f425b-d7e1-4ccf-98db-cc0fdd8237b2": {
+    "stem": "An adult with schizophrenia has persistent symptoms despite two sequential antipsychotic trials at adequate dose and duration, including a second-generation drug. Adherence is confirmed. Which medication should the nurse anticipate the prescriber will consider next?",
+    "options": [
+      {
+        "text": "Haloperidol",
+        "rationale": "Another haloperidol trial does not follow the specific recommendation to offer clozapine after these documented treatment failures."
+      },
+      {
+        "text": "Fluphenazine",
+        "rationale": "A formulation change may help non-adherence, but adherence is established here. This scenario meets the recommendation for clozapine."
+      },
+      {
+        "text": "Clozapine",
+        "rationale": "After two adequate antipsychotic trials fail, including one second-generation agent, NICE recommends offering clozapine."
+      },
+      {
+        "text": "Olanzapine",
+        "rationale": "Olanzapine can treat schizophrenia, but this sequence of adequate treatment failures makes clozapine the recommended next consideration."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "After two adequate antipsychotic trials fail, including one second-generation agent, NICE recommends offering clozapine.",
+    "keyPoint": "Confirm adequate trials and adherence before identifying treatment resistance; clozapine is considered after two qualifying failures.",
+    "source": "https://www.nice.org.uk/guidance/cg178/chapter/recommendations",
+    "sourceTopic": "Treatment-resistant schizophrenia — corrected source item",
+    "correctionNote": "The source stem asked about poor oral absorption, but the explanation discussed treatment resistance. Rewrote the scenario around two adequate trials with confirmed adherence, retained the clozapine key, and supplied per-choice explanations using NICE CG178 recommendation 1.5.7.2. Applied before production publication. Independent clinical review remains required."
+  }
+}

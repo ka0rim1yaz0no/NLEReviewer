@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {questions,originalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
+import {questions,originalQuestions,supplementalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
+import {inCollection,collectionCounts} from './collections.ts';
+import {decodeContentRelease} from './content-release.ts';
+import {gzipSync} from 'node:zlib';
 import publishedQuestions from './site-questions.json' with { type: 'json' };
 import {additionalQuestions} from './additional-questions.ts';
 import {practiceTopicRows} from './practice-metrics.ts';
@@ -14,7 +17,7 @@ import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourc
 const bank=new Map(questions.map(q=>[q.id,q]));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
 test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
-  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
+  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
   assert.equal(new Set(questions.map(q=>q.stem)).size,questions.length);
   for(const s of subjects)assert.equal(originalQuestions.filter(q=>q.subject===s.id).length,100);
   for(const q of questions){assert.ok(q.rationale.length>20);assert.equal(q.options[q.correctIndex].rationale,q.rationale);assert.ok(q.options.every(o=>o.rationale.length>20));}
@@ -107,4 +110,32 @@ test('protected content survives database JSON key ordering and rejects incomple
  await assert.rejects(()=>validateProtectedContent(rows.filter(row=>row.kind!=='questions')),/incomplete/);
  const tampered=structuredClone(rows);tampered[0].data[0].correctIndex=(tampered[0].data[0].correctIndex+1)%4;await assert.rejects(()=>validateProtectedContent(tampered),/integrity check/);
  await assert.rejects(()=>validateProtectedContent([]),/manifest/);
+});
+
+
+test('only the two explicitly source-checked corrections are published from the research dataset',()=>{
+ assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+publishedQuestions.length);
+ assert.deepEqual(collectionCounts(questions),{all:questions.length,nursing:651+publishedQuestions.length,supplemental:2});
+ for(const q of supplementalQuestions){assert.ok(q.id.startsWith('MMCQA-'));assert.equal(q.collection,'supplemental');assert.equal(q.rationaleScope,undefined);assert.ok(q.source.includes('nhs.uk')||q.source.includes('nice.org.uk'));assert.ok(q.origin.includes('Source-based correction:'));assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.options.every(o=>o.rationale.length>40));}
+ for(const q of [...originalQuestions,...additionalQuestions]){assert.ok(inCollection(q,'nursing'));assert.ok(!inCollection(q,'supplemental'));}
+});
+test('all 651 prior questions and keys are unchanged after the larger import',async()=>{assert.equal(await contentDigest([...originalQuestions,...additionalQuestions],clinicalCases),'1c16de56f5474d9504440deb7fa4c0bc5108b85c29f4261852f993fc76b8ea56');});
+test('compressed releases verify order, counts, payload integrity, and publication completeness',async()=>{
+ const q=originalQuestions.slice(0,4),c=clinicalCases.slice(0,1),raw=Buffer.from(JSON.stringify({questions:q,cases:c})),base64=gzipSync(raw).toString('base64'),split=Math.floor(base64.length/2);
+ const pages=[{id:'page-0000',kind:'page',data:base64.slice(0,split)},{id:'page-0001',kind:'page',data:base64.slice(split)}];
+ const manifest={version:2,encoding:'gzip-base64',pages:2,questionCount:4,caseCount:1,bytes:raw.length,digest:await contentDigest(q,c)};
+ const loaded=await decodeContentRelease(manifest,[...pages].reverse());assert.deepEqual(loaded.questions,q);assert.deepEqual(loaded.cases,c);
+ await assert.rejects(()=>decodeContentRelease(manifest,pages.slice(0,1)),/incomplete/);
+ await assert.rejects(()=>decodeContentRelease({...manifest,digest:'wrong'},pages),/integrity check/);
+ await assert.rejects(()=>decodeContentRelease({...manifest,questionCount:5},pages),/incomplete/);
+ await assert.rejects(()=>decodeContentRelease(manifest,[pages[0],{...pages[1],data:'broken'}]),/decoded/);
+ await assert.rejects(()=>decodeContentRelease(manifest,[pages[0],{...pages[1],id:'page-0000'}]),/page is invalid/);
+});
+
+test('the contradictory source rash item is corrected before production publication',()=>{
+ const q=supplementalQuestions.find(q=>q.sourceId==='a89ad909-3924-4cf8-803b-f0b2530a84ce');assert.equal(q.options[q.correctIndex].text,'Roseola');assert.equal(q.correctIndex,3);assert.equal(q.rationaleScope,undefined);assert.ok(q.origin.includes('Source-based correction:'));assert.ok(q.options.every(o=>o.rationale.length>40));
+});
+
+test('the ambiguous absorption item now tests the documented clozapine recommendation',()=>{
+ const q=supplementalQuestions.find(q=>q.sourceId==='bf1f425b-d7e1-4ccf-98db-cc0fdd8237b2');assert.equal(q.options[q.correctIndex].text,'Clozapine');assert.ok(q.stem.includes('Adherence is confirmed'));assert.ok(q.stem.includes('two sequential antipsychotic trials'));assert.ok(!q.stem.includes('poor oral absorption'));
 });

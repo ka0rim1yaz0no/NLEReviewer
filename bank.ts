@@ -37,6 +37,9 @@ export function validateQuestions(value: unknown, options:{allowDuplicateStems?:
     if (!Array.isArray(q.options) || q.options.length !== 4 || q.options.some((o: unknown) => !o || typeof o !== "object" || !("text" in o) || !("rationale" in o) || typeof o.text !== "string" || !o.text.trim() || typeof o.rationale !== "string" || !o.rationale.trim())) throw new Error(`Question ${q.id} needs four choices with explanations.`);
     if (new Set(q.options.map((o: { text: string }) => o.text.toLowerCase().trim())).size !== 4 || !Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) throw new Error(`Question ${q.id} has duplicate choices or an invalid answer.`);
   }
-  return value.map(q => ({ ...q, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you" }));
+  return value.map(q => {
+    const {collection,rationaleScope,sourceId,sourceTopic,...rest}=q;
+    return { ...rest, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}) };
+  });
 }
 export function normalizeQuestionStem(text:string){return text.normalize("NFKC").toLowerCase().replace(/[\p{P}\p{S}]/gu," ").replace(/\s+/g," ").trim();}

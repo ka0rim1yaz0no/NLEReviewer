@@ -1,5 +1,5 @@
 export type Subject = "CROSS" | "NP1" | "NP2" | "NP3" | "NP4" | "NP5";
-export type Question = { id: string; subject: Subject; topic: string; stem: string; options: { text: string; rationale: string }[]; correctIndex: number; rationale: string; keyPoint: string; source: string; origin: string };
+export type Question = { id: string; subject: Subject; topic: string; stem: string; options: { text: string; rationale: string }[]; correctIndex: number; rationale: string; keyPoint: string; source: string; origin: string; collection?: "supplemental"; rationaleScope?: "shared"; sourceId?: string; sourceTopic?: string };
 export type Fact = { text: string; reason: string };
 export type ClinicalCase = { subject: Subject; topic: string; title: string; scenario: string; facts: Fact[] };
 export function parseCases(subject: Subject, raw: string): ClinicalCase[] {
