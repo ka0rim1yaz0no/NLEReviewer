@@ -1,4 +1,4 @@
-# NLE Reviewer
+# For Elaine Only Reviewer
 
 A BoardPal-inspired nursing study app with username profiles, private progress, and no subscriptions or payments. The paid BoardPal question bank is not copied or connected to this app.
 
