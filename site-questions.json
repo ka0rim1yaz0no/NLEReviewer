@@ -1720,43 +1720,43 @@
     "clinicalObjective": "safety"
   },
   {
-    "id": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition",
+    "id": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition-R2",
     "subject": "NP1",
     "topic": "Laws: NCD, Environmental, Occupational & Nutrition",
-    "stem": "A nurse reviews a prescription written only with a brand name. The prescriber says generic names are never required in the Philippines. Which statement best reflects RA 6675?",
+    "stem": "During tobacco-prevention outreach, a retailer asks whether cigarettes may be sold to a known 16-year-old who says they are being bought for an adult relative. Which advice follows the minimum-age provisions of RA 9211?",
     "options": [
       {
-        "text": "A brand name alone always satisfies the Act",
-        "rationale": "RA 6675 requires generic names in prescriptions. Brand-only writing does not meet that stated requirement.",
-        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
-        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:alternative-1"
+        "text": "Allow the sale if the young person says the cigarettes are for an adult",
+        "rationale": "The Act does not make that claim a defense to selling to a minor. The known age still makes this proposed sale prohibited.",
+        "source": "https://lawphil.net/statutes/repacts/ra2003/ra_9211_2003.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition-R2:alternative-1"
       },
       {
-        "text": "Generic names are required only for medicines donated by government",
-        "rationale": "The requirement is not limited to donated medicines. The Act addresses prescribing and dispensing more broadly.",
-        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
-        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:alternative-2"
+        "text": "Allow the sale as long as the minor is not wearing a school uniform",
+        "rationale": "The minimum-age rule depends on age, not clothing or school attendance. A different outfit does not change the prohibition.",
+        "source": "https://lawphil.net/statutes/repacts/ra2003/ra_9211_2003.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition-R2:alternative-2"
       },
       {
-        "text": "The nurse should substitute any medicine with a similar-looking package",
-        "rationale": "Generic identification does not authorize arbitrary substitution based on appearance. The medicine, strength, formulation, and applicable dispensing rules still require verification.",
-        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
-        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:alternative-3"
+        "text": "Allow the sale if only one cigarette is purchased",
+        "rationale": "Reducing the quantity does not remove the prohibition on selling tobacco products to a minor. The retailer should decline rather than treat a small purchase as an exception.",
+        "source": "https://lawphil.net/statutes/repacts/ra2003/ra_9211_2003.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition-R2:alternative-3"
       },
       {
-        "text": "Prescriptions must use the generic name; a brand name may also be included",
-        "rationale": "The Generics Act requires generic terminology in prescribing. Including a brand does not remove the requirement to identify the generic medicine.",
-        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
-        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:key"
+        "text": "Refuse the sale because tobacco products must not be sold to a minor",
+        "rationale": "RA 9211 defines a minor as a person below 18 and prohibits sale or distribution of tobacco products to minors. A claim that the purchase is for someone else does not make this sale permissible.",
+        "source": "https://lawphil.net/statutes/repacts/ra2003/ra_9211_2003.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition-R2:key"
       }
     ],
     "correctIndex": 3,
-    "rationale": "The Generics Act requires generic terminology in prescribing. Including a brand does not remove the requirement to identify the generic medicine.",
-    "keyPoint": "Prescriptions must use the generic name; a brand name may also be included. The Generics Act requires generic terminology in prescribing. Including a brand does not remove the requirement to identify the generic medicine.",
-    "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+    "rationale": "RA 9211 defines a minor as a person below 18 and prohibits sale or distribution of tobacco products to minors. A claim that the purchase is for someone else does not make this sale permissible.",
+    "keyPoint": "Refuse the sale because tobacco products must not be sold to a minor. RA 9211 defines a minor as a person below 18 and prohibits sale or distribution of tobacco products to minors. A claim that the purchase is for someone else does not make this sale permissible.",
+    "source": "https://lawphil.net/statutes/repacts/ra2003/ra_9211_2003.html",
     "origin": "Original standalone nursing scenario authored 2026-11-03, informed by the linked reference. No BoardPal or official examination question was copied.",
     "format": "situational",
-    "caseId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition",
+    "caseId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition-R2",
     "clinicalObjective": "application"
   },
   {
@@ -4280,44 +4280,44 @@
     "clinicalObjective": "reasoning"
   },
   {
-    "id": "EXP2-NP4-neuroanatomy-assessment-basics",
+    "id": "EXP2-NP4-neuroanatomy-assessment-basics-R2",
     "subject": "NP4",
     "topic": "Neuroanatomy & Assessment Basics",
-    "stem": "During a neurological assessment, an adult opens the eyes to speech, is confused in conversation, and obeys a two-part motor command. Using the standard Glasgow Coma Scale, what total should be recorded with its components?",
+    "stem": "An intubated adult opens the eyes spontaneously and obeys two-part motor requests. The endotracheal tube prevents a spoken response. A trainee proposes assigning the verbal component a score of 1 and reporting an unqualified total. Which documentation is most accurate?",
     "options": [
       {
-        "text": "15: E4, V5, M6",
-        "rationale": "Spontaneous eye opening and fully oriented conversation would be needed for these higher components. They are not the findings described.",
+        "text": "Assign V1 because the tube prevents the person from speaking",
+        "rationale": "A score of V1 describes no verbal response after a valid assessment. Intubation prevents testing and is an interfering factor, so it should be documented rather than treated as neurological silence.",
         "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
-        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:alternative-1"
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics-R2:alternative-1"
       },
       {
-        "text": "10: E2, V3, M5",
-        "rationale": "These components describe a different response pattern, not eye opening to speech, confused conversation, and obeying commands.",
+        "text": "Assign V5 because the person follows motor commands",
+        "rationale": "Following commands informs the motor component. It does not establish oriented speech when the verbal component cannot be tested.",
         "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
-        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:alternative-2"
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics-R2:alternative-2"
       },
       {
-        "text": "3: E1, V1, M1",
-        "rationale": "A score of 3 represents absent scored responses, subject to assessment limitations. The client is showing clear eye, verbal, and motor responses.",
+        "text": "Give the untestable verbal component zero and add it to the total",
+        "rationale": "Zero is not a standard scored GCS verbal category. Describe the test limitation and retain the valid component observations instead of producing a misleading numerical total.",
         "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
-        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:alternative-3"
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics-R2:alternative-3"
       },
       {
-        "text": "13: E3, V4, M6",
-        "rationale": "Eye opening to speech scores 3, confused conversation 4, and obeying commands 6. The total is 13; documenting each component preserves more information than the total alone.",
+        "text": "Record the observed eye and motor responses and mark the verbal component not testable because of intubation",
+        "rationale": "An interfering factor can make a GCS component untestable. Record E4 and M6 with verbal NT and the reason, following the local chart format; do not invent a verbal response or an unqualified total from missing data.",
         "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
-        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:key"
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics-R2:key"
       }
     ],
     "correctIndex": 3,
-    "rationale": "Eye opening to speech scores 3, confused conversation 4, and obeying commands 6. The total is 13; documenting each component preserves more information than the total alone.",
-    "keyPoint": "13: E3, V4, M6. Eye opening to speech scores 3, confused conversation 4, and obeying commands 6. The total is 13; documenting each component preserves more information than the total alone.",
+    "rationale": "An interfering factor can make a GCS component untestable. Record E4 and M6 with verbal NT and the reason, following the local chart format; do not invent a verbal response or an unqualified total from missing data.",
+    "keyPoint": "Record the observed eye and motor responses and mark the verbal component not testable because of intubation. An interfering factor can make a GCS component untestable. Record E4 and M6 with verbal NT and the reason, following the local chart format; do not invent a verbal response or an unqualified total from missing data.",
     "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
     "origin": "Original standalone nursing scenario authored 2026-11-03, informed by the linked reference. No BoardPal or official examination question was copied.",
     "format": "situational",
-    "caseId": "EXP2-NP4-neuroanatomy-assessment-basics",
-    "clinicalObjective": "calculation"
+    "caseId": "EXP2-NP4-neuroanatomy-assessment-basics-R2",
+    "clinicalObjective": "assessment-limitation"
   },
   {
     "id": "EXP2-NP4-increased-intracranial-pressure-iicp",
@@ -6198,5 +6198,87 @@
     "format": "situational",
     "caseId": "EXP2-NP5-collaboration-communication-in-critical-care",
     "clinicalObjective": "application"
+  },
+  {
+    "id": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition",
+    "subject": "NP1",
+    "topic": "Laws: NCD, Environmental, Occupational & Nutrition",
+    "stem": "A nurse reviews a prescription written only with a brand name. The prescriber says generic names are never required in the Philippines. Which statement best reflects RA 6675?",
+    "options": [
+      {
+        "text": "A brand name alone always satisfies the Act",
+        "rationale": "RA 6675 requires generic names in prescriptions. Brand-only writing does not meet that stated requirement.",
+        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:alternative-1"
+      },
+      {
+        "text": "Generic names are required only for medicines donated by government",
+        "rationale": "The requirement is not limited to donated medicines. The Act addresses prescribing and dispensing more broadly.",
+        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:alternative-2"
+      },
+      {
+        "text": "The nurse should substitute any medicine with a similar-looking package",
+        "rationale": "Generic identification does not authorize arbitrary substitution based on appearance. The medicine, strength, formulation, and applicable dispensing rules still require verification.",
+        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:alternative-3"
+      },
+      {
+        "text": "Prescriptions must use the generic name; a brand name may also be included",
+        "rationale": "The Generics Act requires generic terminology in prescribing. Including a brand does not remove the requirement to identify the generic medicine.",
+        "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+        "referenceId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition:key"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "The Generics Act requires generic terminology in prescribing. Including a brand does not remove the requirement to identify the generic medicine.",
+    "keyPoint": "Prescriptions must use the generic name; a brand name may also be included. The Generics Act requires generic terminology in prescribing. Including a brand does not remove the requirement to identify the generic medicine.",
+    "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+    "origin": "Original standalone nursing scenario authored 2026-11-03, informed by the linked reference. No BoardPal or official examination question was copied.",
+    "format": "situational",
+    "caseId": "EXP2-NP1-laws-ncd-environmental-occupational-nutrition",
+    "clinicalObjective": "application",
+    "retired": true
+  },
+  {
+    "id": "EXP2-NP4-neuroanatomy-assessment-basics",
+    "subject": "NP4",
+    "topic": "Neuroanatomy & Assessment Basics",
+    "stem": "During a neurological assessment, an adult opens the eyes to speech, is confused in conversation, and obeys a two-part motor command. Using the standard Glasgow Coma Scale, what total should be recorded with its components?",
+    "options": [
+      {
+        "text": "15: E4, V5, M6",
+        "rationale": "Spontaneous eye opening and fully oriented conversation would be needed for these higher components. They are not the findings described.",
+        "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:alternative-1"
+      },
+      {
+        "text": "10: E2, V3, M5",
+        "rationale": "These components describe a different response pattern, not eye opening to speech, confused conversation, and obeying commands.",
+        "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:alternative-2"
+      },
+      {
+        "text": "3: E1, V1, M1",
+        "rationale": "A score of 3 represents absent scored responses, subject to assessment limitations. The client is showing clear eye, verbal, and motor responses.",
+        "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:alternative-3"
+      },
+      {
+        "text": "13: E3, V4, M6",
+        "rationale": "Eye opening to speech scores 3, confused conversation 4, and obeying commands 6. The total is 13; documenting each component preserves more information than the total alone.",
+        "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+        "referenceId": "EXP2-NP4-neuroanatomy-assessment-basics:key"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Eye opening to speech scores 3, confused conversation 4, and obeying commands 6. The total is 13; documenting each component preserves more information than the total alone.",
+    "keyPoint": "13: E3, V4, M6. Eye opening to speech scores 3, confused conversation 4, and obeying commands 6. The total is 13; documenting each component preserves more information than the total alone.",
+    "source": "https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3",
+    "origin": "Original standalone nursing scenario authored 2026-11-03, informed by the linked reference. No BoardPal or official examination question was copied.",
+    "format": "situational",
+    "caseId": "EXP2-NP4-neuroanatomy-assessment-basics",
+    "clinicalObjective": "calculation",
+    "retired": true
   }
 ]

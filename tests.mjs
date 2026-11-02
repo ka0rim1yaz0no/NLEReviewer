@@ -21,7 +21,7 @@ import {validateBackup} from './validation.ts';
 import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourceKeys} from './curriculum.ts';
 const bank=new Map(questions.map(q=>[q.id,q]));
 test('the standalone expansion adds one reviewed scenario per topic without changing any prior payload',async()=>{
- const added=publishedQuestions.filter(q=>q.id.startsWith('EXP2-'));
+ const added=publishedQuestions.filter(q=>q.id.startsWith('EXP2-')&&!q.retired);
  const report=JSON.parse(await readFile(new URL('./expansion-review.json',import.meta.url),'utf8'));
  assert.equal(added.length,155);assert.equal(report.independentClinicianApproval,false);
  assert.equal(createHash('sha256').update(JSON.stringify(added,null,2)+'\n').digest('hex'),report.candidateSha256);
@@ -30,17 +30,28 @@ test('the standalone expansion adds one reviewed scenario per topic without chan
  const positions=[0,0,0,0];
  for(const q of added){assert.ok(isSituational(q));positions[q.correctIndex]++;assert.equal(q.options.length,4);assert.ok(q.clinicalObjective);assert.ok(q.origin.includes('No BoardPal'));for(const o of q.options){assert.ok(o.rationale.length>=70);assert.match(o.source,/^https:\/\//);assert.ok(o.referenceId.startsWith(q.id+':'));}}
  assert.deepEqual(positions,[39,39,39,38]);
- assert.equal(validateQuestions(questions).length,10643);
+ assert.equal(validateQuestions(questions).length,10645);
  assert.equal(await contentDigest(questions.filter(q=>!q.id.startsWith('EXP2-')),clinicalCases),report.previousContentDigest);
 });
 test('standalone calculation keys match the stated units and clinical quantities',()=>{
- const key=slug=>publishedQuestions.find(q=>q.id.endsWith(slug)).options[publishedQuestions.find(q=>q.id.endsWith(slug)).correctIndex].text;
+ const key=slug=>publishedQuestions.find(q=>(q.id.endsWith(slug)||q.id.endsWith(slug+'-R2'))).options[publishedQuestions.find(q=>(q.id.endsWith(slug)||q.id.endsWith(slug+'-R2'))).correctIndex].text;
  assert.ok(key('dosage-calculation-medication-administration').startsWith(String(Math.round(1000*15/(8*60)))));
  assert.equal(45/1000*100,4.5);assert.equal(key('epidemiology-vital-statistics-demography'),'4.5%');
  assert.equal(key('ards'),`${6*50} mL`);assert.equal(key('site-specific-cancers'),`${1800-1500} mL`);
- assert.equal(key('neuroanatomy-assessment-basics'),`${3+4+6}: E3, V4, M6`);
+ assert.match(key('neuroanatomy-assessment-basics'),/verbal component not testable/);
  assert.ok(key('altered-tissue-perfusion').startsWith(String((82+2*40)/3)));
  assert.ok(key('acid-base-balance-abg').includes('respiratory and metabolic acidosis'));
+});
+test('overlapping expansion items receive new IDs while every briefly published payload remains intact',async()=>{
+ const report=JSON.parse(await readFile(new URL('./expansion-review.json',import.meta.url),'utf8'));
+ const previous=report.previousExpansionQuestionIds.map(id=>{const q={...bank.get(id)};assert.ok(q.id,id);delete q.retired;return q;});
+ assert.equal(previous.length,155);
+ assert.equal(createHash('sha256').update(JSON.stringify(previous,null,2)+'\n').digest('hex'),report.previousExpansionCandidateSha256);
+ for(const [id,change] of Object.entries(report.postPublicationReplacements)){
+  assert.equal(bank.get(id).retired,true,id);assert.ok(!bank.get(id+change.replacementSuffix).retired,id);
+  const before=bank.get(id),after=bank.get(id+change.replacementSuffix);
+  assert.notEqual(before.stem,after.stem,id);assert.notEqual(before.options[before.correctIndex].text,after.options[after.correctIndex].text,id);
+ }
 });
 // Roll back only the explicitly documented context/reference adjustments when
 // checking the original release digests. All stems, options, keys, and facts
@@ -322,7 +333,7 @@ test('the audit covers every original case and replaces semantic repeats without
  const report=JSON.parse(await readFile(new URL('./situational-review-report.json',import.meta.url),'utf8'));
  assert.equal(log.reviewedCaseSets,740);assert.equal(log.reviewedSituationalQuestions,4940);assert.equal(new Set(log.reviewedCaseIds).size,740);
  assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,140);
- assert.equal(activeQuestions.length,9663);assert.equal(questions.filter(q=>q.retired).length,980);assert.equal(activeQuestions.filter(isSituational).length,5095);
+ assert.equal(activeQuestions.length,9663);assert.equal(questions.filter(q=>q.retired).length,982);assert.equal(activeQuestions.filter(isSituational).length,5095);
  for(const r of report.retirements){
   const old=questions.filter(q=>q.caseId===r.retiredCaseId),replacement=questions.filter(q=>q.caseId===r.replacementCaseId);
   assert.equal(old.length,7);assert.equal(replacement.length,7);assert.ok(old.every(q=>q.retired));assert.ok(replacement.every(q=>!q.retired));

@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import catalog from './topic-catalog.json' with {type:'json'};
 import sourceUpdates from './expansion-source-updates.json' with {type:'json'};
+import corrections from './expansion-corrections.json' with {type:'json'};
 import {questions} from './author-bank.ts';
 import {validateQuestions,normalizeQuestionStem} from './bank.ts';
 const subjects=['CROSS','NP1','NP2','NP3','NP4','NP5'];
@@ -18,7 +19,7 @@ for(const subject of subjects){
   const topic=catalog.find(t=>t.subject===subject&&t.slug===slug);
   assert.ok(topic,`Unknown topic: ${subject}:${slug}`);
   assert.match(source,/^https:\/\//);
-  const id=`EXP2-${subject}-${slug}`,options=tail.map((entry,i)=>{
+  const baseId=`EXP2-${subject}-${slug}`,id=baseId+(corrections[baseId]?.replacementSuffix??''),options=tail.map((entry,i)=>{
    const split=entry.indexOf('~');assert.ok(split>0,`${id}: choice ${i}`);
    const text=entry.slice(0,split),rationale=entry.slice(split+1);
    assert.ok(text.length>2&&rationale.length>=70,`${id}: incomplete choice ${i}`);
@@ -47,7 +48,8 @@ if(process.argv.includes('--install')){
  const prior=JSON.parse(await readFile(new URL('./site-questions.json',import.meta.url),'utf8'));
  const priorOther=prior.filter(q=>!q.id.startsWith('EXP2-'));
  const priorExpansion=prior.filter(q=>q.id.startsWith('EXP2-'));
- if(priorExpansion.length)assert.deepEqual(priorExpansion,candidate,'Published scenarios are immutable');
- await writeFile(new URL('./site-questions.json',import.meta.url),JSON.stringify([...priorOther,...candidate],null,2)+'\n');
+ for(const q of priorExpansion.filter(q=>!q.retired&&!corrections[q.id]))assert.deepEqual(q,candidate.find(n=>n.id===q.id),'Published scenarios are immutable; corrections require a new ID');
+ const historical=priorExpansion.filter(q=>q.retired||corrections[q.id]).map(q=>({...q,retired:true}));
+ await writeFile(new URL('./site-questions.json',import.meta.url),JSON.stringify([...priorOther,...candidate,...historical],null,2)+'\n');
 }
 console.log(JSON.stringify({questions:candidate.length,topics:155,candidateSha256:digest,installed:process.argv.includes('--install')}));

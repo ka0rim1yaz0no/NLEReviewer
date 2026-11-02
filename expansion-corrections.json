@@ -1,0 +1,10 @@
+{
+  "EXP2-NP4-neuroanatomy-assessment-basics": {
+    "replacementSuffix": "-R2",
+    "reason": "The original new GCS total calculation overlapped with ORIG-NP4-neuroanatomy-assessment-basics-01. Replace it with recognition and documentation of an untestable verbal component."
+  },
+  "EXP2-NP1-laws-ncd-environmental-occupational-nutrition": {
+    "replacementSuffix": "-R2",
+    "reason": "The generic-name prescribing rule was already tested in ORIG-NP1-laws-health-financing-insurance-01. Replace it with application of RA 9211 minimum-age tobacco sales."
+  }
+}

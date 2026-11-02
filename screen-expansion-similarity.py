@@ -6,6 +6,7 @@ root=Path(__file__).resolve().parent
 draft=json.loads((root/'outputs/expansion/candidate-questions.json').read_text(encoding='utf-8'))
 old=[c for c in json.loads((root/'situational-evidence.json').read_text(encoding='utf-8')) if not c.get('retired')]
 old += [c for c in json.loads((root/'outputs/reference-recheck/case-source-packets.json').read_text(encoding='utf-8')) if c.get('facts')]
+old += [{'id':q['id'],'scenario':q['stem'],'problem':q['options'][q['correctIndex']]['text'],'action':''} for q in json.loads((root/'outputs/expansion/earlier-standalone.json').read_text(encoding='utf-8'))]
 stop=set('a an the and or to of for with in on at is are has have this that as by from before after client patient nurse care prescribed appropriate plan assess assessment review which what best should may can will must more such some when than not only adult reports response needs possible risk new following during about described'.split())
 def tokens(s):return [w for w in re.findall('[a-z]+',s.lower()) if len(w)>2 and w not in stop]
 def oldtext(c):return c['scenario']+' '+(' '.join(f['text'] for f in c['facts']) if c.get('facts') else c['problem']+' '+c['action'])
