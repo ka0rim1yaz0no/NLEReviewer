@@ -1,5 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {mkdir,readFile,writeFile,unlink} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
 import {questions,originalQuestions,supplementalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import {inCollection,collectionCounts} from './collections.ts';
 import {decodeContentRelease} from './content-release.ts';
@@ -138,4 +141,20 @@ test('the contradictory source rash item is corrected before production publicat
 
 test('the ambiguous absorption item now tests the documented clozapine recommendation',()=>{
  const q=supplementalQuestions.find(q=>q.sourceId==='bf1f425b-d7e1-4ccf-98db-cc0fdd8237b2');assert.equal(q.options[q.correctIndex].text,'Clozapine');assert.ok(q.stem.includes('Adherence is confirmed'));assert.ok(q.stem.includes('two sequential antipsychotic trials'));assert.ok(!q.stem.includes('poor oral absorption'));
+});
+
+test('the authorized-import CLI starts, validates a new batch, rejects bad imports, and never publishes during check-only',async(t)=>{
+ const directory=new URL('./outputs/',import.meta.url);
+ await mkdir(directory,{recursive:true});
+ const fixture=new URL(`import-cli-${crypto.randomUUID()}.json`,directory);
+ t.after(()=>unlink(fixture));
+ const target=new URL('./site-questions.json',import.meta.url),before=await readFile(target,'utf8');
+ const q={id:'QA-IMPORT-ONLY',subject:curriculum[0].subject,topic:curriculum[0].slug,stem:'AUTOMATED IMPORT TEST FIXTURE ONLY. This is not an educational question.',options:['A','B','C','D'].map(text=>({text:`Fixture option ${text}`,rationale:'Automated fixture explanation only; never publish this item.'})),correctIndex:0,rationale:'Automated fixture explanation only; never publish this item.',source:'https://example.org/test-fixture',origin:'Automated structural fixture; never publish.'};
+ function run(){return spawnSync(process.execPath,['--experimental-strip-types',fileURLToPath(new URL('./prepare-bank.mjs',import.meta.url)),fileURLToPath(fixture),'--check-only'],{cwd:fileURLToPath(new URL('./',import.meta.url)),encoding:'utf8'});}
+ await writeFile(fixture,JSON.stringify([q]));
+ let result=run();assert.equal(result.status,0,result.stderr);assert.match(result.stdout,/Validated 1 additional questions/);assert.match(result.stdout,new RegExp(`Resulting bank: ${questions.length+1} unique questions`));
+ for(const [value,message]of [[{...q,id:questions[0].id},/ID already published/],[{...q,stem:questions[0].stem},/Duplicate published question/],[{...q,topic:'QA-NOT-A-CATALOG-TOPIC'},/exact catalog topic/],[{...q,options:q.options.slice(0,3)},/four choices/]]){
+  await writeFile(fixture,JSON.stringify([value]));result=run();assert.notEqual(result.status,0);assert.match(result.stderr,message);
+ }
+ assert.equal(await readFile(target,'utf8'),before,'Check-only must leave the published bank untouched.');
 });
