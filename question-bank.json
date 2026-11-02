@@ -17398,5 +17398,1484 @@
     "keyPoint": "Emergency prioritization: Address routine discharge paperwork before a threatened airway. Stable administrative tasks do not outrank an acute airway threat.",
     "source": "https://www.ncbi.nlm.nih.gov/books/NBK590025/",
     "origin": "Original educational scenario; not copied from BoardPal or an official PNLE paper."
+  },
+  {
+    "id": "ORIG-NP1-leprosy-01",
+    "subject": "NP1",
+    "topic": "Leprosy",
+    "stem": "At a rural clinic, an adult reports a persistent pale patch on the forearm. Which finding most strongly supports referral for possible Hansen disease?",
+    "options": [
+      {
+        "text": "Itching that disappears after the skin is moisturized",
+        "rationale": "Itching alone is nonspecific. The distinguishing finding in this question is sensory loss within a persistent skin lesion."
+      },
+      {
+        "text": "Brief redness after pressure that resolves completely",
+        "rationale": "Transient pressure-related redness is different from a persistent patch with definite sensory loss."
+      },
+      {
+        "text": "A bruise that changes from purple to yellow",
+        "rationale": "Color changes during bruise healing do not establish the characteristic skin and peripheral nerve involvement of leprosy."
+      },
+      {
+        "text": "Definite loss of sensation within the patch",
+        "rationale": "Loss of sensation in a pale or reddish skin patch is a cardinal sign of leprosy. Peripheral nerve involvement warrants assessment and early treatment to reduce disability."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Loss of sensation in a pale or reddish skin patch is a cardinal sign of leprosy. Peripheral nerve involvement warrants assessment and early treatment to reduce disability.",
+    "keyPoint": "Loss of sensation in a pale or reddish skin patch is a cardinal sign of leprosy. Peripheral nerve involvement warrants assessment and early treatment to reduce disability.",
+    "source": "https://www.who.int/news-room/fact-sheets/detail/leprosy",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-ph-health-care-delivery-system-doh-01",
+    "subject": "NP1",
+    "topic": "PH Health Care Delivery System / DOH",
+    "stem": "A municipal health team asks which responsibility belongs to the Department of Health as the national technical authority. Which answer is most accurate?",
+    "options": [
+      {
+        "text": "Replace every local health office with a private insurer",
+        "rationale": "Private financing does not replace the DOH's public policy, regulatory, and technical responsibilities."
+      },
+      {
+        "text": "Limit its work to collecting hospital admission fees",
+        "rationale": "Fee collection is not the DOH's national mandate; its responsibilities include policy, regulation, specialized services, and technical assistance."
+      },
+      {
+        "text": "Personally manage every barangay health station's daily roster",
+        "rationale": "Day-to-day management of every local station is not the defining national technical role of the DOH."
+      },
+      {
+        "text": "Develop national health policies, standards, and technical guidance",
+        "rationale": "The DOH sets national policy and technical standards and supports other health providers. Local governments also have responsibilities for devolved basic health services."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "The DOH sets national policy and technical standards and supports other health providers. Local governments also have responsibilities for devolved basic health services.",
+    "keyPoint": "The DOH sets national policy and technical standards and supports other health providers. Local governments also have responsibilities for devolved basic health services.",
+    "source": "https://ro2.doh.gov.ph/mandates/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-universal-health-care-uhc-sdgs-01",
+    "subject": "NP1",
+    "topic": "Universal Health Care (UHC) & SDGs",
+    "stem": "A Filipino citizen asks whether inclusion in the National Health Insurance Program under Republic Act 11223 requires first becoming seriously ill. Which response follows the Act?",
+    "options": [
+      {
+        "text": "Every Filipino citizen is automatically included in the program",
+        "rationale": "Section 5 of the Universal Health Care Act provides automatic inclusion of every Filipino citizen in the NHIP. This does not mean every possible service is unlimited or free."
+      },
+      {
+        "text": "Only employed citizens can be included",
+        "rationale": "Employment status does not restrict automatic population inclusion to employed citizens alone."
+      },
+      {
+        "text": "Only people already admitted to a hospital are included",
+        "rationale": "Hospital admission is not the population-coverage condition in Section 5; inclusion applies to every Filipino citizen."
+      },
+      {
+        "text": "Inclusion means all services at all facilities have no conditions",
+        "rationale": "Automatic inclusion is different from an unlimited guarantee of every service. Service coverage and financing have their own provisions."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Section 5 of the Universal Health Care Act provides automatic inclusion of every Filipino citizen in the NHIP. This does not mean every possible service is unlimited or free.",
+    "keyPoint": "Section 5 of the Universal Health Care Act provides automatic inclusion of every Filipino citizen in the NHIP. This does not mean every possible service is unlimited or free.",
+    "source": "https://lawphil.net/statutes/repacts/ra2019/ra_11223_2019.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-community-health-nursing-process-01",
+    "subject": "NP1",
+    "topic": "Community Health Nursing Process",
+    "stem": "A nurse is assigned to a community with low attendance at child health visits. Before choosing a program, which action best supports a sound community assessment?",
+    "options": [
+      {
+        "text": "Combine local service data with residents' accounts of barriers and available resources",
+        "rationale": "Community assessment combines data about health needs and resources with community participation. This supports priorities and interventions that fit the population."
+      },
+      {
+        "text": "Use only the number of posters distributed last year",
+        "rationale": "A count of posters measures one activity. It does not adequately describe attendance barriers or community health needs."
+      },
+      {
+        "text": "Select the nurse's preferred intervention before collecting data",
+        "rationale": "Choosing the intervention first may overlook the actual barriers, needs, and resources identified through assessment."
+      },
+      {
+        "text": "Ask one convenient resident to speak for the whole population",
+        "rationale": "One person's views may be useful but cannot represent the range of experiences and data needed for a community assessment."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Community assessment combines data about health needs and resources with community participation. This supports priorities and interventions that fit the population.",
+    "keyPoint": "Community assessment combines data about health needs and resources with community participation. This supports priorities and interventions that fit the population.",
+    "source": "https://www.health.state.mn.us/communities/practice/assessplan/lph/docs/communityassessmentplanninghb.pdf",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-school-occupational-health-nursing-01",
+    "subject": "NP1",
+    "topic": "School & Occupational Health Nursing",
+    "stem": "In a private factory, workers are told to buy the protective equipment required for their hazardous tasks. Which teaching best reflects Republic Act 11058?",
+    "options": [
+      {
+        "text": "Protective equipment is needed only after an injury occurs",
+        "rationale": "Protection should address identified workplace hazards before injury; waiting for harm defeats prevention."
+      },
+      {
+        "text": "Charging workers is acceptable if their wages are above minimum wage",
+        "rationale": "The requirement to provide necessary PPE free of charge is not removed by paying above the minimum wage."
+      },
+      {
+        "text": "The employer must provide the necessary approved protective equipment free of charge",
+        "rationale": "RA 11058 requires employers to provide necessary personal protective equipment free of charge when hazards require it. PPE supports, rather than replaces, other workplace controls."
+      },
+      {
+        "text": "A signed waiver removes the employer's safety responsibilities",
+        "rationale": "A worker's signature does not replace the employer's duties to provide a safe workplace and required protection."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "RA 11058 requires employers to provide necessary personal protective equipment free of charge when hazards require it. PPE supports, rather than replaces, other workplace controls.",
+    "keyPoint": "RA 11058 requires employers to provide necessary personal protective equipment free of charge when hazards require it. PPE supports, rather than replaces, other workplace controls.",
+    "source": "https://lawphil.net/statutes/repacts/ra2018/ra_11058_2018.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-community-mental-health-program-01",
+    "subject": "NP1",
+    "topic": "Community Mental Health Program",
+    "stem": "A barangay plans services consistent with the Philippine Mental Health Act. Which proposal best follows its community-care provisions?",
+    "options": [
+      {
+        "text": "Integrate responsive primary mental health care into basic local health services with referral support",
+        "rationale": "RA 11036 calls for primary mental health services to be integrated into basic services at city, municipal, and barangay levels, with appropriate community facilities and referral arrangements."
+      },
+      {
+        "text": "Exclude mental health from routine primary care consultations",
+        "rationale": "Exclusion conflicts with the Act's direction to integrate mental health into basic health services."
+      },
+      {
+        "text": "Publish a named list of service users at the barangay hall",
+        "rationale": "Publicly identifying service users undermines confidentiality. Program reporting should protect their identities."
+      },
+      {
+        "text": "Require every person seeking help to be admitted to a psychiatric hospital",
+        "rationale": "Community mental health care does not require inpatient admission for every person. Services should match needs and the appropriate level of care."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "RA 11036 calls for primary mental health services to be integrated into basic services at city, municipal, and barangay levels, with appropriate community facilities and referral arrangements.",
+    "keyPoint": "RA 11036 calls for primary mental health services to be integrated into basic services at city, municipal, and barangay levels, with appropriate community facilities and referral arrangements.",
+    "source": "https://lawphil.net/statutes/repacts/ra2018/ra_11036_2018.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-laws-nursing-practice-health-workforce-01",
+    "subject": "NP1",
+    "topic": "Laws: Nursing Practice & Health Workforce",
+    "stem": "A nurse employed in a government rural health unit is studying legislation intended to improve public health workers' working conditions and well-being. Which law directly addresses this purpose?",
+    "options": [
+      {
+        "text": "Republic Act 9288",
+        "rationale": "RA 9288 establishes the newborn screening system; it is not the Magna Carta of Public Health Workers."
+      },
+      {
+        "text": "Republic Act 9003",
+        "rationale": "RA 9003 addresses ecological solid waste management, not the Magna Carta of Public Health Workers."
+      },
+      {
+        "text": "Republic Act 7600",
+        "rationale": "RA 7600 concerns rooming-in and breastfeeding practices, rather than the public health workforce's general employment conditions."
+      },
+      {
+        "text": "Republic Act 7305",
+        "rationale": "RA 7305 is the Magna Carta of Public Health Workers. Its aims include improving their social and economic well-being, working conditions, and terms of employment."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "RA 7305 is the Magna Carta of Public Health Workers. Its aims include improving their social and economic well-being, working conditions, and terms of employment.",
+    "keyPoint": "RA 7305 is the Magna Carta of Public Health Workers. Its aims include improving their social and economic well-being, working conditions, and terms of employment.",
+    "source": "https://lawphil.net/statutes/repacts/ra1992/ra_7305_1992.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-laws-disease-reporting-control-01",
+    "subject": "NP1",
+    "topic": "Laws: Disease Reporting & Control",
+    "stem": "A health facility identifies a case meeting a DOH notifiable-disease case definition. Which response best reflects Republic Act 11332?",
+    "options": [
+      {
+        "text": "Wait for the annual summary before informing surveillance staff",
+        "rationale": "Delaying all reports until an annual summary conflicts with accurate and immediate reporting requirements."
+      },
+      {
+        "text": "Exclude private facilities because only government clinics report",
+        "rationale": "The Act's reporting duties extend to specified public and private persons, facilities, institutions, and organizations."
+      },
+      {
+        "text": "Report accurately and immediately through the authorized surveillance process while protecting confidentiality",
+        "rationale": "RA 11332 requires accurate, immediate reporting of DOH-designated notifiable diseases and health events. Authorized reporting and response systems must also provide data security and confidentiality."
+      },
+      {
+        "text": "Post the patient's name on social media to alert the public",
+        "rationale": "Mandatory reporting is through authorized public health systems; it does not authorize unrestricted public disclosure of an individual's information."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "RA 11332 requires accurate, immediate reporting of DOH-designated notifiable diseases and health events. Authorized reporting and response systems must also provide data security and confidentiality.",
+    "keyPoint": "RA 11332 requires accurate, immediate reporting of DOH-designated notifiable diseases and health events. Authorized reporting and response systems must also provide data security and confidentiality.",
+    "source": "https://lawphil.net/statutes/repacts/ra2019/ra_11332_2019.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-laws-health-financing-insurance-01",
+    "subject": "NP1",
+    "topic": "Laws: Health Financing & Insurance",
+    "stem": "During medicine-access teaching, a patient asks how a prescription should identify a medicine under the Philippine Generics Act. Which explanation is correct?",
+    "options": [
+      {
+        "text": "Generic names apply only to prescriptions from government doctors",
+        "rationale": "The prescribing requirement includes private practitioners, not only those in government service."
+      },
+      {
+        "text": "The patient must choose the most expensive brand for the prescription to be valid",
+        "rationale": "The Act promotes generic terminology and informed choices; validity is not based on selecting the highest-priced brand."
+      },
+      {
+        "text": "The prescription must use the generic name; a brand name may also be included",
+        "rationale": "Section 6 of RA 6675 requires medical, dental, and veterinary practitioners to write prescriptions using the generic name. A brand name may be included if desired."
+      },
+      {
+        "text": "Only a brand name is required when the patient can afford it",
+        "rationale": "Ability to pay does not remove the statutory requirement to use the generic name in prescribing."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "Section 6 of RA 6675 requires medical, dental, and veterinary practitioners to write prescriptions using the generic name. A brand name may be included if desired.",
+    "keyPoint": "Section 6 of RA 6675 requires medical, dental, and veterinary practitioners to write prescriptions using the generic name. A brand name may be included if desired.",
+    "source": "https://lawphil.net/statutes/repacts/ra1988/ra_6675_1988.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-laws-maternal-child-reproductive-health-01",
+    "subject": "NP1",
+    "topic": "Laws: Maternal, Child & Reproductive Health",
+    "stem": "A parent says a healthy-looking newborn cannot need newborn screening. Which explanation best reflects Republic Act 9288?",
+    "options": [
+      {
+        "text": "Screening is offered to identify certain heritable conditions before preventable complications occur",
+        "rationale": "RA 9288 establishes a system offering newborn screening to detect certain heritable conditions early. A newborn's healthy appearance does not rule out a condition that may cause later harm."
+      },
+      {
+        "text": "Screening replaces all later child health visits",
+        "rationale": "Newborn screening complements routine care; it does not replace follow-up, examination, immunization, or developmental monitoring."
+      },
+      {
+        "text": "A normal screening result guarantees lifelong freedom from every disease",
+        "rationale": "Screening addresses selected conditions. It cannot guarantee that a child will never develop another illness."
+      },
+      {
+        "text": "Screening is reserved for newborns with visible birth defects",
+        "rationale": "The screening opportunity is not restricted to babies who already show a visible abnormality."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "RA 9288 establishes a system offering newborn screening to detect certain heritable conditions early. A newborn's healthy appearance does not rule out a condition that may cause later harm.",
+    "keyPoint": "RA 9288 establishes a system offering newborn screening to detect certain heritable conditions early. A newborn's healthy appearance does not rule out a condition that may cause later harm.",
+    "source": "https://lawphil.net/statutes/repacts/ra2004/ra_9288_2004.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP1-laws-ncd-environmental-occupational-nutrition-01",
+    "subject": "NP1",
+    "topic": "Laws: NCD, Environmental, Occupational & Nutrition",
+    "stem": "A community nutrition session discusses the central public health purpose of the ASIN law, Republic Act 8172. Which outcome is it designed to support?",
+    "options": [
+      {
+        "text": "Treatment of all anemia by increasing salt intake",
+        "rationale": "Iodization targets iodine deficiency, not every cause of anemia. Increasing salt intake is not its nutritional objective."
+      },
+      {
+        "text": "Replacement of every vitamin supplement with ordinary unfortified salt",
+        "rationale": "Unfortified salt does not provide the intended iodine fortification and cannot replace all indicated supplements."
+      },
+      {
+        "text": "Elimination of all dietary sodium restrictions",
+        "rationale": "An iodization policy does not remove individualized sodium limits or other dietary advice."
+      },
+      {
+        "text": "Prevention of iodine deficiency disorders through salt iodization",
+        "rationale": "RA 8172 promotes salt iodization as a preventive measure against iodine deficiency disorders. This does not mean people should increase their total salt intake."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "RA 8172 promotes salt iodization as a preventive measure against iodine deficiency disorders. This does not mean people should increase their total salt intake.",
+    "keyPoint": "RA 8172 promotes salt iodization as a preventive measure against iodine deficiency disorders. This does not mean people should increase their total salt intake.",
+    "source": "https://lawphil.net/statutes/repacts/ra1995/ra_8172_1995.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-normal-puerperium-01",
+    "subject": "NP2",
+    "topic": "Normal Puerperium",
+    "stem": "One hour after an uncomplicated vaginal birth, a woman is comfortable and talking with her family. Which plan best supports routine early postnatal surveillance?",
+    "options": [
+      {
+        "text": "Assess only breastfeeding because the birth was uncomplicated",
+        "rationale": "Feeding support matters, but it does not replace maternal assessments for bleeding, uterine tone, and physiological changes."
+      },
+      {
+        "text": "Use one normal pulse reading to rule out all later complications",
+        "rationale": "One observation cannot exclude evolving bleeding or other problems. Ongoing assessment detects changes over time."
+      },
+      {
+        "text": "Continue regular assessment of bleeding, uterine tone, fundal height, temperature, and pulse",
+        "rationale": "WHO recommends regular assessment of these findings during the first 24 hours, starting in the first hour. Appearing comfortable does not replace maternal postnatal assessment."
+      },
+      {
+        "text": "Delay all maternal observations until the next morning",
+        "rationale": "An uncomplicated birth does not remove the need for regular surveillance in the early postnatal period."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "WHO recommends regular assessment of these findings during the first 24 hours, starting in the first hour. Appearing comfortable does not replace maternal postnatal assessment.",
+    "keyPoint": "WHO recommends regular assessment of these findings during the first 24 hours, starting in the first hour. Appearing comfortable does not replace maternal postnatal assessment.",
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK579650/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-family-planning-methods-01",
+    "subject": "NP2",
+    "topic": "Family Planning Methods",
+    "stem": "A patient choosing an oral contraceptive asks about protection from sexually transmitted infections. Which response is most accurate?",
+    "options": [
+      {
+        "text": "The pill prevents pregnancy but does not protect against STIs; discuss correct, consistent condom use",
+        "rationale": "Hormonal contraception does not protect against sexually transmitted infections. Correct and consistent condom use reduces STI risk, although it does not eliminate all risk."
+      },
+      {
+        "text": "Using a condom once gives protection for the rest of the month",
+        "rationale": "Condom protection depends on correct use for each sexual act, not a single use for an entire month."
+      },
+      {
+        "text": "An intrauterine device provides the same STI protection as a condom",
+        "rationale": "An IUD is a contraceptive method and does not provide the STI risk reduction associated with condoms."
+      },
+      {
+        "text": "The pill protects against HIV whenever it prevents ovulation",
+        "rationale": "Preventing ovulation is a contraceptive mechanism; it does not create protection against HIV transmission."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Hormonal contraception does not protect against sexually transmitted infections. Correct and consistent condom use reduces STI risk, although it does not eliminate all risk.",
+    "keyPoint": "Hormonal contraception does not protect against sexually transmitted infections. Correct and consistent condom use reduces STI risk, although it does not eliminate all risk.",
+    "source": "https://www.cdc.gov/contraception/hcp/usmec/how-to-use.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-female-male-reproductive-systems-01",
+    "subject": "NP2",
+    "topic": "Female & Male Reproductive Systems",
+    "stem": "A patient asks what the term ovulation means. Which explanation should the nurse give?",
+    "options": [
+      {
+        "text": "The uterine lining is shed through the vagina",
+        "rationale": "Shedding of the uterine lining describes menstruation, rather than release of an egg from the ovary."
+      },
+      {
+        "text": "An egg is released from a mature ovarian follicle",
+        "rationale": "Ovulation is release of an egg from an ovarian follicle. It is distinct from fertilization, implantation, and menstrual shedding."
+      },
+      {
+        "text": "A sperm cell joins with an egg",
+        "rationale": "Joining of sperm and egg is fertilization. Ovulation releases the egg before fertilization can occur."
+      },
+      {
+        "text": "A fertilized embryo attaches to the uterine lining",
+        "rationale": "Attachment of the embryo to the uterine lining is implantation, a later process if fertilization has occurred."
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Ovulation is release of an egg from an ovarian follicle. It is distinct from fertilization, implantation, and menstrual shedding.",
+    "keyPoint": "Ovulation is release of an egg from an ovarian follicle. It is distinct from fertilization, implantation, and menstrual shedding.",
+    "source": "https://www.nichd.nih.gov/health/topics/menstruation/conditioninfo",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-fertilization-genetics-fertility-01",
+    "subject": "NP2",
+    "topic": "Fertilization, Genetics & Fertility",
+    "stem": "Both partners are unaffected carriers of the same autosomal recessive condition. They ask about the chance that their next child will have the condition. Which explanation is correct?",
+    "options": [
+      {
+        "text": "Every child must be affected because both parents are carriers",
+        "rationale": "Two carriers can have affected children, unaffected carriers, or children who inherit neither altered copy."
+      },
+      {
+        "text": "The risk is 50% for an affected child in every pregnancy",
+        "rationale": "With two carriers, 50% is the probability of an unaffected carrier child; the affected-child probability is 25%."
+      },
+      {
+        "text": "The risk becomes zero after one affected child is born",
+        "rationale": "Each pregnancy is a new inheritance event; the birth of an affected child does not use up the risk."
+      },
+      {
+        "text": "Each pregnancy has a 25% chance of an affected child",
+        "rationale": "When both parents carry the same autosomal recessive condition, each pregnancy has a one-in-four chance of an affected child. Earlier pregnancy outcomes do not change the next pregnancy's probability."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "When both parents carry the same autosomal recessive condition, each pregnancy has a one-in-four chance of an affected child. Earlier pregnancy outcomes do not change the next pregnancy's probability.",
+    "keyPoint": "When both parents carry the same autosomal recessive condition, each pregnancy has a one-in-four chance of an affected child. Earlier pregnancy outcomes do not change the next pregnancy's probability.",
+    "source": "https://medlineplus.gov/genetics/understanding/inheritance/riskassessment/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-ethico-moral-management-in-maternal-care-01",
+    "subject": "NP2",
+    "topic": "Ethico-Moral & Management in Maternal Care",
+    "stem": "A woman in labor asks for an explanation before a nonurgent examination. Which nursing response best supports respectful maternity care?",
+    "options": [
+      {
+        "text": "Explain the examination, protect privacy, and seek her informed agreement",
+        "rationale": "Respectful maternity care includes information, privacy, dignity, and informed choice. An explanation and consent process remain relevant during labor."
+      },
+      {
+        "text": "Explain the procedure only to accompanying relatives",
+        "rationale": "Relatives may support care, but the woman should receive information and participate in decisions about her own care."
+      },
+      {
+        "text": "Promise that no examination can ever cause discomfort",
+        "rationale": "An inaccurate guarantee is not informed communication. Explain expected sensations and available support honestly."
+      },
+      {
+        "text": "Proceed without discussion because entering the labor ward permits every examination",
+        "rationale": "Admission is not a substitute for respectful explanation and informed agreement to individual care procedures."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Respectful maternity care includes information, privacy, dignity, and informed choice. An explanation and consent process remain relevant during labor.",
+    "keyPoint": "Respectful maternity care includes information, privacy, dignity, and informed choice. An explanation and consent process remain relevant during labor.",
+    "source": "https://iris.who.int/bitstream/handle/10665/134588/WHO_RHR_14.23_eng.pdf",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-theories-of-growth-development-01",
+    "subject": "NP2",
+    "topic": "Theories of Growth & Development",
+    "stem": "A four-year-old is preparing for a simple dressing change. Which teaching approach best fits the symbolic play characteristic of Piaget's preoperational stage?",
+    "options": [
+      {
+        "text": "Use a doll and simple, concrete language to show what will happen",
+        "rationale": "Preoperational children use symbols and play to learn. A doll demonstration and brief concrete explanations help connect unfamiliar care with understandable experiences."
+      },
+      {
+        "text": "Provide only a long written explanation for independent study",
+        "rationale": "A long written document does not match a preschool child's usual reading ability or learning needs."
+      },
+      {
+        "text": "Avoid all explanation because preschool children cannot understand anything about care",
+        "rationale": "Preschool children can learn through developmentally appropriate play, language, and demonstration."
+      },
+      {
+        "text": "Rely on an abstract lecture about probabilities of infection",
+        "rationale": "Abstract probabilities exceed the teaching approach suited to this developmental stage and do not make the procedure concrete."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Preoperational children use symbols and play to learn. A doll demonstration and brief concrete explanations help connect unfamiliar care with understandable experiences.",
+    "keyPoint": "Preoperational children use symbols and play to learn. A doll demonstration and brief concrete explanations help connect unfamiliar care with understandable experiences.",
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK615351/table/ch13.tab3/?report=objectonly",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-adolescent-health-01",
+    "subject": "NP2",
+    "topic": "Adolescent Health",
+    "stem": "An adolescent wants a practical plan to support emotional well-being during a demanding school term. Which plan includes recognized protective habits?",
+    "options": [
+      {
+        "text": "Maintain regular sleep, physical activity, coping skills, and supportive relationships",
+        "rationale": "WHO identifies healthy sleep, regular exercise, coping and interpersonal skills, and supportive environments as important to adolescent mental well-being."
+      },
+      {
+        "text": "Stop all contact with trusted friends to avoid emotional dependence",
+        "rationale": "Supportive relationships are protective; routine isolation removes a potential source of help and connection."
+      },
+      {
+        "text": "Treat persistent emotional distress as something that never needs professional help",
+        "rationale": "Persistent distress should not be dismissed. Adolescents benefit from access to appropriate mental health support."
+      },
+      {
+        "text": "Replace sleep with energy drinks whenever schoolwork increases",
+        "rationale": "Stimulants do not replace the protective role of adequate, regular sleep and may interfere with it."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "WHO identifies healthy sleep, regular exercise, coping and interpersonal skills, and supportive environments as important to adolescent mental well-being.",
+    "keyPoint": "WHO identifies healthy sleep, regular exercise, coping and interpersonal skills, and supportive environments as important to adolescent mental well-being.",
+    "source": "https://www.who.int/news-room/fact-sheets/detail/adolescent-mental-health",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-pediatric-cardiovascular-disorders-01",
+    "subject": "NP2",
+    "topic": "Pediatric Cardiovascular Disorders",
+    "stem": "An infant with tetralogy of Fallot develops a bluish color during feeding. Which explanation best describes the significance of this observation?",
+    "options": [
+      {
+        "text": "The observation confirms a food allergy without further assessment",
+        "rationale": "Color change during feeding is not enough to diagnose food allergy; the known cardiac defect makes oxygenation an immediate concern."
+      },
+      {
+        "text": "A congenital heart defect cannot cause symptoms after birth",
+        "rationale": "Congenital means present at birth. Symptoms may be evident immediately or become apparent later."
+      },
+      {
+        "text": "The infant may be experiencing an episode of reduced oxygen in systemic blood",
+        "rationale": "Tetralogy of Fallot can reduce the oxygen carried in blood to the body. Sudden cyanotic episodes may occur during feeding or crying and require prompt clinical assessment."
+      },
+      {
+        "text": "The color proves that oxygen delivery has improved",
+        "rationale": "Cyanosis is a concern for reduced oxygenation, not evidence that oxygen delivery has improved."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "Tetralogy of Fallot can reduce the oxygen carried in blood to the body. Sudden cyanotic episodes may occur during feeding or crying and require prompt clinical assessment.",
+    "keyPoint": "Tetralogy of Fallot can reduce the oxygen carried in blood to the body. Sudden cyanotic episodes may occur during feeding or crying and require prompt clinical assessment.",
+    "source": "https://www.cdc.gov/heart-defects/about/tetralogy-of-fallot.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-pediatric-hematologic-oncologic-disorders-01",
+    "subject": "NP2",
+    "topic": "Pediatric Hematologic & Oncologic Disorders",
+    "stem": "A child with acute lymphoblastic leukemia has fatigue, recurrent infections, and easy bruising. Which explanation best connects these findings?",
+    "options": [
+      {
+        "text": "An increased white cell count guarantees effective immunity",
+        "rationale": "Leukemia cells may not function normally. A high total count does not guarantee effective protection against infection."
+      },
+      {
+        "text": "Fatigue means the child can safely stop further evaluation",
+        "rationale": "Fatigue is a relevant clinical finding in leukemia and should be assessed with other symptoms and blood results."
+      },
+      {
+        "text": "Leukemia cells crowd normal marrow production, reducing functional blood cells",
+        "rationale": "ALL can interfere with production of healthy red cells, white cells, and platelets. This helps explain anemia-related fatigue, infection risk, and bleeding or bruising."
+      },
+      {
+        "text": "Bruising demonstrates an excess of functional platelets",
+        "rationale": "Platelets help stop bleeding. Easy bruising may reflect inadequate platelet production or function, not an excess of effective platelets."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "ALL can interfere with production of healthy red cells, white cells, and platelets. This helps explain anemia-related fatigue, infection risk, and bleeding or bruising.",
+    "keyPoint": "ALL can interfere with production of healthy red cells, white cells, and platelets. This helps explain anemia-related fatigue, infection risk, and bleeding or bruising.",
+    "source": "https://www.cancer.gov/types/leukemia/patient/child-all-treatment-pdq",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-pediatric-integumentary-musculoskeletal-disorders-01",
+    "subject": "NP2",
+    "topic": "Pediatric Integumentary & Musculoskeletal Disorders",
+    "stem": "A child has dry, intensely itchy flexural patches diagnosed as atopic dermatitis. The parent asks if classmates can catch it. Which response is correct?",
+    "options": [
+      {
+        "text": "All itching proves the child has a transmissible parasite",
+        "rationale": "Itching has many causes. In this case the diagnosis is atopic dermatitis, and itching does not establish a parasitic infection."
+      },
+      {
+        "text": "Because it is not contagious, broken or draining skin never needs assessment",
+        "rationale": "Lack of contagiousness does not rule out complications. Damaged skin can become infected and may need additional care."
+      },
+      {
+        "text": "Every child who touches the rash will develop eczema",
+        "rationale": "Atopic dermatitis does not spread by touching the affected skin, although skin care and ordinary hygiene remain important."
+      },
+      {
+        "text": "Atopic dermatitis itself is not contagious",
+        "rationale": "Atopic dermatitis is an inflammatory skin condition, not a contagious infection. Scratched or damaged skin can develop a separate infection that needs assessment."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Atopic dermatitis is an inflammatory skin condition, not a contagious infection. Scratched or damaged skin can develop a separate infection that needs assessment.",
+    "keyPoint": "Atopic dermatitis is an inflammatory skin condition, not a contagious infection. Scratched or damaged skin can develop a separate infection that needs assessment.",
+    "source": "https://www.niams.nih.gov/health-topics/atopic-dermatitis",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP2-legal-principles-collaboration-teamwork-in-pedia-01",
+    "subject": "NP2",
+    "topic": "Legal Principles, Collaboration & Teamwork in Pedia",
+    "stem": "A parent has given permission for a nonurgent procedure for a school-age child. The child looks worried and asks what will happen. What is the best next communication step?",
+    "options": [
+      {
+        "text": "Tell the child that a parent's signature makes all questions unnecessary",
+        "rationale": "A signature does not replace communication. Children should receive information appropriate to their understanding."
+      },
+      {
+        "text": "Promise the procedure will be painless even when discomfort is expected",
+        "rationale": "False reassurance undermines trust. Honest preparation and comfort measures better support the child and family."
+      },
+      {
+        "text": "Ask the child to sign the adult legal consent form without explanation",
+        "rationale": "An unexplained signature is not meaningful participation and does not establish the child's legal authority to consent."
+      },
+      {
+        "text": "Explain in age-appropriate terms, invite questions, and seek the child's participation and assent as appropriate",
+        "rationale": "Parental permission does not remove the value of informing and involving the child. Age-appropriate explanation and assent support participation; legal authority still follows applicable law and policy."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Parental permission does not remove the value of informing and involving the child. Age-appropriate explanation and assent support participation; legal authority still follows applicable law and policy.",
+    "keyPoint": "Parental permission does not remove the value of informing and involving the child. Age-appropriate explanation and assent support participation; legal authority still follows applicable law and policy.",
+    "source": "https://www.ahrq.gov/health-literacy/professional-training/informed-choice/audio-script-leaders.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-classification-of-surgery-01",
+    "subject": "NP3",
+    "topic": "Classification of Surgery",
+    "stem": "A stable patient is booked for a hernia repair several weeks in advance. Which term describes the operation's planned timing?",
+    "options": [
+      {
+        "text": "Emergency surgery",
+        "rationale": "Emergency surgery is unplanned care requiring immediate hospital admission or urgent intervention; that is not the situation described."
+      },
+      {
+        "text": "Reconstructive surgery",
+        "rationale": "Reconstructive describes restoration of form or function. It does not by itself describe whether an operation was scheduled in advance."
+      },
+      {
+        "text": "Diagnostic surgery",
+        "rationale": "Diagnostic describes a procedure's purpose in establishing a diagnosis, not whether its timing is planned."
+      },
+      {
+        "text": "Elective surgery",
+        "rationale": "Elective surgery is planned in advance. The term describes scheduling and urgency; it does not mean the operation has no health benefit."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Elective surgery is planned in advance. The term describes scheduling and urgency; it does not mean the operation has no health benefit.",
+    "keyPoint": "Elective surgery is planned in advance. The term describes scheduling and urgency; it does not mean the operation has no health benefit.",
+    "source": "https://www.rcseng.ac.uk/patient-care/having-surgery/types-of-surgery/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-pre-operative-phase-01",
+    "subject": "NP3",
+    "topic": "Pre-operative Phase",
+    "stem": "Before induction of anesthesia, the team notices that the patient names a different surgical site from the consent and operating list. What should happen next?",
+    "options": [
+      {
+        "text": "Pause and resolve the discrepancy with the patient and responsible team before proceeding",
+        "rationale": "The WHO checklist requires confirmation of identity, site, procedure, and consent before anesthesia. A discrepancy must be resolved, rather than carried forward into the operation."
+      },
+      {
+        "text": "Change the consent form to match whichever site is easiest to prepare",
+        "rationale": "A consent discrepancy requires proper clarification; convenience does not establish the correct or authorized operation."
+      },
+      {
+        "text": "Wait until the patient is anesthetized before asking about the site",
+        "rationale": "Verification before anesthesia allows the patient to participate and helps prevent a wrong-site procedure."
+      },
+      {
+        "text": "Use the operating list as the only source of truth and continue",
+        "rationale": "The list alone does not resolve a conflict involving the patient and consent. The team must clarify the correct procedure and site."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "The WHO checklist requires confirmation of identity, site, procedure, and consent before anesthesia. A discrepancy must be resolved, rather than carried forward into the operation.",
+    "keyPoint": "The WHO checklist requires confirmation of identity, site, procedure, and consent before anesthesia. A discrepancy must be resolved, rather than carried forward into the operation.",
+    "source": "https://www.who.int/docs/default-source/patient-safety/9789241598590-eng-checklist.pdf",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-ards-01",
+    "subject": "NP3",
+    "topic": "ARDS",
+    "stem": "A patient with sepsis develops acute respiratory distress syndrome. Which statement best describes the main treatment goals?",
+    "options": [
+      {
+        "text": "Avoid all breathing support because ventilation can never help ARDS",
+        "rationale": "Ventilatory support can be necessary in ARDS. Its risks require careful management, rather than a blanket refusal of support."
+      },
+      {
+        "text": "Use antibiotics as a complete substitute for oxygen support in every case",
+        "rationale": "Antibiotics may address an infection when indicated, but they do not replace needed oxygenation and breathing support."
+      },
+      {
+        "text": "Treat a normal chest radiograph without assessing oxygenation",
+        "rationale": "ARDS care centers on the patient's respiratory status and cause; a presumed normal image cannot replace oxygenation assessment."
+      },
+      {
+        "text": "Improve oxygenation, provide breathing support as needed, and treat the underlying cause",
+        "rationale": "ARDS care aims to improve oxygen levels and address the cause. Depending on severity, oxygen delivery and ventilatory support may be required, with prevention of complications."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "ARDS care aims to improve oxygen levels and address the cause. Depending on severity, oxygen delivery and ventilatory support may be required, with prevention of complications.",
+    "keyPoint": "ARDS care aims to improve oxygen levels and address the cause. Depending on severity, oxygen delivery and ventilatory support may be required, with prevention of complications.",
+    "source": "https://www.nhlbi.nih.gov/health/ards/treatment",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-heart-anatomy-ecg-basics-01",
+    "subject": "NP3",
+    "topic": "Heart Anatomy & ECG Basics",
+    "stem": "A patient asks whether an electrocardiogram directly measures the amount of blood ejected with each heartbeat. Which explanation is best?",
+    "options": [
+      {
+        "text": "An ECG directly measures the volume of each ventricular contraction",
+        "rationale": "The ECG is an electrical recording. Direct measurement of ejected volume requires other assessment methods."
+      },
+      {
+        "text": "A normal ECG by itself excludes every type of heart disease",
+        "rationale": "ECG findings must be considered with symptoms, history, examination, and other testing; one result cannot exclude every cardiac condition."
+      },
+      {
+        "text": "An ECG records the heart's electrical activity, including rate, rhythm, and signal timing",
+        "rationale": "An ECG records electrical signals generated during cardiac activity. It does not directly measure stroke volume, and its findings are interpreted with the clinical assessment and other tests."
+      },
+      {
+        "text": "An ECG is a blood test that reports the hemoglobin concentration",
+        "rationale": "Hemoglobin is measured from blood. An ECG uses electrodes to record cardiac electrical signals."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "An ECG records electrical signals generated during cardiac activity. It does not directly measure stroke volume, and its findings are interpreted with the clinical assessment and other tests.",
+    "keyPoint": "An ECG records electrical signals generated during cardiac activity. It does not directly measure stroke volume, and its findings are interpreted with the clinical assessment and other tests.",
+    "source": "https://medlineplus.gov/lab-tests/electrocardiogram/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-chronic-kidney-disease-ckd-01",
+    "subject": "NP3",
+    "topic": "Chronic Kidney Disease (CKD)",
+    "stem": "A patient with chronic kidney disease plans to take over-the-counter ibuprofen every day for back pain. Which response best supports medication safety?",
+    "options": [
+      {
+        "text": "Review the plan with the prescriber or pharmacist because NSAIDs can further harm kidney function",
+        "rationale": "NSAIDs, including ibuprofen, can damage kidneys and cause acute kidney injury, especially in people with kidney disease. An individualized pain plan and medication review are needed."
+      },
+      {
+        "text": "Taking twice the package dose protects the kidneys from pain-related stress",
+        "rationale": "Increasing beyond recommended doses is unsafe and does not protect renal function."
+      },
+      {
+        "text": "Stop all prescribed kidney and blood pressure medicines before using ibuprofen",
+        "rationale": "Unsupervised discontinuation can cause harm. The appropriate step is a medication review, rather than stopping prescribed therapy independently."
+      },
+      {
+        "text": "Over-the-counter medicines cannot affect kidney function",
+        "rationale": "Nonprescription status does not mean a medicine is harmless to the kidneys or free of interactions."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "NSAIDs, including ibuprofen, can damage kidneys and cause acute kidney injury, especially in people with kidney disease. An individualized pain plan and medication review are needed.",
+    "keyPoint": "NSAIDs, including ibuprofen, can damage kidneys and cause acute kidney injury, especially in people with kidney disease. An individualized pain plan and medication review are needed.",
+    "source": "https://www.niddk.nih.gov/health-information/kidney-disease/chronic-kidney-disease-ckd/managing",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-inflammatory-bowel-neuro-inflammatory-disorders-01",
+    "subject": "NP3",
+    "topic": "Inflammatory Bowel & Neuro-Inflammatory Disorders",
+    "stem": "A patient newly diagnosed with ulcerative colitis asks which part of the gastrointestinal tract is directly affected. Which answer is most accurate?",
+    "options": [
+      {
+        "text": "The inner lining of the large intestine",
+        "rationale": "Ulcerative colitis causes chronic inflammation and ulcers in the inner lining of the large intestine. It is one form of inflammatory bowel disease."
+      },
+      {
+        "text": "Only the gallbladder wall",
+        "rationale": "The gallbladder is not the characteristic site of ulcerative colitis; the disease affects the large intestinal lining."
+      },
+      {
+        "text": "Only the salivary glands",
+        "rationale": "Ulcerative colitis is an inflammatory bowel disease, not a disorder limited to the glands producing saliva."
+      },
+      {
+        "text": "The heart's coronary arteries",
+        "rationale": "Coronary arteries supply the heart. They are not the intestinal tissue affected by ulcerative colitis."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Ulcerative colitis causes chronic inflammation and ulcers in the inner lining of the large intestine. It is one form of inflammatory bowel disease.",
+    "keyPoint": "Ulcerative colitis causes chronic inflammation and ulcers in the inner lining of the large intestine. It is one form of inflammatory bowel disease.",
+    "source": "https://www.niddk.nih.gov/health-information/digestive-diseases/ulcerative-colitis/definition-facts",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-immunologic-connective-tissue-disorders-01",
+    "subject": "NP3",
+    "topic": "Immunologic & Connective Tissue Disorders",
+    "stem": "A patient with systemic lupus erythematosus says it is only a skin rash, so swelling around the eyes is unrelated. Which explanation best corrects this misunderstanding?",
+    "options": [
+      {
+        "text": "Lupus can affect only the surface of the skin",
+        "rationale": "Systemic lupus can involve internal organs as well as the skin. A skin-only explanation is incomplete."
+      },
+      {
+        "text": "The absence of joint pain rules out all lupus activity",
+        "rationale": "Lupus manifestations vary. Lack of joint pain does not exclude disease activity in another organ."
+      },
+      {
+        "text": "Any swelling proves kidney failure without testing",
+        "rationale": "Swelling has several possible causes. It calls for assessment and appropriate investigation, not an unsupported diagnosis."
+      },
+      {
+        "text": "Lupus can affect multiple organs, including the kidneys; new swelling needs assessment",
+        "rationale": "SLE is a systemic autoimmune disease that can involve the skin, joints, kidneys, blood, and other organs. New swelling should be assessed rather than dismissed as unrelated."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "SLE is a systemic autoimmune disease that can involve the skin, joints, kidneys, blood, and other organs. New swelling should be assessed rather than dismissed as unrelated.",
+    "keyPoint": "SLE is a systemic autoimmune disease that can involve the skin, joints, kidneys, blood, and other organs. New swelling should be assessed rather than dismissed as unrelated.",
+    "source": "https://www.niams.nih.gov/health-topics/lupus",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-basic-concepts-in-cancer-01",
+    "subject": "NP3",
+    "topic": "Basic Concepts in Cancer",
+    "stem": "A pathology discussion uses the TNM system. What does the M component describe?",
+    "options": [
+      {
+        "text": "Whether cancer has spread to distant parts of the body",
+        "rationale": "In TNM staging, M describes distant metastasis. T describes the primary tumor's size or extent, and N describes regional lymph node involvement."
+      },
+      {
+        "text": "The number of chemotherapy cycles already completed",
+        "rationale": "Treatment cycles are recorded separately. They do not define the M component of TNM staging."
+      },
+      {
+        "text": "The patient's response to the first dose of morphine",
+        "rationale": "Analgesic response is not a TNM component; M records distant spread of cancer."
+      },
+      {
+        "text": "The microscopic appearance of tumor cells alone",
+        "rationale": "Microscopic appearance relates to histology and grade. M in TNM refers to distant metastasis."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "In TNM staging, M describes distant metastasis. T describes the primary tumor's size or extent, and N describes regional lymph node involvement.",
+    "keyPoint": "In TNM staging, M describes distant metastasis. T describes the primary tumor's size or extent, and N describes regional lymph node involvement.",
+    "source": "https://www.cancer.gov/about-cancer/diagnosis-staging/staging",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP3-site-specific-cancers-01",
+    "subject": "NP3",
+    "topic": "Site-Specific Cancers",
+    "stem": "An adult reports repeated vaginal bleeding after intercourse and assumes it can wait until the next routine screening visit. What should the nurse emphasize?",
+    "options": [
+      {
+        "text": "Screening schedules mean new symptoms never need an earlier visit",
+        "rationale": "Routine screening is designed for scheduled preventive assessment; new symptoms may require evaluation before the next screening date."
+      },
+      {
+        "text": "The absence of severe pain makes further assessment unnecessary",
+        "rationale": "Cervical disease may cause abnormal bleeding without severe pain. Lack of pain does not make recurrent bleeding safe to ignore."
+      },
+      {
+        "text": "The symptom proves cervical cancer without any examination",
+        "rationale": "The symptom is important but not diagnostic. Other causes are possible, and evaluation is necessary."
+      },
+      {
+        "text": "Arrange clinical evaluation of the symptom; routine screening is not a substitute for investigating it",
+        "rationale": "Bleeding after sex can occur with cervical cancer or other conditions. It requires clinical assessment; a symptom should not simply be deferred to routine screening."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Bleeding after sex can occur with cervical cancer or other conditions. It requires clinical assessment; a symptom should not simply be deferred to routine screening.",
+    "keyPoint": "Bleeding after sex can occur with cervical cancer or other conditions. It requires clinical assessment; a symptom should not simply be deferred to routine screening.",
+    "source": "https://www.cancer.gov/types/cervical/symptoms",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-pituitary-gland-disorders-01",
+    "subject": "NP4",
+    "topic": "Pituitary Gland Disorders",
+    "stem": "An adult reports gradually increasing ring and shoe sizes, a deeper voice, and coarser facial features. Which hormonal pattern is most consistent with acromegaly?",
+    "options": [
+      {
+        "text": "An isolated lack of insulin as the explanation for all the enlargement",
+        "rationale": "Insulin deficiency does not account for the characteristic progressive enlargement of hands, feet, and facial tissues in acromegaly."
+      },
+      {
+        "text": "A temporary absence of ovarian ovulation",
+        "rationale": "Ovulation describes egg release and does not explain the characteristic adult tissue changes described."
+      },
+      {
+        "text": "A reduction in growth hormone as the cause of tissue overgrowth",
+        "rationale": "Acromegaly is associated with excess growth hormone, not a deficiency of that hormone."
+      },
+      {
+        "text": "Excess growth hormone with increased IGF-I activity",
+        "rationale": "Acromegaly results from prolonged excess growth hormone, usually from a pituitary tumor. Growth hormone stimulates IGF-I production, contributing to enlargement of tissues and bones."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Acromegaly results from prolonged excess growth hormone, usually from a pituitary tumor. Growth hormone stimulates IGF-I production, contributing to enlargement of tissues and bones.",
+    "keyPoint": "Acromegaly results from prolonged excess growth hormone, usually from a pituitary tumor. Growth hormone stimulates IGF-I production, contributing to enlargement of tissues and bones.",
+    "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/acromegaly",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-parathyroid-disorders-01",
+    "subject": "NP4",
+    "topic": "Parathyroid Disorders",
+    "stem": "A patient with primary hyperparathyroidism asks why both high blood calcium and bone thinning can occur. Which explanation is correct?",
+    "options": [
+      {
+        "text": "Excess parathyroid hormone can increase release of calcium from bone into the blood",
+        "rationale": "PTH raises blood calcium partly by increasing release of calcium from bone. Persistent excess can contribute to weakened bones and kidney stones."
+      },
+      {
+        "text": "Bone thinning guarantees that blood calcium must also be low",
+        "rationale": "Blood calcium and bone strength are not interchangeable measures. Excess PTH can produce high blood calcium while bone loses mineral."
+      },
+      {
+        "text": "The parathyroid glands produce the same hormones as the thyroid gland",
+        "rationale": "The similarly named glands have different functions. Parathyroid glands produce PTH, which regulates calcium balance."
+      },
+      {
+        "text": "PTH always lowers blood calcium by locking all calcium into bone",
+        "rationale": "PTH normally helps raise blood calcium. Excess does not simply lock calcium into bone."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "PTH raises blood calcium partly by increasing release of calcium from bone. Persistent excess can contribute to weakened bones and kidney stones.",
+    "keyPoint": "PTH raises blood calcium partly by increasing release of calcium from bone. Persistent excess can contribute to weakened bones and kidney stones.",
+    "source": "https://www.niddk.nih.gov/health-information/endocrine-diseases/primary-hyperparathyroidism",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-neuroanatomy-assessment-basics-01",
+    "subject": "NP4",
+    "topic": "Neuroanatomy & Assessment Basics",
+    "stem": "An adult opens the eyes spontaneously, speaks coherently but is confused about the date, and obeys a two-part motor command. There are no interfering factors. Which Glasgow Coma Scale record is correct?",
+    "options": [
+      {
+        "text": "E3 V4 M6, total 13",
+        "rationale": "Eye opening to sound scores 3, but this patient opens the eyes spontaneously, which scores 4."
+      },
+      {
+        "text": "E4 V5 M6, total 15",
+        "rationale": "A verbal score of 5 requires orientation. Confusion about the date makes V4 the appropriate component here."
+      },
+      {
+        "text": "E4 V4 M6, total 14",
+        "rationale": "Spontaneous eye opening scores 4, confused but coherent verbal response scores 4, and obeying commands scores 6. Record the components as well as the total of 14."
+      },
+      {
+        "text": "E4 V4 M4, total 12",
+        "rationale": "A motor score of 4 describes normal flexion to stimulation. Obeying commands is the higher motor response and scores 6."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "Spontaneous eye opening scores 4, confused but coherent verbal response scores 4, and obeying commands scores 6. Record the components as well as the total of 14.",
+    "keyPoint": "Spontaneous eye opening scores 4, confused but coherent verbal response scores 4, and obeying commands scores 6. Record the components as well as the total of 14.",
+    "source": "https://www.glasgowcomascale.org/downloads/GCS-Assessment-Aid.pdf",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-multiple-sclerosis-ms-01",
+    "subject": "NP4",
+    "topic": "Multiple Sclerosis (MS)",
+    "stem": "A patient with multiple sclerosis notices more fatigue during hot afternoons and asks how to plan daily activities. Which advice is most appropriate?",
+    "options": [
+      {
+        "text": "Assume every future episode of fatigue is MS and never assess it",
+        "rationale": "Fatigue may have other causes, including infection, sleep problems, medication effects, and other illness. Assessment remains important."
+      },
+      {
+        "text": "Use prolonged hot baths to eliminate heat-related fatigue",
+        "rationale": "More heat may worsen symptoms in a heat-sensitive patient. This does not address the reported trigger."
+      },
+      {
+        "text": "Plan important activities for cooler periods, pace effort, and discuss new or persistent changes with the care team",
+        "rationale": "Heat can bring on MS-related fatigue. Cooling and energy conservation can help, while new or persistent symptoms still require assessment for other causes or disease activity."
+      },
+      {
+        "text": "Stop all activity permanently, regardless of ability or rehabilitation goals",
+        "rationale": "A paced, individualized plan supports function. Permanent avoidance of all activity is not the recommended response to heat sensitivity."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "Heat can bring on MS-related fatigue. Cooling and energy conservation can help, while new or persistent symptoms still require assessment for other causes or disease activity.",
+    "keyPoint": "Heat can bring on MS-related fatigue. Cooling and energy conservation can help, while new or persistent symptoms still require assessment for other causes or disease activity.",
+    "source": "https://www.nice.org.uk/guidance/ng220/chapter/Recommendations",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-myasthenia-gravis-mg-01",
+    "subject": "NP4",
+    "topic": "Myasthenia Gravis (MG)",
+    "stem": "A patient with myasthenia gravis develops much greater difficulty swallowing and new severe shortness of breath. Which action has priority?",
+    "options": [
+      {
+        "text": "Arrange a routine appointment several weeks later",
+        "rationale": "New severe breathing difficulty requires urgent assessment rather than a delayed routine appointment."
+      },
+      {
+        "text": "Offer a large meal to test whether swallowing improves",
+        "rationale": "A meal can increase aspiration risk when swallowing is severely impaired and does not address respiratory deterioration."
+      },
+      {
+        "text": "Obtain emergency assessment and prepare for airway and breathing support",
+        "rationale": "Severe breathing or swallowing difficulty in myasthenia gravis can be life-threatening and needs urgent hospital treatment. Routine activity planning must wait until immediate safety is addressed."
+      },
+      {
+        "text": "Ask the patient to exercise until the respiratory muscles become stronger",
+        "rationale": "Exertion can worsen fatigable weakness and is not a safe response to acute respiratory compromise."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "Severe breathing or swallowing difficulty in myasthenia gravis can be life-threatening and needs urgent hospital treatment. Routine activity planning must wait until immediate safety is addressed.",
+    "keyPoint": "Severe breathing or swallowing difficulty in myasthenia gravis can be life-threatening and needs urgent hospital treatment. Routine activity planning must wait until immediate safety is addressed.",
+    "source": "https://www.nhs.uk/conditions/myasthenia-gravis/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-guillain-barr-syndrome-gbs-01",
+    "subject": "NP4",
+    "topic": "Guillain-Barré Syndrome (GBS)",
+    "stem": "A patient admitted with Guillain-Barré syndrome develops worsening limb weakness and a weak cough. Which assessment area deserves immediate priority?",
+    "options": [
+      {
+        "text": "Preferred shoe style for discharge",
+        "rationale": "Discharge preferences can wait while the team assesses a potentially serious change in breathing and airway protection."
+      },
+      {
+        "text": "Only the intensity of tingling in one toe",
+        "rationale": "Sensory symptoms are relevant, but focusing on one toe misses the more urgent possibility of respiratory involvement."
+      },
+      {
+        "text": "The patient's long-term career plan before respiratory assessment",
+        "rationale": "Long-term planning is valuable but does not take priority over immediate respiratory safety in an acutely weakening patient."
+      },
+      {
+        "text": "Breathing effectiveness and ability to protect the airway",
+        "rationale": "Guillain-Barré syndrome can affect breathing and swallowing as well as limb movement. A weak cough with worsening weakness raises concern for respiratory muscle involvement."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Guillain-Barré syndrome can affect breathing and swallowing as well as limb movement. A weak cough with worsening weakness raises concern for respiratory muscle involvement.",
+    "keyPoint": "Guillain-Barré syndrome can affect breathing and swallowing as well as limb movement. A weak cough with worsening weakness raises concern for respiratory muscle involvement.",
+    "source": "https://www.nhs.uk/conditions/guillain-barre-syndrome/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-amyotrophic-lateral-sclerosis-als-01",
+    "subject": "NP4",
+    "topic": "Amyotrophic Lateral Sclerosis (ALS)",
+    "stem": "A patient with ALS remains able to make decisions but has increasing difficulty speaking. Which care plan best supports participation?",
+    "options": [
+      {
+        "text": "Assume that inability to speak clearly means inability to make decisions",
+        "rationale": "A motor speech problem does not by itself show loss of understanding or decision-making capacity. Assess and support communication."
+      },
+      {
+        "text": "Assess communication needs and arrange suitable communication aids with the multidisciplinary team",
+        "rationale": "ALS can affect speech, swallowing, and breathing. Communication support helps the person express choices and participate in care; speech difficulty alone does not establish loss of decision-making capacity."
+      },
+      {
+        "text": "Delay communication support until speech is completely lost",
+        "rationale": "Planning before further decline allows the patient to learn and select suitable aids while communication is still possible."
+      },
+      {
+        "text": "Direct all questions to relatives without first involving the patient",
+        "rationale": "Family support is useful, but the person should remain involved using an accessible communication method whenever possible."
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "ALS can affect speech, swallowing, and breathing. Communication support helps the person express choices and participate in care; speech difficulty alone does not establish loss of decision-making capacity.",
+    "keyPoint": "ALS can affect speech, swallowing, and breathing. Communication support helps the person express choices and participate in care; speech difficulty alone does not establish loss of decision-making capacity.",
+    "source": "https://www.nhs.uk/conditions/motor-neurone-disease/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-metabolic-bone-disorders-01",
+    "subject": "NP4",
+    "topic": "Metabolic Bone Disorders",
+    "stem": "An older adult with osteoporosis says no treatment is needed because the bones do not hurt. Which explanation is most accurate?",
+    "options": [
+      {
+        "text": "Complete bed rest is the best lifelong way to strengthen bones",
+        "rationale": "Prolonged inactivity can worsen strength and function. Activity should be safe and individualized rather than eliminated."
+      },
+      {
+        "text": "Lack of pain proves that bone strength is normal",
+        "rationale": "Pain is not a reliable early indicator of bone density or fracture risk. Osteoporosis often has no symptoms before a fracture."
+      },
+      {
+        "text": "Osteoporosis is often silent until a fracture; prevention and prescribed treatment still matter",
+        "rationale": "Osteoporosis can reduce bone strength without early symptoms. Appropriate activity, nutrition, fall prevention, and prescribed therapy aim to reduce fracture risk."
+      },
+      {
+        "text": "A fracture can occur only after a high-speed collision",
+        "rationale": "Fragile bones may break after a minor fall or ordinary stress, not only after major trauma."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "Osteoporosis can reduce bone strength without early symptoms. Appropriate activity, nutrition, fall prevention, and prescribed therapy aim to reduce fracture risk.",
+    "keyPoint": "Osteoporosis can reduce bone strength without early symptoms. Appropriate activity, nutrition, fall prevention, and prescribed therapy aim to reduce fracture risk.",
+    "source": "https://www.niams.nih.gov/health-topics/osteoporosis",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-inflammatory-infectious-bone-joint-disorders-01",
+    "subject": "NP4",
+    "topic": "Inflammatory & Infectious Bone/Joint Disorders",
+    "stem": "An adult reports swollen joints in both hands and morning stiffness lasting over an hour. Which pattern is most consistent with rheumatoid arthritis?",
+    "options": [
+      {
+        "text": "An inflammatory autoimmune process that often affects joints symmetrically",
+        "rationale": "RA is an autoimmune inflammatory disease. Symmetric joint involvement, swelling, and prolonged morning stiffness are characteristic patterns, although diagnosis requires clinical evaluation."
+      },
+      {
+        "text": "A condition that by definition affects only one joint after a fall",
+        "rationale": "RA is not defined as a single traumatic joint injury and often involves more than one joint in a symmetric pattern."
+      },
+      {
+        "text": "A disease that can never affect organs outside the joints",
+        "rationale": "RA can have effects beyond joints, including in the lungs, heart, eyes, skin, and blood."
+      },
+      {
+        "text": "A temporary loss of joint fluid that always resolves without assessment",
+        "rationale": "Persistent inflammatory joint symptoms merit assessment; they should not be dismissed as an automatically self-resolving fluid change."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "RA is an autoimmune inflammatory disease. Symmetric joint involvement, swelling, and prolonged morning stiffness are characteristic patterns, although diagnosis requires clinical evaluation.",
+    "keyPoint": "RA is an autoimmune inflammatory disease. Symmetric joint involvement, swelling, and prolonged morning stiffness are characteristic patterns, although diagnosis requires clinical evaluation.",
+    "source": "https://www.niams.nih.gov/health-topics/rheumatoid-arthritis",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-spinal-other-msk-conditions-01",
+    "subject": "NP4",
+    "topic": "Spinal & Other MSK Conditions",
+    "stem": "A patient with back pain from a herniated lumbar disc develops new numbness around the genitals and cannot pass urine. What is the priority advice?",
+    "options": [
+      {
+        "text": "Seek emergency assessment immediately",
+        "rationale": "New saddle-area numbness and urinary retention with back pain can indicate serious nerve compression. Immediate assessment is needed rather than routine home management."
+      },
+      {
+        "text": "Reduce fluid intake and ignore the inability to urinate",
+        "rationale": "Fluid restriction does not address the possible neurological cause of new urinary retention and should not delay emergency care."
+      },
+      {
+        "text": "Wait several weeks to see whether stretching resolves the symptoms",
+        "rationale": "These neurological and bladder changes are emergency warning signs. Waiting risks delayed treatment of serious compression."
+      },
+      {
+        "text": "Treat the symptoms as proof of uncomplicated muscle strain",
+        "rationale": "New perineal numbness and bladder dysfunction are not findings to dismiss as a simple strain."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "New saddle-area numbness and urinary retention with back pain can indicate serious nerve compression. Immediate assessment is needed rather than routine home management.",
+    "keyPoint": "New saddle-area numbness and urinary retention with back pain can indicate serious nerve compression. Immediate assessment is needed rather than routine home management.",
+    "source": "https://www.nhs.uk/conditions/slipped-disc/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-eye-anatomy-assessment-refractive-disorders-01",
+    "subject": "NP4",
+    "topic": "Eye Anatomy, Assessment & Refractive Disorders",
+    "stem": "A student can read a nearby book clearly but distant classroom writing looks blurred. Which refractive error most closely fits this description?",
+    "options": [
+      {
+        "text": "Retinal detachment established solely by this description",
+        "rationale": "Distance blur alone does not establish retinal detachment. Sudden flashes, new floaters, or a curtain over vision require urgent assessment."
+      },
+      {
+        "text": "Myopia",
+        "rationale": "Myopia, or nearsightedness, makes distant objects look blurred. An eye examination is needed to assess vision and prescribe appropriate correction."
+      },
+      {
+        "text": "Presbyopia",
+        "rationale": "Presbyopia typically causes age-related difficulty seeing close objects, rather than the described difficulty with distant writing in a student."
+      },
+      {
+        "text": "Hyperopia",
+        "rationale": "Hyperopia is associated with difficulty focusing on nearby objects; myopia more directly fits clear near vision with blurred distance vision."
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Myopia, or nearsightedness, makes distant objects look blurred. An eye examination is needed to assess vision and prescribe appropriate correction.",
+    "keyPoint": "Myopia, or nearsightedness, makes distant objects look blurred. An eye examination is needed to assess vision and prescribe appropriate correction.",
+    "source": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/refractive-errors",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-retinal-detachment-macular-degeneration-01",
+    "subject": "NP4",
+    "topic": "Retinal Detachment & Macular Degeneration",
+    "stem": "A patient reports a sudden shower of new floaters, flashes of light, and a dark curtain across part of one eye's vision. What is the best response?",
+    "options": [
+      {
+        "text": "Arrange immediate ophthalmic or emergency evaluation",
+        "rationale": "Sudden floaters, flashes, and a curtain or shadow can indicate retinal detachment. Prompt treatment may protect vision; this is not a routine glasses-prescription concern."
+      },
+      {
+        "text": "Reassure the patient that the symptoms always disappear without treatment",
+        "rationale": "These symptoms may threaten vision and cannot safely be guaranteed to resolve spontaneously."
+      },
+      {
+        "text": "Recommend rubbing the eye until the curtain clears",
+        "rationale": "Rubbing does not treat retinal detachment and should not delay urgent eye assessment."
+      },
+      {
+        "text": "Book only a routine refraction visit next year",
+        "rationale": "Possible retinal detachment is time-sensitive. A routine future visit would delay needed evaluation."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Sudden floaters, flashes, and a curtain or shadow can indicate retinal detachment. Prompt treatment may protect vision; this is not a routine glasses-prescription concern.",
+    "keyPoint": "Sudden floaters, flashes, and a curtain or shadow can indicate retinal detachment. Prompt treatment may protect vision; this is not a routine glasses-prescription concern.",
+    "source": "https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/retinal-detachment",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-other-eye-conditions-surgery-care-01",
+    "subject": "NP4",
+    "topic": "Other Eye Conditions & Surgery Care",
+    "stem": "Liquid household cleaner splashes into an adult's eye. There is no penetrating object. What should be started immediately while emergency help is arranged?",
+    "options": [
+      {
+        "text": "Rub the eye firmly with a dry cloth",
+        "rationale": "Rubbing may cause further damage and does not adequately remove the chemical."
+      },
+      {
+        "text": "Keep the eye closed and wait for symptoms before rinsing",
+        "rationale": "Waiting leaves the chemical in contact with the eye. Immediate irrigation is the priority."
+      },
+      {
+        "text": "Irrigate the eye with copious clean, non-hot water",
+        "rationale": "For a strong chemical exposure, begin rinsing immediately and continue while seeking urgent medical help. Prompt removal of the chemical reduces ongoing contact; do not delay irrigation for a full history."
+      },
+      {
+        "text": "Add a second household chemical to neutralize the first",
+        "rationale": "Uncontrolled chemical neutralization can cause further injury. Use copious appropriate irrigation and emergency assessment."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "For a strong chemical exposure, begin rinsing immediately and continue while seeking urgent medical help. Prompt removal of the chemical reduces ongoing contact; do not delay irrigation for a full history.",
+    "keyPoint": "For a strong chemical exposure, begin rinsing immediately and continue while seeking urgent medical help. Prompt removal of the chemical reduces ongoing contact; do not delay irrigation for a full history.",
+    "source": "https://www.nhs.uk/conditions/eye-injuries/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-ear-anatomy-assessment-hearing-loss-01",
+    "subject": "NP4",
+    "topic": "Ear Anatomy, Assessment & Hearing Loss",
+    "stem": "An older adult with hearing loss struggles to understand discharge instructions in a noisy room. Which communication change is most helpful?",
+    "options": [
+      {
+        "text": "Keep the television loud to make the patient concentrate harder",
+        "rationale": "Competing background sound can mask speech. Reducing noise supports communication."
+      },
+      {
+        "text": "Speak faster while looking down at the paperwork",
+        "rationale": "Rapid speech and a hidden face remove useful cues and can make comprehension more difficult."
+      },
+      {
+        "text": "Shout the instructions from another room",
+        "rationale": "Distance and lack of visual cues make understanding harder. Shouting is not a substitute for clear, accessible communication."
+      },
+      {
+        "text": "Reduce background noise, face the patient, and speak clearly without shouting",
+        "rationale": "Facing the patient provides visual cues, and less background noise makes speech easier to understand. Clear speech is more useful than shouting or turning away."
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Facing the patient provides visual cues, and less background noise makes speech easier to understand. Clear speech is more useful than shouting or turning away.",
+    "keyPoint": "Facing the patient provides visual cues, and less background noise makes speech easier to understand. Clear speech is more useful than shouting or turning away.",
+    "source": "https://www.nidcd.nih.gov/health/age-related-hearing-loss",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP4-ear-disorders-surgery-care-01",
+    "subject": "NP4",
+    "topic": "Ear Disorders & Surgery Care",
+    "stem": "A patient is being evaluated for Ménière's disease. Which symptom cluster is most consistent with this inner-ear disorder?",
+    "options": [
+      {
+        "text": "Only painful swollen finger joints with morning stiffness",
+        "rationale": "That pattern suggests an articular inflammatory problem, not the characteristic hearing and balance symptoms of Ménière's disease."
+      },
+      {
+        "text": "Episodic vertigo, tinnitus, hearing loss, and a feeling of ear fullness",
+        "rationale": "Ménière's disease affects the inner ear and can cause these symptoms. Vertigo may be severe enough to affect balance and increase fall risk."
+      },
+      {
+        "text": "Only thirst and large volumes of dilute urine",
+        "rationale": "That pattern points toward a water-balance problem rather than an inner-ear hearing and balance disorder."
+      },
+      {
+        "text": "A painless curtain across vision with new flashes",
+        "rationale": "This is an eye emergency pattern that may indicate retinal detachment, not the typical Ménière's symptom cluster."
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Ménière's disease affects the inner ear and can cause these symptoms. Vertigo may be severe enough to affect balance and increase fall risk.",
+    "keyPoint": "Ménière's disease affects the inner ear and can cause these symptoms. Vertigo may be severe enough to affect balance and increase fall risk.",
+    "source": "https://www.nidcd.nih.gov/health/menieres-disease",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP5-personality-disorders-01",
+    "subject": "NP5",
+    "topic": "Personality Disorders",
+    "stem": "A patient with borderline personality disorder asks about dialectical behavior therapy. Which goal should the nurse describe?",
+    "options": [
+      {
+        "text": "Produce a therapeutic seizure under general anesthesia",
+        "rationale": "That describes electroconvulsive therapy, not the skills-based psychotherapy used in DBT."
+      },
+      {
+        "text": "Guarantee that distress will never occur again after one session",
+        "rationale": "No single session can guarantee absence of future distress. DBT focuses on learning and practicing effective skills over time."
+      },
+      {
+        "text": "Build mindfulness, emotion-regulation, and relationship skills while reducing self-destructive behavior",
+        "rationale": "DBT was developed for borderline personality disorder. It teaches skills for awareness, managing intense emotions, reducing harmful behaviors, and improving relationships."
+      },
+      {
+        "text": "Replace every future clinical assessment with a one-time personality test",
+        "rationale": "DBT is an ongoing therapeutic approach. It does not eliminate the need for assessment or an individualized treatment plan."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "DBT was developed for borderline personality disorder. It teaches skills for awareness, managing intense emotions, reducing harmful behaviors, and improving relationships.",
+    "keyPoint": "DBT was developed for borderline personality disorder. It teaches skills for awareness, managing intense emotions, reducing harmful behaviors, and improving relationships.",
+    "source": "https://www.nimh.nih.gov/health/publications/borderline-personality-disorder",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP5-somatic-behavioral-therapies-01",
+    "subject": "NP5",
+    "topic": "Somatic & Behavioral Therapies",
+    "stem": "A patient receiving modern electroconvulsive therapy asks why an anesthetic and a muscle relaxant are used. Which explanation is correct?",
+    "options": [
+      {
+        "text": "The medications guarantee that memory effects are impossible",
+        "rationale": "ECT can cause temporary confusion and memory problems. Anesthetic use does not eliminate these possible effects."
+      },
+      {
+        "text": "The anesthetic prevents awareness of the procedure, and the muscle relaxant limits movement during the induced seizure",
+        "rationale": "ECT uses electrical stimulation to induce therapeutic seizure activity. Anesthesia and a muscle relaxant support a controlled procedure performed by a trained team with physiological monitoring."
+      },
+      {
+        "text": "The medications are given so that no trained monitoring team is needed",
+        "rationale": "The medications do not remove the need for trained clinicians and monitoring of breathing, circulation, and recovery."
+      },
+      {
+        "text": "The muscle relaxant is the only treatment and no brain stimulation occurs",
+        "rationale": "ECT's therapeutic procedure involves electrical brain stimulation; the muscle relaxant supports procedural safety rather than replacing it."
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "ECT uses electrical stimulation to induce therapeutic seizure activity. Anesthesia and a muscle relaxant support a controlled procedure performed by a trained team with physiological monitoring.",
+    "keyPoint": "ECT uses electrical stimulation to induce therapeutic seizure activity. Anesthesia and a muscle relaxant support a controlled procedure performed by a trained team with physiological monitoring.",
+    "source": "https://www.nimh.nih.gov/health/topics/brain-stimulation-therapies/brain-stimulation-therapies",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP5-altered-perception-01",
+    "subject": "NP5",
+    "topic": "Altered Perception",
+    "stem": "During a conversation, a previously well adult suddenly develops slurred speech and weakness of one arm. Which response best addresses a possible acute stroke?",
+    "options": [
+      {
+        "text": "Activate emergency stroke assessment immediately and note the symptom-onset time",
+        "rationale": "Sudden speech difficulty and unilateral weakness are stroke warning signs. Immediate emergency assessment and recording when symptoms started support time-sensitive treatment decisions."
+      },
+      {
+        "text": "Offer food and drink before arranging assessment",
+        "rationale": "Swallowing may be impaired in stroke. Feeding is not the priority and should not delay emergency evaluation."
+      },
+      {
+        "text": "Cancel emergency assessment if symptoms disappear after a few minutes",
+        "rationale": "Brief symptoms may represent a transient ischemic attack and still require urgent medical evaluation."
+      },
+      {
+        "text": "Wait until tomorrow because the person was well earlier today",
+        "rationale": "Stroke symptoms can begin abruptly in someone who was previously well. Delay may reduce treatment opportunities."
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Sudden speech difficulty and unilateral weakness are stroke warning signs. Immediate emergency assessment and recording when symptoms started support time-sensitive treatment decisions.",
+    "keyPoint": "Sudden speech difficulty and unilateral weakness are stroke warning signs. Immediate emergency assessment and recording when symptoms started support time-sensitive treatment decisions.",
+    "source": "https://www.cdc.gov/stroke/signs-symptoms/",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP5-critical-care-equipment-01",
+    "subject": "NP5",
+    "topic": "Critical Care Equipment",
+    "stem": "A family member asks what the mechanical ventilator beside a patient in respiratory failure does. Which explanation is most accurate?",
+    "options": [
+      {
+        "text": "It filters waste products directly from the blood like dialysis",
+        "rationale": "Blood filtration is a function of renal replacement equipment, not the ventilator's primary role."
+      },
+      {
+        "text": "It supports breathing by moving air into and out of the lungs",
+        "rationale": "A mechanical ventilator supports ventilation when breathing is inadequate and can deliver oxygen through a tube or fitted mask. It does not by itself cure the underlying illness."
+      },
+      {
+        "text": "It guarantees that the patient cannot develop pneumonia",
+        "rationale": "Ventilated patients can still develop pneumonia and need appropriate preventive and monitoring measures."
+      },
+      {
+        "text": "It gives a defibrillation shock with every ordinary breath",
+        "rationale": "Defibrillation delivers a therapeutic electrical shock for selected dangerous rhythms. It is not the function of a mechanical ventilator."
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "A mechanical ventilator supports ventilation when breathing is inadequate and can deliver oxygen through a tube or fitted mask. It does not by itself cure the underlying illness.",
+    "keyPoint": "A mechanical ventilator supports ventilation when breathing is inadequate and can deliver oxygen through a tube or fitted mask. It does not by itself cure the underlying illness.",
+    "source": "https://www.nhlbi.nih.gov/health/ventilator",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
+  },
+  {
+    "id": "ORIG-NP5-collaboration-communication-in-critical-care-01",
+    "subject": "NP5",
+    "topic": "Collaboration & Communication in Critical Care",
+    "stem": "A nurse calls about a rapidly deteriorating ICU patient using SBAR. After Situation, Background, and Assessment, which statement best completes the communication?",
+    "options": [
+      {
+        "text": "I will omit what I need so the receiver has to infer the plan",
+        "rationale": "An unstated request leaves the next action unclear. SBAR should support explicit, actionable communication."
+      },
+      {
+        "text": "I will assume the receiver heard correctly and end the call without clarification",
+        "rationale": "Checking the response and agreed plan helps prevent misunderstanding, especially during critical communication."
+      },
+      {
+        "text": "Please assess the patient at the bedside now; repeat back the agreed immediate plan",
+        "rationale": "The Recommendation or Request states what is needed and when. Clear requests and repeat-back help the team confirm an accurate, shared plan during urgent communication."
+      },
+      {
+        "text": "I will read the complete admission record without describing the current problem",
+        "rationale": "An exhaustive record does not replace a concise current situation, relevant background, assessment, and request."
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "The Recommendation or Request states what is needed and when. Clear requests and repeat-back help the team confirm an accurate, shared plan during urgent communication.",
+    "keyPoint": "The Recommendation or Request states what is needed and when. Clear requests and repeat-back help the team confirm an accurate, shared plan during urgent communication.",
+    "source": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/sbar.html",
+    "origin": "Original NLE Reviewer educational question, authored 2026-11-02 using the linked reference; not copied from BoardPal or an official examination."
   }
 ]

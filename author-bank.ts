@@ -4,6 +4,7 @@ import maternal from "./maternal.ts";
 import medsurg from "./medsurg.ts";
 import neuro from "./neuro.ts";
 import mental from "./mental.ts";
+import { additionalQuestions } from "./additional-questions.ts";
 import siteQuestions from "./site-questions.json" with { type: "json" };
 import type { ClinicalCase, Question, Subject } from "./types.ts";
 import { subjects, shuffled, validateQuestions, installQuestionBank } from "./bank.ts";
@@ -25,7 +26,7 @@ export const originalQuestions: Question[] = clinicalCases.flatMap((entry, index
   const options = shuffled([correct, ...distractors], index * 47 + kind * 97 + 5);
   return { id: `${entry.subject}-${String(index + 1).padStart(3, "0")}-${kind + 1}`, subject: entry.subject, topic: entry.topic, stem: `${entry.scenario} ${prompts[kind]}`, options, correctIndex: options.indexOf(correct), rationale: fact.reason, keyPoint: `${entry.title}: ${fact.text}. ${fact.reason}`, source: "https://www.ncbi.nlm.nih.gov/books/NBK590025/", origin: "Original educational scenario; not copied from BoardPal or an official PNLE paper." };
 }));
-export const questions: Question[] = [...originalQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : [])];
+export const questions: Question[] = [...originalQuestions, ...additionalQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : [])];
 export const questionMap = new Map(questions.map(q => [q.id, q]));
 export const topics = subjects.flatMap(subject => [...new Set(questions.filter(q => q.subject === subject.id).map(q => q.topic))].map(name => ({ id: `${subject.id}:${name}`, name, subject: subject.id, count: questions.filter(q => q.subject === subject.id && q.topic === name).length })));
 

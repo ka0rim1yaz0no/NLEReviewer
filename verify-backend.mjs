@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { initialState } from './engine.ts';
 import {validateProtectedContent} from './content-integrity.ts';
+import {questions as expectedQuestions,clinicalCases as expectedCases} from './author-bank.ts';
 const local = await readFile(new URL('./.env.local',import.meta.url),'utf8').catch(()=> '');
 const values = Object.fromEntries(local.split(/\r?\n/).filter(line=>line.includes('=')).map(line=>{const index=line.indexOf('=');return [line.slice(0,index),line.slice(index+1).trim()];}));
 const url=process.env.VITE_SUPABASE_URL||values.VITE_SUPABASE_URL;
@@ -25,7 +26,7 @@ const duplicate=await b.from('study_profiles').insert({user_id:idB,username:name
 assert.equal(duplicate.error?.code,'23505','Usernames must be case-insensitively unique.');
 assert.equal((await b.from('study_profiles').insert({user_id:idB,username:nameB})).error,null);
 console.log('PASS: username-only sign-in creates separate identities and rejects duplicate usernames.');
-const protectedBank=await a.from('study_content').select('id,kind,data').order('id');assert.equal(protectedBank.error,null);const content=await validateProtectedContent(protectedBank.data);assert.ok(content.questions.length>=600);assert.equal(content.cases.length,120);
+const protectedBank=await a.from('study_content').select('id,kind,data').order('id');assert.equal(protectedBank.error,null);const content=await validateProtectedContent(protectedBank.data);assert.deepEqual(content.questions,expectedQuestions);assert.deepEqual(content.cases,expectedCases);
 const contentWrite=await a.from('study_content').insert({id:'forbidden-qa-write',kind:'questions',data:[]});assert.equal(contentWrite.error?.code,'42501');console.log('PASS: claimed usernames read the complete verified bank and cannot modify the shared content.');
 const stateA=initialState(),stateB=initialState();stateA.profile.name=nameA;stateB.profile.name=nameB;
 for(const [owner,id,data]of [[a,idA,stateA],[b,idB,stateB]]){const {error}=await owner.from('study_states').upsert({user_id:id,data});assert.equal(error,null,error?.message);}

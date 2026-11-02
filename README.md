@@ -4,18 +4,18 @@ A BoardPal-inspired nursing review application focused on useful study tools. A 
 
 ## Included
 
-- **600 original questions** in 120 five-question scenarios across 61 topics. Fundamentals and NP1–NP5 each contain 100 questions.
-- The **complete 155-topic reference catalog** and its observed **9,541-question distribution** (13–206 per topic), with the observed 12/32/22/29/37/23 subject structure, topic pages, notes, exact topic search, and custom multi-topic selection. Existing original questions are linked as related practice; missing content is labeled explicitly. Topic names do not imply the proprietary source question bank has been copied.
+- **651 original questions**: the initial 600 questions in 120 five-question scenarios, plus 51 individually authored questions for previously empty catalog topics. Related practice is available under all 155 catalog topics. Coverage depth varies; some topics currently have one question.
+- The **complete 155-topic reference catalog** and its observed **9,541-question distribution** (13–206 per topic), with the observed 12/32/22/29/37/23 subject structure, topic pages, notes, exact topic search, and custom multi-topic selection. Original questions are linked as related practice. Topic names do not imply the proprietary source question bank has been copied.
 - Four choices per question, a correct answer, a rationale, and an explanation for each alternative. Questions cover recognition, action, teaching, evaluation, and safety.
-- Tutor and exam modes; custom subject/topic selection; unanswered and missed filters; timers; persistent sessions; flags, elimination, confidence, highlighting, pen annotations, and scratch notes.
+- Tutor and exam modes; custom subject/topic selection; unanswered and missed filters; timers; persistent sessions; flags, elimination, confidence, highlighting, pen annotations, and scratch notes. The practice list has counted Needs work, Not started, Flagged, and Saved filters and per-topic redo-miss sets. Custom counts can use the full available bank.
 - Five mock variants, each containing five 100-item, two-hour sections. Variants reuse and reorder the subject bank, rather than claiming 2,500 independent questions.
 - A balanced 30-question diagnostic; result review; first-try performance; history; saved questions and notes; study milestones.
-- Flashcards with a spaced-review schedule; custom decks; Anki text/TSV/CSV import; topic notes; a study plan and calendar export.
+- Flashcards and resource notes organized under all 155 catalog topics, with a spaced-review schedule, custom decks, Anki text/TSV/CSV import, and a study plan with calendar export. Topic and resource pages share the same catalog note and reviewed state. Related cards share one schedule by question ID; old deck/resource URLs and imported topics remain usable.
 - Username-only study profiles, per-profile local progress and Supabase cloud sync, JSON backups, and authorized question imports.
 
 The source content is **not the proprietary BoardPal question bank** and is not an official PNLE paper. The question sets and short summaries require independent clinical/editorial review before production educational use. No BoardPal answers were submitted during reference inspection.
 
-[question-bank.json](question-bank.json) contains all 600 expanded question records, including answer keys and every choice's rationale, for direct review without running the app.
+[question-bank.json](question-bank.json) contains all 651 expanded question records, including answer keys and every choice's rationale, for direct review without running the app. The 51 additions in `additional-questions.ts` each have a topic-specific official clinical or legal source. Their key points also appear in topic/resource notes and their questions become flashcards.
 
 ## Run locally
 
@@ -37,6 +37,7 @@ Import `ka0rim1yaz0no/NLEReviewer` into Vercel. The included `vercel.json` selec
 1. Choose the intended Supabase project. Run `supabase.sql` and then `username-profiles.sql` once in its SQL Editor. Both tables have row-level security; signed-in profiles can access only records matching their Supabase user ID. Unauthenticated database access is revoked.
 2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` in Vercel and, for local development, in an ignored `.env.local`. Use the project's public publishable key. **Never use a service-role or secret key in browser code.**
 3. Generate the protected bank with `node --experimental-strip-types seed-content.mjs`. Run the generated `outputs/protected-content-seed.sql` in Supabase SQL Editor. The `study_content` table permits reads only for signed-in identities with a claimed username; visitors and unclaimed anonymous-auth identities cannot read questions, answers, rationales, or topic notes. Students cannot edit the shared bank.
+   If the editor rejects the full file's size, use `protected-content-schema.sql`, the individual `protected-content-questions-*.sql` and `protected-content-cases-*.sql` files, then `protected-content-manifest.sql` last. Until all matching pages are present, the integrity check keeps saved progress intact and asks students to retry. For a production update, apply changed pages and the manifest in a single transaction through a database connection when possible.
 4. In Authentication → Sign In / Providers, enable **Allow anonymous sign-ins**. Each username profile receives a separate Supabase anonymous-auth identity in the `authenticated` database role. No email sender, email confirmation, password, or social provider is needed.
 5. Redeploy after changing Vercel environment variables; Vite embeds public values at build time.
 
@@ -52,7 +53,7 @@ Use Settings → Download sample format. Import a JSON array with unique `id`, a
 
 For a larger bank shared by all students, use `node --experimental-strip-types prepare-bank.mjs authorized-questions.json --check-only` to validate a batch. Questions must use exact catalog topics, complete per-choice rationales, a source URL, and provenance. Remove `--check-only` to append the validated batch to `site-questions.json`. Regenerate and apply `outputs/protected-content-seed.sql`, then run the checks and commit. The browser retrieves the shared content after username sign-in and checks its complete manifest and checksum before opening saved progress. Site-wide content stays outside private progress snapshots, so each answer does not re-upload the question bank. Existing published IDs are preserved. This tool does not create questions or fetch the paid reference bank.
 
-`node --experimental-strip-types audit-bank.mjs` writes `question-coverage.json` with actual unique counts, exact topic assignments, related practice, duplicates, and reference targets. Add `--require-match` for a failing exit code while the actual bank differs from the reference distribution. The built-in 600 original questions do **not** fulfill the 9,541-question reference target. Counting the same related question under multiple topics does not increase the unique-question total.
+`node --experimental-strip-types audit-bank.mjs` writes `question-coverage.json` with actual unique counts, exact topic assignments, related practice, duplicates, and reference targets. Add `--require-match` for a failing exit code while the actual bank differs from the reference distribution. The 651 original questions do **not** fulfill the 9,541-question reference target. Counting the same related question under multiple topics does not increase the unique-question total. A regression checksum protects the initial 600 items' IDs, choices, and keys so adding content does not alter saved answers.
 
 ## Reference and verification
 

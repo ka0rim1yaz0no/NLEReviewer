@@ -2,16 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {questions,originalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import publishedQuestions from './site-questions.json' with { type: 'json' };
+import {additionalQuestions} from './additional-questions.ts';
+import {practiceTopicRows} from './practice-metrics.ts';
+import {savedTopicNotes} from './saved-notes.ts';
 import {contentDigest,validateProtectedContent} from './content-integrity.ts';
 import {needsUsername} from './access.ts';
 import {auditQuestionBank,findDuplicateQuestions,referenceTotal,referenceCount,referenceSubjectCount} from './catalog-metrics.ts';
 import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addDays,daysBetween,streak,longestStreak,scheduleCard,parseFlashcardText,sessionScore} from './engine.ts';
 import {validateBackup} from './validation.ts';
-import {curriculum,questionsForTopic,casesForTopic} from './curriculum.ts';
+import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourceKeys} from './curriculum.ts';
 const bank=new Map(questions.map(q=>[q.id,q]));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
 test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
-  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
+  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
   assert.equal(new Set(questions.map(q=>q.stem)).size,questions.length);
   for(const s of subjects)assert.equal(originalQuestions.filter(q=>q.subject===s.id).length,100);
   for(const q of questions){assert.ok(q.rationale.length>20);assert.equal(q.options[q.correctIndex].rationale,q.rationale);assert.ok(q.options.every(o=>o.rationale.length>20));}
@@ -31,6 +34,38 @@ test('earned streak milestones survive a later missed day',()=>{const attempts=[
 test('repeated exam submission preserves the first completion time',()=>{const s=session();let state={...initialState(),sessions:[s]};state=gradeSession(state,s,bank,3000);assert.equal(gradeSession(state,s,bank,9999).sessions[0].finishedAt,3000);});
 test('the full 155-topic catalog preserves the observed subject organization',()=>{assert.equal(curriculum.length,155);assert.equal(new Set(curriculum.map(t=>t.slug)).size,155);for(const [subject,count]of Object.entries({CROSS:12,NP1:32,NP2:22,NP3:29,NP4:37,NP5:23}))assert.equal(curriculum.filter(t=>t.subject===subject).length,count);});
 test('topic practice uses real unique question IDs and keeps original answer keys',()=>{const covered=new Set();for(const topic of curriculum){const related=questionsForTopic(topic,questions);assert.equal(new Set(related.map(q=>q.id)).size,related.length);for(const q of related){assert.ok(bank.has(q.id));assert.equal(q.correctIndex,bank.get(q.id).correctIndex);covered.add(q.id);}}assert.equal(covered.size,questions.length);const hand=curriculum.find(t=>t.slug==='asepsis-iv-therapy-wound-care');assert.ok(casesForTopic(hand).some(c=>c.title==='Hand hygiene'));assert.ok(questionsForTopic(hand,questions).some(q=>q.id==='CROSS-001-1'));});
+test('original additions give all 155 catalog topics real practice with sourced per-choice explanations',()=>{
+ assert.equal(additionalQuestions.length,51);assert.equal(new Set(additionalQuestions.map(q=>q.topic)).size,51);
+ for(const q of additionalQuestions){assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.source.startsWith('https://'));assert.ok(q.origin.startsWith('Original NLE Reviewer'));assert.ok(q.options.every(o=>o.rationale.length>20));assert.equal(q.rationale,q.options[q.correctIndex].rationale);}
+ const report=auditQuestionBank(questions);assert.equal(report.availableUniqueQuestions,questions.length);assert.ok(report.topics.every(t=>t.relatedAvailableCount>0));assert.equal(report.matchesReferenceDistribution,false);
+});
+test('the initial 600 published questions, options, keys, and cases stay unchanged for saved student progress',async()=>{
+ assert.equal(await contentDigest(originalQuestions,clinicalCases),'001a9c92f0dc8ffff584719670f3475228acaf37c0e5565ba8bd25d40d542552');
+});
+test('catalog flashcards and planner selections resolve real questions once and keep legacy decks and note keys usable',()=>{
+ for(const topic of curriculum)assert.deepEqual(questionsForSelection([topic.subject+':'+topic.slug],questions).map(q=>q.id),questionsForTopic(topic,questions).map(q=>q.id));
+ const overlapping=['CROSS:laboratory-values','NP3:electrolyte-imbalances'];const selected=questionsForSelection(overlapping,questions);assert.equal(new Set(selected.map(q=>q.id)).size,selected.length);assert.ok(selected.length>0);
+ assert.deepEqual(questionsForSelection(['CROSS:Infection prevention'],questions),questions.filter(q=>q.subject==='CROSS'&&q.topic==='Infection prevention'));
+ assert.equal(questionsForSelection(['NP1:not-a-topic'],questions).length,0);
+ assert.deepEqual(resourceKeys('NP1','Leprosy'),{read:'catalog:leprosy',note:'catalog:leprosy'});assert.deepEqual(resourceKeys('NP1','leprosy'),resourceKeys('NP1','Leprosy'));
+ assert.deepEqual(resourceKeys('CROSS','Infection prevention'),{read:'CROSS:Infection prevention',note:'sheet:CROSS:Infection prevention'});
+});
+test('My Notes includes catalog and legacy resource notes without duplicating question notes',()=>{
+ const notes={'catalog:leprosy':'Remember sensory assessment','sheet:CROSS:Infection prevention':'My earlier resource note',[questions[0].id]:'My question note','catalog:missing':'Unresolved imported metadata','sheet:bad:Topic':'Unknown subject','catalog:ards':'   '};
+ const result=savedTopicNotes(notes,questions);assert.equal(result.length,2);assert.equal(result[0].title,'Leprosy');assert.equal(result[0].subject,'NP1');assert.equal(result[0].to,'/resources/read?topic=NP1%3Aleprosy');assert.equal(result[1].text,'My earlier resource note');
+});
+test('practice topic filters separate flags, bookmarks, and unresolved misses and preserve first-try scores',()=>{
+ const q=additionalQuestions.find(q=>q.topic==='Leprosy'),saved=additionalQuestions.find(q=>q.topic==='Ear Anatomy, Assessment & Hearing Loss');
+ const s={...session([q.id,saved.id]),flagged:[saved.id]};
+ let state={...initialState(),sessions:[s],bookmarks:[saved.id]};
+ state=recordAnswer(state,s,q,{selected:(q.correctIndex+1)%4,confidence:'',submitted:true},1000);
+ let rows=practiceTopicRows(state,questions),row=rows.find(r=>r.topic.slug==='leprosy'),hearing=rows.find(r=>r.topic.slug==='ear-anatomy-assessment-hearing-loss');
+ assert.deepEqual(row.missedIds,[q.id]);assert.equal(row.tried,1);assert.equal(row.flaggedIds.length,0);assert.deepEqual(hearing.flaggedIds,[saved.id]);assert.deepEqual(hearing.savedIds,[saved.id]);assert.equal(hearing.missedIds.length,0);
+ state=recordAnswer(state,{...s,id:'topic-retry'},q,{selected:q.correctIndex,confidence:'',submitted:true},2000);
+ // A later flag may return the item to the Vault; a correct latest answer is not an unresolved miss.
+ state={...state,vault:[q.id],attempts:[...state.attempts].reverse()};
+ row=practiceTopicRows(state,questions).find(r=>r.topic.slug==='leprosy');assert.equal(row.missedIds.length,0);assert.equal(row.tried,1);assert.equal(firstAttempts(state.attempts).find(a=>a.questionId===q.id).correct,false);
+});
 test('authorized imports are found by exact catalog name or slug without borrowing unrelated questions',()=>{const topic=curriculum.find(t=>t.slug==='leprosy');assert.equal(questionsForTopic(topic,originalQuestions).length,0);const imported={...questions[0],id:'import-leprosy',subject:'NP1',topic:topic.name};assert.deepEqual(questionsForTopic(topic,[imported]).map(q=>q.id),['import-leprosy']);});
 
 test('reference counts cover all 155 topics and retain the observed 9,541-question distribution',()=>{

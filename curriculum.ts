@@ -32,3 +32,15 @@ export function questionsForTopic(topic:CurriculumTopic, bank:readonly Question[
 }
 export function casesForTopic(topic:CurriculumTopic){return clinicalCases.filter(c=>links[c.title]?.includes(topic.slug));}
 export function findCurriculumTopic(value:string){return curriculum.find(t=>t.slug===value||`${t.subject}:${t.slug}`===value||`${t.subject}:${t.name}`===value);}
+export function resourceKeys(subject:string,name:string){
+  const topic=findCurriculumTopic(`${subject}:${name}`);
+  return topic?{read:`catalog:${topic.slug}`,note:`catalog:${topic.slug}`}:{read:`${subject}:${name}`,note:`sheet:${subject}:${name}`};
+}
+export function questionsForSelection(selection:string[],bank:readonly Question[]):Question[]{
+  if(!selection.length)return [...bank];
+  const ids=new Set(selection.flatMap(key=>{
+    const topic=findCurriculumTopic(key);
+    return (topic?questionsForTopic(topic,bank):bank.filter(q=>`${q.subject}:${q.topic}`===key)).map(q=>q.id);
+  }));
+  return bank.filter(q=>ids.has(q.id));
+}
