@@ -5,7 +5,7 @@ A BoardPal-inspired nursing review application focused on useful study tools. No
 ## Included
 
 - **600 original questions** in 120 five-question scenarios across 61 topics. Fundamentals and NP1–NP5 each contain 100 questions.
-- The **complete 155-topic reference catalog**, with the observed 12/32/22/29/37/23 subject structure, topic pages, notes, exact topic search, and custom multi-topic selection. Existing original questions are linked as related practice; missing content is labeled explicitly. Topic names do not imply the proprietary source question bank has been copied.
+- The **complete 155-topic reference catalog** and its observed **9,541-question distribution** (13–206 per topic), with the observed 12/32/22/29/37/23 subject structure, topic pages, notes, exact topic search, and custom multi-topic selection. Existing original questions are linked as related practice; missing content is labeled explicitly. Topic names do not imply the proprietary source question bank has been copied.
 - Four choices per question, a correct answer, a rationale, and an explanation for each alternative. Questions cover recognition, action, teaching, evaluation, and safety.
 - Tutor and exam modes; custom subject/topic selection; unanswered and missed filters; timers; persistent sessions; flags, elimination, confidence, highlighting, pen annotations, and scratch notes.
 - Five mock variants, each containing five 100-item, two-hour sections. Variants reuse and reorder the subject bank, rather than claiming 2,500 independent questions.
@@ -47,7 +47,11 @@ Run `node --experimental-strip-types verify-backend.mjs` against a configured de
 
 ## Question imports
 
-Use Settings → Download sample format. Import a JSON array with unique `id`, a `subject` (`CROSS`, `NP1`–`NP5`), `topic`, `stem`, four `options` objects (`text`, `rationale`), `correctIndex` (0–3), and `rationale`. Optional fields are `keyPoint`, `source`, and `origin`. Import only content you are authorized to use. Settings can export the entire available bank.
+Use Settings → Download sample format. Import a JSON array with unique `id`, a `subject` (`CROSS`, `NP1`–`NP5`), `topic`, `stem`, four `options` objects (`text`, `rationale`), `correctIndex` (0–3), and `rationale`. Optional fields are `keyPoint`, `source`, and `origin`. Import only content you are authorized to use. Settings can export the entire available bank. Duplicate stems are rejected even when their IDs or punctuation differ.
+
+For a larger bank shared by all students, use `node --experimental-strip-types prepare-bank.mjs authorized-questions.json --check-only` to validate a batch. Questions must use exact catalog topics, complete per-choice rationales, a source URL, and provenance. Remove `--check-only` to append the validated batch to `site-questions.json`, then run the checks and commit it. Site-wide content stays outside private progress snapshots, so each answer does not re-upload the question bank. Existing published IDs are preserved. This tool does not create questions or fetch the paid reference bank.
+
+`node --experimental-strip-types audit-bank.mjs` writes `question-coverage.json` with actual unique counts, exact topic assignments, related practice, duplicates, and reference targets. Add `--require-match` for a failing exit code while the actual bank differs from the reference distribution. The built-in 600 original questions do **not** fulfill the 9,541-question reference target. Counting the same related question under multiple topics does not increase the unique-question total.
 
 ## Reference and verification
 

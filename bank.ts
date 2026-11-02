@@ -4,6 +4,7 @@ import maternal from "./maternal.ts";
 import medsurg from "./medsurg.ts";
 import neuro from "./neuro.ts";
 import mental from "./mental.ts";
+import siteQuestions from "./site-questions.json" with { type: "json" };
 import type { ClinicalCase, Question, Subject } from "./types.ts";
 export const subjects: { id: Subject; name: string; short: string; description: string; color: string }[] = [
   { id: "CROSS", name: "Foundations & Fundamentals", short: "F&F", description: "The essentials behind every nursing decision", color: "#8c7960" },
@@ -26,7 +27,7 @@ export function shuffled<T>(items: readonly T[], seed: number): T[] {
   for (let i = result.length - 1; i > 0; i--) { value = (Math.imul(value, 1664525) + 1013904223) >>> 0; const j = value % (i + 1); [result[i], result[j]] = [result[j], result[i]]; }
   return result;
 }
-export const questions: Question[] = clinicalCases.flatMap((entry, index) => entry.facts.map((fact, kind) => {
+export const originalQuestions: Question[] = clinicalCases.flatMap((entry, index) => entry.facts.map((fact, kind) => {
   const peers = shuffled(clinicalCases.filter(c => c.subject === entry.subject && c.title !== entry.title && c.facts[kind].text !== fact.text), (index + 17) * (kind + 53));
   const distractors = kind === 4
     ? [entry.facts[1], entry.facts[2], entry.facts[3]].map(f => ({ text: f.text, rationale: `This is an appropriate statement, so it does not require correction. ${f.reason}` }))
@@ -35,17 +36,23 @@ export const questions: Question[] = clinicalCases.flatMap((entry, index) => ent
   const options = shuffled([correct, ...distractors], index * 47 + kind * 97 + 5);
   return { id: `${entry.subject}-${String(index + 1).padStart(3, "0")}-${kind + 1}`, subject: entry.subject, topic: entry.topic, stem: `${entry.scenario} ${prompts[kind]}`, options, correctIndex: options.indexOf(correct), rationale: fact.reason, keyPoint: `${entry.title}: ${fact.text}. ${fact.reason}`, source: "https://www.ncbi.nlm.nih.gov/books/NBK590025/", origin: "Original educational scenario; not copied from BoardPal or an official PNLE paper." };
 }));
+export const questions: Question[] = [...originalQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : [])];
 export const questionMap = new Map(questions.map(q => [q.id, q]));
 export const topics = subjects.flatMap(subject => [...new Set(questions.filter(q => q.subject === subject.id).map(q => q.topic))].map(name => ({ id: `${subject.id}:${name}`, name, subject: subject.id, count: questions.filter(q => q.subject === subject.id && q.topic === name).length })));
-export function validateQuestions(value: unknown): Question[] {
+export function validateQuestions(value: unknown, options:{allowDuplicateStems?:boolean}={}): Question[] {
   if (!Array.isArray(value) || !value.length || value.length > 20000) throw new Error("Import a JSON array containing 1–20,000 questions.");
   const ids = new Set<string>();
+  const stems = new Set<string>();
   for (const q of value) {
     if (!q || typeof q.id !== "string" || !q.id.trim() || q.id.length > 160 || ids.has(q.id)) throw new Error("Every question needs a unique, nonempty id.");
     ids.add(q.id);
     if (!subjects.some(s => s.id === q.subject) || typeof q.topic !== "string" || !q.topic.trim() || typeof q.stem !== "string" || q.stem.length < 12 || typeof q.rationale !== "string" || !q.rationale.trim()) throw new Error(`Question ${q.id} needs a valid subject, topic, stem, and rationale.`);
+    const stem = normalizeQuestionStem(q.stem);
+    if (stems.has(stem)&&!options.allowDuplicateStems) throw new Error(`Question ${q.id} repeats another question stem. Rewording punctuation or changing IDs does not create a new question.`);
+    stems.add(stem);
     if (!Array.isArray(q.options) || q.options.length !== 4 || q.options.some((o: unknown) => !o || typeof o !== "object" || !("text" in o) || !("rationale" in o) || typeof o.text !== "string" || !o.text.trim() || typeof o.rationale !== "string" || !o.rationale.trim())) throw new Error(`Question ${q.id} needs four choices with explanations.`);
     if (new Set(q.options.map((o: { text: string }) => o.text.toLowerCase().trim())).size !== 4 || !Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) throw new Error(`Question ${q.id} has duplicate choices or an invalid answer.`);
   }
-  return value.map(q => ({ ...q, keyPoint: q.keyPoint || q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: q.origin || "Imported by you" }));
+  return value.map(q => ({ ...q, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: typeof q.source === "string" && /^https:\/\//.test(q.source) ? q.source : "", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you" }));
 }
+export function normalizeQuestionStem(text:string){return text.normalize("NFKC").toLowerCase().replace(/[\p{P}\p{S}]/gu," ").replace(/\s+/g," ").trim();}

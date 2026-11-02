@@ -1,18 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {questions,subjects,validateQuestions,shuffled,clinicalCases} from './bank.ts';
+import {questions,originalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './bank.ts';
+import publishedQuestions from './site-questions.json' with { type: 'json' };
+import {auditQuestionBank,findDuplicateQuestions,referenceTotal,referenceCount,referenceSubjectCount} from './catalog-metrics.ts';
 import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addDays,daysBetween,streak,longestStreak,scheduleCard,parseFlashcardText,sessionScore} from './engine.ts';
 import {validateBackup} from './validation.ts';
 import {curriculum,questionsForTopic,casesForTopic} from './curriculum.ts';
 const bank=new Map(questions.map(q=>[q.id,q]));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
-test('600 distinct questions have four unique choices, complete rationales, and valid keys',()=>{
-  assert.equal(questions.length,600);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,600);
-  assert.equal(new Set(questions.map(q=>q.stem)).size,600);
-  for(const s of subjects)assert.equal(questions.filter(q=>q.subject===s.id).length,100);
+test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
+  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
+  assert.equal(new Set(questions.map(q=>q.stem)).size,questions.length);
+  for(const s of subjects)assert.equal(originalQuestions.filter(q=>q.subject===s.id).length,100);
   for(const q of questions){assert.ok(q.rationale.length>20);assert.equal(q.options[q.correctIndex].rationale,q.rationale);assert.ok(q.options.every(o=>o.rationale.length>20));}
 });
-test('answer positions are distributed and deterministic',()=>{const counts=[0,0,0,0];questions.forEach(q=>counts[q.correctIndex]++);counts.forEach(n=>assert.ok(n>80&&n<240,JSON.stringify(counts)));assert.deepEqual(shuffled([1,2,3,4],5),shuffled([1,2,3,4],5));assert.equal(new Set(shuffled(questions,7).map(q=>q.id)).size,600);});
+test('answer positions are distributed and deterministic',()=>{const counts=[0,0,0,0];originalQuestions.forEach(q=>counts[q.correctIndex]++);counts.forEach(n=>assert.ok(n>80&&n<240,JSON.stringify(counts)));assert.deepEqual(shuffled([1,2,3,4],5),shuffled([1,2,3,4],5));assert.equal(new Set(shuffled(questions,7).map(q=>q.id)).size,questions.length);});
 test('a submitted answer is scored once even after resubmission',()=>{const q=questions[0],s=session();let state=recordAnswer(initialState(),s,q,{selected:q.correctIndex,confidence:'sure',submitted:true},1000);state=recordAnswer(state,s,q,{selected:2,confidence:'',submitted:true},2000);assert.equal(state.attempts.length,1);assert.equal(state.attempts[0].correct,true);});
 test('misses enter the vault and a later correct retry clears them without changing first-try accuracy',()=>{const q=questions[0],s=session();let state=recordAnswer(initialState(),s,q,{selected:(q.correctIndex+1)%4,confidence:'',submitted:true},1000);assert.deepEqual(state.vault,[q.id]);state=recordAnswer(state,{...s,id:'retry'},q,{selected:q.correctIndex,confidence:'',submitted:true},2000);assert.deepEqual(state.vault,[]);assert.equal(firstAttempts(state.attempts).length,1);assert.equal(rating(firstAttempts(state.attempts)),40);});
 test('exam answers are not scored until submission; blank answers count as incorrect',()=>{const q=questions[0],q2=questions[1],s=session([q.id,q2.id]);s.answers[q.id]={selected:q.correctIndex,submitted:false,confidence:''};let state={...initialState(),sessions:[s]};assert.equal(state.attempts.length,0);state=gradeSession(state,s,bank,3000);assert.equal(state.attempts.length,2);assert.equal(state.attempts.filter(a=>a.correct).length,1);assert.equal(state.sessions[0].finishedAt,3000);assert.equal(sessionScore(s,bank),1);assert.equal(gradeSession(state,s,bank,4000).attempts.length,2);});
@@ -26,5 +28,32 @@ test('backups restore valid state and reject data that would break study flows',
 test('earned streak milestones survive a later missed day',()=>{const attempts=['2026-01-01','2026-01-02','2026-01-03','2026-01-06'].map((date,i)=>({id:String(i),questionId:'x',sessionId:'x',correct:true,confidence:'',selected:0,at:Date.parse(date+'T04:00:00Z')}));assert.equal(longestStreak(attempts,'Asia/Manila'),3);});
 test('repeated exam submission preserves the first completion time',()=>{const s=session();let state={...initialState(),sessions:[s]};state=gradeSession(state,s,bank,3000);assert.equal(gradeSession(state,s,bank,9999).sessions[0].finishedAt,3000);});
 test('the full 155-topic catalog preserves the observed subject organization',()=>{assert.equal(curriculum.length,155);assert.equal(new Set(curriculum.map(t=>t.slug)).size,155);for(const [subject,count]of Object.entries({CROSS:12,NP1:32,NP2:22,NP3:29,NP4:37,NP5:23}))assert.equal(curriculum.filter(t=>t.subject===subject).length,count);});
-test('topic practice uses real unique question IDs and keeps original answer keys',()=>{const covered=new Set();for(const topic of curriculum){const related=questionsForTopic(topic,questions);assert.equal(new Set(related.map(q=>q.id)).size,related.length);for(const q of related){assert.ok(bank.has(q.id));assert.equal(q.correctIndex,bank.get(q.id).correctIndex);covered.add(q.id);}}assert.equal(covered.size,600);const hand=curriculum.find(t=>t.slug==='asepsis-iv-therapy-wound-care');assert.ok(casesForTopic(hand).some(c=>c.title==='Hand hygiene'));assert.ok(questionsForTopic(hand,questions).some(q=>q.id==='CROSS-001-1'));});
-test('authorized imports are found by exact catalog name or slug without borrowing unrelated questions',()=>{const topic=curriculum.find(t=>t.slug==='leprosy');assert.equal(questionsForTopic(topic,questions).length,0);const imported={...questions[0],id:'import-leprosy',subject:'NP1',topic:topic.name};assert.deepEqual(questionsForTopic(topic,[imported]).map(q=>q.id),['import-leprosy']);});
+test('topic practice uses real unique question IDs and keeps original answer keys',()=>{const covered=new Set();for(const topic of curriculum){const related=questionsForTopic(topic,questions);assert.equal(new Set(related.map(q=>q.id)).size,related.length);for(const q of related){assert.ok(bank.has(q.id));assert.equal(q.correctIndex,bank.get(q.id).correctIndex);covered.add(q.id);}}assert.equal(covered.size,questions.length);const hand=curriculum.find(t=>t.slug==='asepsis-iv-therapy-wound-care');assert.ok(casesForTopic(hand).some(c=>c.title==='Hand hygiene'));assert.ok(questionsForTopic(hand,questions).some(q=>q.id==='CROSS-001-1'));});
+test('authorized imports are found by exact catalog name or slug without borrowing unrelated questions',()=>{const topic=curriculum.find(t=>t.slug==='leprosy');assert.equal(questionsForTopic(topic,originalQuestions).length,0);const imported={...questions[0],id:'import-leprosy',subject:'NP1',topic:topic.name};assert.deepEqual(questionsForTopic(topic,[imported]).map(q=>q.id),['import-leprosy']);});
+
+test('reference counts cover all 155 topics and retain the observed 9,541-question distribution',()=>{
+ assert.equal(referenceTotal,9541);assert.equal(referenceCount(curriculum.find(t=>t.slug==='laboratory-values')),186);assert.equal(referenceCount(curriculum.find(t=>t.slug==='nursing-process-prioritization')),206);
+ assert.equal(curriculum.reduce((sum,t)=>sum+referenceCount(t),0),9541);
+ assert.equal(subjects.reduce((sum,s)=>sum+referenceSubjectCount(s.id),0),9541);
+ assert.equal(Math.min(...curriculum.map(referenceCount)),13);assert.equal(Math.max(...curriculum.map(referenceCount)),206);
+});
+test('a related question shown in multiple topics never increases the unique bank total',()=>{
+ const report=auditQuestionBank(originalQuestions);assert.equal(report.availableUniqueQuestions,600);assert.equal(report.referenceTotal,9541);assert.equal(report.matchesReferenceDistribution,false);assert.equal(report.duplicateStems.length,0);
+ assert.ok(report.topics.reduce((sum,t)=>sum+t.relatedAvailableCount,0)>report.availableUniqueQuestions);
+ const t=curriculum.find(t=>t.slug==='leprosy'),q={...originalQuestions[0],id:'audit-exact',subject:t.subject,topic:t.name};const row=auditQuestionBank([q]).topics.find(row=>row.slug===t.slug);assert.equal(row.assignedCount,1);assert.equal(row.remaining,row.referenceCount-1);
+});
+test('different IDs, choice order, casing, and punctuation do not hide duplicate question stems',()=>{
+ const q=originalQuestions[0],copy={...q,id:'new-id',stem:q.stem.toUpperCase().replaceAll('.', '!'),options:[...q.options].reverse(),correctIndex:3-q.correctIndex};
+ assert.throws(()=>validateQuestions([q,copy]),/repeats another question stem/);assert.equal(findDuplicateQuestions([q,copy]).length,1);
+ const legacy=validateBackup({...initialState(),importedQuestions:[copy]});assert.equal(legacy.importedQuestions[0].id,'new-id');const report=auditQuestionBank([q,copy]);assert.equal(report.availableUniqueQuestions,1);assert.equal(report.availableQuestionIds,2);
+});
+
+test('a 9,541-item structural fixture is fully audited without truncation or count inflation',()=>{
+ // These are test fixtures only, never published educational question content.
+ const fixtures=curriculum.flatMap(t=>Array.from({length:referenceCount(t)},(_,i)=>({...originalQuestions[0],id:`fixture-${t.slug}-${i}`,subject:t.subject,topic:t.name,stem:`AUTOMATED TEST FIXTURE ${t.slug} number ${i}; this is not educational content.`})));
+ assert.equal(validateQuestions(fixtures).length,9541);const report=auditQuestionBank(fixtures);assert.equal(report.matchesReferenceDistribution,true);assert.equal(report.availableUniqueQuestions,9541);assert.equal(report.matchingTopics,155);assert.equal(report.duplicateStems.length,0);
+});
+
+test('malformed optional import metadata cannot become invalid React or flashcard content',()=>{
+ const q={...originalQuestions[0],keyPoint:{bad:true},origin:{bad:true},source:42};const [clean]=validateQuestions([q]);assert.equal(clean.keyPoint,q.rationale);assert.equal(clean.origin,'Imported by you');assert.equal(clean.source,'');
+});

@@ -6,8 +6,11 @@ export function validateBackup(raw: unknown): State {
   const s = raw as State;
   if (s.version !== 1 || !s.profile || typeof s.profile.name !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s.profile.examDate) || !Number.isFinite(Date.parse(s.profile.examDate)) || !s.preferences || !Array.isArray(s.attempts) || !Array.isArray(s.sessions)) throw new Error("The backup has an unsupported or incomplete format.");
   try { new Intl.DateTimeFormat("en", { timeZone: s.profile.timezone }).format(); } catch { throw new Error("The backup has an invalid timezone."); }
-  const imported = Array.isArray(s.importedQuestions) && s.importedQuestions.length ? validateQuestions(s.importedQuestions) : [];
-  if (imported.some(q=>questions.some(base=>base.id===q.id))) throw new Error("An imported question ID conflicts with the built-in bank.");
+  // Preserve valid legacy imports and the sessions that reference their IDs.
+  // New imports and site publication enforce unique stems before they are saved.
+  const imported = Array.isArray(s.importedQuestions) && s.importedQuestions.length ? validateQuestions(s.importedQuestions,{allowDuplicateStems:true}) : [];
+  const publishedIds=new Set(questions.map(q=>q.id));
+  if (imported.some(q=>publishedIds.has(q.id))) throw new Error("An imported question ID conflicts with the built-in bank.");
   const ids = new Set([...questions, ...imported].map(q=>q.id));
   if (s.sessions.some(t => !t || typeof t.id !== "string" || typeof t.title !== "string" || !Array.isArray(t.questionIds) || !t.questionIds.length || t.questionIds.some(id=>!ids.has(id)) || new Set(t.questionIds).size!==t.questionIds.length || !t.answers || !Number.isInteger(t.cursor) || t.cursor<0 || t.cursor>=t.questionIds.length || !Number.isFinite(t.startedAt) || !["tutor","exam"].includes(t.mode))) throw new Error("A saved session contains invalid or missing questions.");
   for (const session of s.sessions) for (const [id,a] of Object.entries(session.answers)) if (!session.questionIds.includes(id) || !a || !Number.isInteger(a.selected) || a.selected < -1 || a.selected > 3 || typeof a.submitted !== "boolean") throw new Error("A session contains an invalid saved answer.");

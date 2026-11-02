@@ -15,6 +15,22 @@ const links: Record<string, string[]> = {
 };
 const topicIds=new Map<string,Set<string>>();
 clinicalCases.forEach((entry,index)=>{for(const slug of links[entry.title]||[]){const ids=topicIds.get(slug)||new Set<string>();questions.slice(index*5,index*5+5).forEach(q=>ids.add(q.id));topicIds.set(slug,ids);}});
-export function questionsForTopic(topic:CurriculumTopic, bank:Question[]):Question[]{const ids=topicIds.get(topic.slug);return bank.filter(q=>ids?.has(q.id)||(q.subject===topic.subject&&(q.topic===topic.name||q.topic===topic.slug)));}
+const topicLookup=new Map(curriculum.flatMap(t=>[[`${t.subject}:${t.name}`,t.slug],[`${t.subject}:${t.slug}`,t.slug]]));
+const relatedSlugs=new Map<string,string[]>();
+for(const [slug,ids]of topicIds)for(const id of ids)relatedSlugs.set(id,[...(relatedSlugs.get(id)||[]),slug]);
+const topicCache=new WeakMap<readonly Question[],Map<string,Question[]>>();
+export function questionsForTopic(topic:CurriculumTopic, bank:readonly Question[]):Question[]{
+  let index=topicCache.get(bank);
+  if(!index){
+    index=new Map(curriculum.map(t=>[t.slug,[]]));
+    for(const q of bank){
+      const exact=topicLookup.get(`${q.subject}:${q.topic}`);
+      const slugs=new Set([...(relatedSlugs.get(q.id)||[]),...(exact?[exact]:[])]);
+      for(const slug of slugs)index.get(slug)?.push(q);
+    }
+    topicCache.set(bank,index);
+  }
+  return index.get(topic.slug)||[];
+}
 export function casesForTopic(topic:CurriculumTopic){return clinicalCases.filter(c=>links[c.title]?.includes(topic.slug));}
 export function findCurriculumTopic(value:string){return curriculum.find(t=>t.slug===value||`${t.subject}:${t.slug}`===value||`${t.subject}:${t.name}`===value);}
