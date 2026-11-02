@@ -249,7 +249,7 @@ test('at least 4,771 genuinely situational questions cover every topic with comp
    if(q.clinicalObjective==='safety')assert.equal(q.options[q.correctIndex].text,c.unsafe);
    if(q.clinicalObjective==='recognition')assert.equal(q.options[q.correctIndex].text,c.problem);
    if(q.clinicalObjective==='reasoning')assert.equal(q.options[q.correctIndex].text,c.reason);
-   if(q.clinicalObjective==='evaluation')assert.ok(q.stem.includes('Following care, the nurse observes this change: '+c.outcome));
+   if(q.clinicalObjective==='evaluation'){assert.ok(q.stem.includes('Following care, the nurse observes this change: '+c.outcome));assert.ok(q.options[q.correctIndex].text.startsWith('Progress toward the planned goal for '));}
    positions[q.correctIndex]++;
   }
  }

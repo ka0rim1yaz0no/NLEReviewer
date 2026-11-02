@@ -1,9 +1,9 @@
 {
   "format": "gzip-json-array",
   "file": "question-bank.json.gz",
-  "release": "2026-11-03-situational-1",
+  "release": "2026-11-03-situational-2",
   "questionCount": 9508,
-  "uncompressedBytes": 29051379,
-  "sha256": "5e8186a752adf8bb98204a56f79ed1dc7b5d0f310963192d07f970b5a3919c87",
+  "uncompressedBytes": 29078659,
+  "sha256": "6810dac8c5d67029130ee2933ee9d63d0c31b7c8e3591e9c72e181c2ccd6fb52",
   "instructions": "Gunzip question-bank.json.gz to obtain the complete JSON question array. Or run node export-bank.mjs --plain for outputs/question-bank.json. The student app retrieves protected database releases, not this authoring export."
 }

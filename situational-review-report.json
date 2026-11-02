@@ -26,7 +26,7 @@
     "abgCasesCheckedByEquation": 4,
     "independentClinicalApproval": false
   },
-  "questionFileSha256": "809fc1c5b23027c0c0a37ee504089cae2a2ea0aafb234502ba8040cf04159406",
+  "questionFileSha256": "1360ab8a1ec9f798a03d6fc3d349b1995313732e52c7d4a7360a90b7dc262ddf",
   "evidenceFileSha256": "09846a45e9ebbd8a4fb473a13463d8cda2ce5f4741716427bb136de550a1133e",
   "newAnswerPositions": {
     "A": 1110,
@@ -44,5 +44,7 @@
       "https://ro2.doh.gov.ph/mandates/"
     ],
     "note": "HTTP and cache checks establish availability and traceability, not independent professional clinical review. Clinical decisions are original authored case evidence."
-  }
+  },
+  "release": "2026-11-03-situational-2",
+  "evaluationClarification": "Evaluation labels describe progress toward the planned care goal. All 4,340 question IDs, answer keys, option positions, and reference identities are unchanged from situational release 1; the other 3,720 new items are byte-for-byte unchanged."
 }
