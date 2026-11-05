@@ -1,10 +1,11 @@
+import {restoreRepetitionReview} from "./repetition-review.ts";
 import retirements from "./editorial-retirements.json" with {type:"json"};
 const retiredIds=new Set(retirements.map(r=>r.id));
 import {applyReferenceRepairs,restoreReferenceRepairs,resolvedReference} from "./reference-repairs.ts";
 import referencePatches from "./question-reference-patches.json" with {type:"json"};
 import referenceResolutions from "./reference-resolutions.json" with {type:"json"};
 const ectPriorCase='SIT-NP5-somatic-behavioral-therapies-01';
-const beforeReferenceRepair=qs=>restoreReferenceRepairs(qs).filter(q=>q.caseId!==ectPriorCase+'-R3').map(q=>{if(q.caseId!==ectPriorCase)return q;const copy={...q};delete copy.retired;return copy;});
+const beforeReferenceRepair=qs=>restoreReferenceRepairs(restoreRepetitionReview(qs)).filter(q=>q.caseId!==ectPriorCase+'-R3').map(q=>{if(q.caseId!==ectPriorCase)return q;const copy={...q};delete copy.retired;return copy;});
 const beforeEditorial=qs=>beforeReferenceRepair(qs).map(q=>{if(!retiredIds.has(q.id))return q;const copy={...q};delete copy.retired;return copy;});
 import {vaultInterval,vaultIsDue,updateVaultReview} from "./vault-schedule.ts";
 import {mockQuestionIds} from "./mock-papers.ts";
@@ -212,7 +213,7 @@ test('protected content survives database JSON key ordering and rejects incomple
 
 test('only the two explicitly source-checked corrections are published from the research dataset',()=>{
  assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);
- assert.deepEqual(collectionCounts(questions),{all:activeQuestions.length,nursing:activeQuestions.length-2,situational:5095,newSituational:4495,clinical:651,concept:conceptQuestions.filter(q=>!q.retired&&q.format==='concept').length,comparison:conceptQuestions.filter(q=>!q.retired&&q.format==='comparison').length,supplemental:2});
+ assert.deepEqual(collectionCounts(questions),{all:activeQuestions.length,nursing:activeQuestions.length-2,situational:5075,newSituational:4495,clinical:631,concept:activeQuestions.filter(q=>!q.retired&&q.format==='concept').length,comparison:activeQuestions.filter(q=>!q.retired&&q.format==='comparison').length,supplemental:2});
  for(const q of supplementalQuestions){assert.ok(q.id.startsWith('MMCQA-'));assert.equal(q.collection,'supplemental');assert.equal(q.rationaleScope,undefined);assert.ok(q.source.includes('nhs.uk')||q.source.includes('nice.org.uk'));assert.ok(q.origin.includes('Source-based correction:'));assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.options.every(o=>o.rationale.length>40));}
  for(const q of [...originalQuestions,...additionalQuestions]){assert.ok(inCollection(q,'nursing'));assert.ok(!inCollection(q,'supplemental'));}
 });
@@ -302,7 +303,7 @@ test('malformed format metadata and per-choice links are removed during import v
 test('the displayed public counts match the protected bank without including any question text',async()=>{
  const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
  assert.equal(summary.total,activeQuestions.length);assert.equal(summary.original,activeQuestions.length-supplementalQuestions.length);assert.equal(summary.topics,155);
- assert.equal(summary.concept+summary.comparison,conceptQuestions.filter(q=>!q.retired).length);assert.equal(summary.clinical,651);assert.equal(summary.situational,5095);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155);assert.equal(summary.sourceCorrections,2);
+ assert.equal(summary.concept+summary.comparison,activeQuestions.filter(q=>q.format==="concept"||q.format==="comparison").length);assert.equal(summary.clinical,631);assert.equal(summary.situational,5075);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155);assert.equal(summary.sourceCorrections,2);
  assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
 });
 
@@ -324,7 +325,7 @@ test('reference table line breaks remain readable in questions and explanations'
 test('at least 4,771 genuinely situational questions cover every topic with complete case evidence',async()=>{
  const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8')).filter(c=>!c.retired);
  assert.equal(evidence.length,620);assert.equal(situationalQuestions.filter(q=>!q.retired).length,4340);
- assert.equal(questions.filter(isSituational).length,5095);
+ assert.equal(questions.filter(isSituational).length,5075);
  const objectives=['recognition','action','teaching','safety','planning','evaluation','reasoning'].sort();
  assert.equal(new Set(evidence.map(c=>c.scenario.toLowerCase())).size,evidence.length);
  for(const topic of curriculum){
@@ -377,7 +378,7 @@ test('the audit covers every original case and replaces semantic repeats without
  const report=JSON.parse(await readFile(new URL('./situational-review-report.json',import.meta.url),'utf8'));
  assert.equal(log.reviewedCaseSets,740);assert.equal(log.reviewedSituationalQuestions,4940);assert.equal(new Set(log.reviewedCaseIds).size,740);
  assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,141);
- assert.equal(activeQuestions.length,9658);assert.equal(questions.filter(q=>q.retired).length,994);assert.equal(activeQuestions.filter(isSituational).length,5095);
+ assert.equal(activeQuestions.length,9489);assert.equal(questions.filter(q=>q.retired).length,1163);assert.equal(activeQuestions.filter(isSituational).length,5075);
  for(const r of report.retirements){
   const old=questions.filter(q=>q.caseId===r.retiredCaseId),replacement=questions.filter(q=>q.caseId===r.replacementCaseId);
   assert.equal(old.length,7);assert.equal(replacement.length,7);assert.ok(old.every(q=>q.retired));assert.ok(replacement.every(q=>!q.retired));
@@ -419,7 +420,7 @@ test('replacement arithmetic and clinical thresholds are independently checked',
 
 test('retirement metadata is sanitized and installed content keeps historical lookup separate from new study selection',async()=>{
  const module=await import('./bank.ts');module.installQuestionBank(questions,clinicalCases);
- assert.equal(module.questions.length,9658);assert.equal(module.questionMap.size,questions.length);
+ assert.equal(module.questions.length,9489);assert.equal(module.questionMap.size,questions.length);
  const retired=questions.find(q=>q.retired);assert.ok(module.questionMap.has(retired.id));assert.ok(!module.questions.some(q=>q.id===retired.id));
  const restored=validateBackup({...initialState(),sessions:[session([retired.id])]});restored.sessions[0].answers[retired.id]={selected:retired.correctIndex,submitted:false,confidence:''};
  assert.equal(sessionScore(restored.sessions[0],module.questionMap),1);
@@ -455,7 +456,7 @@ test('every situational choice explains its own clinical basis and the case-spec
  const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8'));
  const cases=new Map(evidence.map(c=>[c.id,c]));
  const legacy=new Map(clinicalCases.map((c,i)=>[c.subject+'-'+String(i+1).padStart(3,'0'),c]));
- const selected=activeQuestions.filter(isSituational);assert.equal(selected.length*4,20380);
+ const selected=activeQuestions.filter(isSituational);assert.equal(selected.length*4,20300);
  for(const q of selected){
   assert.equal(q.options[q.correctIndex].rationale,q.rationale,q.id);
   for(const [index,o] of q.options.entries()){
@@ -649,7 +650,7 @@ test('all 33 reference flags are resolved with reviewed provenance and only boun
  const restored=beforeReferenceRepair(questions);
  assert.equal(restored.length,10645);
  assert.equal(await contentDigest(restored,clinicalCases),'3df2451b3a7c89695a9e7c5542eff92b0630dfe01ad644788dc354938fbbbf64');
- assert.deepEqual(applyReferenceRepairs(restoreReferenceRepairs(questions)),questions);
+ assert.deepEqual(applyReferenceRepairs(restoreReferenceRepairs(restoreRepetitionReview(questions))),restoreRepetitionReview(questions));
  for(const r of referenceResolutions.references){assert.match(r.currentUrl,/^https:\/\//);assert.ok(r.supportReview.length>80);assert.ok(r.verification.sha256||r.verification.snapshotSha256);}
  const replaced=new Set(referenceResolutions.references.filter(r=>r.action==='replaced').map(r=>r.previousUrl));
  for(const q of questions){assert.ok(!replaced.has(q.source),q.id);for(const o of q.options){assert.ok(!replaced.has(o.source),q.id);assert.ok(!replaced.has(o.contextSource),q.id);}}

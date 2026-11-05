@@ -37,3 +37,5 @@
 /* Keep the personalized title visible at narrow screen widths. */
 .brand-name{display:grid;line-height:1.2}
 @media(max-width:480px){.site-header .brand>.brand-name{display:grid;font-size:13px}.site-header .brand>.brand-mark{display:none}}
+
+.followup-choice{flex-direction:row;align-items:flex-start;line-height:1.6;min-height:44px;margin-top:18px;padding:8px 0}.followup-choice input{margin-top:3px}

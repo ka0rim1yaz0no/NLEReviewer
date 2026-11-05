@@ -1,0 +1,1154 @@
+[
+  {
+    "id": "ORN-bd643c8d258901e4caaf",
+    "replacedBy": "ORN-00fc91823b1ac78e4b10",
+    "reason": "Repeated identification of dyspnea from difficulty getting enough air; the additional anxiety wording does not create a separate tested decision.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-0225a6b368786f5b6c2a",
+    "replacedBy": "ORN-c99d28fd1963fcdb1319",
+    "reason": "Repeated furuncle definition: pus-filled infection of a hair follicle.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-0709579130a06231f623",
+    "replacedBy": "ORN-8dac3e7a7e19d80a26ad",
+    "reason": "Repeated identification of physical therapists by restoration of movement and functional ability; retain the more specific responsibilities item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-0c7b948c2425ff79ede0",
+    "replacedBy": "ORN-d8cf6bf47b1a77f1496c",
+    "reason": "Same adduction movement toward the midline, rephrased in a table and glossary.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-9c356931260dd0c5eaae",
+    "replacedBy": "ORN-0cb7237fad6a3c800933",
+    "reason": "Both identify lumbar puncture from inserting a spinal needle to obtain CSF; retain the fuller procedure/indication context.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-47f170baecde0be75f5f",
+    "replacedBy": "ORN-0d7eb230691ec406a0dc",
+    "reason": "Both define folliculitis by inflammation or infection of a hair follicle.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-0d82957c6b3f85fac70e",
+    "replacedBy": "ORN-3b4054479ddacdec59fa",
+    "reason": "Both identify the stomach by mixing gastric contents and beginning protein digestion; retain the fuller major-functions item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-0db878c4960431a58c99",
+    "replacedBy": "ORN-9243829901d48d98b590",
+    "reason": "All three ask for curative surgery from removal/treatment of the disease or cancer; wording and oncology context do not add a separate question objective.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-1c033364277a39158484",
+    "replacedBy": "ORN-9243829901d48d98b590",
+    "reason": "All three ask for curative surgery from removal/treatment of the disease or cancer; wording and oncology context do not add a separate question objective.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-465e2724329af9cda0ce",
+    "replacedBy": "ORN-0e157d289a2d85a71b8f",
+    "reason": "The decongestant alpha-1 stimulation item repeats the vasoconstriction and pseudoephedrine information already present in the broader effects item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-f99b3db63fa95c460712",
+    "replacedBy": "ORN-10746d8e87b27a2c523c",
+    "reason": "Near-verbatim diagnostic-surgery definition repeated under a table heading.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e71ef2ded5dab624a96b",
+    "replacedBy": "ORN-1130d920ff1b2b3b6a68",
+    "reason": "Both identify lung cancer from lung-tissue origin; retain the description that also states exposure context. The symptom-assessment item is distinct.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-11e3903540db600a7f74",
+    "replacedBy": "ORN-338947428264bf194bd3",
+    "reason": "Functional-incontinence cause item repeats the mobility/arthritis explanation in the definition item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-12ac0fa8ce240780fd73",
+    "replacedBy": "ORN-fc451e112c6bb1058af1",
+    "reason": "Both identify lungs by gas-exchange function; retain the fuller functions item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-6dd45f82469221c4827a",
+    "replacedBy": "ORN-1340b3a2909f079f2224",
+    "reason": "Rhythm-description overlap for atrial fibrillation; retain the core definition and separate symptom item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-13c406d40cdf4b8c94d9",
+    "replacedBy": "ORN-3a233aa70e81182af0da",
+    "reason": "Both identify a Holter monitor from portable continuous ECG recording over 24-48 hours; retain the fuller explanation.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e49c811688ebe57d2314",
+    "replacedBy": "ORN-1ac1da80dd78dbf4e03c",
+    "reason": "Near-verbatim pronation movement definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-344ae18913b3dc645ca7",
+    "replacedBy": "ORN-1b35cebd3ec4460ff317",
+    "reason": "Near-verbatim transplantation-surgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-2b85bf9c1b66f9f344ee",
+    "replacedBy": "ORN-2103530eacfa646ef4df",
+    "reason": "Three versions of the same palliative-surgery purpose: symptom relief and comfort without cure.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-adb9e8ec8004625b0562",
+    "replacedBy": "ORN-2103530eacfa646ef4df",
+    "reason": "Three versions of the same palliative-surgery purpose: symptom relief and comfort without cure.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-214372b15e6acc96bbda",
+    "replacedBy": "ORN-9c6e5c8ff50d49cd44ed",
+    "reason": "Repeated asystole identity from absent electrical activity or a flat tracing; retain the definition that includes absence of a pulse.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-c0d419aed25e9e0f256b",
+    "replacedBy": "ORN-9c6e5c8ff50d49cd44ed",
+    "reason": "Repeated asystole identity from absent electrical activity or a flat tracing; retain the definition that includes absence of a pulse.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-279285be3a7b9633f50a",
+    "replacedBy": "ORN-22ffdf3304821ed61f03",
+    "reason": "Near-verbatim supination movement definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-238e3d2ae373043322b6",
+    "replacedBy": "ORN-f3739cd05841028bbb85",
+    "reason": "Generic magnetic-resonance identity repeats the magnetic-energy explanation in the more detailed imaging question; pediatric cardiac indications remain a separate facet.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-23ff616878e0940cbc17",
+    "replacedBy": "ORN-95726f4c53eb8cf57fa7",
+    "reason": "Same stool-softener mechanism of moving water and fats into stool, duplicated in a table and glossary.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-241e46e240c77e0ec332",
+    "replacedBy": "ORN-a43f84a9645938f0f748",
+    "reason": "Both identify occupational therapists from restoring daily-living independence; retain the fuller responsibilities/adaptive-device item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-909a6afb177da104eeae",
+    "replacedBy": "ORN-24bd2f0188722f647f97",
+    "reason": "The DBT definition repeats the skills/CBT description; retain the fuller description and a separate indications item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-25132654474eaab9649a",
+    "replacedBy": "ORN-b7cf0beb35115cfec638",
+    "reason": "Obstetric and general CBC-purpose items both ask which test detects anemia, infection and platelet abnormalities.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-297ea565000e1dcf0233",
+    "replacedBy": "ORN-92aa7d4a871f5fb249f9",
+    "reason": "Both identify respiratory depression from slow/shallow breathing; retain the focused respiratory-assessment item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-2a5b04db704c7835ede1",
+    "replacedBy": "ORN-724f6652800622be4dda",
+    "reason": "Pre-procedure urinalysis rationale repeats the general UTI/kidney-screening purpose.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-327c1a5fb4ba44a01287",
+    "replacedBy": "ORN-2b07688e952c0e8eeffe",
+    "reason": "Both identify relaxin by ligament softening in pregnancy; retain the fuller pregnancy-functions item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-2d986d4fb4b0790e5f5f",
+    "replacedBy": "ORN-ff6d74f2b41a3818ec53",
+    "reason": "Repeated joint identity based on movement and stability; retain the general anatomical definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-b663a3d6e9d9a0845129",
+    "replacedBy": "ORN-2fe7002fd9303319c3f2",
+    "reason": "Repeated breast-cancer identity based on breast-tissue origin.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-45ce2c2d47e6b542de15",
+    "replacedBy": "ORN-3106564adcaef6155af4",
+    "reason": "Repeated lymphoma identity based on lymphatic-system origin; listing named types does not add a separate decision.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-8d10e74c15c8807e76be",
+    "replacedBy": "ORN-319b8bb358972262f88f",
+    "reason": "Repeated renal integumentary manifestations: pallor, pruritus and uremic frost. The skin-complications question tests a separate facet.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-d8de27bb306a6c95d553",
+    "replacedBy": "ORN-3438b2dc13cd52aa629a",
+    "reason": "Near-verbatim cosmetic-surgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-4960c303e70fba6b03ed",
+    "replacedBy": "ORN-370560f037b13d1e88fe",
+    "reason": "Both identify chest radiography by detecting chest/lung abnormalities; retain the fuller radiographic description.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-df3153f9ffe5426481f4",
+    "replacedBy": "ORN-3751f4dfe2d77a44f3ce",
+    "reason": "Identical stimulant-laxative mechanism expressed in glossary and comparison forms.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-ea8e8605dbead738a9d5",
+    "replacedBy": "ORN-fd0a0549375fe21f5fd6",
+    "reason": "The food-passage function of the pharynx repeats within the fuller air/food-passage question; the anatomical-location item is distinct.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-be936f2919b19cf61bbf",
+    "replacedBy": "ORN-3d056fb28e061a79c972",
+    "reason": "The nonspecific increased-dyspnea asthma item repeats a symptom already included in the fuller asthma symptom pattern.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-b443da9477a6bcd247ff",
+    "replacedBy": "ORN-3a65ed70e12cc20fdfae",
+    "reason": "Near-verbatim vesicle definition, including the same herpes-blister example.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e82812a0ef4523276bd7",
+    "replacedBy": "ORN-a009edf90116793e7880",
+    "reason": "Three items identify VF by ventricular quivering with no effective contraction or output. Keep one physiology definition and the separate ECG-pattern question.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-ec23252b97ddb9aecece",
+    "replacedBy": "ORN-a009edf90116793e7880",
+    "reason": "Three items identify VF by ventricular quivering with no effective contraction or output. Keep one physiology definition and the separate ECG-pattern question.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-3c093944b16cda1acc5f",
+    "replacedBy": "ORN-c8acad542077fefee573",
+    "reason": "Renal respiratory-manifestation questions repeat fluid-overload dyspnea; retain the fuller renal respiratory pattern.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-5cb701c96b43d4bdcc74",
+    "replacedBy": "ORN-3c6f6805e787a148101c",
+    "reason": "Both identify larynx from voice production and an airway role; retain the fuller functions item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-3ce5782d81b0de3e7ac0",
+    "replacedBy": "ORN-eea130d5838fa26a1710",
+    "reason": "Near-verbatim neurosurgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-3d211fec7c31a878625a",
+    "replacedBy": "ORN-644bbb17b34bee5c5eca",
+    "reason": "Both identify respiratory therapists by care of breathing disorders; retain the fuller interventions/responsibilities item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-9ea56845db7488efed15",
+    "replacedBy": "ORN-3d975a37099f14221f9f",
+    "reason": "Repeated reconstructive/restorative-surgery purpose.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-400a9849db05b6914472",
+    "replacedBy": "ORN-a4acf329b35d351ea163",
+    "reason": "Both identify tendons by the muscle-to-bone connection; retain the fuller anatomical definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-a88599917f4d90c99229",
+    "replacedBy": "ORN-402da1d75823c957d813",
+    "reason": "Both identify pulmonary arteries by carrying blood from the heart to lungs. Retain the precise right-ventricular anatomical definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-40afd7c2e61aa307a7e5",
+    "replacedBy": "ORN-54ad0a7c6d9ecc8bfe1e",
+    "reason": "Dobutamine beta-1 heart-rate/contractility stimulation repeats inside the fuller receptor-effects item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-baea678aab8914b951e0",
+    "replacedBy": "ORN-4184bbe51db8b8bb2162",
+    "reason": "Both identify ligaments by bone-to-bone connection and stability.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-869da7d3f9afbaf26bae",
+    "replacedBy": "ORN-43e35e639c6008cd127c",
+    "reason": "Near-verbatim osmotic-laxative mechanism duplicated in table and glossary.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-cb8ab5a3aaf06f472fd2",
+    "replacedBy": "ORN-459a78f0644f61a9ca4a",
+    "reason": "Near-verbatim carbuncle definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-655d5edd13c51524339f",
+    "replacedBy": "ORN-4839f50b84c7103f5962",
+    "reason": "The generic calcium bone/teeth identification repeats inside the fuller calcium-function item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-4e9e2d152c1d24886b0c",
+    "replacedBy": "ORN-b9d4abd6cabfe03f652e",
+    "reason": "Repeated flexion identity from bending a limb/joint; the table version restates it as decreasing the angle.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-a8238a104a03548e7e5d",
+    "replacedBy": "ORN-5226f0dd91d62df9bac1",
+    "reason": "Pregnancy progesterone identity from preparing/supporting implantation is repeated within the fuller pregnancy-functions item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-aa8641b793b3c1934a6d",
+    "replacedBy": "ORN-5437060d369a2230e925",
+    "reason": "Near-verbatim orthopedic-surgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-f7cbefa52ae630374117",
+    "replacedBy": "ORN-55ffb2ae4c35775f646f",
+    "reason": "Both identify group therapy from disorder-specific support and learning from peers with similar challenges.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-5992b523ac1c045ee2f5",
+    "replacedBy": "ORN-564924536c0dc3aad7a7",
+    "reason": "Three versions identify ECG from recording/evaluating cardiac electrical activity and rhythm; retain the fuller description.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e12ce137db9d008d8881",
+    "replacedBy": "ORN-564924536c0dc3aad7a7",
+    "reason": "Three versions identify ECG from recording/evaluating cardiac electrical activity and rhythm; retain the fuller description.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-5753dfd229442185fca9",
+    "replacedBy": "ORN-f3bee538df814032e918",
+    "reason": "Repeated dorsiflexion movement identity; retain the more precise foot/leg description.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e09fc296129ac0bb6c61",
+    "replacedBy": "ORN-58dfcb3725b62c44f3e8",
+    "reason": "Both identify the aorta by carrying oxygenated blood to the body; retain the left-ventricular origin detail.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-d552ec600e1240f53277",
+    "replacedBy": "ORN-5ba6646d0463c67103e0",
+    "reason": "Verbatim exploratory-surgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-b38426ab881cf6abbd28",
+    "replacedBy": "ORN-5c2e8145b65f20fd8a7a",
+    "reason": "Same extension/straightening movement definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-ed62634e7138c4d5813d",
+    "replacedBy": "ORN-5c5ed929102dbcbae1ab",
+    "reason": "Near-verbatim wheal definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-657c2f28ae9bc21e8db9",
+    "replacedBy": "ORN-b04e082e5bf041a384a0",
+    "reason": "The clonidine blood-pressure example repeats inside the fuller alpha-2 central-outflow/agonist item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-d945eeb02f7ee73425df",
+    "replacedBy": "ORN-ca676729742ab8c627ac",
+    "reason": "Repeated renal musculoskeletal-system identification from weakness and cramps; retain the fuller renal-musculoskeletal pattern. Immobility complications remain separate.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-ad4543bf08761d83cdcc",
+    "replacedBy": "ORN-6aef36c28024830d16cf",
+    "reason": "Near-verbatim obstetric/gynecological-surgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-6b2fed40f202477b3571",
+    "replacedBy": "ORN-9a961244372619f228c1",
+    "reason": "Both identify trachea by conducting air to the lungs; retain the fuller anatomical definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e7b651e7efbd7bdf71e5",
+    "replacedBy": "ORN-edae7df713a94b27be92",
+    "reason": "The DVT assessment and symptoms-to-report questions repeat unilateral redness, warmth, swelling and calf pain.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-7853d8a7d6922c0d476b",
+    "replacedBy": "ORN-cb43efa112526b36663c",
+    "reason": "The fecal-impaction intervention list repeats the digital-removal/mineral-oil information in the fuller concept item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-896827090137c5fa2bb3",
+    "replacedBy": "ORN-f50caadf006c36f97de8",
+    "reason": "Both identify CBT from changing distorted thoughts and behavior; retain the fuller description and the separate indications question.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-8234b8da0b6b4484618c",
+    "replacedBy": "ORN-a6ac7e849f397d570839",
+    "reason": "Both identify skeletal muscle by voluntary movement and posture; retain the fuller major-functions item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-83960d96af1439af9e41",
+    "replacedBy": "ORN-8d52c30c63dd36ceebb9",
+    "reason": "Both renal neurological-system items identify the same confusion/encephalopathy pattern; retain the fuller neurological manifestations.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-a4ae9bf78199e70a9c06",
+    "replacedBy": "ORN-87d58840485d4589b7ba",
+    "reason": "Both identify semilunar valves from ventricular outflow; retain the more specific pulmonary-trunk/aortic description.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-a348886d52e3c1f30b99",
+    "replacedBy": "ORN-8a94f5be311001b26df5",
+    "reason": "Repeated ovarian-cancer identity from ovarian-tissue origin.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-8aa4131282d3f073f039",
+    "replacedBy": "ORN-f702ddce65204edbc08c",
+    "reason": "Repeated eversion movement identity from turning the sole away from the midline.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-f228d9b172fbab981761",
+    "replacedBy": "ORN-8b91f02471b5b7f3262b",
+    "reason": "Near-verbatim abduction movement definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-8d77a86e4b11a93a82e1",
+    "replacedBy": "ORN-bb10649f0f072665fb3f",
+    "reason": "Both renal cardiovascular-manifestation items identify the same edema, hypertension, dysrhythmia and pericarditis pattern.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-9290a119cacb78ff71bf",
+    "replacedBy": "ORN-9ef41cda86b359c37ac4",
+    "reason": "Repeated prostate-cancer identity from the prostate-gland origin.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-96e76863731a877ab2a5",
+    "replacedBy": "ORN-c6fd0a695e728de080bc",
+    "reason": "Repeated inversion movement identity from turning the sole toward the midline.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-99e5fb94c9fae74e381d",
+    "replacedBy": "ORN-973796ac5e34e97dc701",
+    "reason": "Both identify pulmonary veins from oxygenated pulmonary return; retain the function item after the separately documented source clarification.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-9fd3679b5bab7fd3c275",
+    "replacedBy": "ORN-98ffef15b0c0ac6c738d",
+    "reason": "Both identify cerebral angiography from contrast/X-ray imaging of cerebral vessels; retain the fuller procedure/indication item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-db576a492b343571448b",
+    "replacedBy": "ORN-9bf81c1294d4d907a35a",
+    "reason": "Both identify atrioventricular valves by their position between atria and ventricles.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e02e242b0b8c44127292",
+    "replacedBy": "ORN-9ced610b8df7a49e0876",
+    "reason": "Near-verbatim pseudocyst definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-9e7a19a56becf6fd904f",
+    "replacedBy": "ORN-b1464dae94f3586a0e52",
+    "reason": "Near-verbatim cardiovascular-surgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-9f80ae71ccbcd16e7ec5",
+    "replacedBy": "ORN-f8720bad98364082aa98",
+    "reason": "The general perioperative antacid-risk wording requires clarification and does not provide a reliable separate identification question; retain the basic antacid mechanism item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-a96af8264ebdd38b5e59",
+    "replacedBy": "ORN-a31fe1be41908194fa2f",
+    "reason": "Both identify iron from its hemoglobin/RBC oxygen-carrying role; retain the fuller function item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-c59f7d8c21bce49c52a2",
+    "replacedBy": "ORN-a74f2a54a87dcd119b9c",
+    "reason": "Both identify PEA by electrical activity without a pulse; retain the direct clinical identification item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-f1d73e025bba5cfefdb7",
+    "replacedBy": "ORN-a9ab8e156a224bf502f6",
+    "reason": "Both identify esophagus by conveying food to the stomach.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-b1134c0776b0c5d9c3ee",
+    "replacedBy": "ORN-fabdcdf6d4e7b5afee56",
+    "reason": "Both identify coronary arteries by supplying oxygenated blood to heart tissue.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-d2531c3f191c7a25805c",
+    "replacedBy": "ORN-b57f1343653c6853f5d9",
+    "reason": "Both identify bronchi by being the main air passageways to the lungs; retain the fuller function item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-b6a0180c6db7f1cd9a09",
+    "replacedBy": "ORN-f0c37348670b64e9140b",
+    "reason": "Both identify cardiac muscle by pumping blood; retain the fuller tissue definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-c74b65696dc9c8c4a7ce",
+    "replacedBy": "ORN-b790790a25c1d664c302",
+    "reason": "Both identify large intestine by water/electrolyte absorption and fecal formation/elimination; retain the fuller functions item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-bdb79d60ecec55fdcb22",
+    "replacedBy": "ORN-f7ab29edf5f742765b1a",
+    "reason": "Near-verbatim urological-surgery definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-c7166bc4cbb0c078cbf5",
+    "replacedBy": "ORN-f5e5d7396649ffab1736",
+    "reason": "Same plantar-flexion movement identity, with only a different example.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-ca569fc2993f39205ab7",
+    "replacedBy": "ORN-c801dedc10a597613e8e",
+    "reason": "Both identify dopamine from overlapping motor, attention and emotion roles; retain the fuller neurotransmitter-role definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-ed5dc064b72227d472cc",
+    "replacedBy": "ORN-c919d94144a2df69f9ad",
+    "reason": "Near-verbatim anhedonia definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-d23730443c8800bfcf3d",
+    "replacedBy": "ORN-f26de41273ec8d7b8114",
+    "reason": "Near-verbatim macule definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e1be96b8daafbe498eec",
+    "replacedBy": "ORN-3cd72f26ec0ac8db278a",
+    "reason": "The ventricular-tachycardia significance item repeats the >120/min and worsening-cardiac-output content in the V-tach pathophysiology item; the differing answer spelling hid the overlap.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-d79bd949aa73bfb4d7c5",
+    "replacedBy": "ORN-f4c3d0830abf4e5b686f",
+    "reason": "Two BMP-purpose questions overlap in electrolyte/renal screening; the obstetric version also needs the separately documented removal of a liver-function claim.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-fda5b97cd71e93d3c080",
+    "replacedBy": "ORN-dbaab37a9d36c16e302a",
+    "reason": "Both identify speech therapists from assessment/treatment of communication and swallowing disorders.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e705f2b867f4e764af65",
+    "replacedBy": "ORN-f722ca29bbba4dc3069f",
+    "reason": "Both identify small intestine from digestion and absorption; retain the fuller functions/segmentation item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-f0aca50314297ca8a12b",
+    "replacedBy": "ORN-feba8d27d062bf830242",
+    "reason": "Both identify pustules from pus-containing lesions such as acne; retain the precise pus-filled definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-e7385369312f99e97a1d",
+    "replacedBy": "ORN-2d8e1fcde7ff70adfb49",
+    "reason": "Singular/plural blended-family definitions describe the same family structure.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-a11f1d9172854bafcb0d",
+    "replacedBy": "ORN-02d44e5e357eb7050019",
+    "reason": "Maturation phase and maturation phase of wound healing are the same collagen-remodelling phase.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-a9faeb6e0f1575b90566",
+    "replacedBy": "ORN-59f8d6d2fdb8296ef6b0",
+    "reason": "Proliferative-phase aliases repeat the same four wound-healing processes.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-19907505361385b24ba0",
+    "replacedBy": "ORN-148733409c4e7db4dd49",
+    "reason": "Greenstick and greenstick fracture describe the same partial childhood fracture.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-5f48344371dc3cf0d155",
+    "replacedBy": "ORN-1a69db32ae31ec6cbb11",
+    "reason": "Breech and breech presentation identify the same buttocks-first presentation.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-07356f2b2a80dcbe99c4",
+    "replacedBy": "ORN-6a31c205b3e3f899a55a",
+    "reason": "Multipara and multiparous are duplicate parity labels. Their wording is clarified separately to count qualifying pregnancies rather than infants.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-443de0b0b44f6cf33d4e",
+    "replacedBy": "ORN-d5259691dcb0e7f0e823",
+    "reason": "Nulliparous and nulliparous clients are duplicate labels. Their wording is clarified separately so parity does not depend on live birth.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-512f47273971ccdc1451",
+    "replacedBy": "ORN-0d894f878738a04bd132",
+    "reason": "The generic otitis-media item explicitly describes acute middle-ear infection, repeating the acute-otitis-media item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-18c5d26a63b00586790b",
+    "replacedBy": "ORN-9ca778252a73db1498c3",
+    "reason": "Metastasis and metastases are singular/plural versions of the same cancer-spread definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-9b81201444d20db0c4c2",
+    "replacedBy": "ORN-93cfda98079b42d9606e",
+    "reason": "Hypersensitivity and hypersensitivities repeat the same exaggerated immune-response definition.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-1e51c0d434fc57341a45",
+    "replacedBy": "ORN-43567ef9991f78734bbe",
+    "reason": "The individual-trauma definition substantially repeats the full general trauma definition and does not add a separate tested decision.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-4d9e1dcf28daf75889d5",
+    "replacedBy": "ORN-88a84c178eefeb6d2380",
+    "reason": "The flow-rate identification repeats the same forceful-expiration measurement described in peak-flow monitoring.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  },
+  {
+    "id": "ORN-057b1f74d4d394d80763",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-11c8cc3807763da3eb12",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-1ce8b3b30808e747958d",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-2752d636098e921cc130",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-2bbc9f8ca039bbefd70a",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-4639e5b86e8efb419683",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-4c9b0c8633b83de6c48c",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-5c7aec695c6b5912ab63",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-6415b41baccb43f50ee6",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-6e423743f392686db588",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-6ee475fb6edbb2c96d2d",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-706d11fc9f985d7357d5",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-7932065175e2399c4a07",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-9694905a5fce00bbe641",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-9749877a89019a6f1a0a",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-9b98d667b8365a484d7a",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-a81eeaf3f2184c2bf281",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-ae46a1a74232b882a280",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-af4f8d031f7934ab6290",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-b97ed803a2c5d133c129",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-c3d21f25b64e70023d12",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-c6bbd5b2659f7970d443",
+    "reason": "Withheld: generic perioperative medication matching uses overlapping bleeding risks or unqualified dosing/withholding instructions. These decisions require the individualized anesthesia/prescribing plan.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-d4b9b63eb0e8021b7f3f",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-d4efa68b7d1ecbd42c3e",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-efda5739c9a2eb6fa73c",
+    "reason": "Withheld: identifying one anticonvulsant from overlapping adverse-effect lists does not reliably establish a unique clinical best answer. Retain outside new study sets pending expert review.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-reference-matching"
+  },
+  {
+    "id": "ORN-b35f6d6a0fdd484064a3",
+    "reason": "Withheld: the definition omits or confuses a direction/anatomical distinction needed to separate the intended fetal presentation or position from the other terms.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-definition"
+  },
+  {
+    "id": "ORN-540a6c424a896c0256c0",
+    "reason": "Withheld: the definition omits or confuses a direction/anatomical distinction needed to separate the intended fetal presentation or position from the other terms.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-definition"
+  },
+  {
+    "id": "ORN-7d283fd4db565685af76",
+    "reason": "Withheld: the definition omits or confuses a direction/anatomical distinction needed to separate the intended fetal presentation or position from the other terms.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-definition"
+  },
+  {
+    "id": "ORN-a46d48d11ed41b132e5e",
+    "reason": "Withheld: the definition omits or confuses a direction/anatomical distinction needed to separate the intended fetal presentation or position from the other terms.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-definition"
+  },
+  {
+    "id": "ORN-e81dfaccd8dd0cbca127",
+    "reason": "Withheld: the definition omits or confuses a direction/anatomical distinction needed to separate the intended fetal presentation or position from the other terms.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-definition"
+  },
+  {
+    "id": "ORN-edd38ceba6adcc0f9a21",
+    "reason": "Withheld: the definition omits or confuses a direction/anatomical distinction needed to separate the intended fetal presentation or position from the other terms.",
+    "reviewed": "2026-11-06",
+    "kind": "ambiguous-definition"
+  },
+  {
+    "id": "CROSS-010-1",
+    "replacedBy": "SIT-NP3-pre-operative-phase-01-recognition",
+    "reason": "Generic unresolved surgical-consent scenario is subsumed by the retained premedication/consent case.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "CROSS-010-2",
+    "replacedBy": "SIT-NP3-pre-operative-phase-01-action",
+    "reason": "Generic unresolved surgical-consent scenario is subsumed by the retained premedication/consent case.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "CROSS-010-3",
+    "replacedBy": "SIT-NP3-pre-operative-phase-01-teaching",
+    "reason": "Generic unresolved surgical-consent scenario is subsumed by the retained premedication/consent case.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "CROSS-010-4",
+    "replacedBy": "SIT-NP3-pre-operative-phase-01-planning",
+    "reason": "Generic unresolved surgical-consent scenario is subsumed by the retained premedication/consent case.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "CROSS-010-5",
+    "replacedBy": "SIT-NP3-pre-operative-phase-01-safety",
+    "reason": "Generic unresolved surgical-consent scenario is subsumed by the retained premedication/consent case.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP3-079-1",
+    "replacedBy": "SIT-NP5-multi-system-problems-shock-sepsis-01-recognition",
+    "reason": "Both cases test confusion/hypotension during infection, prompt sepsis escalation, perfusion support and avoiding delay for culture results.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP3-079-2",
+    "replacedBy": "SIT-NP5-multi-system-problems-shock-sepsis-01-action",
+    "reason": "Both cases test confusion/hypotension during infection, prompt sepsis escalation, perfusion support and avoiding delay for culture results.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP3-079-3",
+    "replacedBy": "SIT-NP5-multi-system-problems-shock-sepsis-01-teaching",
+    "reason": "Both cases test confusion/hypotension during infection, prompt sepsis escalation, perfusion support and avoiding delay for culture results.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP3-079-4",
+    "replacedBy": "SIT-NP5-multi-system-problems-shock-sepsis-01-planning",
+    "reason": "Both cases test confusion/hypotension during infection, prompt sepsis escalation, perfusion support and avoiding delay for culture results.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP3-079-5",
+    "replacedBy": "SIT-NP5-multi-system-problems-shock-sepsis-01-safety",
+    "reason": "Both cases test confusion/hypotension during infection, prompt sepsis escalation, perfusion support and avoiding delay for culture results.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP4-097-1",
+    "replacedBy": "SIT-NP4-autonomic-dysreflexia-03-recognition",
+    "reason": "The generic dysreflexia recognition/trigger-management questions repeat the more specific retained trigger cases.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP4-097-2",
+    "replacedBy": "SIT-NP4-autonomic-dysreflexia-03-action",
+    "reason": "The generic dysreflexia recognition/trigger-management questions repeat the more specific retained trigger cases.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP4-097-3",
+    "replacedBy": "SIT-NP4-autonomic-dysreflexia-03-teaching",
+    "reason": "The generic dysreflexia recognition/trigger-management questions repeat the more specific retained trigger cases.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP4-097-4",
+    "replacedBy": "SIT-NP4-autonomic-dysreflexia-03-planning",
+    "reason": "The generic dysreflexia recognition/trigger-management questions repeat the more specific retained trigger cases.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP4-097-5",
+    "replacedBy": "SIT-NP4-autonomic-dysreflexia-03-safety",
+    "reason": "The generic dysreflexia recognition/trigger-management questions repeat the more specific retained trigger cases.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP5-117-1",
+    "replacedBy": "SIT-NP5-personality-disorders-04-recognition",
+    "reason": "Both generic agitation cases test calm communication, personal space, least restrictive de-escalation and avoiding confrontational crowding.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP5-117-2",
+    "replacedBy": "SIT-NP5-personality-disorders-04-action",
+    "reason": "Both generic agitation cases test calm communication, personal space, least restrictive de-escalation and avoiding confrontational crowding.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP5-117-3",
+    "replacedBy": "SIT-NP5-personality-disorders-04-teaching",
+    "reason": "Both generic agitation cases test calm communication, personal space, least restrictive de-escalation and avoiding confrontational crowding.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP5-117-4",
+    "replacedBy": "SIT-NP5-personality-disorders-04-planning",
+    "reason": "Both generic agitation cases test calm communication, personal space, least restrictive de-escalation and avoiding confrontational crowding.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "NP5-117-5",
+    "replacedBy": "SIT-NP5-personality-disorders-04-safety",
+    "reason": "Both generic agitation cases test calm communication, personal space, least restrictive de-escalation and avoiding confrontational crowding.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-situation"
+  },
+  {
+    "id": "ORN-fed2b520ad2b3b604bd0",
+    "replacedBy": "ORN-1bb2f1656ac8bc276d9e",
+    "reason": "Correcting para to count qualifying completed pregnancies rather than live-born infants makes this a repeated parity definition. Retain the more specific parity item.",
+    "reviewed": "2026-11-06",
+    "kind": "redundant-fact"
+  }
+]

@@ -26,7 +26,7 @@ const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',i
 const legacyReferences=JSON.parse(await readFile(new URL('./legacy-case-references.json',import.meta.url),'utf8'));
 const changes=JSON.parse(await readFile(new URL('./rationale-reference-corrections.json',import.meta.url),'utf8'));
 const cases=[
- ...clinicalCases.map((c,i)=>{const id=c.subject+'-'+String(i+1).padStart(3,'0');return {id,kind:'five-part',subject:c.subject,topic:c.topic,title:c.title,scenario:c.scenario,problem:c.facts[0].text,action:c.facts[1].text,teaching:c.facts[2].text,outcome:c.facts[3].text,unsafe:c.facts[4].text,reason:c.facts.map(f=>f.reason).join(' '),source:resolvedReference(changes.legacy[id]?.source||legacyReferences[id])};}),
+ ...clinicalCases.map((c,i)=>{const id=c.subject+'-'+String(i+1).padStart(3,'0');return {id,kind:'five-part',subject:c.subject,topic:c.topic,title:c.title,scenario:c.scenario,problem:c.facts[0].text,action:c.facts[1].text,teaching:c.facts[2].text,outcome:c.facts[3].text,unsafe:c.facts[4].text,reason:c.facts.map(f=>f.reason).join(' '),source:resolvedReference(changes.legacy[id]?.source||legacyReferences[id])};}).filter(c=>activeQuestions.some(q=>q.id.startsWith(c.id+'-'))),
  ...evidence.map(c=>({...c,source:resolvedReference(c.source),kind:'seven-part'})),
  ...activeQuestions.filter(q=>q.id.startsWith('EXP2-')).map(q=>({id:q.id,kind:'standalone',subject:q.subject,topic:q.topic,scenario:q.stem,problem:q.options[q.correctIndex].text,action:'',reason:q.rationale,source:q.source}))
 ];

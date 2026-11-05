@@ -1,5 +1,5 @@
 import catalog from "./topic-catalog.json" with { type: "json" };
-import { clinicalCases, questions } from "./bank.ts";
+import { clinicalCases } from "./bank.ts";
 import type { Question, Subject } from "./types.ts";
 export type CurriculumTopic = { subject: Subject; name: string; slug: string };
 export const curriculum = catalog as CurriculumTopic[];
@@ -20,7 +20,9 @@ export function questionsForTopic(topic:CurriculumTopic, bank:readonly Question[
   if(!index){
     index=new Map(curriculum.map(t=>[t.slug,[]]));
     const relatedSlugs=new Map<string,string[]>();
-    clinicalCases.forEach((entry,caseIndex)=>{for(const slug of links[entry.title]||[]){for(const q of questions.slice(caseIndex*5,caseIndex*5+5))relatedSlugs.set(q.id,[...(relatedSlugs.get(q.id)||[]),slug]);}});
+    // Use stable case IDs: the active bank has gaps after historical retirements.
+    // Array offsets would shift every later case into the wrong topic.
+    clinicalCases.forEach((entry,caseIndex)=>{for(const slug of links[entry.title]||[]){for(let part=1;part<=5;part++){const id=`${entry.subject}-${String(caseIndex+1).padStart(3,"0")}-${part}`;relatedSlugs.set(id,[...(relatedSlugs.get(id)||[]),slug]);}}});
     for(const q of bank){
       const exact=topicLookup.get(`${q.subject}:${q.topic}`);
       const slugs=new Set([...(relatedSlugs.get(q.id)||[]),...(exact?[exact]:[])]);

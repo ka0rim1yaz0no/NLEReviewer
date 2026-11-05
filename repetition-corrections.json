@@ -1,0 +1,1490 @@
+{
+  "reviewed": "2026-11-06",
+  "rules": [
+    {
+      "id": "pulmonary-veins",
+      "questionId": "ORN-99e5fb94c9fae74e381d",
+      "from": "Arteries that carry oxygenated blood back to the left atrium.",
+      "to": "Veins that return oxygenated blood from the lungs to the left atrium.",
+      "source": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+    },
+    {
+      "id": "pulmonary-arteries-exclusivity",
+      "questionId": "ORN-a88599917f4d90c99229",
+      "from": " (Note that these are the only arteries in the body that carry deoxygenated blood.)",
+      "to": "",
+      "source": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+    },
+    {
+      "id": "pulmonary-veins-exclusivity",
+      "questionId": "ORN-973796ac5e34e97dc701",
+      "from": " (Note that these are the only veins in the body that carry oxygenated blood.)",
+      "to": "",
+      "source": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+    },
+    {
+      "id": "basic-metabolic-panel",
+      "questionId": "ORN-d79bd949aa73bfb4d7c5",
+      "from": "Screen for electrolyte imbalances, liver, and renal functions",
+      "to": "Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP",
+      "source": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/"
+    },
+    {
+      "id": "trali-overload",
+      "questionId": "ORN-e962fbcce800da527745",
+      "from": "Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload).",
+      "to": "Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions.",
+      "source": "https://professionaleducation.blood.ca/en/transfusion/publications/transfusion-related-acute-lung-injury-trali"
+    },
+    {
+      "id": "antacids",
+      "questionId": "ORN-9f80ae71ccbcd16e7ec5",
+      "from": "May increase the risk of aspiration during surgery",
+      "to": "Neutralize gastric acid. Prescribed antacids may be used before selected procedures to reduce gastric acidity; follow the anesthesia team's procedure-specific medication plan rather than a blanket withholding rule",
+      "source": "https://www.nice.org.uk/guidance/NG192/chapter/recommendations"
+    },
+    {
+      "id": "pustules",
+      "questionId": "ORN-f0aca50314297ca8a12b",
+      "from": "Fluid- or pus-filled bumps on the skin, such as acne",
+      "to": "Pus-filled bumps on the skin, as may occur with acne",
+      "source": "https://medlineplus.gov/ency/article/003234.htm"
+    },
+    {
+      "id": "multipara",
+      "questionId": "ORN-07356f2b2a80dcbe99c4",
+      "from": "A woman who has given birth to more than one child.",
+      "to": "A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required.",
+      "source": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+    },
+    {
+      "id": "multiparous",
+      "questionId": "ORN-6a31c205b3e3f899a55a",
+      "from": "A woman who has given birth more than once.",
+      "to": "A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required.",
+      "source": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+    },
+    {
+      "id": "nulliparous",
+      "questionId": "ORN-443de0b0b44f6cf33d4e",
+      "from": "A woman who has never given birth to a live baby.",
+      "to": "A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive.",
+      "source": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+    },
+    {
+      "id": "nulliparous-clients",
+      "questionId": "ORN-d5259691dcb0e7f0e823",
+      "from": "Individuals who have never given birth.",
+      "to": "People who have not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive.",
+      "source": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+    },
+    {
+      "id": "primiparity",
+      "questionId": "ORN-3823ab7414e4192a7fd4",
+      "from": "The condition of being pregnant for the first time or having given birth to one child.",
+      "to": "The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity.",
+      "source": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+    },
+    {
+      "id": "para",
+      "questionId": "ORN-fed2b520ad2b3b604bd0",
+      "from": "A term used in obstetrics to indicate the number of live births a woman has had.",
+      "to": "The number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy.",
+      "source": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+    },
+    {
+      "id": "semilunar-typo",
+      "questionId": "ORN-a4ae9bf78199e70a9c06",
+      "from": "Values that open when blood flows out of the ventricles.",
+      "to": "Valves that open when blood flows out of the ventricles.",
+      "source": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+    }
+  ],
+  "patches": [
+    {
+      "id": "ORN-0225a6b368786f5b6c2a",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Pustules: Fluid- or pus-filled bumps on the skin, such as acne. The description in the question instead matches Furuncle.",
+          "to": "Pustules: Pus-filled bumps on the skin, as may occur with acne. The description in the question instead matches Furuncle."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://medlineplus.gov/ency/article/003234.htm"
+        }
+      ]
+    },
+    {
+      "id": "ORN-0372599019e1379769d0",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Pustules: Fluid- or pus-filled bumps on the skin, such as acne. The description in the question instead matches Bulla.",
+          "to": "Pustules: Pus-filled bumps on the skin, as may occur with acne. The description in the question instead matches Bulla."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://medlineplus.gov/ency/article/003234.htm"
+        }
+      ]
+    },
+    {
+      "id": "ORN-07356f2b2a80dcbe99c4",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In Obstetrics Terminology, which concept matches this description?\n\nA woman who has given birth to more than one child.",
+          "to": "In Obstetrics Terminology, which concept matches this description?\n\nA person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "field": "rationale",
+          "from": "Multipara is the matching concept. In this reference context: A woman who has given birth to more than one child.",
+          "to": "Multipara is the matching concept. In this reference context: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Multipara: A woman who has given birth to more than one child.",
+          "to": "Multipara: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        },
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Multipara is the matching concept. In this reference context: A woman who has given birth to more than one child.",
+          "to": "Multipara is the matching concept. In this reference context: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-0a52a0b7670905d97180",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Primiparity: The condition of being pregnant for the first time or having given birth to one child. The description in the question instead matches Persistent pulmonary hypertension of the newborn.",
+          "to": "Primiparity: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity. The description in the question instead matches Persistent pulmonary hypertension of the newborn."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-114ceb438e976691b126",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Pulmonary veins: Arteries that carry oxygenated blood back to the left atrium. The description in the question instead matches Aortic valve.",
+          "to": "Pulmonary veins: Veins that return oxygenated blood from the lungs to the left atrium. The description in the question instead matches Aortic valve."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-11ede5ce5cb37c8d323f",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Multiparous: A woman who has given birth more than once. The description in the question instead matches Regional anesthesia.",
+          "to": "Multiparous: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Regional anesthesia."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-206f1b7f53a973037e1d",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Basic metabolic panel: Screen for electrolyte imbalances, liver, and renal functions. The description in the question instead matches Sickle cell screen.",
+          "to": "Basic metabolic panel: Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP. The description in the question instead matches Sickle cell screen."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+          "to": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/"
+        }
+      ]
+    },
+    {
+      "id": "ORN-21320cead5acfa63765a",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Para: A term used in obstetrics to indicate the number of live births a woman has had. The description in the question instead matches Nulligravida.",
+          "to": "Para: The number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy. The description in the question instead matches Nulligravida."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-258f0ed35fdd0b0ed6e7",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Para: A term used in obstetrics to indicate the number of live births a woman has had. The description in the question instead matches Embryo transfer.",
+          "to": "Para: The number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy. The description in the question instead matches Embryo transfer."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-3115c6182608d1c6d6dd",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Semilunar valves: Values that open when blood flows out of the ventricles. The description in the question instead matches Multifocal.",
+          "to": "Semilunar valves: Valves that open when blood flows out of the ventricles. The description in the question instead matches Multifocal."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-3823ab7414e4192a7fd4",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In High-Risk Newborn Care, which concept matches this description?\n\nThe condition of being pregnant for the first time or having given birth to one child.",
+          "to": "In High-Risk Newborn Care, which concept matches this description?\n\nThe condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity."
+        },
+        {
+          "field": "rationale",
+          "from": "Primiparity is the matching concept. In this reference context: The condition of being pregnant for the first time or having given birth to one child.",
+          "to": "Primiparity is the matching concept. In this reference context: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Primiparity: The condition of being pregnant for the first time or having given birth to one child.",
+          "to": "Primiparity: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        },
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Primiparity is the matching concept. In this reference context: The condition of being pregnant for the first time or having given birth to one child.",
+          "to": "Primiparity is the matching concept. In this reference context: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-3c4555e010a191ada174",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Transfusion – Related Acute Lung Injury []: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload). The description in the question instead matches Transfusion-Associated Circulatory Overload.",
+          "to": "Transfusion – Related Acute Lung Injury []: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions. The description in the question instead matches Transfusion-Associated Circulatory Overload."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594497/",
+          "to": "https://professionaleducation.blood.ca/en/transfusion/publications/transfusion-related-acute-lung-injury-trali"
+        }
+      ]
+    },
+    {
+      "id": "ORN-443de0b0b44f6cf33d4e",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In Labor & Delivery Care, which concept matches this description?\n\nA woman who has never given birth to a live baby.",
+          "to": "In Labor & Delivery Care, which concept matches this description?\n\nA person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "field": "rationale",
+          "from": "Nulliparous is the matching concept. In this reference context: A woman who has never given birth to a live baby.",
+          "to": "Nulliparous is the matching concept. In this reference context: A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Nulliparous: A woman who has never given birth to a live baby.",
+          "to": "Nulliparous: A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        },
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Nulliparous is the matching concept. In this reference context: A woman who has never given birth to a live baby.",
+          "to": "Nulliparous is the matching concept. In this reference context: A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-47de71ed0c3304c851e5",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Pulmonary veins: Arteries that carry oxygenated blood back to the left atrium. The description in the question instead matches Tricuspid valve.",
+          "to": "Pulmonary veins: Veins that return oxygenated blood from the lungs to the left atrium. The description in the question instead matches Tricuspid valve."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-516b273334732a2480d1",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Multipara: A woman who has given birth to more than one child. The description in the question instead matches Braxton-Hicks.",
+          "to": "Multipara: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Braxton-Hicks."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-5191e4dfa6db43801065",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Nulliparous clients: Individuals who have never given birth. The description in the question instead matches Brief intervention.",
+          "to": "Nulliparous clients: People who have not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive. The description in the question instead matches Brief intervention."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615365/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-540a6c424a896c0256c0",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Nulliparous: A woman who has never given birth to a live baby. The description in the question instead matches Right occiput anterior.",
+          "to": "Nulliparous: A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive. The description in the question instead matches Right occiput anterior."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-5653bd7120797ac4b9ff",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Primiparity: The condition of being pregnant for the first time or having given birth to one child. The description in the question instead matches Retinopathy of prematurity.",
+          "to": "Primiparity: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity. The description in the question instead matches Retinopathy of prematurity."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-56a1837d97305e5f1dc0",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Primiparity: The condition of being pregnant for the first time or having given birth to one child. The description in the question instead matches Transient tachypnea of the newborn.",
+          "to": "Primiparity: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity. The description in the question instead matches Transient tachypnea of the newborn."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-58dfcb3725b62c44f3e8",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.). The description in the question instead matches Aorta.",
+          "to": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs.. The description in the question instead matches Aorta."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-6a31c205b3e3f899a55a",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In Labor & Delivery Care, which concept matches this description?\n\nA woman who has given birth more than once.",
+          "to": "In Labor & Delivery Care, which concept matches this description?\n\nA person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "field": "rationale",
+          "from": "Multiparous is the matching concept. In this reference context: A woman who has given birth more than once.",
+          "to": "Multiparous is the matching concept. In this reference context: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Multiparous: A woman who has given birth more than once.",
+          "to": "Multiparous: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        },
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Multiparous is the matching concept. In this reference context: A woman who has given birth more than once.",
+          "to": "Multiparous is the matching concept. In this reference context: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-6e423743f392686db588",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Antacids: May increase the risk of aspiration during surgery. The description in the question instead matches Herbal Supplements.",
+          "to": "Antacids: Neutralize gastric acid. Prescribed antacids may be used before selected procedures to reduce gastric acidity; follow the anesthesia team's procedure-specific medication plan rather than a blanket withholding rule. The description in the question instead matches Herbal Supplements."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+          "to": "https://www.nice.org.uk/guidance/NG192/chapter/recommendations"
+        }
+      ]
+    },
+    {
+      "id": "ORN-75d82d9f06532d67b765",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Nulliparous: A woman who has never given birth to a live baby. The description in the question instead matches Pelvic dystocia.",
+          "to": "Nulliparous: A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive. The description in the question instead matches Pelvic dystocia."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-75ef7146e7a6777f080b",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Pulmonary veins: Arteries that carry oxygenated blood back to the left atrium. The description in the question instead matches Right ventricle.",
+          "to": "Pulmonary veins: Veins that return oxygenated blood from the lungs to the left atrium. The description in the question instead matches Right ventricle."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-7d52f82dc115b8cb6039",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Nulliparous: A woman who has never given birth to a live baby. The description in the question instead matches Fetal heart rate baseline.",
+          "to": "Nulliparous: A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive. The description in the question instead matches Fetal heart rate baseline."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-87d58840485d4589b7ba",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.). The description in the question instead matches Semilunar valves.",
+          "to": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs.. The description in the question instead matches Semilunar valves."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-8edde0956def0e1debbd",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Pulmonary veins: Arteries that carry oxygenated blood back to the left atrium. The description in the question instead matches ST elevation.",
+          "to": "Pulmonary veins: Veins that return oxygenated blood from the lungs to the left atrium. The description in the question instead matches ST elevation."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-9708c02a966728cfa0ee",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Semilunar valves: Values that open when blood flows out of the ventricles. The description in the question instead matches R-R interval.",
+          "to": "Semilunar valves: Valves that open when blood flows out of the ventricles. The description in the question instead matches R-R interval."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-973796ac5e34e97dc701",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "Which entry in the reference comparison “Overview of the Anatomy and Physiology of the Cardiovascular System” matches this information?\n\nMajor Functions: Carries oxygenated blood from the lungs to the heart. (Note that these are the only veins in the body that carry oxygenated blood.)",
+          "to": "Which entry in the reference comparison “Overview of the Anatomy and Physiology of the Cardiovascular System” matches this information?\n\nMajor Functions: Carries oxygenated blood from the lungs to the heart."
+        },
+        {
+          "field": "rationale",
+          "from": "The matching entry is Pulmonary veins. Major Functions: Carries oxygenated blood from the lungs to the heart. (Note that these are the only veins in the body that carry oxygenated blood.)",
+          "to": "The matching entry is Pulmonary veins. Major Functions: Carries oxygenated blood from the lungs to the heart."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Pulmonary veins: Carries oxygenated blood from the lungs to the heart. (Note that these are the only veins in the body that carry oxygenated blood.)",
+          "to": "Pulmonary veins: Carries oxygenated blood from the lungs to the heart."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        },
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "The matching entry is Pulmonary veins. Major Functions: Carries oxygenated blood from the lungs to the heart. (Note that these are the only veins in the body that carry oxygenated blood.)",
+          "to": "The matching entry is Pulmonary veins. Major Functions: Carries oxygenated blood from the lungs to the heart."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-99e5fb94c9fae74e381d",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In Interpret Basic ECG, which concept matches this description?\n\nArteries that carry oxygenated blood back to the left atrium.",
+          "to": "In Interpret Basic ECG, which concept matches this description?\n\nVeins that return oxygenated blood from the lungs to the left atrium."
+        },
+        {
+          "field": "rationale",
+          "from": "Pulmonary veins is the matching concept. In this reference context: Arteries that carry oxygenated blood back to the left atrium.",
+          "to": "Pulmonary veins is the matching concept. In this reference context: Veins that return oxygenated blood from the lungs to the left atrium."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Pulmonary veins: Arteries that carry oxygenated blood back to the left atrium.",
+          "to": "Pulmonary veins: Veins that return oxygenated blood from the lungs to the left atrium."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        },
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Pulmonary veins is the matching concept. In this reference context: Arteries that carry oxygenated blood back to the left atrium.",
+          "to": "Pulmonary veins is the matching concept. In this reference context: Veins that return oxygenated blood from the lungs to the left atrium."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-9c18a409c58c77ca9826",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Semilunar valves: Values that open when blood flows out of the ventricles. The description in the question instead matches Capillaries.",
+          "to": "Semilunar valves: Valves that open when blood flows out of the ventricles. The description in the question instead matches Capillaries."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-9f80ae71ccbcd16e7ec5",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "Which entry in the reference comparison “Medications Commonly Withheld or Have Dosage Adjustment Prior to Surgery” matches this information?\n\nRationale: May increase the risk of aspiration during surgery.",
+          "to": "Which entry in the reference comparison “Medications Commonly Withheld or Have Dosage Adjustment Prior to Surgery” matches this information?\n\nRationale: Neutralize gastric acid. Prescribed antacids may be used before selected procedures to reduce gastric acidity; follow the anesthesia team's procedure-specific medication plan rather than a blanket withholding rule."
+        },
+        {
+          "field": "rationale",
+          "from": "The matching entry is Antacids. Rationale: May increase the risk of aspiration during surgery.",
+          "to": "The matching entry is Antacids. Rationale: Neutralize gastric acid. Prescribed antacids may be used before selected procedures to reduce gastric acidity; follow the anesthesia team's procedure-specific medication plan rather than a blanket withholding rule."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Antacids: May increase the risk of aspiration during surgery.",
+          "to": "Antacids: Neutralize gastric acid. Prescribed antacids may be used before selected procedures to reduce gastric acidity; follow the anesthesia team's procedure-specific medication plan rather than a blanket withholding rule."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+          "to": "https://www.nice.org.uk/guidance/NG192/chapter/recommendations"
+        },
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "The matching entry is Antacids. Rationale: May increase the risk of aspiration during surgery.",
+          "to": "The matching entry is Antacids. Rationale: Neutralize gastric acid. Prescribed antacids may be used before selected procedures to reduce gastric acidity; follow the anesthesia team's procedure-specific medication plan rather than a blanket withholding rule."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK613066/",
+          "to": "https://www.nice.org.uk/guidance/NG192/chapter/recommendations"
+        }
+      ]
+    },
+    {
+      "id": "ORN-a1933f9c5a66c0ea30f5",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Primiparity: The condition of being pregnant for the first time or having given birth to one child. The description in the question instead matches Retinal detachment.",
+          "to": "Primiparity: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity. The description in the question instead matches Retinal detachment."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-a4ae9bf78199e70a9c06",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In Interpret Basic ECG, which concept matches this description?\n\nValues that open when blood flows out of the ventricles.",
+          "to": "In Interpret Basic ECG, which concept matches this description?\n\nValves that open when blood flows out of the ventricles."
+        },
+        {
+          "field": "rationale",
+          "from": "Semilunar valves is the matching concept. In this reference context: Values that open when blood flows out of the ventricles.",
+          "to": "Semilunar valves is the matching concept. In this reference context: Valves that open when blood flows out of the ventricles."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Semilunar valves: Values that open when blood flows out of the ventricles.",
+          "to": "Semilunar valves: Valves that open when blood flows out of the ventricles."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        },
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Semilunar valves is the matching concept. In this reference context: Values that open when blood flows out of the ventricles.",
+          "to": "Semilunar valves is the matching concept. In this reference context: Valves that open when blood flows out of the ventricles."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-a88599917f4d90c99229",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "Which entry in the reference comparison “Overview of the Anatomy and Physiology of the Cardiovascular System” matches this information?\n\nMajor Functions: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.)",
+          "to": "Which entry in the reference comparison “Overview of the Anatomy and Physiology of the Cardiovascular System” matches this information?\n\nMajor Functions: Carries deoxygenated blood from the heart to the lungs."
+        },
+        {
+          "field": "rationale",
+          "from": "The matching entry is Pulmonary arteries. Major Functions: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.)",
+          "to": "The matching entry is Pulmonary arteries. Major Functions: Carries deoxygenated blood from the heart to the lungs."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.)",
+          "to": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        },
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "The matching entry is Pulmonary arteries. Major Functions: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.)",
+          "to": "The matching entry is Pulmonary arteries. Major Functions: Carries deoxygenated blood from the heart to the lungs."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-aa871c5761b1462633f6",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Multiparous: A woman who has given birth more than once. The description in the question instead matches Closed glottis breathing.",
+          "to": "Multiparous: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Closed glottis breathing."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-ad3c03013fdd87d8f851",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Multipara: A woman who has given birth to more than one child. The description in the question instead matches Pelvic sonography.",
+          "to": "Multipara: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Pelvic sonography."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-afc8744126692b51320f",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Pulmonary veins: Carries oxygenated blood from the lungs to the heart. (Note that these are the only veins in the body that carry oxygenated blood.). The description in the question instead matches Superior and inferior vena cava.",
+          "to": "Pulmonary veins: Carries oxygenated blood from the lungs to the heart.. The description in the question instead matches Superior and inferior vena cava."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-b1134c0776b0c5d9c3ee",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Pulmonary veins: Carries oxygenated blood from the lungs to the heart. (Note that these are the only veins in the body that carry oxygenated blood.). The description in the question instead matches Coronary arteries.",
+          "to": "Pulmonary veins: Carries oxygenated blood from the lungs to the heart.. The description in the question instead matches Coronary arteries."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-b38427054ff40b60611b",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Multipara: A woman who has given birth to more than one child. The description in the question instead matches Neonate.",
+          "to": "Multipara: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Neonate."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-b443da9477a6bcd247ff",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Pustules: Fluid- or pus-filled bumps on the skin, such as acne. The description in the question instead matches Vesicle.",
+          "to": "Pustules: Pus-filled bumps on the skin, as may occur with acne. The description in the question instead matches Vesicle."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://medlineplus.gov/ency/article/003234.htm"
+        }
+      ]
+    },
+    {
+      "id": "ORN-b53f26da7e3fe68d42b5",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Multiparous: A woman who has given birth more than once. The description in the question instead matches Amnioinfusion.",
+          "to": "Multiparous: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Amnioinfusion."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-b5953652c1af9ccf5bdd",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Nulliparous clients: Individuals who have never given birth. The description in the question instead matches Severe hypertension.",
+          "to": "Nulliparous clients: People who have not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive. The description in the question instead matches Severe hypertension."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615365/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-bc0b7c04b3300f362d6c",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Semilunar valves: Values that open when blood flows out of the ventricles. The description in the question instead matches Purkinje fibers.",
+          "to": "Semilunar valves: Valves that open when blood flows out of the ventricles. The description in the question instead matches Purkinje fibers."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-c07a327fee5de475c134",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Multiparous: A woman who has given birth more than once. The description in the question instead matches Intrauterine resuscitation.",
+          "to": "Multiparous: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Intrauterine resuscitation."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-d136e62afd9c3d93d3b9",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Transfusion – Related Acute Lung Injury []: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload). The description in the question instead matches Acute Hemolytic.",
+          "to": "Transfusion – Related Acute Lung Injury []: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions. The description in the question instead matches Acute Hemolytic."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594497/",
+          "to": "https://professionaleducation.blood.ca/en/transfusion/publications/transfusion-related-acute-lung-injury-trali"
+        }
+      ]
+    },
+    {
+      "id": "ORN-d23730443c8800bfcf3d",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Pustules: Fluid- or pus-filled bumps on the skin, such as acne. The description in the question instead matches Macules.",
+          "to": "Pustules: Pus-filled bumps on the skin, as may occur with acne. The description in the question instead matches Macules."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://medlineplus.gov/ency/article/003234.htm"
+        }
+      ]
+    },
+    {
+      "id": "ORN-d5259691dcb0e7f0e823",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In High-Risk Perinatal Client Care, which concept matches this description?\n\nIndividuals who have never given birth.",
+          "to": "In High-Risk Perinatal Client Care, which concept matches this description?\n\nPeople who have not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "field": "rationale",
+          "from": "Nulliparous clients is the matching concept. In this reference context: Individuals who have never given birth.",
+          "to": "Nulliparous clients is the matching concept. In this reference context: People who have not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Nulliparous clients: Individuals who have never given birth.",
+          "to": "Nulliparous clients: People who have not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615365/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        },
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Nulliparous clients is the matching concept. In this reference context: Individuals who have never given birth.",
+          "to": "Nulliparous clients is the matching concept. In this reference context: People who have not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615365/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-d79bd949aa73bfb4d7c5",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "Which entry in the reference comparison “Common Diagnostic Tests During the Initial Prenatal Visit” matches this information?\n\nObstetric Purpose: Screen for electrolyte imbalances, liver, and renal functions",
+          "to": "Which entry in the reference comparison “Common Diagnostic Tests During the Initial Prenatal Visit” matches this information?\n\nObstetric Purpose: Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP"
+        },
+        {
+          "field": "rationale",
+          "from": "The matching entry is Basic metabolic panel. Obstetric Purpose: Screen for electrolyte imbalances, liver, and renal functions",
+          "to": "The matching entry is Basic metabolic panel. Obstetric Purpose: Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP"
+        },
+        {
+          "field": "keyPoint",
+          "from": "Basic metabolic panel: Screen for electrolyte imbalances, liver, and renal functions",
+          "to": "Basic metabolic panel: Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP"
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+          "to": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/"
+        },
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "The matching entry is Basic metabolic panel. Obstetric Purpose: Screen for electrolyte imbalances, liver, and renal functions",
+          "to": "The matching entry is Basic metabolic panel. Obstetric Purpose: Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP"
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+          "to": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/"
+        }
+      ]
+    },
+    {
+      "id": "ORN-db576a492b343571448b",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.). The description in the question instead matches Atrioventricular valves.",
+          "to": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs.. The description in the question instead matches Atrioventricular valves."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-e02e242b0b8c44127292",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Pustules: Fluid- or pus-filled bumps on the skin, such as acne. The description in the question instead matches Pseudocyst.",
+          "to": "Pustules: Pus-filled bumps on the skin, as may occur with acne. The description in the question instead matches Pseudocyst."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://medlineplus.gov/ency/article/003234.htm"
+        }
+      ]
+    },
+    {
+      "id": "ORN-e20f87813830464ffbf2",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Para: A term used in obstetrics to indicate the number of live births a woman has had. The description in the question instead matches Gestation.",
+          "to": "Para: The number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy. The description in the question instead matches Gestation."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-e4220eb5d1da081501e7",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Transfusion – Related Acute Lung Injury []: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload). The description in the question instead matches Anaphylactic.",
+          "to": "Transfusion – Related Acute Lung Injury []: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions. The description in the question instead matches Anaphylactic."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594497/",
+          "to": "https://professionaleducation.blood.ca/en/transfusion/publications/transfusion-related-acute-lung-injury-trali"
+        }
+      ]
+    },
+    {
+      "id": "ORN-e87a6ae903b84c1570f3",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs. (Note that these are the only arteries in the body that carry deoxygenated blood.). The description in the question instead matches Cardiac conduction system.",
+          "to": "Pulmonary arteries: Carries deoxygenated blood from the heart to the lungs.. The description in the question instead matches Cardiac conduction system."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-e8868480492800d8389d",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Basic metabolic panel: Screen for electrolyte imbalances, liver, and renal functions. The description in the question instead matches Blood type, Rh, and antibody screen.",
+          "to": "Basic metabolic panel: Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP. The description in the question instead matches Blood type, Rh, and antibody screen."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+          "to": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/"
+        }
+      ]
+    },
+    {
+      "id": "ORN-e962fbcce800da527745",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "Which entry in the reference comparison “Transfusion Reactions and Related Nursing Interventions” matches this information?\n\nManifestations: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload).",
+          "to": "Which entry in the reference comparison “Transfusion Reactions and Related Nursing Interventions” matches this information?\n\nManifestations: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions."
+        },
+        {
+          "field": "rationale",
+          "from": "The matching entry is Transfusion – Related Acute Lung Injury []. Manifestations: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload).",
+          "to": "The matching entry is Transfusion – Related Acute Lung Injury []. Manifestations: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Transfusion – Related Acute Lung Injury []: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload).",
+          "to": "Transfusion – Related Acute Lung Injury []: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594497/",
+          "to": "https://professionaleducation.blood.ca/en/transfusion/publications/transfusion-related-acute-lung-injury-trali"
+        },
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "The matching entry is Transfusion – Related Acute Lung Injury []. Manifestations: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload).",
+          "to": "The matching entry is Transfusion – Related Acute Lung Injury []. Manifestations: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594497/",
+          "to": "https://professionaleducation.blood.ca/en/transfusion/publications/transfusion-related-acute-lung-injury-trali"
+        }
+      ]
+    },
+    {
+      "id": "ORN-f09841d5f7e1ad03ce60",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Transfusion – Related Acute Lung Injury []: Cyanosis, dyspnea, fever, hypoxemia, hypotension, and pulmonary edema that is not cardiac-related (i.e., due to fluid overload). The description in the question instead matches Septic.",
+          "to": "Transfusion – Related Acute Lung Injury []: Acute respiratory distress with hypoxemia and noncardiogenic pulmonary edema after transfusion; fever, cyanosis, and hypotension may occur. Circulatory overload does not explain the pulmonary edema; assess for TACO and other transfusion reactions. The description in the question instead matches Septic."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594497/",
+          "to": "https://professionaleducation.blood.ca/en/transfusion/publications/transfusion-related-acute-lung-injury-trali"
+        }
+      ]
+    },
+    {
+      "id": "ORN-f0aca50314297ca8a12b",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "Which entry in the reference comparison “Skin Lesions” matches this information?\n\nDefinition: Fluid- or pus-filled bumps on the skin, such as acne",
+          "to": "Which entry in the reference comparison “Skin Lesions” matches this information?\n\nDefinition: Pus-filled bumps on the skin, as may occur with acne"
+        },
+        {
+          "field": "rationale",
+          "from": "The matching entry is Pustules. Definition: Fluid- or pus-filled bumps on the skin, such as acne",
+          "to": "The matching entry is Pustules. Definition: Pus-filled bumps on the skin, as may occur with acne"
+        },
+        {
+          "field": "keyPoint",
+          "from": "Pustules: Fluid- or pus-filled bumps on the skin, such as acne",
+          "to": "Pustules: Pus-filled bumps on the skin, as may occur with acne"
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://medlineplus.gov/ency/article/003234.htm"
+        },
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "The matching entry is Pustules. Definition: Fluid- or pus-filled bumps on the skin, such as acne",
+          "to": "The matching entry is Pustules. Definition: Pus-filled bumps on the skin, as may occur with acne"
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615329/",
+          "to": "https://medlineplus.gov/ency/article/003234.htm"
+        }
+      ]
+    },
+    {
+      "id": "ORN-f1574872c49433b11562",
+      "fields": [
+        {
+          "option": 0,
+          "field": "rationale",
+          "from": "Basic metabolic panel: Screen for electrolyte imbalances, liver, and renal functions. The description in the question instead matches Urinalysis.",
+          "to": "Basic metabolic panel: Assess electrolytes, blood glucose, and kidney function; a BMP does not include the liver tests added in a CMP. The description in the question instead matches Urinalysis."
+        },
+        {
+          "option": 0,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615334/",
+          "to": "https://medlineplus.gov/lab-tests/basic-metabolic-panel-bmp/"
+        }
+      ]
+    },
+    {
+      "id": "ORN-f22f7e6957da945cb9e7",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Semilunar valves: Values that open when blood flows out of the ventricles. The description in the question instead matches Left bundle branch.",
+          "to": "Semilunar valves: Valves that open when blood flows out of the ventricles. The description in the question instead matches Left bundle branch."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK594493/",
+          "to": "https://www.nhlbi.nih.gov/health/heart/blood-flow"
+        }
+      ]
+    },
+    {
+      "id": "ORN-f84cdc96229d87ec85b5",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Multipara: A woman who has given birth to more than one child. The description in the question instead matches Prenatal.",
+          "to": "Multipara: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Prenatal."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-f8e626d9f132d100610b",
+      "fields": [
+        {
+          "option": 3,
+          "field": "rationale",
+          "from": "Multipara: A woman who has given birth to more than one child. The description in the question instead matches Pediatrician.",
+          "to": "Multipara: A person with two or more completed pregnancies reaching the gestational threshold used for parity. Multiple infants in one delivery count as one pregnancy, and live birth is not required. The description in the question instead matches Pediatrician."
+        },
+        {
+          "option": 3,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-facd608b1188c97c3f01",
+      "fields": [
+        {
+          "option": 2,
+          "field": "rationale",
+          "from": "Primiparity: The condition of being pregnant for the first time or having given birth to one child. The description in the question instead matches Necrotizing enterocolitis.",
+          "to": "Primiparity: The condition of having completed one pregnancy at or beyond the gestational threshold used for parity, regardless of the number of infants or whether they were born alive. Being pregnant for the first time describes primigravidity. The description in the question instead matches Necrotizing enterocolitis."
+        },
+        {
+          "option": 2,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615340/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-fcde09ec99195ffe6dd1",
+      "fields": [
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Nulliparous: A woman who has never given birth to a live baby. The description in the question instead matches Minimal FHR variability.",
+          "to": "Nulliparous: A person who has not completed a pregnancy at or beyond the gestational threshold used for parity; parity does not depend on whether an infant was born alive. The description in the question instead matches Minimal FHR variability."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK615337/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    },
+    {
+      "id": "ORN-fed2b520ad2b3b604bd0",
+      "fields": [
+        {
+          "field": "stem",
+          "from": "In Obstetrics Terminology, which concept matches this description?\n\nA term used in obstetrics to indicate the number of live births a woman has had.",
+          "to": "In Obstetrics Terminology, which concept matches this description?\n\nThe number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy."
+        },
+        {
+          "field": "rationale",
+          "from": "Para is the matching concept. In this reference context: A term used in obstetrics to indicate the number of live births a woman has had.",
+          "to": "Para is the matching concept. In this reference context: The number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy."
+        },
+        {
+          "field": "keyPoint",
+          "from": "Para: A term used in obstetrics to indicate the number of live births a woman has had.",
+          "to": "Para: The number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy."
+        },
+        {
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        },
+        {
+          "option": 1,
+          "field": "rationale",
+          "from": "Para is the matching concept. In this reference context: A term used in obstetrics to indicate the number of live births a woman has had.",
+          "to": "Para is the matching concept. In this reference context: The number of completed pregnancies reaching the gestational threshold used for parity, regardless of live birth. A multifetal delivery counts as one qualifying pregnancy."
+        },
+        {
+          "option": 1,
+          "field": "source",
+          "from": "https://www.ncbi.nlm.nih.gov/books/NBK607441/",
+          "to": "https://www.msdmanuals.com/professional/gynecology-and-obstetrics/approach-to-the-gynecologic-patient/obstetric-and-gynecologic-history"
+        }
+      ]
+    }
+  ]
+}
