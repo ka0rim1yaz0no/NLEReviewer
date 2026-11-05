@@ -1,0 +1,1091 @@
+{
+  "date": "2026-11-06",
+  "scope": "All 33 previously unresolved URL checks, with claim-specific source review of their direct questions and clinical case sets. Browser-readable originals are distinguished from automated HTTP denials.",
+  "previouslyUnresolved": 33,
+  "resolved": 33,
+  "unresolved": [],
+  "replacedUrls": 8,
+  "retainedBrowserVerified": 22,
+  "retainedHttpVerified": 3,
+  "independentClinicianApproval": false,
+  "references": [
+    {
+      "id": "REF-01",
+      "previousUrl": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+      "currentUrl": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "Symptomatic hyponatraemia needs neurological and fluid monitoring with controlled correction. The linked NHS flowcharts cover SIADH fluid management and daily correction limits; an 11 mmol/L rise in six hours requires urgent review.",
+      "directQuestionIds": [
+        "NP4-087-1",
+        "NP4-087-2",
+        "NP4-087-3",
+        "NP4-087-4",
+        "NP4-087-5",
+        "SIT-NP4-adh-disorders-02-R2-recognition",
+        "SIT-NP4-adh-disorders-02-R2-action",
+        "SIT-NP4-adh-disorders-02-R2-teaching",
+        "SIT-NP4-adh-disorders-02-R2-safety",
+        "SIT-NP4-adh-disorders-02-R2-planning",
+        "SIT-NP4-adh-disorders-02-R2-evaluation",
+        "SIT-NP4-adh-disorders-02-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "NP4-087",
+        "SIT-NP4-adh-disorders-02-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Just a moment...",
+        "finalUrl": "https://academic.oup.com/ejendo/article/170/3/G1/6668028"
+      },
+      "verification": {
+        "status": 200,
+        "title": "NHSAAA Medicines - Management of Hyponatraemia",
+        "format": "html",
+        "sha256": "60fe6df420b67bb2c2b52d0f19097a60e7286a21d3234a8a5c8a02712b0c88ba",
+        "bytes": 10060,
+        "finalUrl": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/",
+        "method": "direct-official-publisher-fetch-and-content-review",
+        "corroboratingDocuments": [
+          {
+            "url": "https://aaamedicines.org.uk/media/jtnei2h2/hyponatraemia-flow-chart-1-20260817.pdf",
+            "sha256": "7feb202ef5b691026b50bcf8974391f4b82f4397f5a6711d1f2fa21a9091e9a7",
+            "bytes": 620745,
+            "status": 200
+          },
+          {
+            "url": "https://aaamedicines.org.uk/media/rjdkbp5w/hyponatraemia-flow-chart-2-20260817.pdf",
+            "sha256": "4665bcfe37e70498509adba8067b429120b91c824967d6da2a3b06351efcc2e4",
+            "bytes": 340738,
+            "status": 200
+          }
+        ]
+      }
+    },
+    {
+      "id": "REF-02",
+      "previousUrl": "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
+      "currentUrl": "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "Smoke exposure can cause airway swelling, hoarseness and breathing difficulty despite a small visible burn. Progressive voice or respiratory symptoms require emergency assessment.",
+      "directQuestionIds": [
+        "SIT-NP5-high-acuity-emergency-situations-03-recognition",
+        "SIT-NP5-high-acuity-emergency-situations-03-action",
+        "SIT-NP5-high-acuity-emergency-situations-03-teaching",
+        "SIT-NP5-high-acuity-emergency-situations-03-safety",
+        "SIT-NP5-high-acuity-emergency-situations-03-planning",
+        "SIT-NP5-high-acuity-emergency-situations-03-evaluation",
+        "SIT-NP5-high-acuity-emergency-situations-03-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP5-high-acuity-emergency-situations-03"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Just a moment...",
+        "finalUrl": "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "b9abc6ca75e7d4a89b4e3d90f1568360841e351bb6a6cff33900eb6e21c42bc3",
+        "snapshotBytes": 8778,
+        "title": "Just a moment...",
+        "evidenceFile": "source-02-browser.txt"
+      }
+    },
+    {
+      "id": "REF-03",
+      "previousUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support",
+      "currentUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "AHA 2025 adult ALS distinguishes unstable tachycardia requiring synchronized cardioversion from nonshockable arrest requiring CPR, epinephrine and assessment of reversible causes. No nonshockable rhythm is assigned a defibrillation key.",
+      "directQuestionIds": [
+        "SIT-NP5-altered-tissue-perfusion-02-R2-recognition",
+        "SIT-NP5-altered-tissue-perfusion-02-R2-action",
+        "SIT-NP5-altered-tissue-perfusion-02-R2-teaching",
+        "SIT-NP5-altered-tissue-perfusion-02-R2-safety",
+        "SIT-NP5-altered-tissue-perfusion-02-R2-planning",
+        "SIT-NP5-altered-tissue-perfusion-02-R2-evaluation",
+        "SIT-NP5-altered-tissue-perfusion-02-R2-reasoning",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2-recognition",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2-action",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2-teaching",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2-safety",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2-planning",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2-evaluation",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP5-altered-tissue-perfusion-02-R2",
+        "SIT-NP5-high-acuity-emergency-situations-01-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Attention Required! | Cloudflare",
+        "finalUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "fc022db68904103c88b6c1b44f45358f6f9cf98b7642e34289b7c78f4759193a",
+        "snapshotBytes": 313175,
+        "title": "Part 9: Adult Advanced Life Support | American Heart Association CPR & First Aid",
+        "evidenceFile": "aha-als-browser.txt"
+      }
+    },
+    {
+      "id": "REF-04",
+      "previousUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/",
+      "currentUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "AHA special-circumstances guidance explains the hypoxic mechanism of drowning and the importance of rescue breaths with compressions in drowning-associated arrest.",
+      "directQuestionIds": [
+        "EXP2-NP5-high-acuity-emergency-situations"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP5-high-acuity-emergency-situations"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Attention Required! | Cloudflare",
+        "finalUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "57cfd484064bb8fce62ce341b78c01aca0dcc38934239fba8877470d3dcd102e",
+        "snapshotBytes": 829162,
+        "title": "Part 10: Adult and Pediatric Special Circumstances of Resuscitation | American Heart Association CPR & First Aid",
+        "evidenceFile": "source-04-browser.txt"
+      }
+    },
+    {
+      "id": "REF-05",
+      "previousUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "currentUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "AHA 2025 adult BLS supports five back blows alternating with five abdominal thrusts for severe adult obstruction and rapid assessment with CPR when arrest is suspected. A flat tracing needs patient assessment and verification of lead connection rather than automatic shock.",
+      "directQuestionIds": [
+        "SIT-NP3-upper-airway-disorders-04-recognition",
+        "SIT-NP3-upper-airway-disorders-04-action",
+        "SIT-NP3-upper-airway-disorders-04-teaching",
+        "SIT-NP3-upper-airway-disorders-04-safety",
+        "SIT-NP3-upper-airway-disorders-04-planning",
+        "SIT-NP3-upper-airway-disorders-04-evaluation",
+        "SIT-NP3-upper-airway-disorders-04-reasoning",
+        "SIT-NP5-critical-care-equipment-03-recognition",
+        "SIT-NP5-critical-care-equipment-03-action",
+        "SIT-NP5-critical-care-equipment-03-teaching",
+        "SIT-NP5-critical-care-equipment-03-safety",
+        "SIT-NP5-critical-care-equipment-03-planning",
+        "SIT-NP5-critical-care-equipment-03-evaluation",
+        "SIT-NP5-critical-care-equipment-03-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP3-upper-airway-disorders-04",
+        "SIT-NP5-critical-care-equipment-03"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Attention Required! | Cloudflare",
+        "finalUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "7f9ec4eec08ac1fb03c0369a88e614db7fc120004ccea2d3092c0bcc3d4a2d9f",
+        "snapshotBytes": 225569,
+        "title": "Part 7: Adult Basic Life Support | American Heart Association CPR & First Aid",
+        "evidenceFile": "source-05-browser.txt"
+      }
+    },
+    {
+      "id": "REF-06",
+      "previousUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support",
+      "currentUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "AHA 2025 pediatric BLS supports five back blows alternating with five abdominal thrusts for a responsive child with severe obstruction; infants use chest thrusts. The item specifies a child, not an infant.",
+      "directQuestionIds": [
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2-recognition",
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2-action",
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2-teaching",
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2-safety",
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2-planning",
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2-evaluation",
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP2-pediatric-respiratory-disorders-01-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Attention Required! | Cloudflare",
+        "finalUrl": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "b9bff5d6f2064a20f5ba607a6bc0be96e6a8048abc8eeb70ac5c47dce9613b7f",
+        "snapshotBytes": 169790,
+        "title": "Part 6: Pediatric Basic Life Support | American Heart Association CPR & First Aid",
+        "evidenceFile": "source-06-browser.txt"
+      }
+    },
+    {
+      "id": "REF-07",
+      "previousUrl": "https://iris.who.int/bitstream/handle/10665/134588/WHO_RHR_14.23_eng.pdf",
+      "currentUrl": "https://www.who.int/teams/maternal-newborn-child-adolescent-health-and-ageing/quality-of-care/respectful-care",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "WHO respectful-care standards explicitly include dignity, privacy, confidentiality, rights and informed choice; these support explanation and agreement before a nonurgent maternity examination.",
+      "directQuestionIds": [
+        "ORIG-NP2-ethico-moral-management-in-maternal-care-01"
+      ],
+      "affectedCaseIds": [],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": false,
+        "title": "DSpace",
+        "finalUrl": "https://iris.who.int/bitstream/handle/10665/134588/WHO_RHR_14.23_eng.pdf"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Maternal, Newborn, Child and Adolescent Health and Ageing Department",
+        "format": "html",
+        "sha256": "6cba9402a7483cd3c671eb0119fd3ab64b7067f1cee65d67207acbb56495ec74",
+        "bytes": 77402,
+        "finalUrl": "https://www.who.int/teams/maternal-newborn-child-adolescent-health-and-ageing/quality-of-care/respectful-care",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-08",
+      "previousUrl": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+      "currentUrl": "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/09/11/03/37/2023-esc-guidelines-cvd-diabetes-part-2-esc-2023",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "ACC guideline summary identifies ABI above 1.40 as requiring other noninvasive testing, including toe-brachial assessment or duplex. A high ABI does not establish excellent circulation in a symptomatic person with diabetes.",
+      "directQuestionIds": [
+        "EXP2-NP3-peripheral-vascular-diseases-hypertension"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP3-peripheral-vascular-diseases-hypertension"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Access Denied",
+        "finalUrl": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide"
+      },
+      "verification": {
+        "status": 200,
+        "title": "2023 ESC Guidelines for Managing CVD in Diabetes: Key Points—Part 2 - American College of Cardiology",
+        "format": "html",
+        "sha256": "b56b935462c8597dcb27d6b2420293083c551252b91af5cb7e4315624457e787",
+        "bytes": 278744,
+        "finalUrl": "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/09/11/03/37/2023-esc-guidelines-cvd-diabetes-part-2-esc-2023",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-09",
+      "previousUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+      "currentUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The 2024 joint diabetes consensus supports DKA recognition and fluid, insulin and electrolyte management; falling potassium during insulin treatment requires review. Glucose improvement alone does not establish resolution of ketoacidosis, and dextrose may permit continuing insulin safely.",
+      "directQuestionIds": [
+        "NP4-082-1",
+        "NP4-082-2",
+        "NP4-082-3",
+        "NP4-082-4",
+        "NP4-082-5",
+        "EXP2-NP4-endocrine-emergencies-summary",
+        "SIT-NP4-endocrine-emergencies-summary-02-recognition",
+        "SIT-NP4-endocrine-emergencies-summary-02-action",
+        "SIT-NP4-endocrine-emergencies-summary-02-teaching",
+        "SIT-NP4-endocrine-emergencies-summary-02-safety",
+        "SIT-NP4-endocrine-emergencies-summary-02-planning",
+        "SIT-NP4-endocrine-emergencies-summary-02-evaluation",
+        "SIT-NP4-endocrine-emergencies-summary-02-reasoning",
+        "SIT-NP4-endocrine-emergencies-summary-04-recognition",
+        "SIT-NP4-endocrine-emergencies-summary-04-action",
+        "SIT-NP4-endocrine-emergencies-summary-04-teaching",
+        "SIT-NP4-endocrine-emergencies-summary-04-safety",
+        "SIT-NP4-endocrine-emergencies-summary-04-planning",
+        "SIT-NP4-endocrine-emergencies-summary-04-evaluation",
+        "SIT-NP4-endocrine-emergencies-summary-04-reasoning"
+      ],
+      "affectedCaseIds": [
+        "NP4-082",
+        "SIT-NP4-endocrine-emergencies-summary-02",
+        "SIT-NP4-endocrine-emergencies-summary-04",
+        "EXP2-NP4-endocrine-emergencies-summary"
+      ],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": false,
+        "title": "Checking your browser - reCAPTCHA",
+        "finalUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "a23375e0c31e35a6510a4d8d604e532cb06681054f3be600ff7f803b9fa006e6",
+        "snapshotBytes": 309579,
+        "title": "Checking your browser - reCAPTCHA",
+        "evidenceFile": "source-09-browser.txt"
+      }
+    },
+    {
+      "id": "REF-10",
+      "previousUrl": "https://ro2.doh.gov.ph/mandates/",
+      "currentUrl": "https://ro2.doh.gov.ph/mandates/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The DOH mandate page explicitly describes national technical leadership, policy and standards and support for local health services. The question does not assign all local bedside service delivery to the national office.",
+      "directQuestionIds": [
+        "ORIG-NP1-ph-health-care-delivery-system-doh-01"
+      ],
+      "affectedCaseIds": [],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Azure WAF",
+        "finalUrl": "https://ro2.doh.gov.ph/mandates/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "31c76486f0acabd35a2a35e8416033fba98ee8956d92f9ed93b0926291b3acb5",
+        "snapshotBytes": 7843,
+        "title": "Mandates | DOH RO2",
+        "evidenceFile": "source-10-browser.txt"
+      }
+    },
+    {
+      "id": "REF-11",
+      "previousUrl": "https://ro9.doh.gov.ph/agency-mandate-and-functions/",
+      "currentUrl": "https://ro9.doh.gov.ph/agency-mandate-and-functions/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The DOH regional mandate describes technical authority, national policy and standards and support for LGUs. Both scenarios distinguish technical support and standards from replacement of all local government functions.",
+      "directQuestionIds": [
+        "SIT-NP1-ph-health-care-delivery-system-doh-01-recognition",
+        "SIT-NP1-ph-health-care-delivery-system-doh-01-action",
+        "SIT-NP1-ph-health-care-delivery-system-doh-01-teaching",
+        "SIT-NP1-ph-health-care-delivery-system-doh-01-safety",
+        "SIT-NP1-ph-health-care-delivery-system-doh-01-planning",
+        "SIT-NP1-ph-health-care-delivery-system-doh-01-evaluation",
+        "SIT-NP1-ph-health-care-delivery-system-doh-01-reasoning",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2-recognition",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2-action",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2-teaching",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2-safety",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2-planning",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2-evaluation",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP1-ph-health-care-delivery-system-doh-01",
+        "SIT-NP1-ph-health-care-delivery-system-doh-03-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Azure WAF",
+        "finalUrl": "https://ro9.doh.gov.ph/agency-mandate-and-functions/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "796087e49b396ca5bfe9ccf442abd9c7bde39b0ab4ce1ea43d6406e52d0d767c",
+        "snapshotBytes": 24021,
+        "title": "Agency Mandate and Functions | Department of Health - Zamboanga Peninsula Center for Health Development",
+        "evidenceFile": "source-11-browser.txt"
+      }
+    },
+    {
+      "id": "REF-12",
+      "previousUrl": "https://www.ahrq.gov/health-literacy/professional-training/informed-choice/audio-script-leaders.html",
+      "currentUrl": "https://www.ahrq.gov/health-literacy/professional-training/informed-choice/audio-script-leaders.html",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The AHRQ training explicitly covers minors: parental permission plus developmentally appropriate information and assent when appropriate. The question adds no fixed legal age or jurisdiction-specific consent rule.",
+      "directQuestionIds": [
+        "ORIG-NP2-legal-principles-collaboration-teamwork-in-pedia-01"
+      ],
+      "affectedCaseIds": [],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "ERROR: The request could not be satisfied",
+        "finalUrl": "https://www.ahrq.gov/health-literacy/professional-training/informed-choice/audio-script-leaders.html"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "0e31f5451c90d4bf837a231855b84b85d523ecb1f7af6f7acedc4e36d6a81ef7",
+        "snapshotBytes": 106662,
+        "title": "ERROR: The request could not be satisfied",
+        "evidenceFile": "source-12-browser.txt"
+      }
+    },
+    {
+      "id": "REF-13",
+      "previousUrl": "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html",
+      "currentUrl": "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "AHRQ MATCH defines reconciliation as comparing current medications with admission, transfer or discharge orders, discussing discrepancies with the prescriber. This supports checking an uncertain dose before a duplicate administration.",
+      "directQuestionIds": [
+        "EXP2-CROSS-pharmacology-core-principles"
+      ],
+      "affectedCaseIds": [
+        "EXP2-CROSS-pharmacology-core-principles"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "ERROR: The request could not be satisfied",
+        "finalUrl": "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "6d59e0f4e99ec716ec78effdde5c89819669d0e9e1519c8219359f907b29843b",
+        "snapshotBytes": 14738,
+        "title": "ERROR: The request could not be satisfied",
+        "evidenceFile": "source-13-browser.txt"
+      }
+    },
+    {
+      "id": "REF-14",
+      "previousUrl": "https://www.ahrq.gov/patient-safety/settings/labor-delivery/perinatal-care/modules/strategies/medication/tool-safe-mgso4.html",
+      "currentUrl": "https://www.ahrq.gov/patient-safety/settings/labor-delivery/perinatal-care/modules/strategies/medication/tool-safe-mgso4.html",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "AHRQ magnesium guidance covers respiratory assessment, reflex monitoring, toxicity escalation and ready calcium gluconate. The question identifies absent reflexes with respiratory depression and calls for stopping the infusion and urgent review rather than increasing it.",
+      "directQuestionIds": [
+        "NP2-043-1",
+        "NP2-043-2",
+        "NP2-043-3",
+        "NP2-043-4",
+        "NP2-043-5"
+      ],
+      "affectedCaseIds": [
+        "NP2-043"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "ERROR: The request could not be satisfied",
+        "finalUrl": "https://www.ahrq.gov/patient-safety/settings/labor-delivery/perinatal-care/modules/strategies/medication/tool-safe-mgso4.html"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "f83f47d8c9d3331b440a54096c7f99e581d396272f233775aa67a845dbde38e8",
+        "snapshotBytes": 71061,
+        "title": "ERROR: The request could not be satisfied",
+        "evidenceFile": "source-14-browser.txt"
+      }
+    },
+    {
+      "id": "REF-15",
+      "previousUrl": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/sbar.html",
+      "currentUrl": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/sbar.html",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The AHRQ SBAR tool explicitly defines the final step as repeat-back recommendations and requests, including the recommendation, what is needed and when, and confirming the response.",
+      "directQuestionIds": [
+        "ORIG-NP5-collaboration-communication-in-critical-care-01"
+      ],
+      "affectedCaseIds": [],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "ERROR: The request could not be satisfied",
+        "finalUrl": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/sbar.html"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "65b10130731c29738a7fcffbfd1d5cce0a42a43a5d654f2972aa8b153703e0d8",
+        "snapshotBytes": 18910,
+        "title": "ERROR: The request could not be satisfied",
+        "evidenceFile": "source-15-browser.txt"
+      }
+    },
+    {
+      "id": "REF-16",
+      "previousUrl": "https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/cus.html",
+      "currentUrl": "https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/cus.html",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The AHRQ CUS tool describes concern, discomfort and a safety issue, with supervisor notification if the safety concern is not acknowledged. This supports clear escalation of an unresolved threat.",
+      "directQuestionIds": [
+        "EXP2-NP5-collaboration-communication-in-critical-care"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP5-collaboration-communication-in-critical-care"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "ERROR: The request could not be satisfied",
+        "finalUrl": "https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/cus.html"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "34466aa4241a252b3daf88849f3d2ce2f3c59bac75f836cd29fe559f8bd33268",
+        "snapshotBytes": 11445,
+        "title": "ERROR: The request could not be satisfied",
+        "evidenceFile": "source-16-browser.txt"
+      }
+    },
+    {
+      "id": "REF-17",
+      "previousUrl": "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/",
+      "currentUrl": "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The NHS leaflet describes shoulder-tip discomfort from gas used during laparoscopic cholecystectomy. The question specifies reassuring findings and retains reassessment for severe or changing symptoms.",
+      "directQuestionIds": [
+        "EXP2-NP4-hepatobiliary-disorders"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP4-hepatobiliary-disorders"
+      ],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": true,
+        "title": "Laparoscopic cholecystectomy Removal of the gallbladder",
+        "finalUrl": "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Laparoscopic cholecystectomy Removal of the gallbladder",
+        "format": "html",
+        "sha256": "82a817e51802f43fde84c41b2a46d1ce8c18880eeacc8e215db43d86cbf5429c",
+        "finalUrl": "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-18",
+      "previousUrl": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+      "currentUrl": "https://www.nhs.uk/conditions/hydrocephalus/complications/",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The NHS hydrocephalus complications page explicitly describes shunt blockage or infection, vomiting and unusual sleepiness in babies, and immediate contact with the care team. It is more specific than the former referral-category page.",
+      "directQuestionIds": [
+        "SIT-NP2-pediatric-neurologic-disorders-02-recognition",
+        "SIT-NP2-pediatric-neurologic-disorders-02-action",
+        "SIT-NP2-pediatric-neurologic-disorders-02-teaching",
+        "SIT-NP2-pediatric-neurologic-disorders-02-safety",
+        "SIT-NP2-pediatric-neurologic-disorders-02-planning",
+        "SIT-NP2-pediatric-neurologic-disorders-02-evaluation",
+        "SIT-NP2-pediatric-neurologic-disorders-02-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP2-pediatric-neurologic-disorders-02"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Just a moment...",
+        "finalUrl": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Hydrocephalus - Complications - NHS",
+        "format": "html",
+        "sha256": "45f0a1707ea3225c5f7fe69f9fbd1ee33f65b3270280be34bbd37c081cea6e3f",
+        "bytes": 27012,
+        "finalUrl": "https://www.nhs.uk/conditions/hydrocephalus/complications/",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-19",
+      "previousUrl": "https://www.ncbi.nlm.nih.gov/books/NBK459387/",
+      "currentUrl": "https://www.ncbi.nlm.nih.gov/books/NBK459387/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The StatPearls review describes postobstructive diuresis after bladder decompression, volume and electrolyte depletion and close output, vital-sign and laboratory monitoring with individualized replacement.",
+      "directQuestionIds": [
+        "SIT-NP5-altered-elimination-01-R2-recognition",
+        "SIT-NP5-altered-elimination-01-R2-action",
+        "SIT-NP5-altered-elimination-01-R2-teaching",
+        "SIT-NP5-altered-elimination-01-R2-safety",
+        "SIT-NP5-altered-elimination-01-R2-planning",
+        "SIT-NP5-altered-elimination-01-R2-evaluation",
+        "SIT-NP5-altered-elimination-01-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP5-altered-elimination-01-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": false,
+        "title": "Checking your browser - reCAPTCHA",
+        "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK459387/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "3413dd3bb933b09bf74a3fc0cb3ed34d9ec3beaa7835d7a9abfaab5c467c28df",
+        "snapshotBytes": 36975,
+        "title": "Checking your browser - reCAPTCHA",
+        "evidenceFile": "source-19-browser.txt"
+      }
+    },
+    {
+      "id": "REF-20",
+      "previousUrl": "https://www.ncbi.nlm.nih.gov/books/NBK537591/",
+      "currentUrl": "https://www.ncbi.nlm.nih.gov/books/NBK537591/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "Endotext explicitly lists water-deprivation stopping criteria including weight loss, rising sodium and orthostatic symptoms. An ordered safety limit takes precedence over completing the scheduled duration.",
+      "directQuestionIds": [
+        "SIT-NP4-adh-disorders-01-R2-recognition",
+        "SIT-NP4-adh-disorders-01-R2-action",
+        "SIT-NP4-adh-disorders-01-R2-teaching",
+        "SIT-NP4-adh-disorders-01-R2-safety",
+        "SIT-NP4-adh-disorders-01-R2-planning",
+        "SIT-NP4-adh-disorders-01-R2-evaluation",
+        "SIT-NP4-adh-disorders-01-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP4-adh-disorders-01-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": false,
+        "title": "Checking your browser - reCAPTCHA",
+        "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK537591/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "d36cd98cee7b2fc045cd40ebe9facf3ea0587d7ed87485b855ef0b74da0aa342",
+        "snapshotBytes": 149586,
+        "title": "Checking your browser - reCAPTCHA",
+        "evidenceFile": "source-20-browser.txt"
+      }
+    },
+    {
+      "id": "REF-21",
+      "previousUrl": "https://www.ncbi.nlm.nih.gov/books/NBK551644/",
+      "currentUrl": "https://www.ncbi.nlm.nih.gov/books/NBK551644/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The fascial-dehiscence review describes evisceration as an emergency, saline-moistened gauze protection and preparation for urgent surgical management. The item does not advise forceful bedside reinsertion.",
+      "directQuestionIds": [
+        "NP3-062-1",
+        "NP3-062-2",
+        "NP3-062-3",
+        "NP3-062-4",
+        "NP3-062-5"
+      ],
+      "affectedCaseIds": [
+        "NP3-062"
+      ],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": false,
+        "title": "Checking your browser - reCAPTCHA",
+        "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK551644/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "f6e6de1ec0a302e4e0e438834df6bbbd799b9245ade294c8e10d7f68b76de04b",
+        "snapshotBytes": 63759,
+        "title": "Checking your browser - reCAPTCHA",
+        "evidenceFile": "source-21-browser.txt"
+      }
+    },
+    {
+      "id": "REF-22",
+      "previousUrl": "https://www.ncbi.nlm.nih.gov/books/NBK579650/",
+      "currentUrl": "https://www.ncbi.nlm.nih.gov/books/NBK579650/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "WHO 2022 postnatal Recommendation 1 explicitly lists regular vaginal bleeding, uterine tone, fundal height, temperature and pulse assessments in the first 24 hours beginning in the first hour.",
+      "directQuestionIds": [
+        "ORIG-NP2-normal-puerperium-01"
+      ],
+      "affectedCaseIds": [],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": false,
+        "title": "Checking your browser - reCAPTCHA",
+        "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK579650/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "d288aef873c44c8657e48e0e61bbe2f7e30ff878bcda53b564e89f133e7aeb61",
+        "snapshotBytes": 669352,
+        "title": "Checking your browser - reCAPTCHA",
+        "evidenceFile": "source-22-browser.txt"
+      }
+    },
+    {
+      "id": "REF-23",
+      "previousUrl": "https://www.ncbi.nlm.nih.gov/books/NBK619236/",
+      "currentUrl": "https://www.ncbi.nlm.nih.gov/books/NBK619236/",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The WHO consolidated postpartum-haemorrhage guidance recommends a preventive uterotonic for all births and restricts controlled cord traction to skilled attendants. The scenario avoids untrained or forceful traction.",
+      "directQuestionIds": [
+        "SIT-NP2-normal-labor-delivery-03-recognition",
+        "SIT-NP2-normal-labor-delivery-03-action",
+        "SIT-NP2-normal-labor-delivery-03-teaching",
+        "SIT-NP2-normal-labor-delivery-03-safety",
+        "SIT-NP2-normal-labor-delivery-03-planning",
+        "SIT-NP2-normal-labor-delivery-03-evaluation",
+        "SIT-NP2-normal-labor-delivery-03-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP2-normal-labor-delivery-03"
+      ],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": false,
+        "title": "Checking your browser - reCAPTCHA",
+        "finalUrl": "https://www.ncbi.nlm.nih.gov/books/NBK619236/"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "682194a8b28c55396f59527a534be5d5f00bf0ab93f39b1ad13194345334a48b",
+        "snapshotBytes": 64777,
+        "title": "Checking your browser - reCAPTCHA",
+        "evidenceFile": "source-23-browser.txt"
+      }
+    },
+    {
+      "id": "REF-24",
+      "previousUrl": "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/coping-agitation-aggression-and-sundowning",
+      "currentUrl": "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/coping-agitation-aggression-and-sundowning",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "NIA explains sundowning and modifiable contributors to agitation. It supports routine, daytime activity and sunlight, limiting late naps and assessing discomfort or other triggers rather than assuming all change is inevitable dementia.",
+      "directQuestionIds": [
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2-recognition",
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2-action",
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2-teaching",
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2-safety",
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2-planning",
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2-evaluation",
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP4-alzheimer-s-disease-dementia-04-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 405,
+        "available": false,
+        "title": "Human Verification",
+        "finalUrl": "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/coping-agitation-aggression-and-sundowning"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "73ab262d9bda7327edbb64d1a691205ff74486c57521de046ffcd468d538cd6e",
+        "snapshotBytes": 17861,
+        "title": "Coping With Agitation, Aggression, and Sundowning | National Institute on Aging",
+        "evidenceFile": "source-24-browser.txt"
+      }
+    },
+    {
+      "id": "REF-25",
+      "previousUrl": "https://www.nimh.nih.gov/health/publications/borderline-personality-disorder",
+      "currentUrl": "https://www.nimh.nih.gov/health/publications/borderline-personality-disorder",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "NIMH describes DBT as teaching mindfulness, emotion regulation, reduction of self-destructive behaviors and improved relationships in borderline personality disorder.",
+      "directQuestionIds": [
+        "ORIG-NP5-personality-disorders-01"
+      ],
+      "affectedCaseIds": [],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": true,
+        "title": "Borderline Personality Disorder - National Institute of Mental Health (NIMH)",
+        "finalUrl": "https://www.nimh.nih.gov/health/publications/borderline-personality-disorder"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Borderline Personality Disorder - National Institute of Mental Health (NIMH)",
+        "format": "html",
+        "sha256": "b62c38f26aaf01026bf58a939ae329ed26c34af516806c644d3d3797ed2ef68f",
+        "finalUrl": "https://www.nimh.nih.gov/health/publications/borderline-personality-disorder",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-26",
+      "previousUrl": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+      "currentUrl": "https://www.rightdecisions.scot.nhs.uk/dg-refhelp/musculoskeletal-system/hand/carpal-tunnel-syndrome/",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The NHS clinical referral guidance describes median-nerve thumb, index and middle-finger symptoms, nocturnal worsening, wrist provocation and usual little-finger sparing. This matches the distribution asked about.",
+      "directQuestionIds": [
+        "EXP2-NP4-peripheral-neuropathies"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP4-peripheral-neuropathies"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "403 Forbidden",
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Carpal Tunnel Syndrome | Right Decisions",
+        "format": "html",
+        "sha256": "950815aa624cc9aecc50b950f54075ac7b6f2529824eafc82ba93a2b922fdc5b",
+        "bytes": 35207,
+        "finalUrl": "https://www.rightdecisions.scot.nhs.uk/dgrefhelp-nhs-dumfries-galloway/musculoskeletal-system/hand/carpal-tunnel-syndrome/",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-27",
+      "previousUrl": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+      "currentUrl": "https://www.nice.org.uk/guidance/NG42/chapter/Recommendations",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "NICE NG42 explicitly identifies cognitive and behavioral features and frontotemporal dementia in motor neurone disease and recommends assessment. This directly supports reporting new behavioral change in ALS; the old dementia overview is now too general.",
+      "directQuestionIds": [
+        "EXP2-NP4-amyotrophic-lateral-sclerosis-als"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP4-amyotrophic-lateral-sclerosis-als"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "403 Forbidden",
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/dementias"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Recommendations | Motor neurone disease: assessment and management | Guidance | NICE",
+        "format": "html",
+        "sha256": "710fa8ffa8a4ad1ac4106d32f8c760aa943270fe44739f555ef261518b8ad09e",
+        "bytes": 137088,
+        "finalUrl": "https://www.nice.org.uk/guidance/NG42/chapter/Recommendations",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-28",
+      "previousUrl": "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms",
+      "currentUrl": "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The NINDS glossary defines apraxia as difficulty performing learned purposeful actions and agnosia as difficulty recognizing despite usable sensory input. Both standalone cases and their alternatives use these distinctions.",
+      "directQuestionIds": [
+        "EXP2-NP5-cognitive-other-psychiatric-disorders",
+        "EXP2-NP5-altered-perception"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP5-cognitive-other-psychiatric-disorders",
+        "EXP2-NP5-altered-perception"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "403 Forbidden",
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "5aa70cc3798be09671b2b8f43376b8f98e112ebd050ba1f6b0321fbca6b8233b",
+        "snapshotBytes": 25727,
+        "title": "Glossary of Neurological Terms | National Institute of Neurological Disorders and Stroke",
+        "evidenceFile": "source-28-browser.txt"
+      }
+    },
+    {
+      "id": "REF-29",
+      "previousUrl": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+      "currentUrl": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "NINDS GBS guidance covers weakness, respiratory and autonomic monitoring, IVIG or plasma exchange, supportive care, variable recovery and lack of demonstrated corticosteroid benefit. The affected cases test distinct monitoring and recovery needs.",
+      "directQuestionIds": [
+        "EXP2-NP4-guillain-barr-syndrome-gbs",
+        "SIT-NP4-guillain-barr-syndrome-gbs-01-recognition",
+        "SIT-NP4-guillain-barr-syndrome-gbs-01-action",
+        "SIT-NP4-guillain-barr-syndrome-gbs-01-teaching",
+        "SIT-NP4-guillain-barr-syndrome-gbs-01-safety",
+        "SIT-NP4-guillain-barr-syndrome-gbs-01-planning",
+        "SIT-NP4-guillain-barr-syndrome-gbs-01-evaluation",
+        "SIT-NP4-guillain-barr-syndrome-gbs-01-reasoning",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02-recognition",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02-action",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02-teaching",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02-safety",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02-planning",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02-evaluation",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02-reasoning",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03-recognition",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03-action",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03-teaching",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03-safety",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03-planning",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03-evaluation",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03-reasoning",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2-recognition",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2-action",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2-teaching",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2-safety",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2-planning",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2-evaluation",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP4-guillain-barr-syndrome-gbs-01",
+        "SIT-NP4-guillain-barr-syndrome-gbs-02",
+        "SIT-NP4-guillain-barr-syndrome-gbs-03",
+        "SIT-NP4-guillain-barr-syndrome-gbs-04-R2",
+        "EXP2-NP4-guillain-barr-syndrome-gbs"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "403 Forbidden",
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "db80b9f8d958133ac81c56cca07a5ecd8f8d10f63e401e588fa2338afda56922",
+        "snapshotBytes": 26765,
+        "title": "Guillain-Barré Syndrome | National Institute of Neurological Disorders and Stroke",
+        "evidenceFile": "source-29-browser.txt"
+      }
+    },
+    {
+      "id": "REF-30",
+      "previousUrl": "https://www.ninds.nih.gov/health-information/disorders/myasthenia-gravis",
+      "currentUrl": "https://www.ninds.nih.gov/health-information/disorders/myasthenia-gravis",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "NINDS myasthenia guidance explains impaired neuromuscular communication associated with acetylcholine-receptor or related antibodies and fatigable weakness. This supports the key without implying a sensory neuropathy.",
+      "directQuestionIds": [
+        "EXP2-NP4-myasthenia-gravis-mg"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP4-myasthenia-gravis-mg"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "403 Forbidden",
+        "finalUrl": "https://www.ninds.nih.gov/health-information/disorders/myasthenia-gravis"
+      },
+      "verification": {
+        "method": "normal-browser-visible-guidance-and-content-review",
+        "snapshotSha256": "aef4aa439dbca50de12fffc393a00dc0d808c657dd9430356e7b0c92c3850c53",
+        "snapshotBytes": 25907,
+        "title": "Myasthenia Gravis | National Institute of Neurological Disorders and Stroke",
+        "evidenceFile": "source-30-browser.txt"
+      }
+    },
+    {
+      "id": "REF-31",
+      "previousUrl": "https://www.ontario.ca/page/alert-preventing-surgical-fires-hospital-operating-rooms",
+      "currentUrl": "https://www.ontario.ca/page/alert-preventing-surgical-fires-hospital-operating-rooms",
+      "action": "retained",
+      "checkedAt": "2026-11-06",
+      "supportReview": "Ontario workplace-safety guidance describes the surgical-fire triad, oxygen-enriched environments and ignition hazards from alcohol-based antiseptics that have not dried. It supports pausing to correct the hazard.",
+      "directQuestionIds": [
+        "SIT-NP3-intra-operative-phase-01-R2-recognition",
+        "SIT-NP3-intra-operative-phase-01-R2-action",
+        "SIT-NP3-intra-operative-phase-01-R2-teaching",
+        "SIT-NP3-intra-operative-phase-01-R2-safety",
+        "SIT-NP3-intra-operative-phase-01-R2-planning",
+        "SIT-NP3-intra-operative-phase-01-R2-evaluation",
+        "SIT-NP3-intra-operative-phase-01-R2-reasoning"
+      ],
+      "affectedCaseIds": [
+        "SIT-NP3-intra-operative-phase-01-R2"
+      ],
+      "automatedOriginalCheck": {
+        "status": 200,
+        "available": true,
+        "title": "Alert: Preventing surgical fires in hospital operating rooms | ontario.ca",
+        "finalUrl": "https://www.ontario.ca/page/alert-preventing-surgical-fires-hospital-operating-rooms"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Alert: Preventing surgical fires in hospital operating rooms | ontario.ca",
+        "format": "html",
+        "sha256": "f7ff565f9ea901f3c4095b1b088c7ec8a9520ac95374a591ca308e9b285f8f05",
+        "finalUrl": "https://www.ontario.ca/page/alert-preventing-surgical-fires-hospital-operating-rooms",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-32",
+      "previousUrl": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+      "currentUrl": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=f821dd49-3fa7-4d33-99de-19023ff1ae65&type=display",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "The DailyMed naltrexone label contraindicates use with opioid analgesics and explains precipitated withdrawal and the need for an appropriate opioid-free interval and care plan before initiation.",
+      "directQuestionIds": [
+        "EXP2-NP5-substance-use-disorders"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP5-substance-use-disorders"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "403 Forbidden",
+        "finalUrl": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone"
+      },
+      "verification": {
+        "status": 200,
+        "title": "Naltrexone Hydrochloride Tablets, USP Opioid Antagonist",
+        "format": "html",
+        "sha256": "2545da6881bf749383e94bdcf7aa33aa46352464f21d8e6ac8433ba9826180f7",
+        "bytes": 70464,
+        "finalUrl": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=f821dd49-3fa7-4d33-99de-19023ff1ae65&type=display",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    },
+    {
+      "id": "REF-33",
+      "previousUrl": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+      "currentUrl": "https://www.dhs.wisconsin.gov/publications/p02469.pdf",
+      "action": "replaced",
+      "checkedAt": "2026-11-06",
+      "supportReview": "Wisconsin health-department stroke guidance defines last-known-well as the prior neurological baseline and distinguishes it from discovery. The witness at 22:00 establishes last-known-well; 07:00 remains discovery, and the stroke team determines treatment options.",
+      "directQuestionIds": [
+        "EXP2-NP4-cerebrovascular-accident-stroke"
+      ],
+      "affectedCaseIds": [
+        "EXP2-NP4-cerebrovascular-accident-stroke"
+      ],
+      "automatedOriginalCheck": {
+        "status": 403,
+        "available": false,
+        "title": "Attention Required! | Cloudflare",
+        "finalUrl": "https://www.stroke.org/en/about-stroke/stroke-symptoms"
+      },
+      "verification": {
+        "status": 200,
+        "title": "The Importance of an Accurate Last Known Well and Symptom Onset Time",
+        "format": "pdf",
+        "sha256": "8cd578ba2a993b9a9b98a7df3dc989638b41257743bda163b72dd11163ccd724",
+        "bytes": 176381,
+        "finalUrl": "https://www.dhs.wisconsin.gov/publications/p02469.pdf",
+        "method": "direct-official-publisher-fetch-and-content-review"
+      }
+    }
+  ]
+}

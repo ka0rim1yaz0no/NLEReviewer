@@ -1,6 +1,11 @@
 import retirements from "./editorial-retirements.json" with {type:"json"};
 const retiredIds=new Set(retirements.map(r=>r.id));
-const beforeEditorial=qs=>qs.map(q=>{if(!retiredIds.has(q.id))return q;const copy={...q};delete copy.retired;return copy;});
+import {applyReferenceRepairs,restoreReferenceRepairs,resolvedReference} from "./reference-repairs.ts";
+import referencePatches from "./question-reference-patches.json" with {type:"json"};
+import referenceResolutions from "./reference-resolutions.json" with {type:"json"};
+const ectPriorCase='SIT-NP5-somatic-behavioral-therapies-01';
+const beforeReferenceRepair=qs=>restoreReferenceRepairs(qs).filter(q=>q.caseId!==ectPriorCase+'-R3').map(q=>{if(q.caseId!==ectPriorCase)return q;const copy={...q};delete copy.retired;return copy;});
+const beforeEditorial=qs=>beforeReferenceRepair(qs).map(q=>{if(!retiredIds.has(q.id))return q;const copy={...q};delete copy.retired;return copy;});
 import {vaultInterval,vaultIsDue,updateVaultReview} from "./vault-schedule.ts";
 import {mockQuestionIds} from "./mock-papers.ts";
 import test from 'node:test';
@@ -69,7 +74,7 @@ test('the standalone expansion adds one reviewed scenario per topic without chan
  const positions=[0,0,0,0];
  for(const q of added){assert.ok(isSituational(q));positions[q.correctIndex]++;assert.equal(q.options.length,4);assert.ok(q.clinicalObjective);assert.ok(q.origin.includes('No BoardPal'));for(const o of q.options){assert.ok(o.rationale.length>=70);assert.match(o.source,/^https:\/\//);assert.ok(o.referenceId.startsWith(q.id+':'));}}
  assert.deepEqual(positions,[39,39,39,38]);
- assert.equal(validateQuestions(questions).length,10645);
+ assert.equal(validateQuestions(questions).length,10652);
  assert.equal(await contentDigest(beforeEditorial(questions.filter(q=>!q.id.startsWith('EXP2-'))),clinicalCases),report.previousContentDigest);
 });
 test('standalone calculation keys match the stated units and clinical quantities',()=>{
@@ -83,7 +88,7 @@ test('standalone calculation keys match the stated units and clinical quantities
 });
 test('overlapping expansion items receive new IDs while every briefly published payload remains intact',async()=>{
  const report=JSON.parse(await readFile(new URL('./expansion-review.json',import.meta.url),'utf8'));
- const previous=report.previousExpansionQuestionIds.map(id=>{const q={...bank.get(id)};assert.ok(q.id,id);delete q.retired;return q;});
+ const previous=report.previousExpansionQuestionIds.map(id=>{const q={...restoreReferenceRepairs([bank.get(id)])[0]};assert.ok(q.id,id);delete q.retired;return q;});
  assert.equal(previous.length,155);
  assert.equal(createHash('sha256').update(JSON.stringify(previous,null,2)+'\n').digest('hex'),report.previousExpansionCandidateSha256);
  for(const [id,change] of Object.entries(report.postPublicationReplacements)){
@@ -371,8 +376,8 @@ test('the audit covers every original case and replaces semantic repeats without
  const log=JSON.parse(await readFile(new URL('./situational-audit-log.json',import.meta.url),'utf8'));
  const report=JSON.parse(await readFile(new URL('./situational-review-report.json',import.meta.url),'utf8'));
  assert.equal(log.reviewedCaseSets,740);assert.equal(log.reviewedSituationalQuestions,4940);assert.equal(new Set(log.reviewedCaseIds).size,740);
- assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,140);
- assert.equal(activeQuestions.length,9658);assert.equal(questions.filter(q=>q.retired).length,987);assert.equal(activeQuestions.filter(isSituational).length,5095);
+ assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,141);
+ assert.equal(activeQuestions.length,9658);assert.equal(questions.filter(q=>q.retired).length,994);assert.equal(activeQuestions.filter(isSituational).length,5095);
  for(const r of report.retirements){
   const old=questions.filter(q=>q.caseId===r.retiredCaseId),replacement=questions.filter(q=>q.caseId===r.replacementCaseId);
   assert.equal(old.length,7);assert.equal(replacement.length,7);assert.ok(old.every(q=>q.retired));assert.ok(replacement.every(q=>!q.retired));
@@ -464,8 +469,8 @@ test('every situational choice explains its own clinical basis and the case-spec
     const current=cases.get(q.caseId),peer=cases.get(o.referenceId.split(':')[0]);
     assert.ok(o.rationale.includes(peer.reason),q.id+' must explain the alternative');
     assert.ok(o.rationale.includes(current.reason),q.id+' must explain the current priority');
-    assert.equal(o.source,peer.source,q.id);
-    assert.equal(o.contextSource,peer.source!==current.source?current.source:undefined,q.id);
+    assert.equal(o.source,resolvedReference(peer.source),q.id);
+    assert.equal(o.contextSource,peer.source!==current.source?resolvedReference(current.source):undefined,q.id);
    }else if(!q.caseId&&!o.referenceId.endsWith(':safe-plan')){
     const [id,field]=o.referenceId.split(':'),peer=legacy.get(id);
     assert.ok(o.rationale.includes(peer.facts[Number(field)].reason),q.id);
@@ -633,4 +638,30 @@ test('five duplicate digestive comparisons are retired without modifying any pre
  assert.equal(retirements.length,5);assert.equal(await contentDigest(beforeEditorial(questions),clinicalCases),'6a5353e6b00778fff0f679dc7181e9416cc158c66bc5d2580ec8a14f2f79a652');
  for(const row of retirements){const q=bank.get(row.id),retained=bank.get(row.replacedBy);assert.ok(q.retired);assert.ok(!retained.retired);assert.equal(q.options[q.correctIndex].text,retained.options[retained.correctIndex].text);assert.ok(!activeQuestions.includes(q));}
  const bodies=new Set();for(const q of activeQuestions.filter(q=>q.format==='comparison')){const body=q.stem.split('\n\n').at(-1).replace(/^[^:]+: /,'').toLowerCase().replace(/[^a-z0-9]/g,'');assert.ok(!bodies.has(body),q.id);bodies.add(body);}
+});
+
+
+test('all 33 reference flags are resolved with reviewed provenance and only bounded URL changes',async()=>{
+ assert.equal(referenceResolutions.previouslyUnresolved,33);assert.equal(referenceResolutions.resolved,33);assert.deepEqual(referenceResolutions.unresolved,[]);
+ assert.equal(referenceResolutions.references.length,33);assert.equal(referenceResolutions.references.filter(r=>r.action==='replaced').length,8);
+ assert.equal(referenceResolutions.retainedBrowserVerified,22);assert.equal(referenceResolutions.retainedHttpVerified,3);
+ assert.equal(new Set(referencePatches.map(p=>p.id)).size,71);assert.equal(referencePatches.flatMap(p=>p.fields).length,167);
+ const restored=beforeReferenceRepair(questions);
+ assert.equal(restored.length,10645);
+ assert.equal(await contentDigest(restored,clinicalCases),'3df2451b3a7c89695a9e7c5542eff92b0630dfe01ad644788dc354938fbbbf64');
+ assert.deepEqual(applyReferenceRepairs(restoreReferenceRepairs(questions)),questions);
+ for(const r of referenceResolutions.references){assert.match(r.currentUrl,/^https:\/\//);assert.ok(r.supportReview.length>80);assert.ok(r.verification.sha256||r.verification.snapshotSha256);}
+ const replaced=new Set(referenceResolutions.references.filter(r=>r.action==='replaced').map(r=>r.previousUrl));
+ for(const q of questions){assert.ok(!replaced.has(q.source),q.id);for(const o of q.options){assert.ok(!replaced.has(o.source),q.id);assert.ok(!replaced.has(o.contextSource),q.id);}}
+ const patch=referencePatches.find(p=>p.fields.some(f=>f.option===undefined)),raw=structuredClone(restored.find(q=>q.id===patch.id));raw.source='https://example.invalid/unreviewed';
+ assert.throws(()=>applyReferenceRepairs([raw]),/no longer matches/);
+});
+
+test('the ECT overlap is replaced by distinct relapse-prevention care while its saved history remains usable',()=>{
+ const previous=questions.filter(q=>q.caseId===ectPriorCase),next=activeQuestions.filter(q=>q.caseId===ectPriorCase+'-R3');
+ assert.equal(previous.length,7);assert.ok(previous.every(q=>q.retired));assert.equal(next.length,7);
+ assert.equal(new Set(next.map(q=>q.clinicalObjective)).size,7);
+ for(const q of next){assert.match(q.source,/rcpsych\.ac\.uk/);assert.match(q.stem,/acute course of electroconvulsive/);assert.match(q.rationale,/relapse|remission|continuation|follow-up/);}
+ const state=validateBackup({...initialState(),sessions:[session(previous.map(q=>q.id))]});
+ assert.deepEqual(state.sessions[0].questionIds,previous.map(q=>q.id));
 });

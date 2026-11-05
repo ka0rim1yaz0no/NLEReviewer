@@ -1,0 +1,221 @@
+{
+  "reviewed": "2026-11-06",
+  "release": "2026-11-06-reference-repair-1",
+  "previousRelease": "2026-11-05-editorial-recheck-1",
+  "contentDigest": "e8a750c63e3161668582134dc864076dd057bda723e82eed1b47fff53aebbd90",
+  "activeQuestions": 9658,
+  "storedQuestions": 10652,
+  "retiredHistoricalQuestions": 994,
+  "activeSituationalQuestions": 5095,
+  "topics": 155,
+  "structure": {
+    "questions": 9658,
+    "choices": 38632,
+    "issues": []
+  },
+  "sourceConsistency": {
+    "facts": 4517,
+    "questionKeys": 4515,
+    "choiceExplanations": 18060,
+    "definitionOrKeyMismatches": [],
+    "documentedExceptions": [
+      {
+        "id": "ORN-00b7d41377c1a9c3e139",
+        "kind": "primary-source correction",
+        "source": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/radiofrequency-ablation"
+      },
+      {
+        "id": "ORN-40ee1e769eb749135446",
+        "kind": "publisher main-text spelling",
+        "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/"
+      }
+    ],
+    "formattingOnlyDifferences": 13,
+    "situationalKeysAndAlternatives": "All 5,095 active situational keys and 20,380 choice explanations checked by the evidence/answer-identity regression checks; source consistency is not independent clinical approval."
+  },
+  "focusedSourceReview": {
+    "previouslyUnresolvedUrls": 33,
+    "resolved": 33,
+    "unresolved": [],
+    "sourceLinksReplaced": 8,
+    "questionsWithUrlRepairs": 71,
+    "urlFieldsRepaired": 167,
+    "clinicalCaseSets": 39,
+    "provenance": "reference-resolutions.json",
+    "scope": "Read claim-specific passages for the 33 flagged sources or verified official replacements. Retained browser-readable guidance is distinguished from automated HTTP blocks."
+  },
+  "duplicateScreening": {
+    "normalizedStemDuplicates": 0,
+    "scenarioSets": 895,
+    "scenarioPairsScreened": 400065,
+    "method": "TF-IDF cosine >= 0.35 on scenario/problem/action, and same exact keyed-answer tokens with stem-token Jaccard >= 0.65. Candidate flags require editorial adjudication. No guarantee is made about semantic overlap below thresholds.",
+    "newReplacement": {
+      "oldCase": "SIT-NP5-somatic-behavioral-therapies-01",
+      "newCase": "SIT-NP5-somatic-behavioral-therapies-01-R3",
+      "overlapWith": "CROSS-010",
+      "reason": "The prior ECT preparation case tested generic unresolved informed consent, already covered by the five-part general surgical-consent case. The replacement tests relapse-prevention planning after an acute ECT response, retaining four active seven-part cases for this topic.",
+      "source": "https://www.rcpsych.ac.uk/mental-health/treatments-and-wellbeing/ect",
+      "sourceClaim": "Medication and follow-up support commonly continue after an acute ECT course; continuation or maintenance ECT may help selected people avoid relapse. No fixed schedule is prescribed in the reviewer case.",
+      "independentClinicianApproval": false
+    },
+    "retainedScenarioPairs": [
+      {
+        "a": "NP2-050",
+        "b": "SIT-NP2-complications-during-labor-02-R2",
+        "score": 0.5,
+        "reason": "Postpartum endometritis differs from intrapartum intraamniotic infection and fetal tachycardia."
+      },
+      {
+        "a": "SIT-NP4-increased-intracranial-pressure-iicp-01-R2",
+        "b": "EXP2-NP5-altered-tissue-perfusion",
+        "score": 0.4943,
+        "reason": "CPP subtracts ICP from MAP; the second question calculates MAP from systolic and diastolic pressure. Equal numerical results do not make the quantities interchangeable."
+      },
+      {
+        "a": "SIT-NP1-integrated-management-of-childhood-illness-imci-01-R2",
+        "b": "EXP2-NP1-integrated-management-of-childhood-illness-imci",
+        "score": 0.4874,
+        "reason": "Classifying a calm toddler against an age-specific respiratory threshold differs from obtaining a reliable rate in a crying child."
+      },
+      {
+        "a": "NP3-074",
+        "b": "SIT-NP3-dialysis-hemodialysis-peritoneal-01",
+        "score": 0.4475,
+        "reason": "A normal thrill in a functioning fistula differs from a newly absent thrill requiring access-patency assessment."
+      },
+      {
+        "a": "NP1-029",
+        "b": "NP2-041",
+        "score": 0.4253,
+        "reason": "Dengue warning signs and maternal pregnancy danger signs occur in different clinical contexts and require different focused follow-up."
+      },
+      {
+        "a": "SIT-NP3-acid-base-balance-abg-01",
+        "b": "EXP2-NP3-acid-base-balance-abg",
+        "score": 0.4159,
+        "reason": "Respiratory acidosis from raised carbon dioxide differs from a combined respiratory and metabolic disturbance."
+      },
+      {
+        "a": "SIT-NP3-acid-base-balance-abg-02",
+        "b": "SIT-NP3-acid-base-balance-abg-04",
+        "score": 0.4131,
+        "reason": "Diarrheal bicarbonate loss causes metabolic acidosis; gastric suction causes metabolic alkalosis. The keys represent opposite disturbances."
+      },
+      {
+        "a": "SIT-NP3-acid-base-balance-abg-02",
+        "b": "EXP2-NP3-acid-base-balance-abg",
+        "score": 0.4072,
+        "reason": "Diarrheal metabolic acidosis differs from combined respiratory and metabolic acidosis with separate respiratory impairment."
+      },
+      {
+        "a": "NP3-073",
+        "b": "SIT-NP4-ostomies-02",
+        "score": 0.4018,
+        "reason": "Renal hypoperfusion after general fluid loss differs from measured high-output ileostomy losses and stoma-specific monitoring and replacement."
+      },
+      {
+        "a": "NP3-079",
+        "b": "NP5-119",
+        "score": 0.4012,
+        "reason": "Infection-associated shock differs from hemorrhagic shock and requires different cause-directed treatment in addition to support."
+      },
+      {
+        "a": "SIT-NP3-acute-kidney-injury-aki-03",
+        "b": "SIT-NP4-autonomic-dysreflexia-02",
+        "score": 0.3995,
+        "reason": "A kinked catheter causing postrenal obstruction and possible AKI differs from the same trigger causing autonomic dysreflexia in a susceptible spinal-cord injury."
+      },
+      {
+        "a": "CROSS-016",
+        "b": "SIT-NP3-heart-anatomy-ecg-basics-02",
+        "score": 0.3963,
+        "reason": "A potassium-replacement safety problem differs from acute symptomatic tachyarrhythmia management."
+      },
+      {
+        "a": "NP2-058",
+        "b": "NP4-096",
+        "score": 0.3843,
+        "reason": "A child with a febrile seizure differs from an adult generalized seizure; cause and age-specific evaluation differ despite shared seizure precautions."
+      },
+      {
+        "a": "SIT-NP3-cancer-treatment-modalities-01",
+        "b": "SIT-NP5-altered-tissue-perfusion-03-R2",
+        "score": 0.3806,
+        "reason": "Chemotherapy vesicant extravasation differs from norepinephrine extravasation in a person who still needs circulatory support. Drug-specific management and alternative access differ."
+      },
+      {
+        "a": "CROSS-010",
+        "b": "SIT-CROSS-professional-ethics-legal-foundations-04",
+        "score": 0.3776,
+        "reason": "An unclear procedural-consent discussion differs from a specific language barrier requiring a qualified interpreter."
+      },
+      {
+        "a": "SIT-NP2-complications-during-labor-04",
+        "b": "SIT-NP2-complications-during-labor-02-R2",
+        "score": 0.3773,
+        "reason": "Suspected uterine rupture differs from intraamniotic infection and has different immediate obstetric implications."
+      },
+      {
+        "a": "SIT-NP3-acid-base-balance-abg-01",
+        "b": "SIT-NP3-acid-base-balance-abg-02",
+        "score": 0.3571,
+        "reason": "Respiratory carbon-dioxide retention differs from metabolic bicarbonate loss, with different ABG patterns and causes."
+      },
+      {
+        "a": "SIT-NP3-heart-anatomy-ecg-basics-03",
+        "b": "SIT-NP5-critical-care-equipment-03",
+        "score": 0.3551,
+        "reason": "Confirmed ventricular fibrillation needing defibrillation differs from a flat tracing with a detached electrode, requiring immediate patient and equipment assessment."
+      },
+      {
+        "a": "NP5-104",
+        "b": "SIT-NP5-mood-disorders-04",
+        "score": 0.3534,
+        "reason": "A direct hopeless/self-harm statement differs from increased energy while hopelessness persists during treatment; the timing changes suicide-risk assessment."
+      },
+      {
+        "a": "CROSS-016",
+        "b": "SIT-NP4-endocrine-emergencies-summary-04",
+        "score": 0.3509,
+        "reason": "Unsafe potassium replacement differs from potassium falling during insulin treatment of DKA; the latter requires coordinated insulin, potassium and metabolic review."
+      },
+      {
+        "a": "NP3-067",
+        "b": "SIT-NP4-autonomic-dysreflexia-02",
+        "score": 0.3506,
+        "reason": "A kinked chest drainage tube causing thoracic compromise differs from a kinked urinary catheter triggering autonomic dysreflexia."
+      }
+    ],
+    "retainedSameAnswerPairs": [
+      {
+        "a": "ORN-33a8e10cec698190b501",
+        "b": "ORN-829855504ca0730b3679",
+        "reason": "Expected and unexpected findings for the same cranial nerve are distinct assessment questions."
+      },
+      {
+        "a": "ORN-4c4f5fdc129558bdea88",
+        "b": "ORN-f8f95b40b22fbb5c8537",
+        "reason": "Expected and unexpected findings for the same cranial nerve are distinct assessment questions."
+      }
+    ],
+    "remainingExactFactBodyGroups": 0,
+    "remainingFlaggedDuplicateDecisions": []
+  },
+  "preservation": {
+    "priorStoredQuestions": 10645,
+    "previousContentDigest": "3df2451b3a7c89695a9e7c5542eff92b0630dfe01ad644788dc354938fbbbf64",
+    "allowedChanges": "167 reviewed URL fields on 71 records; retirement flags on seven ECT consent questions. Seven new ECT relapse-prevention records use fresh IDs. Restoring only those changes reproduces the full previous content digest. Existing stems, choice order, answer positions and explanations are unchanged.",
+    "savedHistoryPreserved": true
+  },
+  "verification": {
+    "automatedRegressionTests": 91,
+    "passed": 91,
+    "failed": 0,
+    "productionBuild": "passed",
+    "publicAssetsContainQuestionContent": false,
+    "compressedReleasePages": 10,
+    "protectedReleaseDecodedAndDigestChecked": true
+  },
+  "independentClinicianApproval": false,
+  "limits": "Full-bank structural, answer-identity and reference-fact consistency checks plus focused primary-source clinical review and similarity adjudication. This is not an independent nursing educator review of every clinical claim and cannot guarantee zero errors."
+}

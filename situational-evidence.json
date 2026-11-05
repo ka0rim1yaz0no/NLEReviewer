@@ -8255,7 +8255,8 @@
     "outcome": "The client receives the necessary information through a valid consent process",
     "unsafe": "Proceed solely because a treatment slot is available",
     "reason": "A planned therapeutic procedure requires an appropriate informed-consent process rather than scheduling convenience.",
-    "source": "https://www.ncbi.nlm.nih.gov/books/NBK616961/"
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK616961/",
+    "retired": true
   },
   {
     "id": "SIT-NP5-somatic-behavioral-therapies-02",
@@ -10778,5 +10779,19 @@
     "unsafe": "Send the adolescent home solely because the external burn is tiny",
     "reason": "Electrical current can affect the heart and deeper tissues without a large surface burn. Palpitations and chest discomfort require assessment and indicated monitoring after the scene is safe; the exposure history, symptoms, ECG, and clinical findings guide further care.",
     "source": "https://www.rch.org.au/trauma-service/manual/Burns/"
+  },
+  {
+    "id": "SIT-NP5-somatic-behavioral-therapies-01-R3",
+    "subject": "NP5",
+    "topic": "Somatic & Behavioral Therapies",
+    "topicSlug": "somatic-behavioral-therapies",
+    "scenario": "After a good response to an acute course of electroconvulsive therapy for severe depression, a client plans to stop the prescribed medicines and cancel all follow-up because feeling better means the illness cannot return.",
+    "problem": "A need for individualized relapse-prevention care after response to ECT",
+    "action": "Review the prescribed continuation plan with the client and treating team before any medicine or follow-up changes",
+    "teaching": "Keep the planned follow-up and discuss prescribed medication, psychological support, or continuation ECT rather than stopping care independently",
+    "outcome": "The client explains the agreed relapse-prevention plan and how to report returning symptoms",
+    "unsafe": "Stop every prescribed follow-up treatment solely because the acute ECT course improved symptoms",
+    "reason": "A response to an acute ECT course does not guarantee lasting remission. Medication and other follow-up support commonly continue, and continuation or maintenance ECT may be appropriate for selected people. The plan is individualized with the treating team; improvement is not a reason to stop prescribed treatment without review.",
+    "source": "https://www.rcpsych.ac.uk/mental-health/treatments-and-wellbeing/ect"
   }
 ]

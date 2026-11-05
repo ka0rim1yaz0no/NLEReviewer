@@ -18,7 +18,7 @@ pairs=[]
 for i,left in enumerate(cases):
  for j in range(i+1,len(cases)):
   score=sum(value*vectors[j].get(word,0) for word,value in vectors[i].items())/max(.00001,lengths[i]*lengths[j])
-  if score>=.42:pairs.append({'score':round(score,4),'a':left['id'],'b':cases[j]['id'],'sameTopic':left['topic']==cases[j]['topic'],'aScenario':left['scenario'],'aAnswer':left.get('problem'),'bScenario':cases[j]['scenario'],'bAnswer':cases[j].get('problem')})
+  if score>=.35:pairs.append({'score':round(score,4),'a':left['id'],'b':cases[j]['id'],'sameTopic':left['topic']==cases[j]['topic'],'aScenario':left['scenario'],'aAnswer':left.get('problem'),'bScenario':cases[j]['scenario'],'bAnswer':cases[j].get('problem')})
 pairs.sort(key=lambda p:-p['score'])
 (directory/'case-similarity-candidates.json').write_text(json.dumps(pairs,ensure_ascii=False,indent=2),encoding='utf-8')
 # Review identical answers with near-identical prompts, including concepts and

@@ -1,12 +1,12 @@
 {
-  "preparedAt": "2026-11-03",
+  "preparedAt": "2026-11-06",
   "activeClinicalSituationSets": 620,
   "activeSevenPartQuestions": 4340,
   "existingFivePartSituationalQuestions": 600,
   "totalExplicitSituationalQuestions": 4940,
   "topics": 155,
-  "replacedCaseSets": 140,
-  "retiredHistoricalQuestions": 980,
+  "replacedCaseSets": 141,
+  "retiredHistoricalQuestions": 987,
   "questionsPerNewSituation": 7,
   "competencies": [
     "recognition",
@@ -18,7 +18,7 @@
     "reasoning"
   ],
   "independentClinicalReview": false,
-  "notes": "All 740 original shared case evidence sets were reviewed. Linked questions intentionally use distinct nursing-process objectives. Semantic repeats were replaced by new clinical situations with new IDs; historical IDs and key positions remain resolvable. Structural and source review is not independent clinician approval.",
+  "notes": "All 740 original shared case evidence sets were reviewed. Linked questions intentionally use distinct nursing-process objectives. Semantic repeats were replaced by new clinical situations with new IDs; historical IDs and key positions remain resolvable. Structural and source review is not independent clinician approval. The November 6 reference-repair pass additionally replaces an overlapping generic ECT consent case with ECT relapse-prevention planning.",
   "retirements": [
     {
       "retiredCaseId": "SIT-CROSS-laboratory-values-04",
@@ -583,6 +583,11 @@
     {
       "retiredCaseId": "SIT-NP5-high-acuity-emergency-situations-04",
       "replacementCaseId": "SIT-NP5-high-acuity-emergency-situations-04-R3",
+      "review": "choice-rationale-reference-recheck"
+    },
+    {
+      "retiredCaseId": "SIT-NP5-somatic-behavioral-therapies-01",
+      "replacementCaseId": "SIT-NP5-somatic-behavioral-therapies-01-R3",
       "review": "choice-rationale-reference-recheck"
     }
   ]

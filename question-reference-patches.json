@@ -1,0 +1,1334 @@
+[
+  {
+    "id": "NP4-082-2",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-083-3",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-083-4",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-084-3",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-085-2",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-086-4",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-087-1",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-087-2",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-087-3",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-087-4",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-087-5",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-091-4",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-095-4",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-097-1",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "NP4-100-4",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "ORIG-NP2-ethico-moral-management-in-maternal-care-01",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://iris.who.int/bitstream/handle/10665/134588/WHO_RHR_14.23_eng.pdf",
+        "to": "https://www.who.int/teams/maternal-newborn-child-adolescent-health-and-ageing/quality-of-care/respectful-care"
+      }
+    ]
+  },
+  {
+    "id": "EXP2-NP3-peripheral-vascular-diseases-hypertension",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+        "to": "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/09/11/03/37/2023-esc-guidelines-cvd-diabetes-part-2-esc-2023"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+        "to": "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/09/11/03/37/2023-esc-guidelines-cvd-diabetes-part-2-esc-2023"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+        "to": "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/09/11/03/37/2023-esc-guidelines-cvd-diabetes-part-2-esc-2023"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+        "to": "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/09/11/03/37/2023-esc-guidelines-cvd-diabetes-part-2-esc-2023"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+        "to": "https://www.acc.org/latest-in-cardiology/ten-points-to-remember/2023/09/11/03/37/2023-esc-guidelines-cvd-diabetes-part-2-esc-2023"
+      }
+    ]
+  },
+  {
+    "id": "EXP2-NP4-cerebrovascular-accident-stroke",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+        "to": "https://www.dhs.wisconsin.gov/publications/p02469.pdf"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+        "to": "https://www.dhs.wisconsin.gov/publications/p02469.pdf"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+        "to": "https://www.dhs.wisconsin.gov/publications/p02469.pdf"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+        "to": "https://www.dhs.wisconsin.gov/publications/p02469.pdf"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.stroke.org/en/about-stroke/stroke-symptoms",
+        "to": "https://www.dhs.wisconsin.gov/publications/p02469.pdf"
+      }
+    ]
+  },
+  {
+    "id": "EXP2-NP4-peripheral-neuropathies",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+        "to": "https://www.rightdecisions.scot.nhs.uk/dg-refhelp/musculoskeletal-system/hand/carpal-tunnel-syndrome/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+        "to": "https://www.rightdecisions.scot.nhs.uk/dg-refhelp/musculoskeletal-system/hand/carpal-tunnel-syndrome/"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+        "to": "https://www.rightdecisions.scot.nhs.uk/dg-refhelp/musculoskeletal-system/hand/carpal-tunnel-syndrome/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+        "to": "https://www.rightdecisions.scot.nhs.uk/dg-refhelp/musculoskeletal-system/hand/carpal-tunnel-syndrome/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+        "to": "https://www.rightdecisions.scot.nhs.uk/dg-refhelp/musculoskeletal-system/hand/carpal-tunnel-syndrome/"
+      }
+    ]
+  },
+  {
+    "id": "EXP2-NP4-amyotrophic-lateral-sclerosis-als",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+        "to": "https://www.nice.org.uk/guidance/NG42/chapter/Recommendations"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+        "to": "https://www.nice.org.uk/guidance/NG42/chapter/Recommendations"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+        "to": "https://www.nice.org.uk/guidance/NG42/chapter/Recommendations"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+        "to": "https://www.nice.org.uk/guidance/NG42/chapter/Recommendations"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.ninds.nih.gov/health-information/disorders/dementias",
+        "to": "https://www.nice.org.uk/guidance/NG42/chapter/Recommendations"
+      }
+    ]
+  },
+  {
+    "id": "EXP2-NP5-substance-use-disorders",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+        "to": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=f821dd49-3fa7-4d33-99de-19023ff1ae65&type=display"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+        "to": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=f821dd49-3fa7-4d33-99de-19023ff1ae65&type=display"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+        "to": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=f821dd49-3fa7-4d33-99de-19023ff1ae65&type=display"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+        "to": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=f821dd49-3fa7-4d33-99de-19023ff1ae65&type=display"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+        "to": "https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=f821dd49-3fa7-4d33-99de-19023ff1ae65&type=display"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-recognition",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-action",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-teaching",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-planning",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-evaluation",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-reasoning",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-02-recognition",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-02-action",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-02-teaching",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-02-safety",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-02-planning",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-02-evaluation",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-02-reasoning",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-03-recognition",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-03-action",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-03-teaching",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-03-planning",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-03-evaluation",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-03-reasoning",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-recognition",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-action",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-teaching",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-planning",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-evaluation",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-reasoning",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-R2-recognition",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-R2-action",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-R2-teaching",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-R2-planning",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-R2-evaluation",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-01-R2-reasoning",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-R2-recognition",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-R2-action",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-R2-teaching",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-R2-planning",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-R2-evaluation",
+    "fields": [
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP2-pediatric-neurologic-disorders-04-R2-reasoning",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+        "to": "https://www.nhs.uk/conditions/hydrocephalus/complications/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-01-R2-recognition",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-01-R2-action",
+    "fields": [
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-01-R2-teaching",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-01-R2-planning",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-01-R2-evaluation",
+    "fields": [
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-01-R2-reasoning",
+    "fields": [
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-02-R2-recognition",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-02-R2-action",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-02-R2-teaching",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-02-R2-safety",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-02-R2-planning",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-02-R2-evaluation",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  },
+  {
+    "id": "SIT-NP4-adh-disorders-02-R2-reasoning",
+    "fields": [
+      {
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 0,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 1,
+        "field": "source",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 2,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      },
+      {
+        "option": 3,
+        "field": "contextSource",
+        "from": "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+        "to": "https://aaamedicines.org.uk/guidelines/electrolyte-disturbances/management-of-hyponatraemia/"
+      }
+    ]
+  }
+]

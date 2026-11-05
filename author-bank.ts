@@ -14,6 +14,7 @@ import legacyReferences from "./legacy-case-references.json" with { type: "json"
 import recheck from "./rationale-reference-corrections.json" with { type: "json" };
 import type { ClinicalCase, Question, Subject } from "./types.ts";
 import { subjects, shuffled, validateQuestions, installQuestionBank } from "./bank.ts";
+import { applyReferenceRepairs } from "./reference-repairs.ts";
 export { subjects, shuffled, validateQuestions } from "./bank.ts";
 type LegacyClarification={scenario?:string;source?:string;reasons?:Record<string,string>};
 const legacyClarifications:Record<string,LegacyClarification>=recheck.legacy;
@@ -51,7 +52,7 @@ export const conceptQuestions = validateQuestions(concepts).map(q=>retirements.s
 export const situationalQuestions = validateQuestions(situations);
 // Earlier question IDs, positions, and keys stay stable. The audited context
 // clarifications and more specific reference links are documented separately.
-export const questions: Question[] = [...originalQuestions, ...additionalQuestions, ...supplementalQuestions, ...conceptQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : []), ...situationalQuestions];
+export const questions: Question[] = applyReferenceRepairs([...originalQuestions, ...additionalQuestions, ...supplementalQuestions, ...conceptQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : []), ...situationalQuestions]);
 export const activeQuestions=questions.filter(q=>!q.retired);
 export const questionMap = new Map(questions.map(q => [q.id, q]));
 export const topics = subjects.flatMap(subject => [...new Set(activeQuestions.filter(q => q.subject === subject.id).map(q => q.topic))].map(name => ({ id: `${subject.id}:${name}`, name, subject: subject.id, count: activeQuestions.filter(q => q.subject === subject.id && q.topic === name).length })));
