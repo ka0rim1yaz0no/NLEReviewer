@@ -7,6 +7,7 @@ import mental from "./mental.ts";
 import { additionalQuestions } from "./additional-questions.ts";
 import siteQuestions from "./site-questions.json" with { type: "json" };
 import supplemental from "./supplemental-questions.json" with { type: "json" };
+import retirements from "./editorial-retirements.json" with {type:"json"};
 import concepts from "./concept-questions.json" with { type: "json" };
 import situations from "./situational-questions.json" with { type: "json" };
 import legacyReferences from "./legacy-case-references.json" with { type: "json" };
@@ -46,7 +47,7 @@ export const originalQuestions: Question[] = clinicalCases.flatMap((entry, index
   return { id: `${entry.subject}-${String(index + 1).padStart(3, "0")}-${kind + 1}`, subject: entry.subject, topic: entry.topic, stem: `${entry.scenario} ${prompts[kind]}`, options, correctIndex: options.indexOf(correct), rationale, keyPoint: `${entry.title}: ${fact.text}. ${fact.reason}`, source: caseSource(entry), origin: "Original educational scenario; not copied from BoardPal or an official PNLE paper." };
 }));
 export const supplementalQuestions = validateQuestions(supplemental);
-export const conceptQuestions = validateQuestions(concepts);
+export const conceptQuestions = validateQuestions(concepts).map(q=>retirements.some(r=>r.id===q.id)?{...q,retired:true}:q);
 export const situationalQuestions = validateQuestions(situations);
 // Earlier question IDs, positions, and keys stay stable. The audited context
 // clarifications and more specific reference links are documented separately.

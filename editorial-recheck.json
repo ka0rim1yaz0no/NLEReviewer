@@ -1,0 +1,165 @@
+{
+  "reviewed": "2026-11-05",
+  "release": "2026-11-05-editorial-recheck-1",
+  "contentDigest": "3df2451b3a7c89695a9e7c5542eff92b0630dfe01ad644788dc354938fbbbf64",
+  "activeQuestions": 9658,
+  "storedQuestions": 10645,
+  "retiredHistoricalQuestions": 987,
+  "activeSituationalQuestions": 5095,
+  "topics": 155,
+  "structure": {
+    "questions": 9658,
+    "choices": 38632,
+    "issues": []
+  },
+  "sourceConsistency": {
+    "facts": 4517,
+    "questionKeys": 4515,
+    "choiceExplanations": 18060,
+    "definitionOrKeyMismatches": [],
+    "documentedExceptions": [
+      {
+        "id": "ORN-00b7d41377c1a9c3e139",
+        "kind": "primary-source correction",
+        "source": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/radiofrequency-ablation"
+      },
+      {
+        "id": "ORN-40ee1e769eb749135446",
+        "kind": "publisher main-text spelling",
+        "source": "https://www.ncbi.nlm.nih.gov/books/NBK617009/"
+      }
+    ],
+    "formattingOnlyDifferences": 13,
+    "situationalKeysAndAlternatives": "All 5,095 active situational keys and 20,380 choice explanations checked by the evidence/answer-identity regression checks; source consistency is not independent clinical approval."
+  },
+  "duplicateScreening": {
+    "normalizedStemDuplicates": 0,
+    "scenarioSets": 895,
+    "scenarioPairsScreened": 400065,
+    "method": "TF-IDF cosine >= 0.42 on scenario/problem/action, and same exact keyed-answer tokens with stem-token Jaccard >= 0.65. Candidate flags require editorial adjudication; this does not prove no semantic overlap below thresholds.",
+    "retired": [
+      {
+        "id": "ORN-24883586f79722c7605a",
+        "replacedBy": "ORN-f722ca29bbba4dc3069f",
+        "reason": "Repeated small-intestine function from a second digestive-system table; retain the version with segmentation detail.",
+        "reviewed": "2026-11-05"
+      },
+      {
+        "id": "ORN-4f1c96152e3e1b88d94a",
+        "replacedBy": "ORN-86d69c8c3e77dc297d1e",
+        "reason": "Repeated accessory-organ function from a second digestive-system table.",
+        "reviewed": "2026-11-05"
+      },
+      {
+        "id": "ORN-b8309c082e1e0ec2ae25",
+        "replacedBy": "ORN-3b4054479ddacdec59fa",
+        "reason": "Repeated stomach function from a second digestive-system table.",
+        "reviewed": "2026-11-05"
+      },
+      {
+        "id": "ORN-ff0ba0c77a839c857459",
+        "replacedBy": "ORN-b790790a25c1d664c302",
+        "reason": "Repeated large-intestine function from a second digestive-system table.",
+        "reviewed": "2026-11-05"
+      },
+      {
+        "id": "ORN-8a26ffb057e6b3a72416",
+        "replacedBy": "ORN-001b161f9e73b52df756",
+        "reason": "Repeated mouth function from a second digestive-system table.",
+        "reviewed": "2026-11-05"
+      }
+    ],
+    "retainedScenarioPairs": [
+      {
+        "a": "NP2-050",
+        "b": "SIT-NP2-complications-during-labor-02-R2",
+        "reason": "Postpartum endometritis signs differ from intrapartum intraamniotic infection with fetal tachycardia."
+      },
+      {
+        "a": "SIT-NP4-increased-intracranial-pressure-iicp-01-R2",
+        "b": "EXP2-NP5-altered-tissue-perfusion",
+        "reason": "CPP = MAP - ICP differs from calculating MAP using systolic and diastolic blood pressure; the same numerical result does not make the problems equivalent."
+      },
+      {
+        "a": "SIT-NP1-integrated-management-of-childhood-illness-imci-01-R2",
+        "b": "EXP2-NP1-integrated-management-of-childhood-illness-imci",
+        "reason": "Classifying a calm 18-month-old with RR 44 differs from obtaining a reliable count in a crying 2-year-old."
+      },
+      {
+        "a": "NP3-074",
+        "b": "SIT-NP3-dialysis-hemodialysis-peritoneal-01",
+        "reason": "Expected thrill in a functioning fistula differs from recognizing absent thrill and possible access failure."
+      },
+      {
+        "a": "NP1-029",
+        "b": "NP2-041",
+        "reason": "Dengue warning signs differ from pregnancy danger signs and require different clinical context."
+      }
+    ],
+    "retainedSameAnswerPairs": [
+      {
+        "a": "ORN-33a8e10cec698190b501",
+        "b": "ORN-829855504ca0730b3679",
+        "reason": "Normal and abnormal findings for the same cranial nerve are distinct assessment comparisons."
+      },
+      {
+        "a": "ORN-4c4f5fdc129558bdea88",
+        "b": "ORN-f8f95b40b22fbb5c8537",
+        "reason": "Normal and abnormal findings for the same cranial nerve are distinct assessment comparisons."
+      }
+    ],
+    "remainingExactFactBodyGroups": 0
+  },
+  "referenceAvailability": {
+    "urls": 467,
+    "availableOrOfficialCachedXml": 434,
+    "unresolvedUrls": [
+      "https://academic.oup.com/ejendo/article/170/3/G1/6668028",
+      "https://aci.health.nsw.gov.au/networks/eci/clinical/ed-factsheets/smoke-inhalation",
+      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-advanced-life-support",
+      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-and-pediatric-special-circumstances-of-resuscitation/",
+      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support",
+      "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-basic-life-support",
+      "https://iris.who.int/bitstream/handle/10665/134588/WHO_RHR_14.23_eng.pdf",
+      "https://mshp.mountsinai.org/web/mshp/pad-quick-reference-guide",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC11272983/",
+      "https://ro2.doh.gov.ph/mandates/",
+      "https://ro9.doh.gov.ph/agency-mandate-and-functions/",
+      "https://www.ahrq.gov/health-literacy/professional-training/informed-choice/audio-script-leaders.html",
+      "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html",
+      "https://www.ahrq.gov/patient-safety/settings/labor-delivery/perinatal-care/modules/strategies/medication/tool-safe-mgso4.html",
+      "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/sbar.html",
+      "https://www.ahrq.gov/teamstepps-program/curriculum/mutual/tools/cus.html",
+      "https://www.gloshospitals.nhs.uk/your-visit/patient-information-leaflets/laparoscopic-cholecystectomy-removal-of-the-gallbladder/",
+      "https://www.health.qld.gov.au/cpc/neurosurgery/cranial-malformations-hydrocephalus",
+      "https://www.ncbi.nlm.nih.gov/books/NBK459387/",
+      "https://www.ncbi.nlm.nih.gov/books/NBK537591/",
+      "https://www.ncbi.nlm.nih.gov/books/NBK551644/",
+      "https://www.ncbi.nlm.nih.gov/books/NBK579650/",
+      "https://www.ncbi.nlm.nih.gov/books/NBK619236/",
+      "https://www.nia.nih.gov/health/alzheimers-changes-behavior-and-communication/coping-agitation-aggression-and-sundowning",
+      "https://www.nimh.nih.gov/health/publications/borderline-personality-disorder",
+      "https://www.ninds.nih.gov/health-information/disorders/carpal-tunnel-syndrome",
+      "https://www.ninds.nih.gov/health-information/disorders/dementias",
+      "https://www.ninds.nih.gov/health-information/disorders/glossary-neurological-terms",
+      "https://www.ninds.nih.gov/health-information/disorders/guillain-barre-syndrome",
+      "https://www.ninds.nih.gov/health-information/disorders/myasthenia-gravis",
+      "https://www.ontario.ca/page/alert-preventing-surgical-fires-hospital-operating-rooms",
+      "https://www.samhsa.gov/substance-use/treatment/options/naltrexone",
+      "https://www.stroke.org/en/about-stroke/stroke-symptoms"
+    ],
+    "note": "HTTP/link checks are recorded separately from clinical correctness. Access challenges, application shells and timeouts remain unresolved; no challenges were solved or bypassed."
+  },
+  "focusedPrimarySourceRechecks": [
+    {
+      "source": "https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/adult-basic-life-support/",
+      "checked": "2025 AHA adult severe-airway-obstruction cycles and pulse-present respiratory arrest guidance."
+    },
+    {
+      "source": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/radiofrequency-ablation",
+      "checked": "Previously documented heat-producing radiofrequency ablation correction remains consistent with NCI."
+    }
+  ],
+  "independentClinicianApproval": false,
+  "limits": "Automated consistency checks and focused editorial/source rechecks do not establish that every clinical claim is current, eliminate all possible semantic overlap, or replace review by a qualified nursing educator. BoardPal paid questions and sheets are not copied."
+}

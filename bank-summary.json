@@ -1,14 +1,14 @@
 {
-  "release": "2026-11-03-scenario-expansion-2",
-  "total": 9663,
-  "original": 9661,
+  "release": "2026-11-05-editorial-recheck-1",
+  "total": 9658,
+  "original": 9656,
   "situational": 5095,
   "newSituational": 4495,
   "newSituations": 620,
   "standaloneSituational": 155,
   "clinical": 651,
   "concept": 3758,
-  "comparison": 757,
+  "comparison": 752,
   "sourceCorrections": 2,
   "topics": 155
 }

@@ -10,12 +10,12 @@ import './study-timer.css';
 const phaseName={focus:'Focus',short:'Short break',long:'Long break'};
 const clock=(ms:number)=>{const seconds=Math.max(0,Math.ceil(ms/1000));return `${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;};
 export function StudyTimer(){
- const {state,user,update,toast,creditStudy,path}=useApp();
+ const {state,profileId,update,toast,creditStudy,path}=useApp();
  const settings=cleanFocusSettings(state.focusSettings),settingsRef=useRef(settings);settingsRef.current=settings;
  const [open,setOpen]=useState(false),[timer,setTimer]=useState(()=>freshFocusTimer(settings));
  const timerRef=useRef(timer),pending=useRef<FocusSegment[]>([]),lastCredit=useRef(Date.now()),audio=useRef<AudioContext|null>(null);
- const persistKey=`nle-reviewer:focus-timer:v1:${user!.id}`;
- const profile=useRef({id:user!.id,timezone:state.profile.timezone});profile.current={id:user!.id,timezone:state.profile.timezone};
+ const persistKey=`nle-reviewer:focus-timer:v1:${profileId}`;
+ const profile=useRef({id:profileId,timezone:state.profile.timezone});profile.current={id:profileId,timezone:state.profile.timezone};
  function persist(next:FocusTimer){try{sessionStorage.setItem(persistKey,JSON.stringify({...next,running:false}));}catch{/* Timer still works if browser storage is unavailable. */}}
  function install(next:FocusTimer){timerRef.current=next;setTimer(next);persist(next);}
  async function unlockAudio(){try{audio.current??=new AudioContext();await audio.current.resume();}catch{/* A blocked sound never stops the timer. */}}

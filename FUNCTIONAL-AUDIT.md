@@ -2,7 +2,7 @@
 
 This review used the signed-in BoardPal interface to inspect dashboard, custom-practice setup, study-plan settings, timer, flashcards, performance, history, mock-board catalog, Vault, and account settings. Resource and reference metadata from the preceding PDF review remain applicable. No BoardPal practice or mock session was started, no answer was submitted, no task was marked complete, and no study setting was saved there. Dismissing introductory walkthroughs only changed their presentation state.
 
-This is a functional comparison and an implementation record, not a claim that the applications or their paid content are identical. BoardPal's question bank, answer rationales, sheet text, illustrations, and curated flashcards are not copied. The current reviewer still has 9,663 active questions, including 5,095 original situational questions across 155 topics. The protected clinical-content release is unchanged.
+This is a functional comparison and an implementation record, not a claim that the applications or their paid content are identical. BoardPal's question bank, answer rationales, sheet text, illustrations, and curated flashcards are not copied. Following the same-day editorial recheck, the reviewer has 9,658 active questions, including 5,095 original situational questions across 155 topics. Five duplicate GI comparisons are archived in release `2026-11-05-editorial-recheck-1`; every prior payload/key is unchanged apart from those five retirement flags. See `editorial-recheck.json`.
 
 | Workflow | Observed reference behavior | Reviewer behavior after this change |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ This is a functional comparison and an implementation record, not a claim that t
 | Resources/PDFs | BoardPal online cram readers and publisher resources | Keeps 155 original PDF guides, 12 official PDF links, 2 publisher pages, and links to all 46 BoardPal online readers. PDF controls and the route are visible only to canonical username `elaine`, as requested. |
 | Performance | First-try estimates, subject/topic breakdowns, activity calendar, personal bests, weak areas, confidence feedback | Retains first-try scoring and adds shared study targets, personal bests, a 26-week activity calendar, weak-topic practice links, and confident-mistake counts. Subject estimates require 10 first tries; the overall estimate requires 40. |
 | History | Practice/mock/diagnostic filters and reopening earlier work | Retained. Saved session IDs, option positions, and answer keys are unchanged. |
-| Account | Separate identity, profile/preferences, theme, study goals | Retains username-only Supabase profiles by the user's earlier instruction, isolated progress, backups, imports, and theme/reading preferences. Editable display names cannot grant PDF visibility. |
+| Account | Separate identity, profile/preferences, theme, study goals | Uses the user-approved shared canonical `elaine` profile across devices, with isolated private profiles for other usernames, conflict-checked cloud sync, backups, imports, and theme/reading preferences. Editable display names cannot grant PDF visibility. |
 
 ## Differences that remain
 

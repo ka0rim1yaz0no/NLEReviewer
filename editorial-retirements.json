@@ -1,0 +1,7 @@
+[
+ {"id":"ORN-24883586f79722c7605a","replacedBy":"ORN-f722ca29bbba4dc3069f","reason":"Repeated small-intestine function from a second digestive-system table; retain the version with segmentation detail.","reviewed":"2026-11-05"},
+ {"id":"ORN-4f1c96152e3e1b88d94a","replacedBy":"ORN-86d69c8c3e77dc297d1e","reason":"Repeated accessory-organ function from a second digestive-system table.","reviewed":"2026-11-05"},
+ {"id":"ORN-b8309c082e1e0ec2ae25","replacedBy":"ORN-3b4054479ddacdec59fa","reason":"Repeated stomach function from a second digestive-system table.","reviewed":"2026-11-05"},
+ {"id":"ORN-ff0ba0c77a839c857459","replacedBy":"ORN-b790790a25c1d664c302","reason":"Repeated large-intestine function from a second digestive-system table.","reviewed":"2026-11-05"},
+ {"id":"ORN-8a26ffb057e6b3a72416","replacedBy":"ORN-001b161f9e73b52df756","reason":"Repeated mouth function from a second digestive-system table.","reviewed":"2026-11-05"}
+]

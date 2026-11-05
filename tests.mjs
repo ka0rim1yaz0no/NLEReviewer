@@ -1,3 +1,6 @@
+import retirements from "./editorial-retirements.json" with {type:"json"};
+const retiredIds=new Set(retirements.map(r=>r.id));
+const beforeEditorial=qs=>qs.map(q=>{if(!retiredIds.has(q.id))return q;const copy={...q};delete copy.retired;return copy;});
 import {vaultInterval,vaultIsDue,updateVaultReview} from "./vault-schedule.ts";
 import {mockQuestionIds} from "./mock-papers.ts";
 import test from 'node:test';
@@ -67,7 +70,7 @@ test('the standalone expansion adds one reviewed scenario per topic without chan
  for(const q of added){assert.ok(isSituational(q));positions[q.correctIndex]++;assert.equal(q.options.length,4);assert.ok(q.clinicalObjective);assert.ok(q.origin.includes('No BoardPal'));for(const o of q.options){assert.ok(o.rationale.length>=70);assert.match(o.source,/^https:\/\//);assert.ok(o.referenceId.startsWith(q.id+':'));}}
  assert.deepEqual(positions,[39,39,39,38]);
  assert.equal(validateQuestions(questions).length,10645);
- assert.equal(await contentDigest(questions.filter(q=>!q.id.startsWith('EXP2-')),clinicalCases),report.previousContentDigest);
+ assert.equal(await contentDigest(beforeEditorial(questions.filter(q=>!q.id.startsWith('EXP2-'))),clinicalCases),report.previousContentDigest);
 });
 test('standalone calculation keys match the stated units and clinical quantities',()=>{
  const key=slug=>publishedQuestions.find(q=>(q.id.endsWith(slug)||q.id.endsWith(slug+'-R2'))).options[publishedQuestions.find(q=>(q.id.endsWith(slug)||q.id.endsWith(slug+'-R2'))).correctIndex].text;
@@ -95,7 +98,7 @@ test('overlapping expansion items receive new IDs while every briefly published 
 const legacyContext=JSON.parse(await readFile(new URL('./legacy-context-corrections.json',import.meta.url),'utf8'));
 const legacyRationaleBaseline=JSON.parse(await readFile(new URL('./legacy-rationale-baseline.json',import.meta.url),'utf8'));
 const legacyRationaleMap=new Map(legacyRationaleBaseline.questions.map(q=>[q.id,q]));
-function beforeAudit(qs=originalQuestions){return qs.map(q=>{
+function beforeAudit(qs=originalQuestions){return beforeEditorial(qs).map(q=>{
  if(!originalQuestions.some(o=>o.id===q.id))return q;
  let stem=q.stem;for(const c of legacyContext)stem=stem.replace(c.current,c.previous);
  const baseline=legacyRationaleMap.get(q.id);
@@ -204,7 +207,7 @@ test('protected content survives database JSON key ordering and rejects incomple
 
 test('only the two explicitly source-checked corrections are published from the research dataset',()=>{
  assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);
- assert.deepEqual(collectionCounts(questions),{all:activeQuestions.length,nursing:activeQuestions.length-2,situational:5095,newSituational:4495,clinical:651,concept:conceptQuestions.filter(q=>q.format==='concept').length,comparison:conceptQuestions.filter(q=>q.format==='comparison').length,supplemental:2});
+ assert.deepEqual(collectionCounts(questions),{all:activeQuestions.length,nursing:activeQuestions.length-2,situational:5095,newSituational:4495,clinical:651,concept:conceptQuestions.filter(q=>!q.retired&&q.format==='concept').length,comparison:conceptQuestions.filter(q=>!q.retired&&q.format==='comparison').length,supplemental:2});
  for(const q of supplementalQuestions){assert.ok(q.id.startsWith('MMCQA-'));assert.equal(q.collection,'supplemental');assert.equal(q.rationaleScope,undefined);assert.ok(q.source.includes('nhs.uk')||q.source.includes('nice.org.uk'));assert.ok(q.origin.includes('Source-based correction:'));assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.options.every(o=>o.rationale.length>40));}
  for(const q of [...originalQuestions,...additionalQuestions]){assert.ok(inCollection(q,'nursing'));assert.ok(!inCollection(q,'supplemental'));}
 });
@@ -294,7 +297,7 @@ test('malformed format metadata and per-choice links are removed during import v
 test('the displayed public counts match the protected bank without including any question text',async()=>{
  const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
  assert.equal(summary.total,activeQuestions.length);assert.equal(summary.original,activeQuestions.length-supplementalQuestions.length);assert.equal(summary.topics,155);
- assert.equal(summary.concept+summary.comparison,conceptQuestions.length);assert.equal(summary.clinical,651);assert.equal(summary.situational,5095);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155);assert.equal(summary.sourceCorrections,2);
+ assert.equal(summary.concept+summary.comparison,conceptQuestions.filter(q=>!q.retired).length);assert.equal(summary.clinical,651);assert.equal(summary.situational,5095);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155);assert.equal(summary.sourceCorrections,2);
  assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
 });
 
@@ -369,7 +372,7 @@ test('the audit covers every original case and replaces semantic repeats without
  const report=JSON.parse(await readFile(new URL('./situational-review-report.json',import.meta.url),'utf8'));
  assert.equal(log.reviewedCaseSets,740);assert.equal(log.reviewedSituationalQuestions,4940);assert.equal(new Set(log.reviewedCaseIds).size,740);
  assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,140);
- assert.equal(activeQuestions.length,9663);assert.equal(questions.filter(q=>q.retired).length,982);assert.equal(activeQuestions.filter(isSituational).length,5095);
+ assert.equal(activeQuestions.length,9658);assert.equal(questions.filter(q=>q.retired).length,987);assert.equal(activeQuestions.filter(isSituational).length,5095);
  for(const r of report.retirements){
   const old=questions.filter(q=>q.caseId===r.retiredCaseId),replacement=questions.filter(q=>q.caseId===r.replacementCaseId);
   assert.equal(old.length,7);assert.equal(replacement.length,7);assert.ok(old.every(q=>q.retired));assert.ok(replacement.every(q=>!q.retired));
@@ -411,7 +414,7 @@ test('replacement arithmetic and clinical thresholds are independently checked',
 
 test('retirement metadata is sanitized and installed content keeps historical lookup separate from new study selection',async()=>{
  const module=await import('./bank.ts');module.installQuestionBank(questions,clinicalCases);
- assert.equal(module.questions.length,9663);assert.equal(module.questionMap.size,questions.length);
+ assert.equal(module.questions.length,9658);assert.equal(module.questionMap.size,questions.length);
  const retired=questions.find(q=>q.retired);assert.ok(module.questionMap.has(retired.id));assert.ok(!module.questions.some(q=>q.id===retired.id));
  const restored=validateBackup({...initialState(),sessions:[session([retired.id])]});restored.sessions[0].answers[retired.id]={selected:retired.correctIndex,submitted:false,confidence:''};
  assert.equal(sessionScore(restored.sessions[0],module.questionMap),1);
@@ -623,4 +626,11 @@ test('personal imports cannot change a shared fixed mock selection',()=>{
  const single={...activeQuestions.find(q=>q.subject==='NP1'&&q.id.startsWith('EXP2-')),id:'EXP2-personal-case',caseId:'personal-single'};
  const all=[...personal,single];
  for(let b=1;b<=5;b++)assert.deepEqual(mockQuestionIds([...activeQuestions,...all],'NP1',b,all.map(q=>q.id)),mockQuestionIds(activeQuestions,'NP1',b));
+});
+
+
+test('five duplicate digestive comparisons are retired without modifying any previous content or key',async()=>{
+ assert.equal(retirements.length,5);assert.equal(await contentDigest(beforeEditorial(questions),clinicalCases),'6a5353e6b00778fff0f679dc7181e9416cc158c66bc5d2580ec8a14f2f79a652');
+ for(const row of retirements){const q=bank.get(row.id),retained=bank.get(row.replacedBy);assert.ok(q.retired);assert.ok(!retained.retired);assert.equal(q.options[q.correctIndex].text,retained.options[retained.correctIndex].text);assert.ok(!activeQuestions.includes(q));}
+ const bodies=new Set();for(const q of activeQuestions.filter(q=>q.format==='comparison')){const body=q.stem.split('\n\n').at(-1).replace(/^[^:]+: /,'').toLowerCase().replace(/[^a-z0-9]/g,'');assert.ok(!bodies.has(body),q.id);bodies.add(body);}
 });
