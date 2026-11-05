@@ -1,11 +1,15 @@
+import {updateVaultReview} from "./vault-schedule.ts";
+import type {VaultReview} from "./vault-schedule.ts";
+import type {FocusSettings} from "./focus-timer.ts";
 import type { Question, Subject } from "./types.ts";
 export type Answer = { selected: number; submitted: boolean; confidence: string };
 export type Session = { id: string; title: string; kind: "practice" | "exam" | "mock" | "diagnostic"; mode: "tutor" | "exam"; questionIds: string[]; answers: Record<string, Answer>; flagged: string[]; eliminated: Record<string, number[]>; cursor: number; startedAt: number; finishedAt?: number; timeLimit?: number; perQuestion?: number; mockBoard?: number; subject?: Subject; scratch: string; highlights: Record<string, string[]>; strokes: Record<string, string[]> };
 export type Attempt = { id: string; sessionId: string; questionId: string; selected: number; correct: boolean; confidence: string; at: number };
 export type CardProgress = { due: number; interval: number; reviews: number; lastAt: number };
 export type CustomCard = { id: string; deck: string; front: string; back: string };
-export type Task = { id: string; date: string; title: string; done: boolean; type: "read" | "practice" | "flashcards" | "custom"; subject?: Subject; topic?: string };
-export type State = { version: 1; updatedAt: number; profile: { name: string; fullName: string; color: string; photo: string; examDate: string; timezone: string }; preferences: { theme: string; flashcardGoal: number; questionGoal: number; confidence: boolean; crossSide: string; explanation: string; textSize: number }; attempts: Attempt[]; sessions: Session[]; vault: string[]; bookmarks: string[]; notes: Record<string, string>; tasks: Task[]; cards: Record<string, CardProgress>; customCards: CustomCard[]; importedQuestions: Question[]; read: string[]; studySeconds: number };
+export type Task = { id: string; date: string; title: string; done: boolean; type: "read" | "practice" | "flashcards" | "custom" | "vault" | "mock"; subject?: Subject; topic?: string; skipped?: boolean; minutes?: number; count?: number; mockBoard?: number };
+export type StudyPlanSettings = { startDate:string; dailyMinutes:number; restDays:number[]; subjects:Subject[]; focus:Subject[]; reading:boolean; flashcards:boolean; mocks:boolean };
+export type State = { vaultReviews?:Record<string,VaultReview>; focusSettings?:FocusSettings; studyLog?:Record<string,number>; plan?:StudyPlanSettings; version: 1; updatedAt: number; profile: { name: string; fullName: string; color: string; photo: string; examDate: string; timezone: string }; preferences: { spacedVault?:boolean; theme: string; flashcardGoal: number; questionGoal: number; confidence: boolean; crossSide: string; explanation: string; textSize: number }; attempts: Attempt[]; sessions: Session[]; vault: string[]; bookmarks: string[]; notes: Record<string, string>; tasks: Task[]; cards: Record<string, CardProgress>; customCards: CustomCard[]; importedQuestions: Question[]; read: string[]; studySeconds: number };
 export function dateKey(time = Date.now(), timezone = "Asia/Manila"): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(time));
 }
@@ -20,7 +24,7 @@ export function recordAnswer(state: State, session: Session, question: Question,
   const id = `${session.id}:${question.id}`;
   if (state.attempts.some(a => a.id === id)) return state;
   const correct = answer.selected === question.correctIndex;
-  return { ...state, attempts: [...state.attempts, { id, sessionId: session.id, questionId: question.id, selected: answer.selected, correct, confidence: answer.confidence, at }], vault: correct ? state.vault.filter(q => q !== question.id) : [...new Set([...state.vault, question.id])] };
+  return { ...updateVaultReview(state,question.id,correct,at), attempts: [...state.attempts, { id, sessionId: session.id, questionId: question.id, selected: answer.selected, correct, confidence: answer.confidence, at }] };
 }
 export function gradeSession(state: State, session: Session, bank: Map<string, Question>, at = Date.now()): State {
   if (state.sessions.find(s=>s.id===session.id)?.finishedAt) return state;

@@ -1,3 +1,4 @@
+import {applyStudyCredits} from "./focus-timer";
 import { createContext, useContext, useEffect, useRef, useState, useMemo, useCallback } from "react";
 import type { ReactNode } from "react";
 import type { User } from "@supabase/supabase-js";
@@ -12,7 +13,7 @@ import { validateBackup } from "./validation";
 const prefix = "nle-reviewer:v1:";
 async function saveCloud(userId:string,data:State){if(!supabase)return null;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);try{const result=await supabase.from("study_states").upsert({user_id:userId,data,updated_at:new Date().toISOString()}).abortSignal(controller.signal);return result.error;}catch{return new Error("Cloud connection unavailable");}finally{clearTimeout(timer);}}
 function readState(key: string): State { try { const value = localStorage.getItem(prefix + key); return value ? validateBackup(JSON.parse(value)) : initialState(); } catch { return initialState(); } }
-type Context = { state: State; update: (fn: (state: State)=>State)=>void; user: User | null; username: string; switchProfile:()=>Promise<void>; ready: boolean; sync: string; accessError:string; retryContent:()=>void; toast: (message: string)=>void; navigate: (path: string)=>void; path: string; bank: typeof questions; bankMap: Map<string, typeof questions[number]> };
+type Context = { creditStudy:(userId:string,credits:Record<string,number>)=>void; state: State; update: (fn: (state: State)=>State)=>void; user: User | null; username: string; switchProfile:()=>Promise<void>; ready: boolean; sync: string; accessError:string; retryContent:()=>void; toast: (message: string)=>void; navigate: (path: string)=>void; path: string; bank: typeof questions; bankMap: Map<string, typeof questions[number]> };
 const AppContext = createContext<Context | null>(null);
 export const useApp = () => { const context = useContext(AppContext); if (!context) throw new Error("App context is missing"); return context; };
 export function Provider({ children }: { children: ReactNode }) {
@@ -72,10 +73,19 @@ export function Provider({ children }: { children: ReactNode }) {
   useEffect(()=>{const media=matchMedia("(prefers-color-scheme: dark)");const apply=()=>{document.documentElement.dataset.theme=state.preferences.theme==="system"?(media.matches?"dark":"light"):state.preferences.theme;};apply();media.addEventListener("change",apply);return ()=>media.removeEventListener("change",apply);},[state.preferences.theme]);
   const navigate=useCallback((next: string)=>{if(!next.startsWith("/")||next.startsWith("//"))return;history.pushState({},"",next);setPath(next);window.scrollTo({top:0,behavior:"instant"});},[]);
   const update=useCallback((fn:(value:State)=>State)=>{setState(previous=>{const next=fn(previous);if(!user||accessError)return {...previous,preferences:{...previous.preferences,theme:next.preferences.theme}};return {...next,updatedAt:Date.now()};});},[user,accessError]);
-  async function switchProfile(){if(switching.current)return;switching.current=true;setReady(false);setUser(null);setSync("Saving your profile…");try{if(user&&supabase&&!accessError){try{localStorage.setItem(prefix+user.id,JSON.stringify(state));}catch{/* The on-screen storage status remains available. */}if(cloudWritable&&state.updatedAt!==lastSaved.current){const error=await saveCloud(user.id,state);if(error)setMessage("Progress is saved on this device; cloud sync will retry when you return.");}}}finally{lockProfile();navigate("/login");switching.current=false;}}
+  const creditStudy=useCallback((userId:string,credits:Record<string,number>)=>{setState(previous=>{if(identity.current!==userId||profileLocked())return previous;const next=applyStudyCredits(previous,credits);return next===previous?previous:{...next,updatedAt:Date.now()};});},[]);
+  async function switchProfile(){
+    if(switching.current)return;switching.current=true;
+    const credits:Record<string,number>={};
+    if(user)window.dispatchEvent(new CustomEvent("nle-study-timer-pause",{detail:{userId:user.id,credits}}));
+    const saved={...applyStudyCredits(state,credits),updatedAt:Object.keys(credits).length?Date.now():state.updatedAt};
+    setState(saved);setReady(false);setUser(null);setSync("Saving your profile…");
+    try{if(user&&supabase&&!accessError){try{localStorage.setItem(prefix+user.id,JSON.stringify(saved));}catch{/* The on-screen storage status remains available. */}if(cloudWritable&&saved.updatedAt!==lastSaved.current){const error=await saveCloud(user.id,saved);if(error)setMessage("Progress is saved on this device; cloud sync will retry when you return.");}}}
+    finally{lockProfile();navigate("/login");switching.current=false;}
+  }
   const retryContent=()=>{if(user&&!accessError){try{localStorage.setItem(prefix+user.id,JSON.stringify(state));}catch{setMessage("Storage is full. Export a backup before reconnecting.");return;}}window.dispatchEvent(new Event("nle-profile-change"));};
   const bank=useMemo(()=>{if(!user||accessError)return [];const ids=new Set(questionMap.keys());return [...questions,...state.importedQuestions.filter(q=>!q.retired&&!ids.has(q.id))];},[state.importedQuestions,bankVersion,user,accessError]);
   const bankMap=useMemo(()=>!user||accessError?new Map():new Map([...questionMap,...bank.map(q=>[q.id,q] as const)]),[bank,user,accessError]);
-  return <AppContext.Provider value={{state,update,user,username,switchProfile,ready,sync,accessError,retryContent,toast:setMessage,navigate,path,bank,bankMap}}>{children}{message&&<div role="status" className="toast">{message}</div>}</AppContext.Provider>;
+  return <AppContext.Provider value={{state,update,user,username,creditStudy,switchProfile,ready,sync,accessError,retryContent,toast:setMessage,navigate,path,bank,bankMap}}>{children}{message&&<div role="status" className="toast">{message}</div>}</AppContext.Provider>;
 }
 export function download(name: string, text: string, type="application/json") { const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000); }

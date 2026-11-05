@@ -1,6 +1,7 @@
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {ArrowLeft,BookOpen,Download,ExternalLink,FileText,X} from 'lucide-react';
 import {useApp} from './store';
+import {canAccessPDFs} from './access';
 import {clinicalCases,subjects} from './bank';
 import {curriculum,findCurriculumTopic} from './curriculum';
 import {makeTopicGuide} from './pdf-guides';
@@ -15,6 +16,11 @@ function saveFile(name:string,bytes:Uint8Array,type:string){
 }
 const pause=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
 export function PDFLibrary(){
+ const {user,username}=useApp();
+ if(!canAccessPDFs(username,!!user))return <Empty title='PDF library unavailable' description='The PDF library is reserved for the elaine username.' action={<Link to='/resources' className='btn'>Open study resources</Link>}/>;
+ return <ElainePDFLibrary key={user!.id}/>;
+}
+function ElainePDFLibrary(){
  const {bank,state,toast,path}=useApp();
  const originalBank=useMemo(()=>{const personalIds=new Set(state.importedQuestions.map(q=>q.id));return bank.filter(q=>!personalIds.has(q.id));},[bank,state.importedQuestions]);
  const initialTopic=findCurriculumTopic(new URLSearchParams(path.split('?')[1]).get('topic')||'');

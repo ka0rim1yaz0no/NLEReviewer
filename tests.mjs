@@ -1,3 +1,5 @@
+import {vaultInterval,vaultIsDue,updateVaultReview} from "./vault-schedule.ts";
+import {mockQuestionIds} from "./mock-papers.ts";
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
@@ -16,7 +18,10 @@ import {additionalQuestions} from './additional-questions.ts';
 import {practiceTopicRows} from './practice-metrics.ts';
 import {savedTopicNotes} from './saved-notes.ts';
 import {contentDigest,validateProtectedContent} from './content-integrity.ts';
-import {needsUsername} from './access.ts';
+import {canAccessPDFs,needsUsername} from './access.ts';
+import {buildStudyPlan,planSettings,validatePlanSettings,spreadUnfinishedTasks,applyTaskOverrides,undoTaskOverrides,shiftCalendar,calendarDates,exportStudyCalendar} from './planning.ts';
+import {advanceFocusTimer,cleanFocusSettings,freshFocusTimer,focusCredits,applyStudyCredits} from './focus-timer.ts';
+import {studyTargets} from './review-targets.ts';
 import {auditQuestionBank,findDuplicateQuestions,referenceTotal,referenceCount,referenceSubjectCount} from './catalog-metrics.ts';
 import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addDays,daysBetween,streak,longestStreak,scheduleCard,parseFlashcardText,sessionScore} from './engine.ts';
 import {validateBackup} from './validation.ts';
@@ -480,4 +485,142 @@ test('legacy clinical clarifications are explicitly bounded and the corrected-ag
  assert.ok(corrected.reason.includes('equals 8 weeks'));
  assert.ok(clinicalCases[36].scenario.includes('confirmed hypertension'));
  assert.ok(clinicalCases[42].facts[1].reason.includes('calcium gluconate'));
+});
+
+
+test('PDF visibility uses the signed-in canonical elaine username',()=>{
+ assert.equal(canAccessPDFs('elaine',true),true);assert.equal(canAccessPDFs(' Elaine ',true),true);
+ for(const name of ['', 'Elaine Only', 'elaine2', 'ReviewerCheck-1102', 'ｅｌａｉｎｅ'])assert.equal(canAccessPDFs(name,true),false,name);
+ assert.equal(canAccessPDFs('elaine',false),false);
+});
+const planTopics=curriculum.map(t=>({subject:t.subject,name:t.name,slug:t.slug,count:29}));
+function plannedState(){const s=initialState();s.profile.examDate='2027-02-20';s.plan={...planSettings(s),startDate:'2026-11-05',restDays:[0,6]};return s;}
+
+test('full study schedule covers every topic and all mock sections on eligible dates',()=>{
+ const state=plannedState(),snapshot=structuredClone(state),plan=buildStudyPlan(state,planTopics);
+ assert.equal(plan.topicCount,155);assert.equal(plan.tasks.filter(t=>t.type==='read').length,155);assert.equal(plan.tasks.filter(t=>t.type==='practice').length,155);assert.equal(plan.tasks.filter(t=>t.type==='mock').length,25);
+ assert.equal(new Set(plan.tasks.map(t=>t.id)).size,plan.tasks.length);
+ for(const task of plan.tasks){assert.ok(task.date>='2026-11-05'&&task.date<='2027-02-20');assert.ok(![0,6].includes(new Date(task.date+'T12:00:00Z').getUTCDay()));if(task.type==='practice')assert.equal(task.count,29);}
+ for(const t of curriculum)assert.equal(plan.tasks.filter(task=>task.type==='practice'&&task.subject===t.subject&&task.topic===t.name).length,1,t.slug);
+ assert.deepEqual(state,snapshot);
+});
+
+test('planner settings select actual subjects and steps and report overload instead of omitting topics',()=>{
+ const state=plannedState();state.plan={...state.plan,subjects:['NP3'],focus:['NP3'],reading:false,flashcards:false,mocks:false,dailyMinutes:15,startDate:'2026-11-05',restDays:[]};state.profile.examDate='2026-11-05';
+ const plan=buildStudyPlan(state,planTopics);assert.equal(plan.topicCount,29);assert.equal(plan.tasks.length,29);assert.equal(plan.overloaded.length,1);assert.ok(plan.tasks.every(t=>t.type==='practice'&&t.subject==='NP3'));
+ const settings=planSettings(plannedState());
+ for(const change of [{restDays:[0,1,2,3,4,5,6]},{subjects:[]},{focus:['bogus']},{dailyMinutes:NaN},{startDate:'2027-02-30'}])assert.throws(()=>validatePlanSettings({...settings,...change},'2027-02-20'));
+ assert.throws(()=>validatePlanSettings({...settings,startDate:'2026-11-08',restDays:[0]},'2026-11-08'),/no study days/);
+});
+
+test('task moves, skips and legacy tasks persist without replacing answers or completed work',()=>{
+ const state=plannedState(),plan=buildStudyPlan(state,planTopics),selected=plan.tasks.find(t=>t.type==='practice');
+ state.tasks=[{...selected,date:'2026-12-15',skipped:true},{id:'2026-11-01:read',date:'2026-11-01',title:'Earlier task',done:true,type:'read'}];
+ state.notes.kept='Existing note';const next=buildStudyPlan(state,planTopics);
+ assert.deepEqual(next.tasks.find(t=>t.id===selected.id),state.tasks[0]);assert.ok(next.tasks.some(t=>t.id==='2026-11-01:read'&&t.done));assert.equal(state.notes.kept,'Existing note');
+ state.read=['catalog:'+curriculum[0].slug];assert.ok(buildStudyPlan(state,planTopics).tasks.some(t=>t.type==='read'&&t.topic===curriculum[0].name&&t.done));
+});
+
+test('catch-up spreads overdue blocks, respects rest days, and undo keeps subsequent edits',()=>{
+ const state=plannedState();state.plan.startDate='2026-11-02';
+ const tasks=[{id:'read',date:'2026-11-02',title:'Read',type:'read',subject:'NP1',topic:'Test',done:false,minutes:10},{id:'study',date:'2026-11-02',title:'Study',type:'practice',subject:'NP1',topic:'Test',done:false,minutes:30},{id:'done',date:'2026-11-02',title:'Done',type:'custom',done:true},{id:'skip',date:'2026-11-02',title:'Skip',type:'custom',done:false,skipped:true}];
+ const moves=spreadUnfinishedTasks(state,tasks,'2026-11-05',state.plan);assert.equal(moves.length,2);assert.equal(moves[0].date,moves[1].date);
+ for(const t of moves){assert.ok(t.date>='2026-11-05'&&t.date<='2026-11-11');assert.ok(![0,6].includes(new Date(t.date+'T12:00:00Z').getUTCDay()));}
+ const next=applyTaskOverrides(state,moves);assert.equal(new Set(next.tasks.map(t=>t.id)).size,next.tasks.length);
+ const undone=undoTaskOverrides(next,state.tasks,moves);assert.deepEqual(undone.tasks,state.tasks);
+ const changed=applyTaskOverrides(next,[{...moves[0],title:'Later edit'}]);assert.equal(undoTaskOverrides(changed,state.tasks,moves).tasks.find(t=>t.id==='read').title,'Later edit');
+ assert.deepEqual(spreadUnfinishedTasks(state,tasks,'2027-03-01',state.plan),[]);
+});
+
+test('calendar navigation crosses real months and exported UTF-8 events fold safely',()=>{
+ assert.equal(shiftCalendar('2027-01-31','month',1),'2027-02-01');assert.equal(shiftCalendar('2026-12-31','month',1),'2027-01-01');assert.equal(shiftCalendar('2027-03-01','month',-1),'2027-02-01');
+ const dates=calendarDates('2028-02-29','month');assert.equal(dates.length,42);assert.ok(dates.includes('2028-02-29'));assert.equal(new Date(dates[0]+'T12:00:00Z').getUTCDay(),0);
+ const text=exportStudyCalendar([{id:'custom-1',date:'2026-11-05',title:'Elaine, study; '+('ñ'.repeat(100))+'\nNext',type:'custom',done:false},{id:'skip',date:'2026-11-05',title:'Skip',type:'custom',done:false,skipped:true}],0);
+ assert.equal((text.match(/BEGIN:VEVENT/g)||[]).length,1);assert.ok(text.includes('DTEND;VALUE=DATE:20261106'));assert.ok(text.includes('Elaine\\, study\\;'));
+ for(const line of text.split('\r\n'))assert.ok(Buffer.byteLength(line,'utf8')<=75);
+});
+
+test('Pomodoro pauses at the next phase and never credits break or excess elapsed time',()=>{
+ const settings=cleanFocusSettings({focus:25,autoStart:false}),timer={...freshFocusTimer(settings,'pomodoro',0),running:true};
+ const result=advanceFocusTimer(timer,settings,3600000);assert.equal(result.timer.phase,'short');assert.equal(result.timer.running,false);assert.equal(result.timer.elapsed,0);assert.equal(result.timer.completed,1);
+ assert.equal(result.segments.reduce((n,s)=>n+s.end-s.start,0),1500000);
+ assert.equal(advanceFocusTimer(result.timer,settings,7200000).segments.length,0);
+});
+
+test('automatic focus cycles use short and long breaks and count only worked focus phases',()=>{
+ const settings=cleanFocusSettings({focus:1,short:1,long:2,rounds:2,autoStart:true}),timer={...freshFocusTimer(settings,'pomodoro',0),running:true};
+ const result=advanceFocusTimer(timer,settings,300000);assert.equal(result.timer.phase,'focus');assert.equal(result.timer.completed,2);assert.equal(result.timer.elapsed,0);assert.equal(result.completedPhases,4);assert.equal(result.timer.running,true);
+ assert.equal(result.segments.reduce((n,s)=>n+s.end-s.start,0),120000);
+ const partial=advanceFocusTimer(timer,settings,90000);assert.equal(partial.timer.phase,'short');assert.equal(partial.timer.elapsed,30000);assert.equal(partial.segments.reduce((n,s)=>n+s.end-s.start,0),60000);
+});
+
+test('stopwatch and clock reversal cannot credit the same interval twice',()=>{
+ const settings=cleanFocusSettings(),timer={...freshFocusTimer(settings,'stopwatch',10000),running:true};
+ const back=advanceFocusTimer(timer,settings,5000);assert.equal(back.timer.lastAt,10000);assert.equal(back.segments.length,0);
+ const next=advanceFocusTimer(back.timer,settings,15000);assert.equal(next.timer.elapsed,5000);assert.equal(next.segments[0].end-next.segments[0].start,5000);
+});
+
+test('focus credits split at Manila midnight and preserve existing totals',()=>{
+ const credits=focusCredits([{start:Date.parse('2026-11-05T15:59:30Z'),end:Date.parse('2026-11-05T16:00:30Z')}],'Asia/Manila');assert.deepEqual(credits,{'2026-11-05':30,'2026-11-06':30});
+ const state=initialState();state.studySeconds=3600;state.studyLog={'2026-11-05':120};const next=applyStudyCredits(state,credits);assert.equal(next.studySeconds,3660);assert.deepEqual(next.studyLog,{'2026-11-05':150,'2026-11-06':30});assert.equal(state.studySeconds,3600);
+ assert.deepEqual(applyStudyCredits(state,{'bad':2,'2026-11-05':NaN,'2026-11-06':-1}),state);
+});
+
+test('new planner and timer preferences round-trip through a backup and reject malformed tasks',()=>{
+ const state=plannedState();state.focusSettings=cleanFocusSettings({focus:300,short:NaN,rounds:0});state.studyLog={'2026-11-05':120,invalid:3};
+ const copy=validateBackup(state);assert.deepEqual(copy.plan,state.plan);assert.deepEqual(copy.studyLog,{'2026-11-05':120});assert.equal(copy.focusSettings.focus,120);assert.equal(copy.focusSettings.short,5);assert.equal(copy.focusSettings.rounds,1);
+ assert.throws(()=>validateBackup({...state,tasks:[{id:'bad',title:'Bad',date:'2026-11-05',done:false,type:'custom',minutes:NaN}]}),/invalid task/);
+});
+
+test('study targets require independent subject baselines and distinct completed mock sections',()=>{
+ const state=initialState(),map=new Map();let at=1;
+ for(const subject of ['NP1','NP2','NP3','NP4','NP5'])for(let i=0;i<10;i++){const id=subject+'-'+i;map.set(id,{subject});state.attempts.push({id,questionId:id,at:at++,correct:true,selected:0,sessionId:'s',confidence:''});}
+ let target=studyTargets(state,map);assert.equal(target.met.subjects,true);assert.equal(target.met.rating,true);assert.equal(target.metCount,2);assert.equal(target.met.mocks,false);
+ for(let b=1;b<=5;b++)for(const subject of ['NP1','NP2','NP3','NP4','NP5'])state.sessions.push({id:`m${b}${subject}`,mockBoard:b,subject,finishedAt:1});
+ target=studyTargets(state,map);assert.equal(target.metCount,3);assert.equal(target.completeBoards,5);assert.equal(target.nextBoard,undefined);
+ state.attempts=state.attempts.filter(a=>!a.questionId.startsWith('NP5-'));target=studyTargets(state,map);assert.equal(target.met.subjects,false);assert.equal(target.nextSubject.subject,'NP5');assert.equal(target.nextSubject.score,null);
+});
+
+
+test('all five new mocks contain fixed disjoint 100-item sections with complete linked situations',()=>{
+ const order=['recognition','action','teaching','safety','planning','evaluation','reasoning'];
+ for(const subject of ['NP1','NP2','NP3','NP4','NP5']){
+  const all=[];
+  for(let boardNumber=1;boardNumber<=5;boardNumber++){
+   const ids=mockQuestionIds(activeQuestions,subject,boardNumber);assert.equal(ids.length,100);assert.deepEqual(ids,mockQuestionIds([...activeQuestions].reverse(),subject,boardNumber));
+   for(let group=0;group<14;group++){
+    const qs=ids.slice(group*7,group*7+7).map(id=>bank.get(id));assert.equal(new Set(qs.map(q=>q.caseId)).size,1);assert.deepEqual(qs.map(q=>q.clinicalObjective),order);
+   }
+   assert.ok(ids.slice(98).every(id=>id.startsWith('EXP2-')));assert.ok(ids.every(id=>bank.get(id).subject===subject));all.push(...ids);
+  }
+  assert.equal(new Set(all).size,500);
+ }
+ assert.deepEqual(mockQuestionIds(activeQuestions,'CROSS',1),[]);assert.deepEqual(mockQuestionIds(activeQuestions,'NP1',0),[]);assert.deepEqual(mockQuestionIds(activeQuestions.slice(0,20),'NP1',1),[]);
+});
+
+
+test('optional spaced Vault requires two correct weekly reviews and resets after a miss',()=>{
+ const q=questions[0];let state=initialState();state.preferences.spacedVault=true;
+ const answer=(correct,at)=>{state=recordAnswer(state,{...session(),id:'spaced-'+at},q,{selected:correct?q.correctIndex:(q.correctIndex+1)%4,submitted:true,confidence:''},at);};
+ answer(false,1000);assert.ok(state.vault.includes(q.id));assert.equal(vaultIsDue(state,q.id,1000+vaultInterval-1),false);
+ answer(true,2000);assert.equal(state.vaultReviews[q.id].successes,0);assert.ok(state.vault.includes(q.id));
+ answer(true,1000+vaultInterval);assert.equal(state.vaultReviews[q.id].successes,1);assert.ok(state.vault.includes(q.id));
+ answer(true,1001+vaultInterval);assert.ok(state.vault.includes(q.id));
+ answer(true,1000+2*vaultInterval);assert.ok(!state.vault.includes(q.id));assert.equal(firstAttempts(state.attempts)[0].correct,false);
+ answer(false,1000+3*vaultInterval);assert.equal(state.vaultReviews[q.id].successes,0);assert.equal(vaultIsDue(state,q.id,1000+4*vaultInterval),true);
+});
+
+test('enabling spaced Vault keeps legacy backlog due and the off setting keeps immediate clearing',()=>{
+ let state=initialState();state.vault=['legacy'];state.preferences.spacedVault=true;assert.equal(vaultIsDue(state,'legacy',100),true);
+ state=updateVaultReview(state,'legacy',true,100);assert.equal(state.vaultReviews.legacy.successes,1);assert.ok(state.vault.includes('legacy'));
+ state.preferences.spacedVault=false;state=updateVaultReview(state,'legacy',true,101);assert.deepEqual(state.vault,[]);assert.equal(state.vaultReviews.legacy,undefined);
+});
+
+
+test('personal imports cannot change a shared fixed mock selection',()=>{
+ const existing=activeQuestions.filter(q=>q.subject==='NP1'&&q.caseId?.startsWith('SIT-')).slice(0,7);
+ const personal=existing.map((q,i)=>({...q,id:'personal-'+i,caseId:'personal-case'}));
+ const single={...activeQuestions.find(q=>q.subject==='NP1'&&q.id.startsWith('EXP2-')),id:'EXP2-personal-case',caseId:'personal-single'};
+ const all=[...personal,single];
+ for(let b=1;b<=5;b++)assert.deepEqual(mockQuestionIds([...activeQuestions,...all],'NP1',b,all.map(q=>q.id)),mockQuestionIds(activeQuestions,'NP1',b));
 });
