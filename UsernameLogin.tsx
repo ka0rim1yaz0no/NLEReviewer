@@ -3,13 +3,13 @@ import bankSummary from "./bank-summary.json";
 import { useState } from "react";
 import { ArrowRight, BookOpen, ChevronRight, User } from "lucide-react";
 import { openUsernameProfile, rememberedProfiles, supabase } from "./auth";
-import { priorityUsername } from "./access";
+import { priorityUsername, profilePickerEntries } from "./access";
 import { useApp } from "./store";
 import { Card, Link } from "./ui";
 export default function UsernameLogin(){
  const {user,username,navigate,path}=useApp();
  const [name,setName]=useState(""),[busy,setBusy]=useState(false),[error,setError]=useState("");
- const saved=rememberedProfiles();
+ const saved=profilePickerEntries(rememberedProfiles());
  async function enter(value:string,rememberedId?:string){
   setError("");setBusy(true);
   try{
@@ -39,7 +39,7 @@ export default function UsernameLogin(){
      {error&&<p className="login-error" role="alert">{error}</p>}
      <button className="btn primary full" disabled={busy||!name.trim()}>{busy?"Opening your profile…":"Start studying"}<ArrowRight size={16}/></button>
     </form>
-    {saved.length>0&&<div className="remembered-profiles"><h3>Profiles on this browser</h3>{saved.map(p=><button key={p.id} disabled={busy} onClick={()=>void enter(p.username,p.id)}><span className="profile-initial">{p.username.slice(0,2).toUpperCase()}</span><span>{p.username}</span><ChevronRight size={16}/></button>)}</div>}
+    {saved.length>0&&<div className="remembered-profiles"><h3>Profiles on this browser</h3>{saved.map(p=><button key={p.profileId} disabled={busy} onClick={()=>void enter(p.username,p.id)}><span className="profile-initial" aria-hidden="true">{p.label.slice(0,2).toUpperCase()}</span><span>{p.label}</span><ChevronRight size={16}/></button>)}</div>}
     <p className="fine-print">Use <strong>{priorityUsername}</strong> on any device to open the shared progress and PDFs. Anyone entering this username can open that profile. Other profiles stay separate and are remembered on their original browser.</p>
    </>:<><p>The database connection needs to be configured before username sign-in is available.</p><Link to="/help" className="btn">View setup help</Link></>}
   </Card>

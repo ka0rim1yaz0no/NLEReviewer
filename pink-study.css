@@ -204,7 +204,8 @@ h1, .login-introduction h1, .username-card h2, .practice-intro h2,
   .login-notebook { width: 114px; grid-column: 2; grid-row: 1 / 4; margin: 0; }
   .login-introduction h1 { grid-row: 2; margin-top: 5px; }
   .login-introduction .login-description { grid-row: 3; margin: 0; }
-  .login-benefits { grid-column: 1 / -1; grid-row: 4; margin-top: 13px; }
+  .login-benefits { display: flex; grid-column: 1 / -1; grid-row: 4; margin-top: 13px; }
+  .login-benefits span + span { display: none; }
 }
 @media (max-width: 360px) {
   .welcome { padding-right: 83px; }

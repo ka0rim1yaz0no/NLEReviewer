@@ -27,7 +27,7 @@ import {additionalQuestions} from './additional-questions.ts';
 import {practiceTopicRows} from './practice-metrics.ts';
 import {savedTopicNotes} from './saved-notes.ts';
 import {contentDigest,validateProtectedContent} from './content-integrity.ts';
-import {canAccessPDFs,needsUsername} from './access.ts';
+import {canAccessPDFs,needsUsername,profilePickerEntries} from './access.ts';
 import {buildStudyPlan,planSettings,validatePlanSettings,spreadUnfinishedTasks,applyTaskOverrides,undoTaskOverrides,shiftCalendar,calendarDates,exportStudyCalendar} from './planning.ts';
 import {advanceFocusTimer,cleanFocusSettings,freshFocusTimer,focusCredits,applyStudyCredits} from './focus-timer.ts';
 import {studyTargets} from './review-targets.ts';
@@ -506,6 +506,13 @@ test('PDF visibility requires the signed-in shared Isabel identity',()=>{
  for(const name of ['', 'Elaine', 'Isabel (previous)', 'isabel2', 'ReviewerCheck-1102', 'ｉｓａｂｅｌ'])assert.equal(canAccessPDFs(name,true,true),false,name);
  assert.equal(canAccessPDFs('isabel',false,true),false);
  assert.equal(canAccessPDFs('isabel',true,false),false);
+});
+test('remembered profile choices keep one entry per owner during the Isabel rename',()=>{
+ const original={profileId:'priority',id:'owner-device',username:'Elaine',shared:true};
+ const previous={profileId:'previous',id:'private-device',username:'Isabel',shared:false};
+ const roaming={...original,id:'new-device',username:'Isabel'};
+ assert.deepEqual(profilePickerEntries([original,previous]).map(p=>[p.id,p.label]),[['owner-device','Isabel'],['private-device','Isabel (previous)']]);
+ assert.deepEqual(profilePickerEntries([original,previous,roaming]).map(p=>[p.id,p.label]),[['new-device','Isabel'],['private-device','Isabel (previous)']]);
 });
 const planTopics=curriculum.map(t=>({subject:t.subject,name:t.name,slug:t.slug,count:29}));
 function plannedState(){const s=initialState();s.profile.examDate='2027-02-20';s.plan={...planSettings(s),startDate:'2026-11-05',restDays:[0,6]};return s;}
