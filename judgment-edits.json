@@ -1,0 +1,1098 @@
+{
+  "cases": {
+    "NP2-058": {
+      "scenario": "An 18-month-old had a single generalized seizure lasting 3 minutes during a febrile illness. The child returned to the usual neurological baseline within 20 minutes and has no focal findings or prior afebrile seizures. The team has assessed the source of fever, and the caregiver asks how to prevent a recurrence at home.",
+      "problem": "A brief generalized event with full recovery and no recurrence during this illness",
+      "action": "Confirm the recovery and review the fever management and home follow-up plan before discharge",
+      "teaching": "Use fever medicine for comfort as directed and follow the taught seizure return precautions",
+      "outcome": "The caregiver can explain when to seek urgent help and how to manage fever at home",
+      "unsafe": "Schedule antipyretics specifically to prevent another febrile seizure",
+      "reason": "The brief generalized seizure and full recovery fit a simple febrile seizure after assessment. Fever medicines can improve comfort, but routine antipyretics do not prevent febrile seizures.",
+      "reasons": {
+        "problem": "Duration, generalization, full recovery, and lack of recurrence distinguish the simple presentation described.",
+        "action": "The child is no longer seizing. Discharge preparation focuses on recovery, the cause of fever, and family readiness to manage and seek care.",
+        "teaching": "Comfort measures and a clear safety plan give the family practical steps. Fever medicine is not seizure prophylaxis.",
+        "outcome": "Explaining when to seek help shows that the caregiver can use the safety plan beyond the hospital.",
+        "unsafe": "Scheduled antipyretics for seizure prevention are unsupported. Using them for comfort according to instructions is a different purpose."
+      },
+      "source": "https://www.rch.org.au/clinicalguide/guideline_index/Febrile_seizure/"
+    },
+    "NP5-116": {
+      "scenario": "A client with stable dementia does not answer an open-ended question about what to wear. When shown two shirts, the client consistently points to one. Staff suggest asking family to make the choice because the client did not answer verbally.",
+      "problem": "The client indicates a consistent preference when offered visible choices",
+      "action": "Offer the two shirts as visible options and allow time for the client to choose",
+      "teaching": "Use simple visual options and allow a response before assuming the person cannot participate",
+      "outcome": "The client communicates a preference using the adapted method",
+      "unsafe": "Use the missed verbal response alone to conclude the client cannot make the everyday choice",
+      "reason": "An adapted way of communicating can reveal preferences that an open-ended verbal question misses. Allow the person to participate in decisions using an accessible method.",
+      "reasons": {
+        "problem": "The pointing response is evidence of a preference. The absence of a verbal answer does not establish inability to choose.",
+        "action": "The visual choice preserves the client's involvement and matches the method that already elicited a response.",
+        "teaching": "Visual options and time make everyday choices accessible when word retrieval or processing is difficult.",
+        "outcome": "A preference expressed by pointing is an observable result of adapting communication.",
+        "unsafe": "A single unsuccessful verbal prompt does not justify transferring the decision to someone else."
+      },
+      "source": "https://www.nice.org.uk/guidance/ng97/chapter/Recommendations"
+    },
+    "SIT-NP5-altered-perception-01": {
+      "scenario": "A client with diabetes becomes confused and sweaty with a bedside glucose of 42 mg/dL. After protocol treatment, the glucose is 105 mg/dL and sweating resolves. New right arm drift and difficulty speaking persist on reassessment.",
+      "problem": "Persistent focal neurological deficits after correction of hypoglycemia",
+      "action": "Activate urgent stroke assessment and communicate the timing, repeat glucose, and persistent deficits",
+      "teaching": "Report sudden one-sided weakness or speech changes immediately even when low glucose was identified earlier",
+      "outcome": "The stroke team receives the time course and glucose response while the deficits are urgently reassessed",
+      "unsafe": "Continue glucose checks alone and leave the focal findings for the next routine assessment",
+      "reason": "Hypoglycemia can imitate a stroke, but focal deficits persisting after glucose correction warrant immediate stroke evaluation. An improvement in glucose does not explain persistent unilateral weakness and speech change.",
+      "source": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000513"
+    },
+    "SIT-NP3-pulmonary-embolism-pulmonary-hypertension-02": {
+      "scenario": "A client taking warfarin after pulmonary embolism has had stable INR results. A different clinic prescribes trimethoprim-sulfamethoxazole, which the client has not started. The client asks whether the next scheduled INR check can stay several weeks away.",
+      "problem": "A new antibiotic interaction that can increase the effect of warfarin",
+      "action": "Contact the anticoagulation service and prescriber promptly to review the combination and plan INR follow-up",
+      "teaching": "Check newly prescribed medicines with the anticoagulation team and promptly report signs of bleeding",
+      "outcome": "The prescriber and anticoagulation service document the medicine and monitoring plan before the new prescription starts",
+      "unsafe": "Leave INR monitoring on the usual schedule because the most recent result was in range",
+      "reason": "Trimethoprim-sulfamethoxazole can increase the anticoagulant effect of warfarin. A prior in-range INR does not reflect the effect of the new medicine. Coordinate treatment and monitoring instead of changing doses independently.",
+      "source": "https://www.dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=284b5dac-2b8d-46bf-95fe-80ce03fa178a&type=display"
+    },
+    "SIT-CROSS-laboratory-values-01": {
+      "unsafe": "Continue the scheduled potassium supplement while the team obtains another specimen"
+    }
+  },
+  "standalone": {
+    "EXP2-CROSS-laboratory-values": {
+      "replace": 3,
+      "text": "Confirm the HbA1c with a different assay and use it if the two results agree",
+      "why": "A different assay does not remove the effect of transfused red cells on the result. The recent transfusion matters when choosing which glucose information to use."
+    },
+    "EXP2-CROSS-pharmacology-core-principles": {
+      "replace": 2,
+      "text": "Document the morning dose as held and resume the usual schedule at the next dose",
+      "why": "Holding a possible duplicate can be appropriate while checking. It does not reconcile whether the dose was given or establish the next safe administration time."
+    },
+    "EXP2-CROSS-nursing-process-prioritization": {
+      "replace": 3,
+      "text": "Use the observed behavior as the primary pain measure and record the report as supporting information",
+      "why": "For a client able to describe pain, observation can supplement the report. It does not override the person's own rating."
+    },
+    "EXP2-CROSS-professional-ethics-legal-foundations": {
+      "replace": 2,
+      "text": "Request a formal update to the old document before recording the client's new wishes",
+      "why": "An update may be needed, but the nurse should document the capable client's current wishes and involve the team now."
+    },
+    "EXP2-CROSS-health-assessment-vital-signs": {
+      "replace": 3,
+      "text": "Keep the client supported in standing and obtain the next scheduled measurement before repositioning",
+      "why": "The symptomatic drop already requires help to a safe position. Completing the standing sequence is secondary to preventing a fall."
+    },
+    "EXP2-CROSS-dosage-calculation-medication-administration": {
+      "replace": 3,
+      "text": "32 drops/min",
+      "why": "The unrounded rate is 31.25 drops/min. It rounds to 31, rather than rounding up to make up for fractional drops."
+    },
+    "EXP2-CROSS-asepsis-iv-therapy-wound-care": {
+      "replace": 0,
+      "text": "Deep tissue pressure injury",
+      "why": "Deep tissue pressure injury involves persistent deep discoloration or related findings. The visible adipose with full-thickness loss and no exposed deeper structures supports stage 3."
+    },
+    "EXP2-CROSS-basic-needs-mobility-comfort-elimination-oxygenation": {
+      "replace": 1,
+      "text": "Move linen changes earlier and keep the remaining routine care at separate intervals",
+      "why": "Moving one task reduces one interruption. Clustering the other nonurgent tasks around required monitoring addresses the repeated sleep interruptions."
+    },
+    "EXP2-CROSS-pharmacology-drug-classes": {
+      "replace": 3,
+      "text": "Use a routine aPTT target instead of an INR target to adjust apixaban",
+      "why": "Routine aPTT does not give a validated dosing target for apixaban. Monitoring needs differ from titrating warfarin or heparin."
+    },
+    "EXP2-CROSS-leadership-management": {
+      "replace": 3,
+      "text": "Ask each shift leader to collect signed acknowledgments and use them as the implementation check",
+      "why": "Acknowledgments show staff received the policy. They do not test whether the day and night teams interpret critical steps the same way."
+    },
+    "EXP2-CROSS-nursing-research": {
+      "replace": 3,
+      "text": "Use the statistically significant improvement to recommend adoption and monitor skin reactions afterward",
+      "why": "The study provides limited evidence about harms and the effect is small. Clinical benefit and applicability need review before broad adoption."
+    },
+    "EXP2-CROSS-professional-adjustment-jurisprudence": {
+      "replace": 1,
+      "text": "Remove the photo and share the story with its diagnosis, room, and date intact",
+      "why": "The remaining details can still identify a person in combination. Removing a photograph does not make this account anonymous."
+    },
+    "EXP2-NP1-non-communicable-diseases": {
+      "replace": 3,
+      "text": "Keep the next routine screening appointment and cancel the specific follow-up visit",
+      "why": "Routine screening intervals do not replace evaluation of an abnormal result. Follow the recommended pathway for this finding."
+    },
+    "EXP2-NP1-communicable-diseases-basic-concepts": {
+      "replace": 2,
+      "text": "Permit reuse after a new needle is attached if the syringe never visibly contacts blood",
+      "why": "Blood contamination may be invisible and can travel into a syringe. A fresh sterile needle and syringe are required for each client."
+    },
+    "EXP2-NP1-tuberculosis": {
+      "replace": 3,
+      "text": "Repeat with a different IGRA now and cancel the later test if it is also negative",
+      "why": "Changing assays does not eliminate the early interval in which an immune response may be undetectable. Follow-up after the window is still needed."
+    },
+    "EXP2-NP1-leprosy": {
+      "replace": 1,
+      "text": "Recommend avoiding ordinary school contact until the final dose of multidrug therapy",
+      "why": "Casual conversation is not the typical route of transmission. Treatment completion is important but does not justify that restriction."
+    },
+    "EXP2-NP1-mosquito-borne-diseases": {
+      "replace": 3,
+      "text": "Use ibuprofen if there is no visible bruising or bleeding while the tests are pending",
+      "why": "The absence of visible bleeding does not exclude dengue. Avoid NSAIDs until dengue has been excluded."
+    },
+    "EXP2-NP1-integumentary-related-cds": {
+      "replace": 0,
+      "text": "Place a mask on the child and move the child to the far end of the same waiting room",
+      "why": "Source control helps during movement, but continued sharing of air in a waiting room does not meet airborne precautions."
+    },
+    "EXP2-NP1-neuro-related-cds": {
+      "replace": 1,
+      "text": "Clean the wound now and wait for the animal's test result before contacting an exposure service",
+      "why": "Wound care is only part of the response. A possible exposure needs prompt professional assessment to decide on postexposure measures."
+    },
+    "EXP2-NP1-common-infectious-diseases-summary": {
+      "replace": 2,
+      "text": "Identify prior vaccination as the source of the antibodies without checking the exposure history",
+      "why": "Total antibody can follow vaccination or past infection. This pattern alone cannot distinguish the two."
+    },
+    "EXP2-NP1-family-nursing-process": {
+      "replace": 3,
+      "text": "A family APGAR assessment",
+      "why": "Family APGAR assesses perceived family functioning. A genogram maps members and relationships across generations and can show illness patterns."
+    },
+    "EXP2-NP1-care-of-families-normal-at-risk": {
+      "replace": 2,
+      "text": "Provide the parent with written instructions to pass along to relatives separately",
+      "why": "Written advice can help, but it does not address the conflicting roles and messages. A shared discussion can align the chosen supports."
+    },
+    "EXP2-NP1-care-of-population-groups-with-other-health-priorities": {
+      "replace": 1,
+      "text": "Give telephone advice and arrange transport only if the client later develops symptoms",
+      "why": "Telephone advice does not supply a way to cool down now. Limited mobility and no reliable cooling make early coordination important."
+    },
+    "EXP2-NP1-ph-health-care-delivery-system-doh": {
+      "replace": 2,
+      "text": "The regional DOH office as the medicine registration authority",
+      "why": "A regional office may help route a report. The FDA is responsible for product authorization and medicine safety regulation."
+    },
+    "EXP2-NP1-universal-health-care-uhc-sdgs": {
+      "replace": 2,
+      "text": "The change in visit rates across household income groups",
+      "why": "Visit rates by income help assess equity of use. They do not measure whether paying for care causes financial hardship."
+    },
+    "EXP2-NP1-primary-health-care-phc": {
+      "replace": 2,
+      "text": "Longitudinal continuity between visits",
+      "why": "Following someone over time can show continuity. The evidence asked about here is the range of needs the team can address.",
+      "stem": "A primary-care team follows the same client over several visits. It provides diabetes care, immunization, smoking cessation, and support with grief. Which attribute is demonstrated by the breadth of services the team provides?"
+    },
+    "EXP2-NP1-community-health-nursing-process": {
+      "replace": 3,
+      "text": "Report an 80% relative increase in coverage without stating the change in percentage points",
+      "why": "Relative change is a separate measure. The question asks for absolute coverage change, which is 45% minus 25%, or 20 percentage points.",
+      "stem": "A clinic screened 100 of 400 eligible residents before a program and 180 of the same 400 afterward. A report must state the baseline and follow-up coverage and the absolute change. Which entry meets that requirement?"
+    },
+    "EXP2-NP1-expanded-program-on-immunization-epi": {
+      "replace": 2,
+      "text": "Schedule varicella as soon as 14 days have elapsed since MMR because the injections use different sites",
+      "why": "Different sites do not replace the spacing rule. When these injectable live vaccines are given on separate days, use at least 28 days between them."
+    },
+    "EXP2-NP1-epidemiology-vital-statistics-demography": {
+      "replace": 3,
+      "text": "4.0%",
+      "why": "Subtracting the five newly diagnosed residents leaves 40, but they are still living with the condition on the survey day and belong in point prevalence."
+    },
+    "EXP2-NP1-maternal-child-health-mch-programs": {
+      "replace": 2,
+      "text": "Apply an antiseptic at each diaper change despite the lack of an indication in the local newborn care plan",
+      "why": "Routine treatment is not required for a dry, healthy stump in this case. Follow local newborn care guidance and monitor for infection."
+    },
+    "EXP2-NP1-nutrition-programs": {
+      "replace": 1,
+      "text": "Use only strained cereal liquid initially because thin feeds are easier to swallow",
+      "why": "Thin cereal liquid alone supplies too little energy and nutrients. Offer appropriately textured, nutrient-dense complementary foods while breastfeeding continues."
+    },
+    "EXP2-NP1-sanitation-environmental-health": {
+      "replace": 2,
+      "text": "Run the tap water through a household pitcher filter before preparing formula",
+      "why": "An ordinary pitcher filter may not remove the spilled chemical. Follow the specific advisory and use water verified as safe for drinking."
+    },
+    "EXP2-NP1-disaster-nursing-in-the-community": {
+      "replace": 2,
+      "text": "Delayed or yellow while reserving a later breathing check",
+      "why": "In adult START the initial category depends on breathing after airway repositioning. Persistent apnea at that decision point receives the black tag."
+    },
+    "EXP2-NP1-school-occupational-health-nursing": {
+      "replace": 2,
+      "text": "Record the current symptoms and usual inhaler response without linking them to particular tasks or shifts",
+      "why": "This can describe asthma control, but the exposure and time pattern is what helps assess whether work contributes to symptoms."
+    },
+    "EXP2-NP1-recording-reporting-health-information": {
+      "replace": 3,
+      "text": "Add the correct date in a private note and leave the submitted report untouched",
+      "why": "A private note does not correct the official entry for its users. The authorized amendment records the correction and retains the audit trail."
+    },
+    "EXP2-NP1-referral-system": {
+      "replace": 1,
+      "text": "Resend the referral with its original priority and leave the receiving service to arrange the appointment",
+      "why": "Resending may transmit the referral, but receipt, urgency, and who will follow up still need confirmation."
+    },
+    "EXP2-NP1-community-mental-health-program": {
+      "replace": 1,
+      "text": "Offer weight counseling now and defer metabolic checks until the next psychiatric medication review",
+      "why": "Counseling helps, but the weight change and missed follow-up warrant coordinated metabolic assessment now rather than depending on a later mental-health visit."
+    },
+    "EXP2-NP1-integrated-management-of-childhood-illness-imci": {
+      "replace": 2,
+      "text": "Double a 30-second count once the child is calm",
+      "why": "Calming the child improves measurement, but IMCI uses a full-minute count. A shorter count may misclassify irregular breathing."
+    },
+    "EXP2-NP1-health-education-research-utilization-in-chn": {
+      "replace": 3,
+      "text": "Report 10 percentage points because 10 of the controls experienced the outcome",
+      "why": "Ten percent is the baseline risk. Absolute reduction subtracts the intervention risk of 5% from that baseline."
+    },
+    "EXP2-NP1-laws-nursing-practice-health-workforce": {
+      "replace": 1,
+      "text": "Check the weekly total only and treat a 10-hour normal duty day as within the daily limit",
+      "why": "The law specifies a normal daily limit as well as a weekly limit. Overtime questions require a separate review of the proposed roster."
+    },
+    "EXP2-NP1-laws-disease-reporting-control": {
+      "replace": 2,
+      "text": "The Secretary of Health acting alone to declare a State of Public Health Emergency for a national security threat",
+      "why": "Section 7 gives the Secretary a role in declaring epidemics of national or international concern. The declaration asked about here is made by the President."
+    },
+    "EXP2-NP1-laws-health-financing-insurance": {
+      "replace": 3,
+      "text": "Finance the campaign through individual claims once every resident is enrolled",
+      "why": "Enrolling residents does not turn a community-wide intervention into a set of individual claims. The Act distinguishes financing for population-based services."
+    },
+    "EXP2-NP1-laws-maternal-child-reproductive-health": {
+      "replace": 3,
+      "text": "Distribute the samples to mothers after staff remove the product advertising",
+      "why": "Removing promotional labels does not change the purpose of routine company sample distribution. Use the facility's Milk Code process and provide individualized feeding support."
+    },
+    "EXP2-NP1-laws-ncd-environmental-occupational-nutrition-R2": {
+      "replace": 1,
+      "text": "Allow the purchase if the adult relative confirms by phone that they requested it",
+      "why": "The purchaser is a minor. Confirmation that an adult requested the purchase does not permit a sale to that minor."
+    },
+    "EXP2-NP2-normal-pregnancy": {
+      "replace": 2,
+      "text": "Keep the same large evening meal and remain upright afterward",
+      "why": "Remaining upright addresses position, but the large meal is another reported trigger. The best initial plan addresses both.",
+      "stem": "A client with an uncomplicated pregnancy reports mild heartburn after large evening meals and lying down immediately afterward. No warning sign is present. Which initial advice addresses both triggers?"
+    },
+    "EXP2-NP2-complications-during-pregnancy": {
+      "replace": 3,
+      "text": "Treat fetal red-cell destruction that is already occurring",
+      "why": "Anti-D prophylaxis is intended to prevent maternal sensitization after a possible exposure. It does not treat established fetal hemolytic disease."
+    },
+    "EXP2-NP2-normal-labor-delivery": {
+      "replace": 0,
+      "text": "Document the color and amount of the fluid before checking the fetal heart rate",
+      "why": "Fluid characteristics are useful, but clear fluid does not rule out a sudden fetal heart-rate change after membrane rupture. Assess fetal status promptly."
+    },
+    "EXP2-NP2-complications-during-labor": {
+      "replace": 2,
+      "text": "Recurrent variable decelerations from intermittent umbilical cord compression",
+      "why": "Variable decelerations typically drop abruptly and their timing varies. The consistent lag after the contraction peak supports the late pattern."
+    },
+    "EXP2-NP2-normal-puerperium": {
+      "replace": 3,
+      "text": "Bladder distension as the primary cause of the brief feed-related cramps",
+      "why": "Bladder assessment can be relevant after birth, but the reproducible timing with breastfeeding and firm fundus support oxytocin-related afterpains."
+    },
+    "EXP2-NP2-postpartum-complications": {
+      "replace": 2,
+      "text": "Continue usual feeding and add pumping to empty the affected breast after every feed",
+      "why": "Milk removal should match the infant's needs and the assessment plan. Extra pumping to empty the breast can worsen oversupply and inflammation."
+    },
+    "EXP2-NP2-family-planning-methods": {
+      "replace": 3,
+      "text": "Switch immediately to a progestin-only pill because the interaction involves only estrogen",
+      "why": "Rifampin can reduce the effectiveness of progestin-only pills too. A reviewed method or backup plan is needed."
+    },
+    "EXP2-NP2-female-male-reproductive-systems": {
+      "replace": 2,
+      "text": "Treat the symptoms as primary dysmenorrhea and wait to evaluate until conception is attempted again",
+      "why": "Pain with intercourse, difficulty conceiving, and interference with work support assessment now. Symptoms alone do not establish a diagnosis."
+    },
+    "EXP2-NP2-fertilization-genetics-fertility": {
+      "replace": 3,
+      "text": "Begin supplementation after the first positive pregnancy test because that is early enough for prevention",
+      "why": "Neural tube development occurs very early. Starting before conception covers the interval before pregnancy may be recognized."
+    },
+    "EXP2-NP2-ethico-moral-management-in-maternal-care": {
+      "replace": 2,
+      "text": "An incomplete explanation of risk that can be corrected while the appointment condition remains in place",
+      "why": "Explaining risks does not restore freedom to decline while routine care is threatened. The threat must be removed."
+    },
+    "EXP2-NP2-theories-of-growth-development": {
+      "replace": 3,
+      "text": "Ask the caregiver to hold the infant while the unfamiliar staff member starts the examination immediately",
+      "why": "Caregiver presence helps, but immediate contact misses the chance to let the infant settle. A nonurgent exam allows gradual introduction."
+    },
+    "EXP2-NP2-developmental-milestones": {
+      "replace": 1,
+      "text": "Repeat screening at the next routine visit before arranging a developmental assessment",
+      "why": "A score at the referral threshold warrants further evaluation. Repeating a screen does not turn it into a diagnosis or replace indicated follow-up.",
+      "stem": "A standardized developmental questionnaire reaches the tool's threshold for referral. The child is well at the visit. The parent asks whether the score establishes a diagnosis and whether the family can wait for another routine screen. Which response is best?"
+    },
+    "EXP2-NP2-health-promotion-disease-prevention-pedia": {
+      "replace": 2,
+      "text": "Place the infant on the back in the crib and add a loose light blanket for warmth",
+      "why": "Back positioning is appropriate, but a loose blanket still creates a sleep hazard. Use a clear, firm, flat sleep surface and appropriate sleep clothing."
+    },
+    "EXP2-NP2-adolescent-health": {
+      "replace": 3,
+      "text": "Recheck symptoms at halftime and allow same-day return if the headache has resolved",
+      "why": "Symptoms can improve before recovery is complete. Suspected concussion requires removal, assessment, and a graduated return under appropriate guidance."
+    },
+    "EXP2-NP2-pediatric-cardiovascular-disorders": {
+      "replace": 3,
+      "text": "A viral conjunctivitis as the sole explanation, with review only if eye discharge develops",
+      "why": "The prolonged fever with lip and hand changes extends beyond an isolated eye problem. The overall pattern needs timely assessment for Kawasaki disease."
+    },
+    "EXP2-NP2-pediatric-respiratory-disorders": {
+      "replace": 2,
+      "text": "Deliver a single puff into the chamber and wait to inhale until the next puff is prepared",
+      "why": "Use the spacer breathing technique promptly after each actuation. Waiting allows drug to settle in the chamber and can reduce delivery."
+    },
+    "EXP2-NP2-pediatric-gastrointestinal-disorders": {
+      "replace": 2,
+      "text": "Try smaller feeds for presumed reflux before deciding whether an urgent review is needed",
+      "why": "Green bilious vomiting and increasing distention in a newborn can indicate obstruction. A feeding trial can delay assessment."
+    },
+    "EXP2-NP2-pediatric-hematologic-oncologic-disorders": {
+      "replace": 3,
+      "text": "Give the usual antipyretic and use the temperature response to decide whether urgent review is needed",
+      "why": "A lower temperature after medicine does not exclude serious infection. Fever with sickle cell disease and an unwell appearance needs urgent review."
+    },
+    "EXP2-NP2-pediatric-neurologic-disorders": {
+      "replace": 1,
+      "text": "Explain that increasing motor difficulty confirms that the original brain injury is progressing",
+      "why": "The underlying disturbance is nonprogressive. Function may change with growth, pain, or new problems that merit assessment."
+    },
+    "EXP2-NP2-pediatric-renal-disorders": {
+      "replace": 2,
+      "text": "Begin a strict evening fluid restriction and collect a bladder diary only if wetting persists",
+      "why": "Assessment of bowel and bladder habits helps guide care. A strict restriction without assessment can miss constipation or other contributors."
+    },
+    "EXP2-NP2-pediatric-integumentary-musculoskeletal-disorders": {
+      "replace": 3,
+      "text": "Treat the limb as a soft-tissue injury and review only if weight-bearing remains limited in two days",
+      "why": "Fever, focal pain, and inability to bear weight raise concern for a bone or joint infection. Waiting for persistent symptoms delays appropriate evaluation."
+    },
+    "EXP2-NP2-legal-principles-collaboration-teamwork-in-pedia": {
+      "replace": 3,
+      "text": "Confirm receipt of the referral and forward the medicine list while leaving follow-up ownership for the family to work out",
+      "why": "The referral and records are useful. A transition plan also needs agreed responsibility and follow-up contacts so care does not fall between services."
+    },
+    "EXP2-NP3-classification-of-surgery": {
+      "replace": 3,
+      "text": "Palliative",
+      "why": "The operation aims to restore hand function by correcting a contracture. Relief of symptoms alone is not the stated primary purpose."
+    },
+    "EXP2-NP3-pre-operative-phase": {
+      "replace": 2,
+      "text": "Schedule cessation support for the preadmission visit and postpone attempts to quit until then",
+      "why": "A later visit can reinforce a quit plan. Starting support now gives the client more time to stop before surgery."
+    },
+    "EXP2-NP3-intra-operative-phase": {
+      "replace": 3,
+      "text": "Complete closure and arrange a search or imaging in the recovery area",
+      "why": "A count discrepancy requires the surgeon and team to follow the retained-item protocol when it is discovered. Deferring it until recovery delays verification."
+    },
+    "EXP2-NP3-post-operative-phase": {
+      "replace": 2,
+      "text": "Arrange a taxi and telephone check afterward while allowing the client to travel alone",
+      "why": "A taxi solves driving, but it does not provide the required adult escort and supervision after sedation."
+    },
+    "EXP2-NP3-upper-airway-disorders": {
+      "replace": 1,
+      "text": "Start ventilation by face mask while waiting for equipment to oxygenate the stoma",
+      "why": "After total laryngectomy, the upper airway no longer connects to the lungs. Oxygen and ventilation need to reach the neck stoma."
+    },
+    "EXP2-NP3-bronchial-asthma": {
+      "replace": 2,
+      "text": "380 L/min because the middle value reduces the effect of an unusually high blow",
+      "why": "With technically acceptable attempts, peak flow records the highest result. Using the middle value would discard a valid better effort."
+    },
+    "EXP2-NP3-copd": {
+      "replace": 2,
+      "text": "Take the scheduled tiotropium early and use the rescue plan only if the breathlessness persists",
+      "why": "Tiotropium is a maintenance drug. Delaying the prescribed rescue response is inappropriate during sudden symptoms."
+    },
+    "EXP2-NP3-ards": {
+      "replace": 3,
+      "text": "350 mL",
+      "why": "350 mL uses 7 mL/kg of predicted body weight. The verified order specifies 6 mL/kg, so 50 kg corresponds to 300 mL."
+    },
+    "EXP2-NP3-pneumonia-cap-hap-vap": {
+      "replace": 3,
+      "text": "Aspiration pneumonitis because respiratory failure required intubation",
+      "why": "Intubation after recognition does not establish aspiration. The onset and admission history support hospital-acquired pneumonia.",
+      "stem": "An adult develops a new pneumonia on hospital day 4. It was not present or incubating at admission, and the client had not been ventilated when the symptoms began. The team intubates later for worsening respiratory failure. Which classification applies to the pneumonia at onset?"
+    },
+    "EXP2-NP3-pneumothorax-hemothorax-chest-tubes": {
+      "replace": 2,
+      "text": "Record the change and continue routine observation because oxygen saturation is unchanged",
+      "why": "Stable oxygen saturation is reassuring but does not distinguish lung re-expansion from a kink or blockage. Assess the client and inspect the system."
+    },
+    "EXP2-NP3-pulmonary-embolism-pulmonary-hypertension": {
+      "replace": 3,
+      "text": "Repeat the D-dimer and use two positive results to confirm pulmonary embolism",
+      "why": "Repeat positivity still does not identify the cause. Use the clinical probability and indicated diagnostic pathway."
+    },
+    "EXP2-NP3-heart-anatomy-ecg-basics": {
+      "replace": 3,
+      "text": "Sinus arrhythmia as the explanation for the prolonged atrioventricular conduction time",
+      "why": "Sinus arrhythmia concerns variation between sinus beats. A consistent PR of 0.24 seconds with each P wave conducted indicates first-degree AV block.",
+      "stem": "On a rhythm strip, the P-to-P interval varies slightly with respiration. Every P wave is followed by a QRS complex, and the PR interval stays at 0.24 seconds. Which finding describes the atrioventricular conduction?"
+    },
+    "EXP2-NP3-acute-coronary-syndrome-acs": {
+      "replace": 1,
+      "text": "Reducing synthesis of vitamin K dependent coagulation factors",
+      "why": "That is the mechanism of vitamin K antagonists. Aspirin reduces platelet aggregation and does not act through coagulation-factor synthesis."
+    },
+    "EXP2-NP3-peripheral-vascular-diseases-hypertension": {
+      "replace": 2,
+      "text": "Repeat the same cuff measurement and exclude arterial disease if the ABI remains above 1.40",
+      "why": "A persistently high ABI can reflect noncompressible arteries, particularly in diabetes. Symptoms still warrant a vascular assessment using appropriate tests."
+    },
+    "EXP2-NP3-hematologic-disorders": {
+      "replace": 1,
+      "text": "Expect the calcium and tea to delay absorption briefly while preserving the amount absorbed",
+      "why": "Taking calcium or tea with iron can reduce absorption, not simply change when the peak occurs. Review timing and tolerability with the care team."
+    },
+    "EXP2-NP3-iv-fluids": {
+      "replace": 2,
+      "text": "Treat D5W as persistently isotonic because its measured tonicity in the bag approximates plasma",
+      "why": "The glucose is metabolized after infusion. The resulting free water does not behave like a sodium-containing isotonic replacement solution."
+    },
+    "EXP2-NP3-electrolyte-imbalances": {
+      "replace": 1,
+      "text": "Treat the potassium deficit alone because magnesium status does not influence renal potassium losses",
+      "why": "Magnesium depletion can contribute to renal potassium wasting. It matters when potassium stays low despite replacement."
+    },
+    "EXP2-NP3-acid-base-balance-abg": {
+      "replace": 2,
+      "text": "Combined respiratory acidosis and metabolic alkalosis",
+      "why": "The high carbon dioxide supports a respiratory acidifying process. Bicarbonate is also low, so the additional metabolic process is acidifying rather than alkalinizing."
+    },
+    "EXP2-NP3-acute-kidney-injury-aki": {
+      "replace": 2,
+      "text": "Repeat another eight hours of measurements before reporting, because only absence of urine qualifies this early",
+      "why": "At 70 kg, 20 mL/hour is about 0.29 mL/kg/hour. Sustained low output can meet a urine-output criterion without anuria or a creatinine result."
+    },
+    "EXP2-NP3-chronic-kidney-disease-ckd": {
+      "replace": 3,
+      "text": "Record established stage G3a chronic kidney disease now because the eGFR lies in that range",
+      "why": "The numerical range alone does not demonstrate chronicity. Acute illness can affect the result and further assessment is needed."
+    },
+    "EXP2-NP3-dialysis-hemodialysis-peritoneal": {
+      "replace": 3,
+      "text": "Use an improvised warm-water bath as long as the connection cap is dry",
+      "why": "Use the equipment and warming method approved for the bag. Improvised water baths are not a substitute for the prescribed dry warming and temperature checks."
+    },
+    "EXP2-NP3-infectious-disorders": {
+      "replace": 2,
+      "text": "Use airborne precautions alone after the visible lesions are covered",
+      "why": "Disseminated zoster requires airborne and contact precautions in addition to standard precautions. Covering visible lesions does not remove the contact requirement."
+    },
+    "EXP2-NP3-inflammatory-bowel-neuro-inflammatory-disorders": {
+      "replace": 3,
+      "text": "Continue routine postoperative wound checks but seek Crohn-specific follow-up only if bowel symptoms recur",
+      "why": "Symptoms can improve even when recurrence risk persists. Follow-up after resection is still important."
+    },
+    "EXP2-NP3-immunologic-connective-tissue-disorders": {
+      "replace": 3,
+      "text": "Hold the dose today and leave the discrepancy for the next routine appointment in several weeks",
+      "why": "Holding a potentially incorrect dose is appropriate while seeking clarification, but the contradictory high-risk instructions need prompt review."
+    },
+    "EXP2-NP3-basic-concepts-in-cancer": {
+      "replace": 3,
+      "text": "Treat the compression as evidence of malignant transformation before considering its effects",
+      "why": "Compression describes the mass's location and effect. Histologically benign masses can compress vital structures without transforming."
+    },
+    "EXP2-NP3-cancer-treatment-modalities": {
+      "replace": 1,
+      "text": "Apply the temporary contact limits used for an implanted radioactive source after each external-beam session",
+      "why": "External-beam therapy leaves no source inside the patient. Precautions for some implanted sources do not apply to this treatment."
+    },
+    "EXP2-NP3-oncologic-emergencies": {
+      "replace": 2,
+      "text": "Isolated marrow-suppression thrombocytopenia",
+      "why": "A low platelet count may reflect marrow suppression. The prolonged clotting times, low fibrinogen, and bleeding also support consumptive coagulopathy."
+    },
+    "EXP2-NP3-site-specific-cancers": {
+      "replace": 3,
+      "text": "200 mL",
+      "why": "Subtracting the 100 mL flush again would double-count it. It is already included in the 1,500 mL total input.",
+      "stem": "After prostate surgery, 1,800 mL collects in the drainage bag during continuous bladder irrigation. The total irrigant input is 1,500 mL, which includes a documented 100 mL manual flush. There was no other fluid input. What urine output should the nurse chart?",
+      "rationale": "Subtract the total irrigant from the drainage: 1,800 − 1,500 = 300 mL. The documented manual flush is already included in the 1,500 mL input."
+    },
+    "EXP2-NP3-health-education-quality-improvement": {
+      "replace": 3,
+      "text": "Unit A has the higher rate: 1 versus 0.6 falls per 1,000 patient-days",
+      "why": "Those numbers are rates per 100 patient-days. Per 1,000 patient-days, the rates are 10 and 6."
+    },
+    "EXP2-NP4-malnutrition": {
+      "replace": 2,
+      "text": "Repeat albumin after the acute illness and use the repeat level as the main nutrition criterion",
+      "why": "Inflammation affects albumin, and even a repeat result is not a substitute for intake, weight change, and clinical assessment."
+    },
+    "EXP2-NP4-oral-esophageal-gastric-disorders": {
+      "replace": 3,
+      "text": "Schedule a breath test immediately after treatment while the client continues the acid-suppressing medicine",
+      "why": "Testing too soon and while taking some acid suppressants can yield false negatives. Follow the timing and medication instructions for the chosen test."
+    },
+    "EXP2-NP4-hepatobiliary-disorders": {
+      "replace": 0,
+      "text": "Shoulder soft-tissue injury as the best explanation based on the location alone",
+      "why": "The shoulder can move freely without reproducing the discomfort. After reassuring postoperative assessment, referred pain from insufflation is plausible.",
+      "stem": "Shortly after uncomplicated laparoscopic cholecystectomy, a client reports mild shoulder-tip discomfort. Moving the shoulder does not reproduce it. Vital signs and abdominal assessment are reassuring, with no chest pain or dyspnea. Which explanation best fits the assessed findings?"
+    },
+    "EXP2-NP4-gi-absorption-elimination": {
+      "replace": 1,
+      "text": "Collect a bowel diary and review it at the next routine IBS appointment before evaluating the new bleeding",
+      "why": "A diary may help with symptom management. Persistent bleeding, weight loss, and iron-deficiency anemia warrant assessment without waiting for routine follow-up."
+    },
+    "EXP2-NP4-ostomies": {
+      "replace": 2,
+      "text": "Adapt the colostomy instructions to a smaller volume and begin regular ileostomy irrigation at home",
+      "why": "Using less fluid does not make colostomy instructions applicable to an ileostomy. Discuss output and pouching concerns with the stoma team."
+    },
+    "EXP2-NP4-adh-disorders": {
+      "replace": 2,
+      "text": "Convert both prescriptions to micrograms and give the same amount once the units match",
+      "why": "Matching units does not establish equivalent absorption or effect across formulations. Verify the actual prescribed regimen for the oral product."
+    },
+    "EXP2-NP4-adrenal-gland-disorders": {
+      "replace": 3,
+      "text": "Isolated aldosterone deficiency with preserved cortisol production",
+      "why": "Low sodium and high potassium could fit a mineralocorticoid problem. Low cortisol with high ACTH and hyperpigmentation points to primary adrenal insufficiency."
+    },
+    "EXP2-NP4-pituitary-gland-disorders": {
+      "replace": 1,
+      "text": "A migraine with visual aura that can be observed after an antiemetic",
+      "why": "The combination of known pituitary tumor, sudden visual loss, severe headache, and hypotension requires emergency assessment for apoplexy."
+    },
+    "EXP2-NP4-thyroid-disorders": {
+      "replace": 1,
+      "text": "Substitute a lower-activity radioiodine dose under the existing treatment order",
+      "why": "A lower administered activity does not remove the pregnancy concern. Pause and obtain specialist review before proceeding."
+    },
+    "EXP2-NP4-parathyroid-disorders": {
+      "replace": 2,
+      "text": "Use serial serum calcium as the sole measure of whether bone density is being lost",
+      "why": "Serum calcium reflects biochemical status. It does not quantify bone density or replace skeletal assessment."
+    },
+    "EXP2-NP4-diabetes-mellitus": {
+      "replace": 3,
+      "text": "Switch to an unaffected area immediately using the same dosing pattern without checking glucose more often",
+      "why": "Absorption can improve when injections move away from lipohypertrophy. Review doses and monitoring with the diabetes team to reduce hypoglycemia risk."
+    },
+    "EXP2-NP4-endocrine-emergencies-summary": {
+      "replace": 3,
+      "text": "Continue the existing insulin rate without adding dextrose because ketosis has not resolved",
+      "why": "Insulin remains necessary to clear ketosis. As glucose falls, the prescribed protocol adds dextrose and adjusts insulin to avoid hypoglycemia."
+    },
+    "EXP2-NP4-neuroanatomy-assessment-basics-R2": {
+      "replace": 2,
+      "text": "Document E4 and M6, mark verbal not testable, and report a standard total of 10",
+      "why": "The individual observations are useful. A total computed from two components is not comparable to a complete Glasgow Coma Scale score."
+    },
+    "EXP2-NP4-increased-intracranial-pressure-iicp": {
+      "replace": 3,
+      "text": "Interpret the pulse change as isolated bradycardia and reassess it separately after the next set of observations",
+      "why": "Widened pulse pressure, irregular breathing, and worsening consciousness occur together. The combined pattern calls for emergency evaluation of intracranial pressure."
+    },
+    "EXP2-NP4-cerebrovascular-accident-stroke": {
+      "replace": 3,
+      "text": "03:20 as last known well because an automatic phone reminder was delivered then",
+      "why": "An automated phone event does not establish normal neurological function. The last witness-confirmed baseline is 22:00.",
+      "stem": "At 07:00 a family member finds a client with new weakness and aphasia. A witness saw the client speaking and moving normally at 22:00 the previous evening. The phone shows an automated reminder delivered at 03:20, but nobody observed the client then. Which time should be given to the stroke team as last known well?"
+    },
+    "EXP2-NP4-parkinson-s-disease": {
+      "replace": 3,
+      "text": "Separate metoclopramide from levodopa by a few hours to remove the effect on Parkinson symptoms",
+      "why": "Spacing does not remove metoclopramide's dopamine blockade. Review the antiemetic choice before administration."
+    },
+    "EXP2-NP4-multiple-sclerosis-ms": {
+      "replace": 2,
+      "text": "Treat the change as worsening MS spasticity and wait to review the medication history at routine follow-up",
+      "why": "Abrupt baclofen cessation followed by rebound spasms and mental status change raises concern for withdrawal. Prompt assessment is needed."
+    },
+    "EXP2-NP4-myasthenia-gravis-mg": {
+      "replace": 3,
+      "text": "Reduced presynaptic acetylcholine release with strength improving during repeated use",
+      "why": "That pattern is more typical of a presynaptic disorder such as Lambert-Eaton syndrome. Here the fatigable ocular weakness worsens with use and supports myasthenia gravis."
+    },
+    "EXP2-NP4-guillain-barr-syndrome-gbs": {
+      "replace": 2,
+      "text": "Prefer corticosteroids because GBS responds to them in the same way as chronic inflammatory demyelinating polyneuropathy",
+      "why": "The disorders differ in treatment response. Corticosteroids have not shown benefit in GBS, while IVIG and plasma exchange can help appropriate patients."
+    },
+    "EXP2-NP4-autonomic-dysreflexia": {
+      "replace": 1,
+      "text": "Keep the person upright and look for a bladder trigger before addressing the pressure drop",
+      "why": "Upright positioning and trigger removal may be used for dysreflexia with elevated pressure. This symptomatic fall in pressure calls for support and assessment of orthostatic hypotension."
+    },
+    "EXP2-NP4-alzheimer-s-disease-dementia": {
+      "replace": 1,
+      "text": "Arrange tube feeding as the next step on the assumption that it removes aspiration risk",
+      "why": "A feeding tube does not eliminate aspiration. Assessment and discussion of the person's goals and likely benefits and burdens guide the plan."
+    },
+    "EXP2-NP4-seizure-disorders": {
+      "replace": 3,
+      "text": "Continue the current regimen and discuss changing it only after a pregnancy test is positive",
+      "why": "Waiting can miss the opportunity to reduce risk before conception. Seek specialist review now and avoid abrupt withdrawal."
+    },
+    "EXP2-NP4-spinal-cord-injuries-sci": {
+      "replace": 3,
+      "text": "Established spasticity from an upper motor neuron injury",
+      "why": "Early spinal shock may cause transient flaccidity and loss of reflexes below the lesion. Spasticity describes a different pattern that can emerge later."
+    },
+    "EXP2-NP4-peripheral-neuropathies": {
+      "replace": 3,
+      "text": "Cervical nerve-root irritation as the best explanation for the hand symptoms",
+      "why": "A cervical cause can produce hand symptoms, but the median distribution, relative little-finger sparing, and provocation at the wrist favor carpal tunnel compression."
+    },
+    "EXP2-NP4-amyotrophic-lateral-sclerosis-als": {
+      "replace": 2,
+      "text": "Attribute the changes to frustration with movement loss and reassess them only if weakness progresses",
+      "why": "The changes could have several causes, including cognitive or behavioral involvement in ALS. Reporting them permits appropriate assessment."
+    },
+    "EXP2-NP4-musculoskeletal-review-interventions": {
+      "replace": 3,
+      "text": "Keep the frame as it is and wait until the next routine visit unless the limb changes color",
+      "why": "The frame should remain unchanged, but a possible hardware problem needs advice from the orthopedic team before the next routine check."
+    },
+    "EXP2-NP4-musculoskeletal-trauma": {
+      "replace": 0,
+      "text": "Focus on cushioning the skin because prolonged flexion does not affect the ability to extend the knee later",
+      "why": "Skin protection matters, but sustained flexion can shorten tissues and contribute to a knee contracture that complicates rehabilitation."
+    },
+    "EXP2-NP4-metabolic-bone-disorders": {
+      "replace": 3,
+      "text": "Severe osteoporosis established by this score alone",
+      "why": "The T-score meets the osteoporosis threshold. Classifying established severe osteoporosis also requires the relevant fragility-fracture history."
+    },
+    "EXP2-NP4-inflammatory-infectious-bone-joint-disorders": {
+      "replace": 2,
+      "text": "Use the normal urate to favor calcium pyrophosphate crystal arthritis as a confirmed diagnosis",
+      "why": "Serum urate during a flare does not establish which crystal is present. The clinical assessment and indicated further testing guide the diagnosis."
+    },
+    "EXP2-NP4-spinal-other-msk-conditions": {
+      "replace": 1,
+      "text": "Repeat the same screening observation in a year because the adolescent reports minimal pain",
+      "why": "Scoliosis may be painless. Visible asymmetry and rib prominence warrant assessment rather than relying on pain to determine follow-up."
+    },
+    "EXP2-NP4-eye-anatomy-assessment-refractive-disorders": {
+      "replace": 2,
+      "text": "In front of the retina, corrected with a converging lens",
+      "why": "A converging lens would increase convergence and move the focus farther forward. A diverging lens helps shift the focus back toward the retina.",
+      "stem": "A young adult sees nearby print clearly but distant classroom writing is blurred. An examination identifies myopia. Which pairing correctly describes the uncorrected focal point and the lens needed to move it toward the retina?",
+      "answer": "In front of the retina, corrected with a diverging lens",
+      "rationale": "In myopia, distant rays converge in front of the retina. A diverging lens reduces convergence and moves the focus back toward the retinal plane.",
+      "otherOptions": {
+        "0": {
+          "text": "Behind the retina, corrected with a converging lens",
+          "rationale": "This pairing describes hyperopia, in which increased convergence helps move the focal point forward. Myopic focus is in front of the retina."
+        },
+        "3": {
+          "text": "Behind the retina, corrected with a diverging lens",
+          "rationale": "The location is incorrect for myopia. Divergence would also move a focus already behind the retina farther back."
+        }
+      }
+    },
+    "EXP2-NP4-glaucoma-cataract": {
+      "replace": 3,
+      "text": "Give the second medicine after one minute if the first drop is no longer visible",
+      "why": "The first drop can be displaced even if it is no longer visible. Spacing different drops by at least five minutes generally reduces washout unless instructions differ."
+    },
+    "EXP2-NP4-retinal-detachment-macular-degeneration": {
+      "replace": 2,
+      "text": "Use the older formula because beta-carotene risk applies only to people who still smoke",
+      "why": "Former smokers were also found to be at increased lung-cancer risk with beta-carotene supplementation. Discuss the appropriate AREDS2 formula."
+    },
+    "EXP2-NP4-other-eye-conditions-surgery-care": {
+      "replace": 3,
+      "text": "Remove the lenses and wait until the next day to see whether the blurred vision clears before seeking care",
+      "why": "Pain, photophobia, and blurred vision after contact-lens wear raise concern for keratitis. Removing the lenses helps, but the eye needs prompt assessment."
+    },
+    "EXP2-NP4-ear-anatomy-assessment-hearing-loss": {
+      "replace": 3,
+      "text": "Right sensorineural hearing loss alone",
+      "why": "Weber could lateralize left with right sensorineural loss, but that would not explain bone conduction exceeding air conduction on the left. The tests favor left conductive loss."
+    },
+    "EXP2-NP4-ear-disorders-surgery-care": {
+      "replace": 1,
+      "text": "Canal eczema as the sole explanation for the symptoms",
+      "why": "Itch can occur with dermatitis, but acute canal swelling and pain with tragal or pinna movement after swimming favor otitis externa."
+    },
+    "EXP2-NP4-documentation-professional-development": {
+      "replace": 2,
+      "text": "Add the findings as a note under 13:30 and omit the current entry time so the sequence is easier to follow",
+      "why": "Late entries should distinguish when care occurred from when it was documented. Preserve both times in the audit trail."
+    },
+    "EXP2-NP5-foundations-of-mental-health-nursing": {
+      "replace": 3,
+      "text": "A token economy for increasing selected behaviors",
+      "why": "A token economy uses specific rewards. The described use of the unit's routines, relationships, and physical setting is a therapeutic milieu."
+    },
+    "EXP2-NP5-therapeutic-stress-models": {
+      "replace": 2,
+      "text": "Problem-focused coping through carrying out a study plan",
+      "why": "No coping action is described. The student is interpreting what the examination means before assessing resources or acting."
+    },
+    "EXP2-NP5-anxiety-anxiety-related-disorders": {
+      "replace": 1,
+      "text": "Social anxiety centered on being observed in public settings",
+      "why": "The stated fear concerns difficulty escaping or getting help across settings, rather than scrutiny or negative evaluation."
+    },
+    "EXP2-NP5-trauma-related-disorders": {
+      "replace": 2,
+      "text": "Diagnose acute stress disorder solely because intrusive memories occurred within the first month",
+      "why": "Timing allows consideration of acute stress symptoms. A diagnosis also requires assessment of the symptom pattern, impairment, and other causes."
+    },
+    "EXP2-NP5-mood-disorders": {
+      "replace": 3,
+      "text": "Avolition",
+      "why": "Avolition refers to diminished motivation to initiate or persist in activity. The client describes loss of pleasure despite having enough energy."
+    },
+    "EXP2-NP5-schizophrenia-other-psychoses": {
+      "replace": 3,
+      "text": "Ideas of reference",
+      "why": "Ideas of reference assign personal significance to outside events. The belief here is that the person's own thoughts are transmitted to others."
+    },
+    "EXP2-NP5-personality-disorders": {
+      "replace": 1,
+      "text": "Interpret the relationship conflict as evidence of unwanted obsessions and ritualized compulsions",
+      "why": "Impairment does not establish obsessions or compulsions. The described pattern is longstanding, rigid, and experienced by the person as justified."
+    },
+    "EXP2-NP5-eating-disorders": {
+      "replace": 2,
+      "text": "Rinse with water and then brush immediately with a soft toothbrush",
+      "why": "Rinsing is helpful. Brushing immediately after acid exposure can damage softened enamel, even with a soft brush."
+    },
+    "EXP2-NP5-substance-use-disorders": {
+      "replace": 3,
+      "text": "Whether taking naltrexone at a different time of day lets the client continue the daily opioid safely",
+      "why": "Separating doses by a few hours does not remove the risk of precipitated withdrawal. The prescriber needs to review opioid exposure before initiation."
+    },
+    "EXP2-NP5-cognitive-other-psychiatric-disorders": {
+      "replace": 3,
+      "text": "Anomia",
+      "why": "Anomia affects naming. This client recognizes the item and can describe its use, but cannot carry out the learned action despite adequate strength."
+    },
+    "EXP2-NP5-therapeutic-communication-relationship": {
+      "replace": 3,
+      "text": "Working phase",
+      "why": "The working phase can include goal review, but the focus here is processing the end of the relationship and arranging support after discharge."
+    },
+    "EXP2-NP5-crisis-intervention": {
+      "replace": 2,
+      "text": "Confirm the callback number and send assistance to the address already in the chart if the call drops",
+      "why": "A callback number is useful, but the client is away from home. Verify the actual location so assistance can reach the right place."
+    },
+    "EXP2-NP5-psychiatric-assessment-symptomatology": {
+      "replace": 3,
+      "text": "Perseveration",
+      "why": "Perseveration involves repeating a response or idea despite a change in question or task. Here the client eventually returns to and answers the original question."
+    },
+    "EXP2-NP5-somatic-behavioral-therapies": {
+      "replace": 3,
+      "text": "Response cost",
+      "why": "Response cost removes a reinforcer after a behavior. In this case a token is added after the desired behavior to increase it."
+    },
+    "EXP2-NP5-psychopharmacology": {
+      "replace": 3,
+      "text": "Drug-induced parkinsonism",
+      "why": "Drug-induced parkinsonism typically presents with slowing, rigidity, or tremor. Subjective inner restlessness and pacing after a dose increase favor akathisia."
+    },
+    "EXP2-NP5-altered-ventilatory-function": {
+      "replace": 1,
+      "text": "Continue ventilation at a lower pressure while waiting for airway equipment",
+      "why": "Reducing pressure does not protect the airway during active vomiting. Remove the mask and obtain immediate assistance."
+    },
+    "EXP2-NP5-altered-tissue-perfusion": {
+      "replace": 3,
+      "text": "68 mmHg, calculated by weighting the systolic pressure twice",
+      "why": "The stated approximation weights diastolic pressure twice: (82 + 2 × 40) ÷ 3 = 54 mmHg."
+    },
+    "EXP2-NP5-altered-elimination": {
+      "replace": 2,
+      "text": "Extend the interval whenever one catheterization produces a small volume",
+      "why": "An isolated volume does not replace the individualized schedule. Review volume trends and any changes with the treating team."
+    },
+    "EXP2-NP5-altered-perception": {
+      "replace": 3,
+      "text": "A primary reduction in visual acuity",
+      "why": "The client sees and describes the object's features but cannot identify it by sight. Recognition through touch supports a problem in visual recognition."
+    },
+    "EXP2-NP5-multi-system-problems-shock-sepsis": {
+      "replace": 1,
+      "text": "Repeat qSOFA at the next scheduled check and escalate only if the score crosses the threshold",
+      "why": "The score is not a rule-out test. Falling urine output and other deterioration need assessment now, regardless of the score."
+    },
+    "EXP2-NP5-high-acuity-emergency-situations": {
+      "replace": 3,
+      "text": "Start compressions but delay ventilation until supplemental oxygen is available",
+      "why": "Drowning commonly causes hypoxic arrest. A trained rescuer can provide breaths with compressions without waiting for supplemental oxygen."
+    },
+    "EXP2-NP5-critical-care-equipment": {
+      "replace": 3,
+      "text": "A warning that can be accepted after entering a clinical justification",
+      "why": "This describes a soft alert when an override is allowed. The hard limit blocks the value and calls for verification of the order, units, and library entry."
+    },
+    "EXP2-NP5-collaboration-communication-in-critical-care": {
+      "replace": 3,
+      "text": "Ask for a check-back of the intended injection and proceed if the instruction is repeated correctly",
+      "why": "A check-back confirms that the instruction was heard accurately. It does not resolve whether the unlabeled syringe can be used safely.",
+      "stem": "A nurse spots an unlabeled syringe before a high-risk procedure. A colleague repeats the intended drug correctly and says to proceed. The concern remains unresolved. Which response uses CUS to make the need to stop clear?",
+      "answer": "State concern and discomfort, identify the safety issue, and ask the team to pause",
+      "rationale": "CUS escalates a concern by making discomfort and the safety issue explicit. A correct repeat of an instruction does not establish the contents of an unlabeled syringe.",
+      "otherOptions": {
+        "0": {
+          "text": "Give a situation and background report and leave the decision until the next handoff",
+          "rationale": "SBAR can structure a report, but a pending unsafe action needs immediate escalation. This response does not use the CUS escalation."
+        },
+        "1": {
+          "text": "Repeat the drug name louder so everyone can hear the call-out",
+          "rationale": "A call-out shares information. It does not address the unresolved risk from the unlabeled syringe."
+        }
+      }
+    },
+    "CH-001": {
+      "replace": 1,
+      "text": "Withdraw 6 mL and program 132 mL/hour",
+      "why": "This treats 60 mL as diluent added to the 6 mL stock. The order gives 60 mL as the final volume, so the 30-minute rate is 120 mL/hour."
+    },
+    "CH-002": {
+      "replace": 3,
+      "text": "Demonstrate the correct marking and ask the client to describe it without measuring another dose",
+      "why": "A verbal description can check understanding. Repeat measurement is needed to show that the client can perform the skill accurately."
+    },
+    "CH-003": {
+      "replace": 3,
+      "text": "Start contact precautions and continue sharing the commode after routine cleaning",
+      "why": "Early contact precautions are appropriate. A dedicated toilet or commode reduces transmission risk, and the cleaning plan needs to address spores."
+    },
+    "CH-004": {
+      "replace": 0,
+      "text": "The combined rate fell and only the high-risk group's rate rose",
+      "why": "The lower-risk rate also rose from 1 to about 1.7 falls per 1,000 patient-days. Evaluate both strata before attributing the overall change to prevention."
+    },
+    "CH-005": {
+      "replace": 3,
+      "text": "Use the new prompt for all discharges on one ward for a month before collecting feedback",
+      "why": "A ward-wide trial still commits many encounters before learning whether the prompt fits. An initial small test permits quick adjustment."
+    },
+    "CH-006": {
+      "replace": 2,
+      "text": "Insert a sterile replacement catheter and reconnect it to the original drainage set",
+      "why": "The disconnection affected the closed system. Reusing the exposed set does not restore it with sterile equipment."
+    },
+    "CH-007": {
+      "replace": 1,
+      "text": "Use the vial until the end of the clinic session if it stayed at the recommended storage temperature",
+      "why": "Correct storage does not extend the product's labeled time after reconstitution. The use window ended at 12:10."
+    },
+    "CH-008": {
+      "replace": 0,
+      "text": "3.0",
+      "why": "This is the odds ratio, calculated from the odds of illness in the two groups. The question asks for the ratio of risks, 0.25 divided by 0.10."
+    },
+    "CH-009": {
+      "replace": 1,
+      "text": "A has about 1.7 and B has about 2.2",
+      "why": "Those values divide each count by the total 3,600 person-days. Each group's rate must use that group's own follow-up time."
+    },
+    "CH-010": {
+      "replace": 2,
+      "text": "Mask the client and begin transport before informing the receiving unit",
+      "why": "The client mask provides source control during transport. Advance notice also lets the receiving team arrange airborne precautions before arrival."
+    },
+    "CH-011": {
+      "replace": 3,
+      "text": "Offer a later appointment and give written directions without checking how the family will travel",
+      "why": "A later appointment could help, but checking how the family will use it tests whether the access problem has actually been resolved."
+    },
+    "CH-012": {
+      "replace": 2,
+      "text": "Total minutes spent making reminder calls without tracking which visits were displaced",
+      "why": "This measures the time invested in calls. It cannot show whether other essential visits lost nursing time.",
+      "stem": "A community team tests reminder calls and already measures how many eligible clients return within 30 days. Staff worry that the calls might take nursing time away from other essential visits. Which additional measure would best detect that effect?"
+    },
+    "CH-013": {
+      "replace": 2,
+      "text": "Ask for a home blood pressure tomorrow morning and escalate only if the value is elevated",
+      "why": "Severe persistent headache and visual symptoms after delivery already need immediate assessment. Waiting for a home reading delays care."
+    },
+    "CH-014": {
+      "replace": 3,
+      "text": "Arrange a routine visit and move it earlier only if the calf swelling increases",
+      "why": "New unilateral swelling and tenderness after delivery already warrant urgent assessment. The nurse need not wait for symptoms to progress."
+    },
+    "CH-015": {
+      "replace": 3,
+      "text": "Use each infant's distance below the treatment threshold to arrange the indicated follow-up",
+      "why": "The margin below the threshold helps determine timing. A follow-up plan appropriate to each infant's risk supports safe discharge."
+    },
+    "CH-016": {
+      "replace": 2,
+      "text": "Use the same reassessment schedule because phototherapy was stopped below the threshold in both infants",
+      "why": "The current margin matters, but earlier treatment can indicate higher rebound risk. Age at treatment and other risk factors still affect follow-up."
+    },
+    "CH-017": {
+      "replace": 2,
+      "text": "Recheck symptoms by phone in an hour after the client rests and arrange care only if dizziness persists",
+      "why": "Heavy bleeding plus lightheadedness may indicate circulatory compromise. Temporary improvement at rest does not justify delaying emergency evaluation."
+    },
+    "CH-018": {
+      "replace": 3,
+      "text": "Ask for another supervised swallow trial before deciding whether to withhold fluids",
+      "why": "A child who cannot follow instructions and coughs with offered fluid is not ready for oral intake. Check airway, breathing, and recovery without another oral trial."
+    },
+    "CH-019": {
+      "replace": 1,
+      "text": "An elevated natriuretic peptide documented before transfusion without an acute change",
+      "why": "A high baseline value can reflect chronic heart failure. A new rise in pressure and evidence of volume overload are stronger evidence about this episode."
+    },
+    "CH-020": {
+      "replace": 2,
+      "text": "Send the bag and use the implicated giving set to maintain IV access while a new line is prepared",
+      "why": "Reusing the implicated set can deliver residual blood. Preserve the set for investigation and maintain treatment access separately."
+    },
+    "CH-021": {
+      "replace": 3,
+      "text": "Increase oxygen and use saturation trends as the main check before assessing ventilation",
+      "why": "Supplemental oxygen can preserve saturation during hypoventilation. The shallow breathing and reduced alertness require direct assessment now."
+    },
+    "CH-022": {
+      "replace": 0,
+      "text": "Free the tubing and record a confirmed equipment problem without checking for renewed drainage",
+      "why": "The kink can explain the interruption, but the nurse must reassess drainage to distinguish correction from ongoing low urine output."
+    },
+    "CH-023": {
+      "replace": 3,
+      "text": "Percentage of patients who can explain their instructions at follow-up",
+      "why": "Recall at follow-up measures a result of teaching. The question asks how often staff carried out the teach-back step."
+    },
+    "CH-024": {
+      "replace": 1,
+      "text": "Confirm that a sporicidal product was used on the floor while leaving high-touch equipment for routine cleaning",
+      "why": "The product choice matters, but cleaning must also cover surfaces and shared equipment likely to carry spores."
+    },
+    "CH-025": {
+      "replace": 3,
+      "text": "6% counted, with the partial-thickness area recorded separately",
+      "why": "The superficial redness is the portion excluded from burned TBSA. The 9% partial-thickness area belongs in that calculation.",
+      "stem": "The burn chart shows 9% of body surface with moist blistered partial-thickness injury and a separate 6% with dry, blanching superficial redness. Which chart entry both calculates burned TBSA correctly and accounts for the superficial finding?",
+      "answer": "9% counted, with the 6% superficial area recorded separately",
+      "rationale": "Burned TBSA counts partial-thickness and deeper injury. Record the 9% in that total and document the separate superficial redness without adding it.",
+      "otherOptions": {
+        "1": {
+          "text": "15% counted, with both areas included because both are thermal injuries",
+          "rationale": "Superficial redness can be documented as an injury, but it is excluded from the TBSA used for burn assessment."
+        },
+        "2": {
+          "text": "9% counted, with the superficial finding removed from all documentation",
+          "rationale": "The number is correct. Excluding redness from burned TBSA does not mean the observed skin finding should be omitted from the assessment."
+        }
+      }
+    },
+    "CH-026": {
+      "replace": 3,
+      "text": "Dress the injury and wait for the depth to become obvious at a routine local follow-up before contacting a burn service",
+      "why": "Possible deep injury at the hand joints can threaten function. Early specialist input is appropriate before definitive depth or motion loss is known."
+    },
+    "CH-027": {
+      "replace": 3,
+      "text": "Elevate the forearm and defer escalation until the next scheduled circulation check",
+      "why": "Elevation can be supportive, but the new coolness, numbness, delayed refill, and weaker Doppler signal already require urgent evaluation."
+    },
+    "CH-028": {
+      "replace": 1,
+      "text": "Continue the current dressing plan and contact the burn service only if the family later cannot perform it",
+      "why": "The current pain plan is inadequate even if the family can manage basic care. Burn-service input can help with procedural pain and dressings."
+    },
+    "CH-029": {
+      "replace": 2,
+      "text": "Begin the facility exposure response but wait for the TBSA estimate before requesting specialist input",
+      "why": "Starting the exposure response is appropriate. Chemical mechanism and uncertainty about the product warrant timely consultation independently of the visible area."
+    },
+    "CH-030": {
+      "replace": 0,
+      "text": "Activate the trauma response but wait for a repeat pressure before communicating the current circulatory findings",
+      "why": "The current hypotension and pallor are key handoff information. Report them immediately while reassessment continues."
+    },
+    "CH-031": {
+      "replace": 1,
+      "text": "Inspect the sensor placement and wait for a second sensor reading before using the bedside meter",
+      "why": "Checking the device may help explain the difference. Symptoms need prompt verification using the available bedside glucose result."
+    },
+    "CH-032": {
+      "replace": 2,
+      "text": "Omit mealtime insulin and give the full home basal dose without checking the procedure plan",
+      "why": "Basal insulin is generally required in type 1 diabetes, but the dose and monitoring during fasting need individualized review."
+    },
+    "CH-033": {
+      "replace": 2,
+      "text": "Continue the routine observation interval and repeat the pressure before reporting because the neurological examination is stable",
+      "why": "Both readings exceed the post-treatment limit. Stable examination findings do not justify deferring escalation and protocol-based monitoring."
+    },
+    "CH-034": {
+      "replace": 3,
+      "text": "Hold the time-sensitive dose and wait for the scheduled swallow assessment before telling the prescriber",
+      "why": "Swallowing restrictions must be respected, but delay can worsen symptoms. Notify the team promptly to arrange a safe medication plan."
+    },
+    "CH-035": {
+      "replace": 1,
+      "text": "Replace the repeat molecular test with a toxin assay to certify cure while the client remains asymptomatic",
+      "why": "Changing the test method does not create an indication for testing an asymptomatic recovered client. Clarify the purpose of the order."
+    },
+    "CH-036": {
+      "replace": 1,
+      "text": "Call for help and give the scheduled oral antiseizure medicine while the second convulsion is ongoing",
+      "why": "Calling for help is appropriate. Oral administration during a convulsion risks aspiration and is not the emergency response."
+    },
+    "CH-037": {
+      "replace": 2,
+      "text": "Focus the initial assessment on depression because reduced conversation is the most visible change",
+      "why": "Depression can affect engagement. The acute onset and fluctuating attention during illness point to delirium that needs prompt assessment."
+    },
+    "CH-038": {
+      "replace": 3,
+      "text": "Give regular verbal reminders while leaving the hearing and vision aids out until morning",
+      "why": "Reminders help only if the client can hear and use the cues. Restore the sensory aids and improve orientation now."
+    },
+    "CH-039": {
+      "replace": 3,
+      "text": "Use the most recent valid CIWA-Ar score to guide ongoing dosing until the client can answer again",
+      "why": "A previous score does not represent the current altered state. Escalate and use monitoring appropriate for a client who cannot reliably report symptoms."
+    },
+    "CH-040": {
+      "replace": 2,
+      "text": "Move into the client's view and resume the exam while explaining each step without waiting for a response",
+      "why": "Moving into view and explaining are helpful. Since it is safe to pause, seek permission and offer a choice before continuing."
+    },
+    "CH-041": {
+      "replace": 3,
+      "text": "Start CPR and reserve defibrillation for a rhythm that later becomes ventricular fibrillation",
+      "why": "Pulseless ventricular tachycardia is already shockable. Do not wait for ventricular fibrillation before prompt defibrillation."
+    },
+    "CH-042": {
+      "replace": 3,
+      "text": "Send the corrected instruction in writing and proceed as soon as the receiver acknowledges receipt",
+      "why": "Acknowledgment shows that the message arrived. A corrected read-back with confirmation checks that the receiver understood what to do."
+    }
+  }
+}

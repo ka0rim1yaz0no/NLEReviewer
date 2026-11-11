@@ -7,7 +7,7 @@ const brand='For Elaine Only Reviewer',W=595.28,H=841.89,M=48,BOTTOM=60;
 export async function renderTopicPDF(guide:TopicGuide):Promise<Uint8Array>{
  const doc=await PDFDocument.create(),regular=await doc.embedFont(StandardFonts.Helvetica),bold=await doc.embedFont(StandardFonts.HelveticaBold),serif=await doc.embedFont(StandardFonts.TimesRomanBold);
  doc.setTitle(pdfText(`${guide.title} - ${brand}`));doc.setAuthor(brand);doc.setSubject('Original scenario-linked nursing review notes');doc.setLanguage('en-PH');
- const berry=rgb(.51,.19,.34),ink=rgb(.22,.15,.19),muted=rgb(.43,.31,.38),pale=rgb(.97,.88,.92);
+ const berry=rgb(.51,.19,.34),ink=rgb(.22,.15,.19),muted=rgb(.43,.31,.38),pale=rgb(254/255,181/255,192/255);
  // Standard-font text is emitted without pair kerning. Measure the glyph
  // advances that readers actually use, so long lines stay inside the margins.
  const advances=new Map<PDFFont,Map<string,number>>();

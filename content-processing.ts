@@ -3,8 +3,8 @@ import type {ReleaseManifest} from "./content-release";
 import type {ContentRow} from "./content-integrity";
 import {throwIfAborted} from './abort-utils.ts';
 type VerifiedContent=Awaited<ReturnType<typeof decodeContentRelease>>;
-export function processContentRelease(manifest:ReleaseManifest,pages:ContentRow[],signal?:AbortSignal):Promise<VerifiedContent>{
- const locally=async()=>{throwIfAborted(signal);const content=await decodeContentRelease(manifest,pages);throwIfAborted(signal);return content;};
+export function processContentRelease(manifest:ReleaseManifest,pages:ContentRow[],signal?:AbortSignal,questionIds?:readonly string[]):Promise<VerifiedContent>{
+ const locally=async()=>{throwIfAborted(signal);const content=await decodeContentRelease(manifest,pages,questionIds);throwIfAborted(signal);return content;};
  if(signal?.aborted)return Promise.reject(new DOMException('Study content loading was cancelled.','AbortError'));
  if(typeof Worker==="undefined")return locally();
  let worker:Worker;
@@ -22,6 +22,6 @@ export function processContentRelease(manifest:ReleaseManifest,pages:ContentRow[
   };
   // Older browsers or a blocked worker can use the same integrity checks locally.
   worker.onerror=()=>{if(finish())locally().then(resolve,reject);};
-  try{worker.postMessage({manifest,pages});}catch{if(finish())locally().then(resolve,reject);}
+  try{worker.postMessage({manifest,pages,questionIds});}catch{if(finish())locally().then(resolve,reject);}
  });
 }

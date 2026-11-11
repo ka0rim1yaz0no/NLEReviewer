@@ -3,9 +3,10 @@ import { validateProtectedContent } from "./content-integrity.ts";
 import type { ContentRow } from "./content-integrity.ts";
 // Immutable release: stage all pages before publishing its manifest. Older
 // deployments continue using study_content and never see half a release.
-export const contentRelease="2026-11-11-challenge-pink-2";
+export const contentRelease="2026-11-11-situational-judgment-1";
+export const priorQuestionRelease="2026-11-11-challenge-pink-2";
 export type ReleaseManifest={version:2;encoding:"gzip-base64";pages:number;questionCount:number;caseCount:number;digest:string;bytes:number};
-export async function decodeContentRelease(manifest:ReleaseManifest,pages:ContentRow[]){
+export async function decodeContentRelease(manifest:ReleaseManifest,pages:ContentRow[],questionIds?:readonly string[]){
  // Includes historical records so saved answers keep their original keys.
  if(!manifest||manifest.version!==2||manifest.encoding!=="gzip-base64"||!Number.isInteger(manifest.pages)||manifest.pages<1||manifest.pages>64||!Number.isInteger(manifest.bytes)||manifest.bytes<1||manifest.bytes>40_000_000)throw new Error("The study release manifest is invalid.");
  if(pages.length!==manifest.pages)throw new Error("The study release is incomplete. Your saved progress has been kept.");
@@ -16,5 +17,9 @@ export async function decodeContentRelease(manifest:ReleaseManifest,pages:Conten
  let raw:unknown;
  try{const bytes=Uint8Array.from(atob(base64),c=>c.charCodeAt(0));const decoded=gunzipSync(bytes);if(decoded.length!==manifest.bytes)throw new Error("size");raw=JSON.parse(new TextDecoder().decode(decoded));}catch{throw new Error("The study release could not be decoded. Your saved progress has been kept.");}
  if(!raw||typeof raw!=="object"||!("questions"in raw)||!("cases"in raw))throw new Error("The study release payload is invalid.");
- return validateProtectedContent([{id:"questions-0000",kind:"questions",data:raw.questions},{id:"cases-0000",kind:"cases",data:raw.cases},{id:"manifest",kind:"manifest",data:{...manifest,version:1}}]);
+ const content=await validateProtectedContent([{id:"questions-0000",kind:"questions",data:raw.questions},{id:"cases-0000",kind:"cases",data:raw.cases},{id:"manifest",kind:"manifest",data:{...manifest,version:1}}]);
+ if(!questionIds)return content;
+ const selected=new Set(questionIds),questions=content.questions.filter(q=>selected.has(q.id));
+ if(questions.length!==selected.size)throw new Error("Some saved questions are unavailable. Try again.");
+ return {questions,cases:[]};
 }

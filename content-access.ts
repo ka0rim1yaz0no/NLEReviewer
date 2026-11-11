@@ -1,16 +1,17 @@
 import {supabase} from "./auth";
 import {validateProtectedContent} from "./content-integrity";
 import type {ContentRow} from "./content-integrity";
-import {contentRelease} from "./content-release";
+import {contentRelease,priorQuestionRelease} from "./content-release";
 import {processContentRelease} from "./content-processing";
 import type {ReleaseManifest} from "./content-release";
 import {throwIfAborted,timedRequest} from './abort-utils';
-export async function loadProtectedContent(signal?:AbortSignal){
+export async function loadProtectedContent(signal?:AbortSignal,archivedQuestionIds?:readonly string[]){
  throwIfAborted(signal);
  if(!supabase)throw new Error("The study database is not configured.");
+ const release=archivedQuestionIds?priorQuestionRelease:contentRelease;
  const request=timedRequest(signal,15000);
  try{
-  const {data,error}=await supabase.from("study_content_releases").select("data").eq("release",contentRelease).eq("id","manifest").abortSignal(request.signal).maybeSingle();
+  const {data,error}=await supabase.from("study_content_releases").select("data").eq("release",release).eq("id","manifest").abortSignal(request.signal).maybeSingle();
   throwIfAborted(signal);
   if(error&&!["PGRST205","42P01"].includes(error.code))throw new Error("The study release could not be checked. Try again when your connection is available.");
   if(data){
@@ -21,11 +22,12 @@ export async function loadProtectedContent(signal?:AbortSignal){
    // so a partially staged release can never replace the previous question bank.
    for(let offset=0;offset<manifest.pages;offset+=2){
     throwIfAborted(signal);const pageRequest=timedRequest(signal,20000);
-    try{const result=await supabase.from("study_content_releases").select("id,kind,data").eq("release",contentRelease).eq("kind","page").order("id").range(offset,offset+1).abortSignal(pageRequest.signal);throwIfAborted(signal);if(result.error)throw new Error("Study questions could not be loaded. Your progress has been kept. Please try again.");pages.push(...(result.data||[]));}finally{pageRequest.dispose();}
+    try{const result=await supabase.from("study_content_releases").select("id,kind,data").eq("release",release).eq("kind","page").order("id").range(offset,offset+1).abortSignal(pageRequest.signal);throwIfAborted(signal);if(result.error)throw new Error("Study questions could not be loaded. Your progress has been kept. Please try again.");pages.push(...(result.data||[]));}finally{pageRequest.dispose();}
    }
-   return await processContentRelease(manifest,pages,signal);
+   return await processContentRelease(manifest,pages,signal,archivedQuestionIds);
   }
  }finally{request.dispose();}
+ if(archivedQuestionIds)throw new Error("Saved questions could not be loaded. Please try again.");
  // Backward-compatible fallback while a new release is being staged.
  const rows:ContentRow[]=[];
  for(let offset=0;offset<1000;offset+=100){

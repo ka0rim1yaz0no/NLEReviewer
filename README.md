@@ -163,3 +163,11 @@ Release `2026-11-11-challenge-pink-2` adds 42 original cases with sourced explan
 The light pink theme covers the study interface and PDFs. Each of the 156 topic guides gives the case clues and a concise keyed decision with a clickable clinical source. The full per-choice rationales are available in answer review. Earlier question IDs, keys, choice order, and payloads match the previous protected release.
 
 The verification covers all 9,531 active normalized stems, 20,468 situational choice explanations, 109 automated tests, and every topic guide. Clinical review of the new questions used the linked primary sources. Independent educator review remains pending.
+
+## Full situational revision — November 11, 2026
+
+Release `2026-11-11-situational-judgment-1` revises all 5,117 active situational questions across the 156-topic catalog. The linked cases ask distinct questions about recognition, action, teaching, safety, planning, evaluation, and reasoning. Their alternatives use related clinical evidence and their rationales explain why each choice fits its own findings. Each of the 197 standalone questions has an individually edited alternative and explanation. The [PRC nursing examination blueprint](https://www.prc.gov.ph/sites/default/files/2025-16%20annex%20A%20nurse.pdf) guided the focus on applying and evaluating care.
+
+`judgment-edits.json` records the standalone edits and targeted case corrections. Run `node --experimental-strip-types build-judgment-bank.mjs` to rebuild the reviewed overlay from the existing source evidence. New sets draw from the revised bank. Saved sessions load their exact previous questions from the verified prior release when opened. Question IDs and answer positions remain stable so progress and scoring carry across the update.
+
+Verification checks every revised question's structure, answer position, choice explanations, and links. Targeted clinical checks use the cited references. Independent educator validation remains pending.

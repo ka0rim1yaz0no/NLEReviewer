@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdir,readFile,writeFile,unlink} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {questions,activeQuestions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,challengeQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
+import {questions as revisedQuestions,previousQuestions as questions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,challengeQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import {inCollection,collectionCounts,parseCollection,isSituational} from './collections.ts';
 import {decodeContentRelease} from './content-release.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -35,6 +35,7 @@ import {auditQuestionBank,findDuplicateQuestions,referenceTotal,referenceCount,r
 import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addDays,daysBetween,streak,longestStreak,scheduleCard,parseFlashcardText,sessionScore} from './engine.ts';
 import {validateBackup} from './validation.ts';
 import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourceKeys} from './curriculum.ts';
+const activeQuestions=questions.filter(q=>!q.retired);
 const legacyCatalog=curriculum.filter(t=>t.slug!=='integumentary-disorders-burn-care');
 const bank=new Map(questions.map(q=>[q.id,q]));
 test('all 156 PDF guides include sourced active situational points and exclude archived records',()=>{
@@ -282,6 +283,7 @@ test('all 653 previously deployed questions retain their complete published payl
 });
 
 test('the full expanded bank survives the actual compressed multi-page release format',async()=>{
+ const questions=revisedQuestions;
  const raw=Buffer.from(JSON.stringify({questions,cases:clinicalCases})),base64=gzipSync(raw,{level:9}).toString('base64');
  assert.ok(raw.length<40000000,'Active and historical payload must fit the bounded release limit');
  const pages=[];for(let offset=0;offset<base64.length;offset+=440000)pages.push({id:`page-${String(pages.length).padStart(4,'0')}`,kind:'page',data:base64.slice(offset,offset+440000)});

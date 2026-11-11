@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { questions } from './author-bank.ts';
+import { questions, previousQuestions } from './author-bank.ts';
 import { validateQuestions, normalizeQuestionStem } from './bank.ts';
 import { curriculum } from './curriculum.ts';
 import { auditQuestionBank } from './catalog-metrics.ts';
@@ -10,7 +10,7 @@ import { auditQuestionBank } from './catalog-metrics.ts';
 const input=process.argv[2];
 if(!input||input.startsWith('--'))throw new Error('Usage: node --experimental-strip-types prepare-bank.mjs authorized-questions.json [--check-only]');
 const incoming=validateQuestions(JSON.parse(await readFile(input,'utf8')));
-const existingIds=new Set(questions.map(q=>q.id)),existingStems=new Set(questions.map(q=>normalizeQuestionStem(q.stem)));
+const existingIds=new Set(questions.map(q=>q.id)),existingStems=new Set([...questions,...previousQuestions].map(q=>normalizeQuestionStem(q.stem)));
 for(const q of incoming){
   if(existingIds.has(q.id))throw new Error(`ID already published: ${q.id}. Published IDs must stay stable for saved sessions.`);
   if(existingStems.has(normalizeQuestionStem(q.stem)))throw new Error(`Duplicate published question: ${q.id}.`);

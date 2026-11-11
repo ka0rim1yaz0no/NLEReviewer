@@ -1,8 +1,9 @@
 {
-  "release": "2026-11-11-challenge-pink-2",
+  "release": "2026-11-11-situational-judgment-1",
   "total": 9531,
   "original": 9529,
   "situational": 5117,
+  "revisedSituational": 5117,
   "newSituational": 4537,
   "challenge": 42,
   "newSituations": 620,

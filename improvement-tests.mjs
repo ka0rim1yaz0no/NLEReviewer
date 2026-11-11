@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {questions,clinicalCases,activeQuestions,challengeQuestions} from './author-bank.ts';
+import {questions,previousQuestions,clinicalCases,activeQuestions,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -11,13 +11,17 @@ import {makeTopicGuide} from './pdf-guides.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
+import {normalizeQuestionStem} from './bank.ts';
+import {decodeContentRelease} from './content-release.ts';
+import edits from './judgment-edits.json' with {type:'json'};
+import evidence from './situational-evidence.json' with {type:'json'};
 
 test('canonical UTF-8 preserves published checksums, Unicode, escaping and key ordering',async()=>{
  const text='Café – Filipino 😊 / "quote"\n\t\\ \ud800';
  const input={z:text,n:[true,'a\nb',3],a:{b:1,a:null}};
  const expected=JSON.stringify({a:{a:null,b:1},n:[true,'a\nb',3],z:text});
  assert.deepEqual(Buffer.from(canonicalBytes(input)),Buffer.from(expected));
- assert.equal(await contentDigest(questions.slice(0,-challengeQuestions.length),clinicalCases),'d664c4d5ef0db424a4f3efaee304e629af4713125b791c6f4be42cbf79b57d15');
+ assert.equal(await contentDigest(previousQuestions.slice(0,-challengeQuestions.length),clinicalCases),'d664c4d5ef0db424a4f3efaee304e629af4713125b791c6f4be42cbf79b57d15');
  assert.equal(activeQuestions.length,9531);
 });
 test('canonical verification remains available without TextEncoder.encodeInto',()=>{
@@ -101,4 +105,80 @@ test('new judgment cases preserve four complete explanations, sources, and verif
  assert.match(keyed('CH-025'),/^9%/);
  const burn=curriculum.find(t=>t.slug==='integumentary-disorders-burn-care');
  assert.equal(makeTopicGuide(burn,activeQuestions,clinicalCases).sections.length,6);
+});
+
+test('every active situational item has revised choices, an intact answer position, and four sourced explanations',()=>{
+ const previous=new Map(previousQuestions.map(q=>[q.id,q]));
+ const revised=activeQuestions.filter(isSituational);
+ assert.equal(revised.length,5117);
+ assert.equal(Object.keys(edits.standalone).length,197);
+ assert.equal(new Set(activeQuestions.map(q=>normalizeQuestionStem(q.stem))).size,activeQuestions.length);
+ for(const q of questions){
+  const original=previous.get(q.id);
+  assert.ok(original,q.id);
+  if(!isSituational(q)){assert.deepEqual(q,original,q.id);continue;}
+  assert.equal(q.correctIndex,original.correctIndex,q.id);
+  assert.equal(q.caseId,original.caseId,q.id);
+  assert.equal(q.topic,original.topic,q.id);
+  const originalChoices=new Set(original.options.map(option=>normalizeQuestionStem(option.text)));
+  assert.ok(q.options.some((option,i)=>i!==q.correctIndex&&!originalChoices.has(normalizeQuestionStem(option.text))),q.id);
+  assert.equal(new Set(q.options.map(option=>normalizeQuestionStem(option.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(option=>normalizeQuestionStem(option.rationale))).size,4,q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+  assert.equal(q.source,q.options[q.correctIndex].source,q.id);
+  assert.ok(q.options.every(o=>o.rationale.length>25&&o.referenceId&&new URL(o.source).protocol==='https:'),q.id);
+ }
+ for(const topic of curriculum)assert.ok(questionsForTopic(topic,revised).length>0,topic.slug);
+ const pediatric=revised.find(q=>q.id==='NP2-058-2'),adult=revised.find(q=>q.id==='NP4-096-2');
+ assert.match(pediatric.options[pediatric.correctIndex].text,/before discharge/);
+ assert.match(adult.options[adult.correctIndex].text,/protect the head/i);
+ const stroke=revised.find(q=>q.id==='SIT-NP5-altered-perception-01-action');
+ assert.match(stroke.options[stroke.correctIndex].text,/stroke assessment/);
+});
+
+test('saved sessions can recover original choices from the verified prior release',async()=>{
+ const previousDigest='bb2459522baefdb95afcbc7931116464a56308ffccc61f28d38e1494b6f24300';
+ assert.equal(await contentDigest(previousQuestions,clinicalCases),previousDigest);
+ const older=previousQuestions.find(q=>q.id==='NP2-058-2'),revised=questions.find(q=>q.id===older.id);
+ assert.notEqual(older.stem,revised.stem);
+ const rows=[previousQuestions[0],older],raw=Buffer.from(JSON.stringify({questions:rows,cases:[]}));
+ const pages=[{id:'page-0000',kind:'page',data:gzipSync(raw).toString('base64')}];
+ const manifest={version:2,encoding:'gzip-base64',pages:1,bytes:raw.length,caseCount:0,questionCount:2,digest:await contentDigest(rows,[])};
+ const archive=await decodeContentRelease(manifest,pages,[older.id]);
+ assert.deepEqual(archive.questions,[older]);
+ await assert.rejects(()=>decodeContentRelease(manifest,pages,['unavailable-id']),/saved questions are unavailable/);
+});
+
+test('linked answer keys and explanations agree with their clinical evidence or documented correction',()=>{
+ const caseEvidence=new Map(evidence.filter(c=>!c.retired).map(c=>[c.id,{...c,...edits.cases[c.id]}]));
+ const prior=new Map(previousQuestions.map(q=>[q.id,q]));
+ const fields={recognition:'problem',action:'action',teaching:'teaching',planning:'outcome',safety:'unsafe',reasoning:'reason'};
+ const lower=value=>/^[A-Z]{2}/.test(value)?value:value.charAt(0).toLowerCase()+value.slice(1);
+ for(const q of activeQuestions.filter(isSituational)){
+  const answer=q.options[q.correctIndex].text;
+  if(caseEvidence.has(q.caseId)){
+   const c=caseEvidence.get(q.caseId);
+   assert.ok(c,q.id);
+   assert.ok(q.stem.startsWith(c.scenario+'\n\n'),q.id);
+   assert.ok(q.rationale.includes(c.reason),q.id);
+   const expected=q.clinicalObjective==='evaluation'
+    ?`Document progress toward the goal for ${lower(c.problem)} and reassess as planned`
+    :c[fields[q.clinicalObjective]];
+   const actual=q.clinicalObjective==='safety'?answer.replace(/^Base the plan on the assumption that /,'Assume '):answer;
+   assert.equal(actual,expected,q.id);
+  }else if(edits.standalone[q.id]){
+   const editorial=edits.standalone[q.id];
+   assert.equal(answer,editorial.answer||prior.get(q.id).options[q.correctIndex].text,q.id);
+   assert.equal(q.options[editorial.replace].rationale,editorial.why,q.id);
+  }else{
+   const [id,kind]=q.id.split(/-(?=\d$)/),index=Number(kind)-1;
+   const c=clinicalCases[Number(id.split('-').at(-1))-1];
+   const updated=edits.cases[id];
+   const field=['problem','action','teaching','outcome','unsafe'][index];
+   const expected=updated?.[field]||c.facts[index].text;
+   const actual=index===4?answer.replace(/^Base the plan on the assumption that /,'Assume '):answer;
+   assert.equal(actual,expected,q.id);
+   assert.ok(q.rationale.includes(updated?.reasons?.[field]||c.facts[index].reason),q.id);
+  }
+ }
 });

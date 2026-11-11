@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {questions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
+import {questions,previousQuestions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
 import {contentDigest} from './content-integrity.ts';
 import {initialState,recordAnswer,gradeSession,sessionScore} from './engine.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
@@ -65,7 +65,7 @@ test('flashcards prioritize due items then fresh situations, one card per case',
 test('the content cleanup is bounded and fully restores the prior published release',async()=>{
  assert.equal(retirements.length,169);assert.equal(new Set(retirements.map(r=>r.id)).size,169);
  for(const r of retirements){assert.ok(bank.get(r.id)?.retired,r.id);if(r.replacedBy)assert.ok(!bank.get(canonicalQuestionId(r.id))?.retired,r.id);}
- const previous=questions.slice(0,-challengeQuestions.length),prior=restoreRepetitionReview(previous);assert.equal(await contentDigest(prior,clinicalCases),'e8a750c63e3161668582134dc864076dd057bda723e82eed1b47fff53aebbd90');assert.deepEqual(applyRepetitionReview(prior),previous);
+ const previous=previousQuestions.slice(0,-challengeQuestions.length),prior=restoreRepetitionReview(previous);assert.equal(await contentDigest(prior,clinicalCases),'e8a750c63e3161668582134dc864076dd057bda723e82eed1b47fff53aebbd90');assert.deepEqual(applyRepetitionReview(prior),previous);
  for(const q of previous){const old=prior.find(p=>p.id===q.id);assert.equal(q.correctIndex,old.correctIndex,q.id);assert.deepEqual(q.options.map(o=>o.text),old.options.map(o=>o.text),q.id);}
  for(const q of activeQuestions.filter(q=>q.format==='concept'||q.format==='comparison')){const refs=q.options.map(o=>canonicalQuestionId(o.referenceId));assert.equal(new Set(refs).size,4,`Equivalent reference choices in ${q.id}`);}
  assert.equal(corrections.rules.length,14);assert.equal(corrections.patches.length,65);
@@ -78,7 +78,7 @@ test('archived history still grades with its original key without altering earli
  const state={...initialState(),sessions:[s]};const graded=gradeSession(state,s,bank,10);assert.equal(sessionScore(s,bank),1);assert.equal(graded.attempts[0].correct,true);assert.equal(state.attempts.length,0);
 });
 
-test('Challenge covers every topic and gives fresh original judgment items priority',()=>{
+test('Challenge covers every topic and rotates through the full decision pool',()=>{
  const state=initialState(),options={difficulty:'challenge'};
  for(const topic of curriculum){
   const pool=questionsForTopic(topic,activeQuestions),count=availablePractice(pool,state,options);
@@ -89,8 +89,9 @@ test('Challenge covers every topic and gives fresh original judgment items prior
   assert.equal(new Set(ids.map(questionFamily)).size,ids.length,topic.slug);
  }
  const first=selectPractice(situationBank,state,20,45,options);
- assert.equal(first.length,20);assert.ok(first.every(id=>bank.get(id).difficulty==='challenge'));
+ assert.equal(first.length,20);assert.ok(first.every(id=>isDecisionQuestion(bank.get(id))));
+ assert.ok(first.some(id=>!id.startsWith('CH-')));
  state.sessions.push(session(first));
  const second=selectPractice(situationBank,state,20,46,options);
- assert.ok(second.every(id=>bank.get(id).difficulty==='challenge'&&!first.includes(id)));
+ assert.ok(second.every(id=>isDecisionQuestion(bank.get(id))&&!first.some(previous=>questionFamily(previous)===questionFamily(id))));
 });

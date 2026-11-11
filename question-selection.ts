@@ -46,7 +46,6 @@ export function availablePractice(pool:Question[],state:History,options:Selectio
 }
 export function selectPractice(pool:Question[],state:History,count:number,seed:number,options:SelectionOptions={}):string[]{
  const eligible=shuffled(practicePool(pool,state,options),seed);
- if(options.difficulty==='challenge'&&!options.review&&options.filter!=='missed')eligible.sort((a,b)=>Number(b.difficulty==='challenge')-Number(a.difficulty==='challenge'));
  const selected=options.allowRelated||options.review||options.filter==='missed'?eligible:distinctSituations(eligible);
  return selected.slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
 }

@@ -4,6 +4,6 @@
 import {decodeContentRelease} from "./content-release";
 const worker=self as unknown as DedicatedWorkerGlobalScope;
 worker.onmessage=async event=>{
- try{const content=await decodeContentRelease(event.data.manifest,event.data.pages);worker.postMessage({content});}
+ try{const content=await decodeContentRelease(event.data.manifest,event.data.pages,event.data.questionIds);worker.postMessage({content});}
  catch(error){worker.postMessage({error:error instanceof Error?error.message:"Study content could not be verified."});}
 };

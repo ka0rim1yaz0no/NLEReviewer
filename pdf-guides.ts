@@ -35,7 +35,7 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
   const point=avoid?`Avoid: ${answer} ${safeAction?`The appropriate response: ${sentence(safeAction)}`:q.rationale}`:answer;
   if(!sections.has(caseId))sections.set(caseId,{
    title:context?.title||`Situation ${sections.size+1}`,
-   scenario:context?.scenario||sharedScenario(group),
+   scenario:q.stem.includes('\n\n')?sharedScenario(group):context?.scenario||sharedScenario(group),
    summary:q.difficulty==='challenge'?q.keyPoint:undefined,
    points:[]
   });
