@@ -17,12 +17,17 @@ type Overview={
  openRooms:{code:string;mode:RoomMode;label:string;subject:string}[];
  recent:{code:string;mode:RoomMode;subject:string;ended:boolean}[];
 };
+type RankedResult={outcome:"void";season:string}|{
+ outcome:"win"|"loss"|"draw";season:string;tier:number;stars:number;matches:number;
+ starChange:number;promoted:boolean;protected:boolean;forfeit:boolean;
+};
 type Room={
  code:string;mode:RoomMode;subject:Subject|"all";topic:string;owner:boolean;
  phase:"lobby"|"countdown"|"answer"|"reveal"|"finished";
  serverAt:number;startsAt:number|null;closesAt:number|null;expiresAt:number;
+ finishedAt?:number|null;matchmakingAt?:number|null;rankedResult?:RankedResult|null;
  item:number;total:number;questionId:string|null;selected:number|null;correctIndex:number|null;stability:number;
- players:{label:string;me:boolean;host:boolean;left:boolean;points:number;right:number}[];
+ players:{label:string;me:boolean;host:boolean;left:boolean;points:number;right:number;simulated?:boolean}[];
  review:{id:string;choice:number;right:boolean}[];
  messages:{id:number;label:string;body:string;me:boolean}[];
 };
@@ -39,14 +44,19 @@ const shortRules:Record<GameMode,string>={
 const playCode=(text:string)=>text.trim().toUpperCase().replace(/\s+/g,"");
 const humanError=(error:unknown)=>error instanceof Error?error.message:"Online Play could not connect. Try again.";
 
+class PlayRequestError extends Error{
+ constructor(message:string,readonly retryable:boolean,readonly needsJoin=false){super(message);}
+}
 async function callPlay<T>(name:string,args:Record<string,unknown>={},signal?:AbortSignal):Promise<T>{
- if(!supabase)throw new Error("Online Play needs a database connection.");
+ if(!supabase)throw new PlayRequestError("Online Play needs a database connection.",false);
  const request=timedRequest(signal,9000);
  try{
   const {data,error}=await supabase.rpc(name,args).abortSignal(request.signal);
   if(error){
-   if(error.code==="P0001"||error.code==="42501")throw new Error(error.message);
-   throw new Error("Online Play could not connect. Try again.");
+   if(error.code==="P0001"||error.code==="42501"){
+    throw new PlayRequestError(error.message,false,error.code==="42501"&&name==="play_room");
+   }
+   throw new PlayRequestError("Online Play could not connect. Try again.",true);
   }
   return data as T;
  }finally{request.dispose();}
@@ -154,44 +164,53 @@ function GameGroup({title,modes}:{title:string;modes:GameMode[]}){
 
 function RoomSetup({mode}:{mode:RoomMode}){
  const {navigate}=useApp();
- const {overview}=usePlayOverview();
+ const {overview,error:overviewError,retry}=usePlayOverview();
  const [subject,setSubject]=useState<Subject|"all">("all"),[topic,setTopic]=useState("");
  const [discoverable,setDiscoverable]=useState(mode==="duel"),[rules,setRules]=useState(false);
  const [busy,setBusy]=useState(false),[error,setError]=useState("");
+ const opening=useRef<AbortController|undefined>(undefined);
  const rank=overview?.rank;
+ const activeRanked=mode==="ranked"&&overview?.recent.some(room=>room.mode==="ranked"&&!room.ended);
+ useEffect(()=>()=>opening.current?.abort(),[]);
  async function open(){
+  if(opening.current)return;
+  const request=new AbortController();
+  opening.current=request;
   setBusy(true);setError("");
   try{
    const topicSubject=curriculum.find(item=>item.slug===topic)?.subject;
    const code=await callPlay<string>("play_open",{p_mode:mode,p_subject:mode==="ranked"||mode==="cup"?"all":topicSubject||subject,
-    p_topic:mode==="ranked"||mode==="cup"?"":topic,p_public:mode==="ranked"||discoverable});
-   navigate(roomRoute(code));
-  }catch(failure){setError(humanError(failure));}
-  finally{setBusy(false);}
+    p_topic:mode==="ranked"||mode==="cup"?"":topic,p_public:mode==="ranked"||discoverable},request.signal);
+   if(!request.signal.aborted)navigate(roomRoute(code));
+  }catch(failure){if(!request.signal.aborted)setError(humanError(failure));}
+  finally{opening.current=undefined;if(!request.signal.aborted)setBusy(false);}
  }
  return <>
   <Link to="/play" className="back"><ArrowLeft size={16}/>Play</Link>
   <Heading title={gameTitles[mode]} description={shortRules[mode]}/>
   {mode==="ranked"&&<Card className="game-setup">
    <div className="section-head"><h2>{rank&&rank.matches>=3?ranks[rank.tier]:"Placement matches"}</h2><button className="btn" onClick={()=>setRules(true)}>How ranking works</button></div>
-   <p>{rank?.matches??0} matches · {rank?.wins??0} wins · {rank?.losses??0} losses {rank?"· "+rank.stars+" stars":""}</p>
+   {overviewError?<p role="status">The ladder could not load. <button className="text-button" onClick={retry}>Reload standings</button></p>
+    :!overview?<p role="status">Loading the ladder…</p>
+    :<p>{rank?.matches??0} matches · {rank?.wins??0} wins · {rank?.losses??0} losses · {rank?.stars??0} stars</p>}
    <div className="game-ranks">{ranks.map((tier,index)=><span className={rank?.tier===index?"active":""} key={tier}>{tier}</span>)}</div>
-   <p className="fine-print">Season {overview?.season||"current"} · Matchmaking looks for learners near your tier.</p>
+   {overview&&<p className="fine-print">Season {overview.season} · Matchmaking looks for learners near your tier.</p>}
    {!!overview?.leaders.length&&<><h3>Beacon top 10</h3><ol>{overview.leaders.map((player,index)=><li key={index}>{player.label} · {player.stars} stars</li>)}</ol></>}
   </Card>}
   <Card className="game-setup">
    {mode==="cup"?<p>The lobby is open from 8:45 PM until the 9:00 PM start. Times are in the Philippines.</p>
-    :mode==="ranked"?<p>Ten timed questions. Your first three matches place you on the ladder.</p>
+    :mode==="ranked"?<p>Ten questions, 15 seconds each. If no player near your tier joins within 8 seconds, you’ll play a simulated opponent.</p>
     :<><h2>Choose a subject or topic</h2><GameTopics subject={subject} topic={topic} setSubject={setSubject} setTopic={setTopic}/>
      {mode!=="challenge"&&<label className="game-check"><input type="checkbox" checked={discoverable} onChange={event=>setDiscoverable(event.target.checked)}/>
       {mode==="duel"?"Find another player online":"List the room for other students"}</label>}</>}
    {error&&<p className="form-error" role="alert">{error}</p>}
    <button type="button" className="btn primary" disabled={busy} onClick={()=>void open()}>
-    {busy?"Opening…":mode==="ranked"||mode==="duel"&&discoverable?"Find a match":mode==="cup"?"Join tonight’s lobby":"Create room"}<ArrowRight size={17}/>
+    {busy?"Connecting…":activeRanked?"Resume ranked match":mode==="ranked"||mode==="duel"&&discoverable?"Find a match":mode==="cup"?"Join tonight’s lobby":"Create room"}<ArrowRight size={17}/>
    </button>
   </Card>
   {rules&&<Modal title="How ranking works" onClose={()=>setRules(false)}>
    <p>Play three placement matches. Wins earn stars, and five stars move you up one tier. A tie leaves your stars alone.</p>
+   <p>Live and simulated matches both count. Faster correct answers score more points. The higher score wins.</p>
    <p>A loss normally costs one star. Getting seven answers right protects it. Once you reach a tier, you keep it for the rest of the season.</p>
    <p>Seasons follow the Manila calendar month. The next season starts two tiers below your last one.</p>
   </Modal>}
@@ -201,63 +220,120 @@ function RoomSetup({mode}:{mode:RoomMode}){
 function GameRoom({code}:{code:string}){
  const {bankMap,navigate,update,toast}=useApp();
  const [room,setRoom]=useState<Room|null>(null),[error,setError]=useState(""),[revision,setRevision]=useState(0);
+ const [connection,setConnection]=useState<{message:string;retrying:boolean;needsJoin:boolean}|null>(null);
  const [busy,setBusy]=useState(false),[choiceBusy,setChoiceBusy]=useState(false);
  const [clock,setClock]=useState(Date.now),[message,setMessage]=useState(""),[chat,setChat]=useState(false);
  const [leaving,setLeaving]=useState(false);
  const offset=useRef(0),recorded=useRef(false);
+ const answerPending=useRef(false),roomActionPending=useRef(false);
+ const questionHeading=useRef<HTMLHeadingElement>(null);
  const refresh=()=>setRevision(value=>value+1);
  const valid=/^[A-F0-9]{10}$/.test(code);
+ const deadline=room?.closesAt??room?.matchmakingAt;
+ const seconds=deadline?Math.max(0,Math.ceil((deadline-clock-offset.current)/1000)):0;
+ const rankedQuestion=room?.mode==="ranked"?room.questionId:null;
  useEffect(()=>{
   if(!valid)return;
   const controller=new AbortController();
   let timer:ReturnType<typeof setTimeout>|undefined;
+  let inFlight=false,stopped=false,failures=0;
+  const reconnect=()=>{
+   if(document.visibilityState==="visible")void poll();
+  };
   async function poll(){
+   if(controller.signal.aborted||inFlight||stopped)return;
+   if(timer)clearTimeout(timer);
+   inFlight=true;
+   let delay=0;
+   const sentAt=Date.now();
    try{
     const next=await callPlay<Room>("play_room",{p_code:code},controller.signal);
     if(controller.signal.aborted)return;
-    offset.current=next.serverAt-Date.now();
-    setClock(Date.now());setRoom(next);setError("");
-    timer=setTimeout(poll,next.phase==="answer"||next.phase==="reveal"||next.phase==="countdown"?800:1900);
-   }catch(failure){if(!controller.signal.aborted)setError(humanError(failure));}
+    const receivedAt=Date.now();
+    offset.current=next.serverAt-receivedAt+Math.min((receivedAt-sentAt)/2,500);
+    setClock(receivedAt);
+    setRoom(previous=>{
+     if(previous?.item===next.item&&previous.selected!==null&&next.selected===null&&next.phase==="answer"){
+      return {...next,selected:previous.selected};
+     }
+     return next;
+    });
+    setConnection(null);
+    failures=0;
+    stopped=next.mode==="ranked"&&next.phase==="finished";
+    delay=next.mode==="ranked"||["countdown","answer","reveal"].includes(next.phase)?800:1900;
+   }catch(failure){
+    if(controller.signal.aborted)return;
+    const retrying=!(failure instanceof PlayRequestError)||failure.retryable;
+    const needsJoin=failure instanceof PlayRequestError&&failure.needsJoin;
+    setConnection({message:humanError(failure),retrying,needsJoin});
+    stopped=!retrying;
+    delay=Math.min(4000,1000*++failures);
+   }finally{
+    inFlight=false;
+    if(!controller.signal.aborted&&!stopped&&delay>0)timer=setTimeout(poll,delay);
+   }
   }
   void poll();
-  return()=>{controller.abort();if(timer)clearTimeout(timer);};
+  window.addEventListener("online",reconnect);
+  document.addEventListener("visibilitychange",reconnect);
+  return()=>{
+   controller.abort();
+   if(timer)clearTimeout(timer);
+   window.removeEventListener("online",reconnect);
+   document.removeEventListener("visibilitychange",reconnect);
+  };
  },[code,valid,revision]);
  useEffect(()=>{
-  if(!room?.closesAt)return;
+  if(!deadline)return;
   const timer=setInterval(()=>setClock(Date.now()),200);
   return()=>clearInterval(timer);
- },[room?.closesAt]);
+ },[deadline]);
+ useEffect(()=>{
+  if(!rankedQuestion)return;
+  questionHeading.current?.focus({preventScroll:true});
+  questionHeading.current?.closest(".game-question")?.scrollIntoView({block:"start",behavior:"instant"});
+ },[rankedQuestion]);
  useEffect(()=>{
   if(!room||room.phase!=="finished"||!room.review.length||!room.startsAt||recorded.current)return;
   const me=room.players.find(player=>player.me);
   if(!me)return;
-  recorded.current=true;
-  update(state=>recordGameRun(state,{id:"room:"+room.code,mode:room.mode,startedAt:room.startsAt!,finishedAt:room.serverAt,
+  recorded.current=update(state=>recordGameRun(state,{id:"room:"+room.code,mode:room.mode,startedAt:room.startsAt!,finishedAt:room.finishedAt??room.serverAt,
    score:me.points,right:me.right,answered:room.review.length,questionIds:room.review.map(item=>item.id)},
    room.review.filter(item=>!item.right).map(item=>item.id),state.preferences.playVault===true));
  },[room,update]);
 
- async function action(value:"start"|"leave"|"join"){
+ async function action(value:"start"|"leave"|"join"|"cancel"){
+  if(roomActionPending.current)return;
+  roomActionPending.current=true;
   setBusy(true);setError("");
   try{
    const done=value==="join"?await callPlay<string>("play_join",{p_code:code}):await callPlay<boolean>("play_room_action",{p_code:code,p_action:value});
+   if(value==="cancel"){
+    if(done)navigate("/play/ranked");
+    else refresh();
+    return;
+   }
    if(!done)throw new Error("This room is not ready for that action.");
-   if(value==="leave")navigate("/play");
-   else refresh();
+   if(value==="leave"){
+    setLeaving(false);
+    if(room?.mode==="ranked"&&room.startsAt)refresh();
+    else navigate(room?.mode==="ranked"?"/play/ranked":"/play");
+   }else refresh();
   }catch(failure){setError(humanError(failure));}
-  finally{setBusy(false);}
+  finally{roomActionPending.current=false;setBusy(false);}
  }
  async function select(index:number){
-  if(!room||choiceBusy)return;
+  if(!room||room.phase!=="answer"||room.selected!==null||answerPending.current||seconds===0)return;
+  answerPending.current=true;
   setChoiceBusy(true);setError("");
   try{
    const accepted=await callPlay<boolean>("play_answer",{p_code:code,p_item:room.item,p_choice:index});
    if(!accepted)toast("That answer was already locked or the timer ended.");
    if(accepted)setRoom(current=>current&&current.item===room.item?{...current,selected:index}:current);
    refresh();
-  }catch(failure){setError(humanError(failure));}
-  finally{setChoiceBusy(false);}
+  }catch(failure){setError(humanError(failure));refresh();}
+  finally{answerPending.current=false;setChoiceBusy(false);}
  }
  async function share(){
   try{await navigator.clipboard.writeText(location.origin+roomRoute(code));toast("Room link copied.");}
@@ -275,41 +351,63 @@ function GameRoom({code}:{code:string}){
  if(!valid)return <Empty title="Invalid room code" description="Open Play to enter a valid room code." action={<Link className="btn" to="/play">Play</Link>}/>;
  if(!room)return <><Link to="/play" className="back"><ArrowLeft size={16}/>Play</Link><Heading title={"Game room "+code}/>
   <Card className="game-setup">
-   <p role="status">{error||"Opening the room…"}</p>
-   {error&&<div className="button-row"><button className="btn primary" disabled={busy} onClick={()=>void action("join")}>Join room</button><button className="btn" onClick={refresh}>Try again</button></div>}
+   <p role="status">{error||(!connection?"Opening the room…":connection.retrying?"Reconnecting to the room…":connection.message)}</p>
+   {connection&&<div className="button-row">
+    {connection.needsJoin&&<button className="btn primary" disabled={busy} onClick={()=>void action("join")}>Join room</button>}
+    <button className="btn" onClick={refresh}>Retry connection</button>
+   </div>}
   </Card></>;
  const question=room.questionId?bankMap.get(room.questionId):undefined;
- const seconds=room.closesAt?Math.max(0,Math.ceil((room.closesAt-clock-offset.current)/1000)):0;
+ const ranked=room.mode==="ranked";
+ const opponent=ranked?room.players.find(player=>!player.me):undefined;
+ const expiredSearch=ranked&&room.phase==="finished"&&!room.startsAt;
  const chatAvailable=(room.phase==="lobby"||room.phase==="finished")&&["quiz","code","challenge"].includes(room.mode);
  const canStart=room.mode==="challenge"||room.owner&&["quiz","code","duel"].includes(room.mode)&&room.players.filter(p=>!p.left).length>=2;
  return <>
-  <Link to="/play" className="back"><ArrowLeft size={16}/>Play</Link>
-  <Heading title={gameTitles[room.mode]} description={room.phase==="lobby"?"Room "+code:undefined}/>
+  <Link to={ranked?"/play/ranked":"/play"} className="back"><ArrowLeft size={16}/>{ranked?"Ranked ladder":"Play"}</Link>
+  <Heading title={gameTitles[room.mode]} description={
+   ranked&&opponent?(opponent.simulated?"Simulated opponent":"Live match with "+opponent.label)
+    :!ranked&&room.phase==="lobby"?"Room "+code:undefined
+  }/>
+  {connection&&<Card className="game-notice">
+   <p role="status">{connection.retrying?"Reconnecting…":connection.message} {connection.retrying&&room.startsAt&&"The match clock keeps running."}</p>
+   <button className="btn small" onClick={refresh}>Retry connection</button>
+  </Card>}
   {error&&<p role="alert" className="form-error">{error} <button className="btn small" onClick={refresh}>Retry connection</button></p>}
-  {room.phase==="lobby"?<Card className="game-setup">
-   <h2>{room.mode==="ranked"?"Looking for a ranked match":"Waiting room"}</h2>
-   <p>{room.mode==="ranked"?"The match starts when another learner near your tier joins the queue.":room.mode==="challenge"?"Send the link to a friend. Each of you can play the same round when ready.":"Share this code so your classmates can join."}</p>
-   {room.mode!=="ranked"&&<div className="button-row"><code className="room-code">{code}</code><button className="btn" onClick={()=>void share()}><Copy size={16}/>Copy invite link</button></div>}
-   {canStart&&<button className="btn primary" disabled={busy} onClick={()=>void action("start")}>Start round</button>}
-  </Card>:room.phase==="countdown"?<Card className="game-setup"><h2>Get ready</h2><p role="status">{seconds} seconds to start</p></Card>
-  :room.phase==="finished"?<Card className="game-result-banner"><Trophy size={32}/><h2>{room.mode==="code"?(room.stability>0?"Patient stabilized":"Round complete"):"Round results"}</h2>
+  {room.phase==="lobby"?<Card className={ranked?"game-setup ranked-queue":"game-setup"}>
+   <h2>{ranked?"Looking for a ranked match":"Waiting room"}</h2>
+   {ranked?<>
+    <p>Searching for a live player near your tier.</p>
+    <p className="ranked-queue-time" role="timer">{seconds>0?("Simulated opponent available in "+seconds+"s"):"Preparing a match…"}</p>
+    <button className="btn" disabled={busy} onClick={()=>void action("cancel")}>Cancel search</button>
+   </>:<>
+    <p>{room.mode==="challenge"?"Send the link to a friend. Each of you can play the same round when ready.":"Share this code so your classmates can join."}</p>
+    <div className="button-row"><code className="room-code">{code}</code><button className="btn" onClick={()=>void share()}><Copy size={16}/>Copy invite link</button></div>
+    {canStart&&<button className="btn primary" disabled={busy} onClick={()=>void action("start")}>Start round</button>}
+   </>}
+  </Card>:room.phase==="countdown"?<Card className="game-setup"><h2>{ranked?"Match found":"Get ready"}</h2><p role="timer">{seconds} seconds to start</p></Card>
+  :room.phase==="finished"?<Card className="game-result-banner"><Trophy size={32}/>
+   {ranked?<RankedMatchResult result={room.rankedResult} expired={expiredSearch}/>
+    :<h2>{room.mode==="code"?(room.stability>0?"Patient stabilized":"Round complete"):"Round results"}</h2>}
    {room.mode==="challenge"&&room.players.length<2&&<><p>Share the invite link so your friend can play the same round.</p>
     <button className="btn" onClick={()=>void share()}><Copy size={16}/>Copy invite link</button></>}
-   <div className="button-row"><Link className="btn primary" to={"/play/"+room.mode}>Set up a rematch</Link><Link className="btn" to="/play/history">Game history</Link></div>
-  </Card>:<Card className="game-question">
-   <div className="game-score-bar"><span>Question {room.item} / {room.total}</span><span><Clock size={18}/>{seconds} s</span>
+   <div className="button-row"><Link className="btn primary" to={"/play/"+room.mode}>{ranked?"Back to Ranked":"Set up a rematch"}</Link><Link className="btn" to="/play/history">Game history</Link></div>
+  </Card>:<Card className={ranked?"game-question ranked-question":"game-question"}>
+   <div className="game-score-bar"><span>Question {room.item} / {room.total}</span><span role="timer"><Clock size={18}/>{seconds} s</span>
     {room.mode==="code"&&<span><HeartPulse size={18}/>Stability {room.stability}%</span>}</div>
-   {question?<><h2>{question.stem}</h2><div className="game-answer-grid">{question.options.map((option,index)=>
+   {question?<><h2 ref={questionHeading} tabIndex={ranked?-1:undefined}>{question.stem}</h2><div className="game-answer-grid">{question.options.map((option,index)=>
     <button key={index} className={`game-answer ${room.correctIndex===index?"correct":room.selected===index?"chosen":""}`}
      aria-pressed={room.selected===index} disabled={room.phase!=="answer"||room.selected!==null||choiceBusy||seconds===0}
      onClick={()=>void select(index)}><span>{letters[index]}</span>{option.text}</button>
-   )}</div>{room.phase==="reveal"&&room.correctIndex!==null&&<p role="status" className="game-correct">{question.options[room.correctIndex].text}</p>}</>
+   )}</div>{room.phase==="reveal"&&room.correctIndex!==null&&<p role="status" className="game-correct">Correct answer: {question.options[room.correctIndex].text}</p>}
+   {ranked&&room.phase==="answer"&&room.selected!==null&&<p role="status">Answer locked</p>}</>
+    :ranked?<p role="status">This question could not load. <button className="text-button" onClick={()=>location.reload()}>Reload questions</button></p>
     :<p role="status">Waiting for the next question…</p>}
   </Card>}
-  <Card className="game-standings"><h2>{room.phase==="finished"?"Final scores":"Players"}</h2>
+  {!expiredSearch&&<Card className="game-standings"><h2>{room.phase==="finished"?"Final scores":"Players"}</h2>
    <ol>{room.players.map((player,index)=><li key={index}><span>{player.label}{player.me?" (you)":""}{player.left?" · left":""}</span>
-    <strong>{player.points.toLocaleString()} pts</strong></li>)}</ol>
-  </Card>
+    <strong>{player.points.toLocaleString()} pts {ranked&&room.phase==="finished"&&<small>· {player.right}/{room.total} correct</small>}</strong></li>)}</ol>
+  </Card>}
   {chatAvailable&&<Card className="game-chat"><button className="btn" aria-expanded={chat} onClick={()=>setChat(!chat)}>{chat?"Hide room chat":"Open room chat"}</button>
    {chat&&<><ul>{room.messages.map(line=><li key={line.id}><strong>{line.label}</strong> {line.body}</li>)}</ul>
     <form onSubmit={event=>{event.preventDefault();void send();}}><label>Message<input maxLength={160} value={message} onChange={event=>setMessage(event.target.value)}/></label>
@@ -318,12 +416,28 @@ function GameRoom({code}:{code:string}){
   {room.phase==="finished"&&room.review.some(item=>!item.right)&&<Card><h2>Review your misses</h2>
    {room.review.filter(item=>!item.right).map(item=>{const q=bankMap.get(item.id);return q?<ReviewQuestion key={item.id} q={q} selected={item.choice}/>:null;})}
   </Card>}
-  {room.phase!=="finished"&&<button className="btn" onClick={()=>setLeaving(true)}>Leave room</button>}
+  {room.phase!=="finished"&&(!ranked||room.phase!=="lobby")&&<button className="btn" onClick={()=>setLeaving(true)}>Leave room</button>}
   {leaving&&<Modal title="Leave this room?" onClose={()=>setLeaving(false)}>
    <p>{room.mode==="ranked"&&room.startsAt?"Leaving a started ranked match counts as a loss.":"You can start another game from Play."}</p>
    <div className="button-row"><button className="btn" onClick={()=>setLeaving(false)}>Stay</button>
     <button className="btn primary" disabled={busy} onClick={()=>void action("leave")}>Leave room</button></div>
   </Modal>}
+ </>;
+}
+
+function RankedMatchResult({result,expired}:{result:RankedResult|null|undefined;expired:boolean}){
+ if(expired)return <><h2>Search ended</h2><p>Open Ranked to find another match.</p></>;
+ if(!result)return <h2>Round results</h2>;
+ if(result.outcome==="void")return <><h2>Match closed</h2><p>No answers were submitted. Your ladder score is unchanged.</p></>;
+ const title=result.outcome==="win"?"You won":result.outcome==="loss"?"Match lost":"Draw";
+ return <>
+  <h2>{title}</h2>
+  {result.forfeit&&<p>{result.outcome==="win"?"Your opponent forfeited.":"You forfeited the match."}</p>}
+  {result.promoted&&<p>Promoted to {ranks[result.tier]}.</p>}
+  {result.protected&&<p>Your seven or more correct answers protected your star.</p>}
+  {result.matches<=3?<p>{Math.min(result.matches,3)} of 3 placements completed{result.matches===3?" · "+ranks[result.tier]:""}</p>
+   :<p>{ranks[result.tier]} · {result.stars} {result.stars===1?"star":"stars"}
+    {result.starChange!==0&&" ("+(result.starChange>0?"+":"")+result.starChange+")"}</p>}
  </>;
 }
 
