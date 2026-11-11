@@ -1,12 +1,14 @@
 import {useEffect,useRef,useState} from "react";
 import {ArrowLeft,ArrowRight,Award,Clock,Copy,Gamepad2,HeartPulse,Keyboard,Layers3,Radio,ShieldCheck,Swords,Trophy,Users,Zap} from "lucide-react";
-import {timedRequest} from "./abort-utils";
+import {callPlay,PlayRequestError,playErrorMessage as humanError} from "./play-api";
 import {curriculum} from "./curriculum";
 import {gameTitles,recordGameRun,roomModes,soloModes} from "./play-engine";
 import type {GameMode,RoomMode,SoloMode} from "./play-engine";
 import {ReviewQuestion} from "./Quiz";
 import {GameTopics,SoloPlay} from "./SoloPlay";
-import {supabase,useApp} from "./store";
+import {useApp} from "./store";
+import {PlayFriends} from "./PlayFriends";
+import {PlayReminders} from "./PlayReminders";
 import type {Subject} from "./types";
 import {Card,Empty,Heading,Link,Modal,Progress,letters} from "./ui";
 
@@ -22,7 +24,7 @@ type Overview={
 };
 type RankedResult={outcome:"void";season:string}|{
  outcome:"win"|"loss"|"draw";season:string;tier:number;stars:number;matches:number;
- starChange:number;promoted:boolean;protected:boolean;forfeit:boolean;
+ starChange:number;bonus?:boolean;promoted:boolean;protected:boolean;forfeit:boolean;
 };
 type Room={
  code:string;mode:RoomMode;subject:Subject|"all";topic:string;owner:boolean;
@@ -47,7 +49,6 @@ const shortRules:Record<GameMode,string>={
  code:"Work together to keep a simulated patient stable.",cup:"A scheduled group quiz with 15 questions.",
 };
 const playCode=(text:string)=>text.trim().toUpperCase().replace(/\s+/g,"");
-const humanError=(error:unknown)=>error instanceof Error?error.message:"Online Play could not connect. Try again.";
 const countdownText=(seconds:number)=>seconds<60?seconds+" s":
  Math.floor(seconds/60)+":"+String(seconds%60).padStart(2,"0");
 const manilaDate=new Intl.DateTimeFormat("en-PH",{
@@ -62,24 +63,6 @@ type CupResults={
  hall:{position:number;label:string;wins:number;best:number;me:boolean}[];
 };
 const cupDate=new Intl.DateTimeFormat("en-PH",{month:"short",day:"numeric",timeZone:"UTC"});
-
-class PlayRequestError extends Error{
- constructor(message:string,readonly retryable:boolean,readonly needsJoin=false){super(message);}
-}
-async function callPlay<T>(name:string,args:Record<string,unknown>={},signal?:AbortSignal):Promise<T>{
- if(!supabase)throw new PlayRequestError("Online Play needs a database connection.",false);
- const request=timedRequest(signal,9000);
- try{
-  const {data,error}=await supabase.rpc(name,args).abortSignal(request.signal);
-  if(error){
-   if(error.code==="P0001"||error.code==="42501"){
-    throw new PlayRequestError(error.message,false,error.code==="42501"&&name==="play_room");
-   }
-   throw new PlayRequestError("Online Play could not connect. Try again.",true);
-  }
-  return data as T;
- }finally{request.dispose();}
-}
 
 function usePlayOverview(refreshMs=0){
  const [overview,setOverview]=useState<Overview|null>(null),[error,setError]=useState("");
@@ -198,7 +181,7 @@ function PlayHome(){
    </div>
   </Card>
   {error&&<Card className="game-notice"><p role="status">{error} You can still play solo.</p><button className="btn" onClick={retry}>Retry online rooms</button></Card>}
-  <Card className="game-cup"><div><h2><Trophy size={20}/>Nightly Cup</h2><p>15 questions together. Lobby opens at 8:45 PM Philippine time.</p></div><div className="button-row"><Link to="/play/cup" className="btn">View the Cup</Link><CupResultsButton/></div></Card>
+  <Card className="game-cup"><div><h2><Trophy size={20}/>Nightly Cup</h2><p>15 questions together. Lobby opens at 8:45 PM Philippine time.</p></div><div className="button-row"><Link to="/play/cup" className="btn">View the Cup</Link><CupResultsButton/><a className="btn" href="#play-reminders">Remind me</a></div></Card>
   <GameGroup title="1 v 1" modes={["ranked","duel"]}/>
   <GameGroup title="With friends" modes={["quiz","code","challenge"]}/>
   <Card className="game-join">
@@ -214,6 +197,8 @@ function PlayHome(){
     ):<p>No public rooms right now.</p>}
    </div>}
   </Card>
+  <PlayFriends/>
+  <PlayReminders/>
   <GameGroup title="Solo" modes={[...soloModes]}/>
   <Card className="game-setup">
    <label className="game-check"><input type="checkbox" checked={state.preferences.playVault===true}
@@ -314,11 +299,13 @@ function RoomSetup({mode}:{mode:RoomMode}){
     {mode==="challenge"&&<Link className="btn" to="/play/duel?private=1">Invite a friend to play live</Link>}
    </div>
   </Card>
+  {mode==="cup"&&<PlayReminders cupOnly/>}
   {rules&&<Modal title="How ranking works" onClose={()=>setRules(false)}>
-   <p>Play three placement matches. Wins earn stars, and five stars move you up one tier. A tie leaves your stars alone.</p>
+   <p>Play three placement matches. After placement, a win earns one star and five stars move you up a tier. A draw leaves your stars alone.</p>
+   <p>Earn two stars for a win with at least 8 correct in Spark or Ember, 9 in Flame or Lantern, or 10 in Beacon. Wins by forfeit earn one star.</p>
    <p>Live and simulated matches both count. Faster correct answers score more points. The higher score wins.</p>
    <p>A loss normally costs one star. Getting seven answers right protects it. Once you reach a tier, you keep it for the rest of the season.</p>
-   <p>Seasons follow the Manila calendar month. The next season starts two tiers below your last one.</p>
+   <p>Ranked looks for players near your tier and skips accepted friends. Seasons follow the Manila calendar month. The next season starts two tiers below your last one.</p>
   </Modal>}
  </>;
 }
@@ -580,10 +567,11 @@ function RankedMatchResult({result,expired}:{result:RankedResult|null|undefined;
   <h2>{title}</h2>
   {result.forfeit&&<p>{result.outcome==="win"?"Your opponent forfeited.":"You forfeited the match."}</p>}
   {result.promoted&&<p>Promoted to {ranks[result.tier]}.</p>}
+  {result.bonus&&<p>Bonus win · 2 stars earned</p>}
   {result.protected&&<p>Your seven or more correct answers protected your star.</p>}
   {result.matches<=3?<p>{Math.min(result.matches,3)} of 3 placements completed{result.matches===3?" · "+ranks[result.tier]:""}</p>
    :<p>{ranks[result.tier]} · {result.stars} {result.stars===1?"star":"stars"}
-    {result.starChange!==0&&" ("+(result.starChange>0?"+":"")+result.starChange+")"}</p>}
+    {result.starChange!==0&&!result.bonus&&" ("+(result.starChange>0?"+":"")+result.starChange+")"}</p>}
  </>;
 }
 

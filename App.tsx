@@ -17,6 +17,7 @@ import { ChooseDeck, CreateDeck, FlashcardReview, Flashcards, planTasks, Planner
 import { Achievements, HistoryView, Login, Performance, Profile, Settings, useBadges, useStats } from "./Progress";
 import { Practice, Setup, Topics, TopicDetail } from "./TopicViews";
 import {StudyWall,WallPreview} from "./StudyWall";
+import {usePlayPresence} from "./play-presence";
 const StudyMotion=lazy(()=>import("./StudyMotion"));
 const PlayArea=lazy(()=>import("./Play"));
 const motionRoutes=new Set(["/login","/dashboard","/topics","/resources","/practice"]);
@@ -94,12 +95,13 @@ const tourSteps=[
 ];
 
 function Shell(){
- const {state,path,ready,sync,user,navigate,accessError,retryContent,switchProfile}=useApp();
+ const {state,path,ready,sync,user,profileId,navigate,accessError,retryContent,switchProfile}=useApp();
  const mainRef=useRef<HTMLElement>(null);
  const focusedPath=useRef(path);
  const [menu,setMenu]=useState(false);
  const [tour,setTour]=useState(-1);
  const route=path.split("?")[0].replace(/\/+$/,"")||"/";
+ usePlayPresence(ready&&user&&!accessError?profileId:"",route);
  const allowed=!!user||!needsUsername(route);
  const sessionPage=isStudySession(route);
  const session=sessionPage?state.sessions.find(entry=>entry.id===route.split("/")[2]):undefined;
