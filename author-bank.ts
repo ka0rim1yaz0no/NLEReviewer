@@ -3,6 +3,7 @@ import {installQuestionBank,validateQuestions,subjects} from './bank.ts';
 import {isSituational} from './collections.ts';
 import {questions as previousQuestions,clinicalCases} from './previous-authoring-bank.ts';
 import {applyClinicalAudit} from './clinical-audit.ts';
+import {applyChoiceReview} from './choice-review.ts';
 import type {Question} from './types.ts';
 
 export {originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,challengeQuestions,clinicalCases,subjects,shuffled,validateQuestions} from './previous-authoring-bank.ts';
@@ -16,7 +17,8 @@ if(edits.some(q=>!priorSituationalIds.has(q.id))){
 }
 export const revisedSituationalCount=edits.length;
 export const judgmentQuestions:Question[]=previousQuestions.map(q=>editedById.get(q.id)||q);
-export const questions=applyClinicalAudit(judgmentQuestions);
+export const clinicalAuditQuestions=applyClinicalAudit(judgmentQuestions);
+export const questions=applyChoiceReview(clinicalAuditQuestions);
 export const activeQuestions=questions.filter(q=>!q.retired);
 export const questionMap=new Map(questions.map(q=>[q.id,q]));
 export const topics=subjects.flatMap(subject=>[...new Set(activeQuestions.filter(q=>q.subject===subject.id).map(q=>q.topic))].map(name=>({id:subject.id+':'+name,name,subject:subject.id,count:activeQuestions.filter(q=>q.subject===subject.id&&q.topic===name).length})));

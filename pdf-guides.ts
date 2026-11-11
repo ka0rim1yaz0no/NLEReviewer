@@ -2,6 +2,8 @@ import type { Question, ClinicalCase } from './types.ts';
 import type { CurriculumTopic } from './curriculum.ts';
 import { questionsForTopic } from './curriculum.ts';
 import { isSituational } from './collections.ts';
+import { reasoningSummaries } from './reference-guide-summaries.ts';
+import { referenceLabel } from './study-references.ts';
 
 export type GuideSection={title:string;scenario:string;summary?:string;points:{text:string;reference:number;avoid:boolean;questionId:string;objective:string}[]};
 export type TopicGuide={title:string;subject:string;slug:string;questionCount:number;sections:GuideSection[];references:string[];referenceLabels:string[]};
@@ -33,7 +35,9 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
   const context=legacy.get(caseId),group=groups.get(caseId)!;
   const priority=avoid?group.find(item=>item.clinicalObjective==='action')||bank.find(item=>item.id===caseId+'-2'):undefined;
   const safeAction=priority?.options[priority.correctIndex].text.trim()||context?.facts[1]?.text;
-  const point=avoid?`Avoid: ${answer} ${safeAction?`The appropriate response: ${sentence(safeAction)}`:q.rationale}`:answer;
+  const actionAlreadyListed=priority&&group.some(item=>item.id===priority.id);
+  const shortReason=q.clinicalObjective==='reasoning'&&q.caseId?reasoningSummaries[q.caseId.replace(/^SIT-/,'')]:undefined;
+  const point=avoid?`Avoid: ${answer}${!actionAlreadyListed&&safeAction?` The appropriate response: ${sentence(safeAction)}`:''}`:shortReason||answer;
   if(!sections.has(caseId))sections.set(caseId,{
    title:context?.title||`Situation ${sections.size+1}`,
    scenario:q.stem.includes('\n\n')?sharedScenario(group):context?.scenario||sharedScenario(group),
@@ -44,7 +48,7 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
   if(!/^https:\/\//i.test(source))throw new Error('A topic reference is unavailable.');
   if(!references.includes(source)){
    references.push(source);
-   referenceLabels.push(q.sourceTopic||new URL(source).hostname.replace(/^www\./,''));
+   referenceLabels.push(referenceLabel(source,q.sourceTopic));
   }
   sections.get(caseId)!.points.push({text:point,reference:references.indexOf(source)+1,avoid,questionId:q.id,objective});
  }

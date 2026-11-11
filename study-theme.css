@@ -137,6 +137,14 @@
   color: var(--green);
   font-size: 12px;
 }
+.choice-rationale-label {
+  display: block;
+  margin: 0 0 3px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+}
+.question-source, .option-reference { overflow-wrap: anywhere; }
 .pdf-library-intro > .btn svg {
   color: currentColor;
 }

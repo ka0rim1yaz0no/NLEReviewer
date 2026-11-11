@@ -1,7 +1,6 @@
 // Used only by the bank export and release pipeline.
 import {auditCases} from './clinical-audit-data.ts';
 import {validateQuestions} from './bank.ts';
-import {currentQuestionRevision} from './content-release.ts';
 import {isSituational} from './collections.ts';
 import type {Question} from './types.ts';
 
@@ -28,7 +27,7 @@ export function applyClinicalAudit(base:Question[]){
   const choices=[...alternatives];
   choices.splice(old.correctIndex,0,answer);
   const options=choices.map(([text,rationale],i)=>({text,rationale,source:audit.source,referenceId:id+':audit-'+(i+1)}));
-  reviewed.set(id,{...old,stem:audit.scenario+'\n\n'+prompt,options,rationale:answer[1],keyPoint:answer[1],source:audit.source,questionRevision:currentQuestionRevision});
+  reviewed.set(id,{...old,stem:audit.scenario+'\n\n'+prompt,options,rationale:answer[1],keyPoint:answer[1],source:audit.source,questionRevision:2});
  }
  const updated=validateQuestions([...reviewed.values()]);
  const byId=new Map(updated.map(q=>[q.id,q]));

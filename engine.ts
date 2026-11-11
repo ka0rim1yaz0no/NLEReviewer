@@ -3,7 +3,7 @@ import type {VaultReview} from "./vault-schedule.ts";
 import type {FocusSettings} from "./focus-timer.ts";
 import type { Question, Subject } from "./types.ts";
 export type Answer = { selected: number; submitted: boolean; confidence: string };
-export type Session = { id: string; title: string; kind: "practice" | "exam" | "mock" | "diagnostic"; mode: "tutor" | "exam"; questionRevision?: 1 | 2; questionIds: string[]; answers: Record<string, Answer>; flagged: string[]; eliminated: Record<string, number[]>; cursor: number; startedAt: number; finishedAt?: number; timeLimit?: number; perQuestion?: number; mockBoard?: number; subject?: Subject; scratch: string; highlights: Record<string, string[]>; strokes: Record<string, string[]> };
+export type Session = { id: string; title: string; kind: "practice" | "exam" | "mock" | "diagnostic"; mode: "tutor" | "exam"; questionRevision?: 1 | 2 | 3; questionIds: string[]; answers: Record<string, Answer>; flagged: string[]; eliminated: Record<string, number[]>; cursor: number; startedAt: number; finishedAt?: number; timeLimit?: number; perQuestion?: number; mockBoard?: number; subject?: Subject; scratch: string; highlights: Record<string, string[]>; strokes: Record<string, string[]> };
 export type Attempt = { id: string; sessionId: string; questionId: string; selected: number; correct: boolean; confidence: string; at: number };
 export type CardProgress = { due: number; interval: number; reviews: number; lastAt: number };
 export type CustomCard = { id: string; deck: string; front: string; back: string };

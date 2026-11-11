@@ -55,9 +55,10 @@ test('all 156 PDF guides include sourced active situational points and exclude a
  const unsafe=mobility.sections.flatMap(s=>s.points).find(p=>p.text.includes('Send the dizzy patient to walk alone'));
  assert.ok(unsafe?.avoid);assert.ok(unsafe.text.startsWith('Avoid: '));
  const labs=makeTopicGuide(curriculum.find(t=>t.slug==='laboratory-values'),questions,clinicalCases);
- const potassium=labs.sections.flatMap(s=>s.points).find(p=>p.avoid&&p.text.includes('Administer an additional potassium supplement'));
- assert.ok(potassium);assert.ok(potassium.text.includes('appropriate response'));
- assert.ok(labs.sections.flatMap(s=>s.points).some(p=>!p.avoid&&p.text.includes('Start urgent cardiac monitoring')));
+ const potassium=labs.sections.find(s=>s.points.some(p=>p.avoid&&p.text.includes('Administer an additional potassium supplement')));
+ assert.ok(potassium);
+ assert.ok(potassium.points.some(p=>p.avoid&&!p.text.includes('appropriate response')));
+ assert.ok(potassium.points.some(p=>!p.avoid&&p.text.includes('Start urgent cardiac monitoring')));
 });
 test('PDF resources preserve all BoardPal reader links and distinguish files from publisher pages',()=>{
  assert.equal(pdfCatalog.boardpalReaders.length,46);assert.equal(new Set(pdfCatalog.boardpalReaders.map(r=>r.url)).size,46);

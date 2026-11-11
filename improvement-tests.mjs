@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {questions,previousQuestions,judgmentQuestions,clinicalCases,activeQuestions,challengeQuestions} from './author-bank.ts';
+import {questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -12,10 +12,14 @@ import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,currentQuestionRevision} from './content-release.ts';
+import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,currentQuestionRevision} from './content-release.ts';
 import {questionFamily} from './question-selection.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
+import {choiceReviewCases} from './choice-review-data.ts';
+import {choiceReferenceUpdates} from './choice-review.ts';
+import {reasoningSummaries} from './reference-guide-summaries.ts';
+import {displayRationale,choiceExplanationLabel,unsafeDecision} from './rationale-display.ts';
 import edits from './judgment-edits.json' with {type:'json'};
 import evidence from './situational-evidence.json' with {type:'json'};
 
@@ -37,7 +41,13 @@ test('all 156 guides summarize each active question’s keyed decision',()=>{
  for(const topic of curriculum){
   const expected=questionsForTopic(topic,questions).filter(isSituational),guide=makeTopicGuide(topic,questions,clinicalCases),points=guide.sections.flatMap(s=>s.points);
   assert.deepEqual(points.map(p=>p.questionId).sort(),expected.map(q=>q.id).sort(),topic.slug);
-  for(const q of expected){const point=points.find(p=>p.questionId===q.id);assert.ok(guide.referenceLabels[point.reference-1],q.id);assert.ok(point.text.toLowerCase().includes(q.options[q.correctIndex].text.toLowerCase()),q.id);assert.ok(point.objective.length>3);}
+  for(const q of expected){
+   const point=points.find(p=>p.questionId===q.id),short=q.clinicalObjective==='reasoning'&&q.caseId&&reasoningSummaries[q.caseId.replace(/^SIT-/,'')];
+   assert.ok(guide.referenceLabels[point.reference-1],q.id);
+   if(short){assert.equal(point.text,short,q.id);assert.ok(point.text.length<q.options[q.correctIndex].text.length,q.id);}
+   else assert.ok(point.text.toLowerCase().includes(q.options[q.correctIndex].text.toLowerCase()),q.id);
+   assert.ok(point.objective.length>3);
+  }
   assert.ok(points.reduce((sum,p)=>sum+p.text.length,0)<expected.reduce((sum,q)=>sum+q.rationale.length,0),topic.slug);
   for(const section of guide.sections){
    const group=expected.filter(q=>section.points.some(p=>p.questionId===q.id));
@@ -193,17 +203,21 @@ test('linked answer keys and explanations agree with their clinical evidence or 
 });
 
 test('every situational choice is traceable to its source vignette or its reviewed replacement',()=>{
- const source=url=>auditedReferenceUpdates[url]||url;
+ const source=url=>choiceReferenceUpdates[auditedReferenceUpdates[url]||url]||auditedReferenceUpdates[url]||url;
  const families=new Map(judgmentQuestions.filter(isSituational).map(q=>[questionFamily(q),source(q.source)]));
- const auditById=new Map(auditCases.flatMap(audit=>Object.keys(audit.items).map(suffix=>[audit.id+'-'+suffix,audit])));
+ const auditById=new Map([[2,auditCases],[3,choiceReviewCases]].flatMap(([revision,groups])=>groups.flatMap(audit=>Object.keys(audit.items).map(suffix=>[audit.id+'-'+suffix,{...audit,revision}]))));
  let choices=0;
  for(const q of activeQuestions.filter(isSituational)){
   const review=auditById.get(q.id);
-  assert.equal(q.questionRevision,review?currentQuestionRevision:undefined,q.id);
-  for(const o of q.options){
+  assert.equal(q.questionRevision,review?.revision,q.id);
+  for(const [i,o] of q.options.entries()){
    const id=o.referenceId.slice(0,o.referenceId.lastIndexOf(':'));
    assert.equal(o.source,review?.source||families.get(id),o.referenceId);
    if(o.contextSource)assert.equal(o.contextSource,q.source,o.referenceId);
+   const reason=displayRationale(o.rationale);
+   assert.ok(reason.length>=25&&o.rationale.includes(reason),o.referenceId);
+   assert.deepEqual(reason.match(/\d+(?:\.\d+)?/g),o.rationale.match(/\d+(?:\.\d+)?/g),o.referenceId);
+   assert.equal(choiceExplanationLabel(q,i),i===q.correctIndex?(unsafeDecision(q)?'Why this action is unsafe':'Why this is the best answer'):'Why this choice does not fit');
    choices++;
   }
  }
@@ -224,4 +238,21 @@ test('corrected cases preserve prior revision content for saved quiz review',asy
  const manifest={version:2,encoding:'gzip-base64',pages:1,bytes:raw.length,caseCount:0,questionCount:1,digest:await contentDigest([old],[])};
  const restored=await decodeContentRelease(manifest,pages,[id]);
  assert.deepEqual(restored.questions,[old]);
+});
+
+test('new clinical choice edits preserve the complete published audit release and grading positions',async()=>{
+ assert.equal(currentQuestionRevision,3);
+ assert.equal(releaseForArchive(2),clinicalAuditRelease);
+ assert.equal(await contentDigest(clinicalAuditQuestions,clinicalCases),'94992879e35b98e3ca9c7138edc1b4c685a2fd2e597e591d3ee6ebb69abf9042');
+ const previous=new Map(clinicalAuditQuestions.map(q=>[q.id,q]));
+ for(const q of questions.filter(q=>q.questionRevision===3)){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.notEqual(q.stem,previous.get(q.id).stem,q.id);
+  assert.ok(q.options.every(o=>o.source===q.source&&o.rationale.length>35),q.id);
+ }
+ const insulin=questions.find(q=>q.id==='CROSS-006-3');
+ assert.match(insulin.options[insulin.correctIndex].text,/2 mL\/hour/);
+ const magnesium=questions.find(q=>q.id==='NP2-043-2');
+ assert.match(magnesium.stem,/respiratory rate is 8\/min/);
+ assert.match(magnesium.options[magnesium.correctIndex].text,/Stop magnesium/);
 });
