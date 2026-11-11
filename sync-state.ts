@@ -2,6 +2,7 @@ import {gzipSync,gunzipSync,strToU8,strFromU8} from 'fflate';
 import type {State,Session} from './engine.ts';
 import {updateVaultReviews} from './vault-schedule.ts';
 import {initialState} from './engine.ts';
+import {mergeMockClock,pauseMockClock} from './mock-progress.ts';
 
 const equal=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
 export function sameStudyState(a:State,b:State){return equal({...a,updatedAt:0},{...b,updatedAt:0});}
@@ -31,15 +32,18 @@ function arrayDictionary<T>(base:Record<string,T[]>,local:Record<string,T[]>,rem
 function sessionChanges(base:Session|undefined,local:Session,remote:Session):Session{
  const previous=base||{...remote,answers:{},flagged:[],eliminated:{},highlights:{},strokes:{},scratch:''};
  const next=dictionary(previous as unknown as Record<string,unknown>,local as unknown as Record<string,unknown>,remote as unknown as Record<string,unknown>) as unknown as Session;
- const finished=[local.finishedAt,remote.finishedAt].filter((at):at is number=>!!at);
+ const submitted=[local,remote].filter(item=>!!item.finishedAt).sort((a,b)=>a.finishedAt!-b.finishedAt!)[0];
  const questionIds=new Set(remote.questionIds);
- return {...next,questionIds:remote.questionIds,startedAt:Math.min(local.startedAt,remote.startedAt),finishedAt:finished.length?Math.min(...finished):undefined,
+ const finishedAt=submitted?.finishedAt;
+ const merged={...next,questionIds:remote.questionIds,startedAt:Math.min(local.startedAt,remote.startedAt),finishedAt,
+  mockClock:submitted?submitted.mockClock:mergeMockClock(local.mockClock,remote.mockClock),
   answers:Object.fromEntries(Object.entries(dictionary(previous.answers,local.answers,remote.answers)).filter(([id])=>questionIds.has(id))),
   flagged:setChanges(previous.flagged,local.flagged,remote.flagged),
   eliminated:arrayDictionary(previous.eliminated,local.eliminated,remote.eliminated),
   highlights:arrayDictionary(previous.highlights,local.highlights,remote.highlights),
   strokes:arrayDictionary(previous.strokes,local.strokes,remote.strokes),
   cursor:Math.max(0,Math.min(remote.questionIds.length-1,next.cursor))};
+ return finishedAt?pauseMockClock(merged,finishedAt):merged;
 }
 /** Apply only local changes since base to the current remote state. */
 export function mergeStudyStates(base:State,local:State,remote:State,now=Date.now()):State{

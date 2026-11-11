@@ -66,14 +66,17 @@ export function Resources(){
 }
 export function ResourceReader({guide=false}:{guide?:boolean}){
   const {state,bank,path,update,navigate,user,username,sharedProfile}=useApp(),start=useStartSession();
-  const key=new URLSearchParams(path.split("?")[1]).get("topic")||"CROSS:Infection prevention";
+  const params=new URLSearchParams(path.split("?")[1]);
+  const key=params.get("topic")||"CROSS:Infection prevention";
+  const returnTo=params.get("returnTo");
+  const quizReturn=returnTo&&/^\/(session|results)\/[\w-]+$/.test(returnTo)?returnTo:undefined;
   const split=key.indexOf(":"),catalogTopic=findCurriculumTopic(key),subject=catalogTopic?.subject||key.slice(0,split),topic=catalogTopic?.name||key.slice(split+1);
   const keys=resourceKeys(subject,topic);
   const cases=catalogTopic?casesForTopic(catalogTopic):clinicalCases.filter(c=>c.subject===subject&&c.topic===topic);
   const questions=catalogTopic?questionsForTopic(catalogTopic,bank):bank.filter(q=>q.subject===subject&&q.topic===topic);
   const found=cases.length>0||questions.length>0;
   return <>
-    <Link to="/resources" className="back"><ArrowLeft size={15}/>All resources</Link>
+    <Link to={quizReturn||"/resources"} className="back"><ArrowLeft size={15}/>{quizReturn?"Back to your set":"All resources"}</Link>
     <Heading title={guide?"Make every study session count.":topic} description={guide?"A simple rhythm: recall, understand, revisit.":`${subject==="CROSS"?"Foundations & Fundamentals":subject} · original topic notes`} action={canAccessPDFs(username,!!user,sharedProfile)?guide?<button className="btn" onClick={()=>window.print()}><Download size={15}/>Print / save PDF</button>:catalogTopic?<Link className="btn" to={`/resources/pdfs?topic=${encodeURIComponent(catalogTopic.subject+":"+catalogTopic.slug)}`}><Download size={15}/>PDF downloads</Link>:<button className="btn" onClick={()=>window.print()}><Download size={15}/>Print / save PDF</button>:undefined}/>
     <Card className="reader">{guide?<>
       <h2>1. Try before you look.</h2><p>Read the situation carefully. Identify what the question asks: an assessment, a priority action, teaching, an outcome, or an unsafe statement. Choose an answer before revealing the explanation.</p>

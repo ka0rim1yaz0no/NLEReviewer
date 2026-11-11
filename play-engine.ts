@@ -73,6 +73,7 @@ export function prepareSoloRound(
    if(chosen.length===target)break;
    const stem=normalizeQuestionStem(q.stem),family=questionFamily(q),answer=normalizeGameAnswer(q.options[q.correctIndex].text);
    if(usedIds.has(q.id)||usedStems.has(stem)||(mode==="rapid"?usedFamilies.has(family):usedAnswers.has(answer)))continue;
+   if(mode==="match"&&!matchDistractors([...chosen.slice(chosen.length-chosen.length%matchBoardSize),q]))continue;
    chosen.push(q);
    usedIds.add(q.id);usedStems.add(stem);usedFamilies.add(family);usedAnswers.add(answer);
   }
@@ -83,15 +84,26 @@ export function prepareSoloRound(
  return {questions:chosen,topicCount,supplemented:!!topic&&chosen.length>topicCount};
 }
 
+function matchDistractors(board:Question[]){
+ const used=new Set(board.map(q=>normalizeGameAnswer(q.options[q.correctIndex].text)));
+ const labels:string[]=[];
+ function find(index:number):boolean{
+  if(index===board.length)return true;
+  for(const {text} of board[index].options){
+   const key=normalizeGameAnswer(text);
+   if(used.has(key))continue;
+   used.add(key);labels.push(text);
+   if(find(index+1))return true;
+   used.delete(key);labels.pop();
+  }
+  return false;
+ }
+ return find(0)?labels:undefined;
+}
+
 export function matchTiles(board:Question[],seed:number){
  const correct=board.map(q=>({id:q.id+":key",label:q.options[q.correctIndex].text,questionId:q.id}));
- const labels=new Set(correct.map(tile=>normalizeGameAnswer(tile.label)));
- const distractors=board.flatMap(q=>{
-  const choice=q.options.find((option,index)=>index!==q.correctIndex&&!labels.has(normalizeGameAnswer(option.text)));
-  if(!choice)return [];
-  labels.add(normalizeGameAnswer(choice.text));
-  return [{id:q.id+":extra",label:choice.text,questionId:""}];
- });
+ const distractors=(matchDistractors(board)??[]).map((label,index)=>({id:board[index].id+":extra",label,questionId:""}));
  return shuffled([...correct,...distractors],seed);
 }
 

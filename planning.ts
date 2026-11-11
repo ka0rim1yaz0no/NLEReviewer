@@ -1,4 +1,4 @@
-import {addDays,dateKey,daysBetween} from './engine.ts';
+import {addDays,dateKey,daysBetween,linkedPracticeComplete} from './engine.ts';
 import type {State,StudyPlanSettings,Task} from './engine.ts';
 import type {Subject} from './types.ts';
 
@@ -51,8 +51,10 @@ export function buildStudyPlan(state:State,topics:PlanTopic[]){
    const id=encodeURIComponent(topic.subject+':'+topic.name),count=Math.max(1,Math.min(state.preferences.questionGoal,topic.count||state.preferences.questionGoal));
    const index=loads.indexOf(Math.min(...loads));
    if(settings.reading)add({id:`plan:read:${id}`,date:'',title:`Read: ${topic.name}`,done:!!topic.slug&&state.read.includes('catalog:'+topic.slug),type:'read',subject:topic.subject as Subject,topic:topic.name,minutes:10},index);
-   const practiced=state.sessions.some(s=>!!s.finishedAt&&s.title===topic.name+' practice'&&s.questionIds.length>=count&&dateKey(s.finishedAt,state.profile.timezone)>=settings.startDate);
-   add({id:`plan:practice:${id}`,date:'',title:`Study: ${topic.name}`,done:practiced,type:'practice',subject:topic.subject as Subject,topic:topic.name,minutes:Math.ceil(count*1.2),count},index);
+   const taskId=`plan:practice:${id}`;
+   const practiced=state.sessions.some(s=>s.planTaskId===taskId&&linkedPracticeComplete(s)||
+    !!s.finishedAt&&s.title===topic.name+' practice'&&s.questionIds.length>=count&&dateKey(s.finishedAt,state.profile.timezone)>=settings.startDate);
+   add({id:taskId,date:'',title:`Study: ${topic.name}`,done:practiced,type:'practice',subject:topic.subject as Subject,topic:topic.name,minutes:Math.ceil(count*1.2),count},index);
   }
   for(const [index,date] of days.entries()){
    if(settings.flashcards)add({id:`plan:flash:${date}`,date,title:'Flashcards · due cards and weak spots',done:false,type:'flashcards',minutes:Math.max(3,Math.ceil(state.preferences.flashcardGoal/3)),count:state.preferences.flashcardGoal},index);

@@ -7,42 +7,61 @@ import {vaultIsDue} from "./vault-schedule";
 import type {PracticeDifficulty} from "./question-selection";
 import {selectPractice,selectQuickPractice,diagnosticQuestionIds,questionFamily} from "./question-selection";
 import {mockQuestionIds} from "./mock-papers";
+import {completedMockSubjects,mockAttemptNumber,mockAttempts,mockDuration,mockRemaining,mockSubjects,mockTimeLimit,pauseMockClock,startMockClock} from "./mock-progress";
 import apacheLicense from "./apache-2.0.txt?url";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, Flag, Focus, Highlighter, NotebookPen, PenLine, RotateCcw, Search, SlidersHorizontal, Sparkles, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, Flag, Focus, Highlighter, NotebookPen, PenLine, RotateCcw, Search, SlidersHorizontal, Sparkles, X } from "lucide-react";
 import { subjects, shuffled } from "./bank";
 import { inCollection, isSituational } from "./collections";
 import type { Collection } from "./collections";
 import { CollectionPicker } from "./CollectionPicker";
 import { practiceQuestionPool, practiceSetupPath } from "./practice-setup";
 import { savedTopicNotes } from "./saved-notes";
+import { findCurriculumTopic } from "./curriculum";
+import { QuestionFlashcard } from "./QuestionFlashcard";
 import type { Question, Subject } from "./types";
 import type { Session, State } from "./engine";
 import { firstAttempts, gradeSession, recordAnswer, sessionDeadline, sessionScore, isAnswerCorrect } from "./engine";
 import { useApp } from "./store";
 import { Card, Empty, Heading, letters, Link, Modal, Progress, SearchBox, TextLink } from "./ui";
-type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];keyword?:string;count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;perQuestion?:number;review?:boolean;allowRelated?:boolean;difficulty?:PracticeDifficulty;quick?:boolean};
-export function useStartSession() {const {update,bank,navigate,toast}=useApp();return (options:StartOptions={})=>{
+type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];keyword?:string;count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;mockAttempt?:number;retake?:boolean;perQuestion?:number;review?:boolean;allowRelated?:boolean;difficulty?:PracticeDifficulty;quick?:boolean;planTaskId?:string};
+export function useStartSession() {const {update,bank,bankMap,navigate,toast}=useApp();return (options:StartOptions={})=>{
   const collection=options.collection||(options.ids?"all":"situational");
   const difficulty=options.difficulty||(collection==="situational"?"challenge":"mixed");
+  const count=options.count??10;
   const seed=Date.now()+(options.mockBoard||0)*413;
   const quick=options.quick&&!options.review&&(!options.filter||options.filter==="unanswered");
   let target:string|undefined,message:string|undefined;
   const saved=update(state=>{
     let ids:string[];
+    let attempt:number|undefined;
+    let questionRevision:Session["questionRevision"]=currentQuestionRevision;
     let followUp=false;
-    if(options.kind==="mock"){
-      const saved=state.sessions.find(s=>s.kind==="mock"&&s.subject===options.subject&&s.mockBoard===options.mockBoard);
+    if(options.kind==="mock"&&options.subject&&options.mockBoard){
+      const board=options.mockBoard,subject=options.subject;
+      const attempts=mockAttempts(state.sessions,board),latest=attempts[0]?.[0]??1;
+      const selectedAttempt=(options.mockAttempt??latest)+(options.retake?1:0);
+      attempt=selectedAttempt;
+      const saved=attempts.find(([number])=>number===selectedAttempt)?.[1].find(s=>s.subject===subject);
       if(saved){target=`/${saved.finishedAt?"results":"session"}/${saved.id}`;return state;}
-      ids=options.subject&&options.mockBoard?mockQuestionIds(bank,options.subject,options.mockBoard,state.importedQuestions.map(q=>q.id),state):[];
+      const previous=attempts.filter(([number])=>number<selectedAttempt).flatMap(([,sections])=>sections).find(s=>s.subject===subject&&s.questionIds.length===100&&s.questionIds.every(id=>bankMap.has(id)));
+      const imports=state.importedQuestions.map(q=>q.id);
+      if(previous){ids=previous.questionIds;questionRevision=previous.questionRevision;}
+      else{
+        ids=mockQuestionIds(bank,subject,board,imports,state);
+        if(ids.length!==100&&attempt>1)ids=mockQuestionIds(bank,subject,board,imports);
+      }
       if(ids.length!==100){message="This mock section needs 100 unused questions. Resume a saved section or choose a different subject.";return state;}
+    }else if(options.kind==="mock"){
+      message="Choose a mock board and section.";
+      return state;
     }else if(options.kind==="diagnostic"){
       ids=diagnosticQuestionIds(bank,state,seed);
       if(ids.length!==30){message="A new diagnostic needs six unused situations per NP. Resume an earlier diagnostic or use custom practice to review familiar situations.";return state;}
     }else{
       const pool=practiceQuestionPool(bank,{...options,collection});
-      if(quick)({ids,followUp}=selectQuickPractice(pool,state,options.count||20,seed,{difficulty,bank}));
-      else ids=selectPractice(pool,state,options.count||20,seed,{...options,difficulty,bank});
+      if(quick)({ids,followUp}=selectQuickPractice(pool,state,count,seed,{difficulty,bank}));
+      else ids=selectPractice(pool,state,count,seed,{...options,difficulty,bank});
     }
     if(!ids.length){
       if(quick&&!options.ids)target=practiceSetupPath({...options,collection,difficulty,exhausted:true});
@@ -50,8 +69,10 @@ export function useStartSession() {const {update,bank,navigate,toast}=useApp();r
       return state;
     }
     const mode=options.mode||"tutor",kind=options.kind||(mode==="exam"?"exam":"practice");
-    const title=options.title||(options.keyword?.trim()?`Practice: ${options.keyword.trim()}`:options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"||options.filter==="all"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice");
-    const session:Session={id:crypto.randomUUID(),title:followUp?`${title} · follow-ups`:title,kind,mode,questionRevision:currentQuestionRevision,questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:Date.now(),timeLimit:kind==="mock"?7200:kind==="diagnostic"?1500:undefined,perQuestion:options.perQuestion,mockBoard:options.mockBoard,subject:options.subject,scratch:"",highlights:{},strokes:{}};
+    const title=options.title||(options.keyword?.trim()?`Practice: ${options.keyword.trim()}`:options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"||options.filter==="vault"||options.filter==="all"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice");
+    const startedAt=Date.now();
+    const practiceSetup=(kind==="practice"||kind==="exam")&&!options.ids?practiceSetupPath({...options,collection,difficulty,count,allowRelated:followUp||options.allowRelated}):undefined;
+    const session:Session={id:crypto.randomUUID(),title:followUp?`${title} · follow-ups`:attempt&&attempt>1?`${title} · Attempt ${attempt}`:title,kind,mode,questionRevision,questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt,timeLimit:kind==="mock"?mockTimeLimit:kind==="diagnostic"?1500:undefined,perQuestion:options.perQuestion,mockBoard:options.mockBoard,mockAttempt:attempt,mockClock:kind==="mock"?{remainingMs:mockTimeLimit*1000,changedAt:startedAt}:undefined,practiceSetup,planTaskId:options.planTaskId,subject:options.subject,scratch:"",highlights:{},strokes:{}};
     target=`/session/${session.id}`;
     return {...state,sessions:[...state.sessions,session]};
   });
@@ -108,6 +129,8 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
   const {state,update,navigate,toast}=useApp();
   const session=state.sessions.find(item=>item.id===id);
   const [tick,setTick]=useState(Date.now);
+  const [clockOwner]=useState(()=>crypto.randomUUID());
+  const [resumed]=useState(()=>!!session&&(session.cursor>0||Object.keys(session.answers).length>0));
   const [scratch,setScratch]=useState(false);
   const [tool,setTool]=useState("");
   const [focus,setFocus]=useState(false);
@@ -121,14 +144,49 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
   const q=session?bankMap.get(session.questionIds[session.cursor]):undefined;
   const answer=q&&session?session.answers[q.id]:undefined;
   const revealed=!!answer?.submitted&&session?.mode==="tutor";
+  const isMock=session?.kind==="mock";
+  const ownClock=!isMock||session?.mockClock?.owner===clockOwner;
   const deadline=session?sessionDeadline(session):Infinity;
   const perQuestion=session?.perQuestion;
+
+  const runMockClock=useCallback((running:boolean)=>{
+    const now=Date.now();
+    update(current=>{
+      const active=current.sessions.find(item=>item.id===id);
+      if(active?.kind!=="mock"||active.finishedAt||!running&&active.mockClock?.owner!==clockOwner)return current;
+      if(now>=sessionDeadline(active))return gradeSession(current,active,bankMap,now);
+      const next=running?startMockClock(active,clockOwner,now):pauseMockClock(active,now);
+      if(next===active)return current;
+      return {...current,sessions:current.sessions.map(item=>{
+        if(item.id===id)return next;
+        return running&&item.kind==="mock"&&!item.finishedAt?pauseMockClock(item,now):item;
+      })};
+    });
+    if(running)setTick(now);
+  },[update,id,clockOwner,bankMap]);
+
+  useEffect(()=>{
+    if(!isMock||session?.finishedAt)return;
+    const visibility=()=>runMockClock(document.visibilityState==="visible");
+    const leave=()=>runMockClock(false);
+    visibility();
+    document.addEventListener("visibilitychange",visibility);
+    window.addEventListener("pageshow",visibility);
+    window.addEventListener("pagehide",leave);
+    return()=>{
+      document.removeEventListener("visibilitychange",visibility);
+      window.removeEventListener("pageshow",visibility);
+      window.removeEventListener("pagehide",leave);
+      leave();
+    };
+  },[isMock,session?.finishedAt,runMockClock]);
 
   const changeActiveSession=useCallback((change?:(state:State,active:Session,at:number)=>State)=>{
     let expired=false;
     const saved=update(current=>{
       const active=current.sessions.find(item=>item.id===id);
       if(!active||active.finishedAt)return current;
+      if(active.kind==="mock"&&active.mockClock?.owner!==clockOwner)return current;
       const now=Date.now();
       if(now>=sessionDeadline(active)){
         expired=true;
@@ -137,7 +195,7 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
       return change?.(current,active,now)??current;
     });
     if(saved&&expired)toast("Time is up. Your exam has been submitted.");
-  },[update,id,bankMap,toast]);
+  },[update,id,bankMap,toast,clockOwner]);
 
   useEffect(()=>{
     entered.current=Date.now();
@@ -152,7 +210,7 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
 
   useEffect(()=>{
     const timed=Number.isFinite(deadline);
-    if(session?.finishedAt||!timed&&(!perQuestion||revealed))return;
+    if(session?.finishedAt||!ownClock||!timed&&(!perQuestion||revealed))return;
     const refresh=()=>{
       const now=Date.now();
       if(now>=deadline){changeActiveSession();return;}
@@ -168,7 +226,7 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
       clearTimeout(expiry);
       document.removeEventListener("visibilitychange",refresh);
     };
-  },[revealed,deadline,perQuestion,session?.finishedAt,changeActiveSession]);
+  },[revealed,deadline,perQuestion,session?.finishedAt,changeActiveSession,ownClock]);
 
   useEffect(()=>{
     if(session?.finishedAt)navigate(`/results/${id}`,{replace:true});
@@ -228,11 +286,18 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
   };window.addEventListener("keydown",handler);return ()=>window.removeEventListener("keydown",handler);});
   if(!session||!q)return <Empty title="Session not found" description="Start a new set from the practice page." action={<Link to="/practice" className="btn primary">Go to practice</Link>}/>;
   const related=session.questionIds.filter(id=>questionFamily(bankMap.get(id)||id)===questionFamily(q)),relatedIndex=related.indexOf(q.id)+1;
-  const answered=Object.values(session.answers).filter(a=>a.selected>=0).length,flagged=session.flagged.includes(q.id),remaining=Number.isFinite(deadline)?Math.max(0,Math.ceil((deadline-tick)/1000)):null;
+  const answered=Object.values(session.answers).filter(a=>a.selected>=0).length,flagged=session.flagged.includes(q.id);
+  const remaining=isMock?Math.ceil(mockRemaining(session,ownClock?tick:session.mockClock?.changedAt??tick)/1000):Number.isFinite(deadline)?Math.max(0,Math.ceil((deadline-tick)/1000)):null;
   function nextMatching(ids:string[]){const current=session!.cursor;for(let n=1;n<=session!.questionIds.length;n++){const index=(current+n)%session!.questionIds.length;if(ids.includes(session!.questionIds[index])){jump(index);return;}}toast("No matching questions left.");}
   function captureHighlight(){if(tool!=="highlight")return;const selected=window.getSelection()?.toString().trim();if(selected&&q!.stem.includes(selected)){edit(s=>({...s,highlights:{...s.highlights,[q!.id]:[...new Set([...(s.highlights[q!.id]||[]),selected])]}}));window.getSelection()?.removeAllRanges();}}
   function point(e:React.PointerEvent<SVGSVGElement>){const r=e.currentTarget.getBoundingClientRect();return `${((e.clientX-r.left)/r.width*1000).toFixed(1)},${((e.clientY-r.top)/r.height*300).toFixed(1)}`;}
-  return <div className={focus?"quiz focus-mode":"quiz"}>{!focus&&<Heading title={session.title} description={session.mode==="tutor"?"Practice session · learn with every answer":"Exam mode · explanations appear after submission"}/>}<Card className="question-card"><div className="quiz-top"><strong>{session.cursor+1} <span className="muted">of {session.questionIds.length}</span></strong>{remaining!==null?<span className={`timer-label ${remaining<300?"danger":""}`}><Clock size={15}/>{formatTime(remaining)}</span>:session.perQuestion?<span className={elapsed>session.perQuestion?"timer-label danger":"timer-label"}><Clock size={15}/>{formatTime(session.perQuestion-elapsed)}</span>:<small>{answered} answered</small>}<div className="button-row"><button className="icon-btn" aria-label="Previous question" disabled={session.cursor===0} onClick={()=>jump(session.cursor-1)}><ChevronLeft size={18}/></button><button className="icon-btn" aria-label="Next question" disabled={session.cursor===session.questionIds.length-1} onClick={()=>jump(session.cursor+1)}><ChevronRight size={18}/></button></div></div><Progress value={session.cursor+1} max={session.questionIds.length}/><div className="quiz-tools"><button title="Select text to highlight (H)" aria-label="Highlighter" aria-pressed={tool==="highlight"} onClick={()=>setTool(tool==="highlight"?"":"highlight")}><Highlighter size={17}/><span>Highlight</span></button><button title="Draw on the question (P)" aria-label="Pen" aria-pressed={tool==="pen"} onClick={()=>setTool(tool==="pen"?"":"pen")}><PenLine size={17}/><span>Pen</span></button><button aria-label="Scratch pad" aria-pressed={scratch} onClick={()=>setScratch(!scratch)}><NotebookPen size={17}/><span>Scratch pad</span></button><button aria-label="Focus mode" aria-pressed={focus} onClick={()=>setFocus(!focus)}><Focus size={17}/><span>Focus</span></button><button aria-label="Clear question annotations" onClick={()=>edit(s=>({...s,highlights:{...s.highlights,[q.id]:[]},strokes:{...s.strokes,[q.id]:[]}}))}><RotateCcw size={16}/></button><label className="text-size">Aa<select aria-label="Question text size" value={state.preferences.textSize} onChange={e=>update(s=>({...s,preferences:{...s.preferences,textSize:Number(e.target.value)}}))}>{[16,18,20,24].map(n=><option key={n} value={n}>{n}px</option>)}</select></label></div>{scratch&&<div className="scratch-pad"><label>Session scratch pad<textarea aria-label="Session scratch pad" placeholder="Work out calculations or jot down a thought…" value={session.scratch} onChange={e=>edit(s=>({...s,scratch:e.target.value}))}/></label><small>Saved with this session.</small></div>}<div className="question-label"><span>{q.subject==="CROSS"?"F&F":q.subject}</span><span>{q.topic}</span><button aria-label={flagged?"Unflag question":"Flag for review"} className={flagged?"flag active":"flag"} onClick={()=>{edit(s=>({...s,flagged:flagged?s.flagged.filter(v=>v!==q.id):[...s.flagged,q.id]}));if(!flagged)update(s=>({...s,vault:[...new Set([...s.vault,q.id])]}));}}><Flag size={16}/>{flagged?"Flagged":"Flag"}</button></div><QuestionProvenance q={q}/>{related.length>1&&<p className="notice small-notice">Shared situation · follow-up {relatedIndex} of {related.length}. These items test different nursing decisions in the same case.</p>}<div className={`stem-wrap ${tool}`} onMouseUp={captureHighlight} onTouchEnd={()=>setTimeout(captureHighlight,0)}><p className="question-stem" ref={questionPrompt} tabIndex={-1} style={{fontSize:state.preferences.textSize}}><MarkedText text={q.stem} marks={session.highlights[q.id]||[]}/></p><svg className="drawing" aria-label="Question drawing area" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{pointerEvents:tool==="pen"?"auto":"none"}} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);drawn.current=point(e);setDraftStroke(drawn.current);}} onPointerMove={e=>{if(e.currentTarget.hasPointerCapture(e.pointerId)){drawn.current+=" "+point(e);setDraftStroke(drawn.current);}}} onPointerUp={e=>{e.currentTarget.releasePointerCapture(e.pointerId);if(drawn.current)edit(s=>({...s,strokes:{...s.strokes,[q.id]:[...(s.strokes[q.id]||[]),drawn.current]}}));setDraftStroke("");}}>{[...(session.strokes[q.id]||[]),draftStroke].filter(Boolean).map((points,i)=><polyline key={i} points={points} fill="none" stroke="#b46c46" strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke"/>)}</svg></div><div className={`options cross-${state.preferences.crossSide}`}>{q.options.map((option,i)=>{const eliminated=session.eliminated[q.id]?.includes(i),selected=answer?.selected===i;const cls=revealed?(i===q.correctIndex?"correct":selected?"wrong":""):selected?"selected":"";return <div key={i} className={`option ${cls} ${eliminated?"eliminated":""}`}><button className="option-main" disabled={revealed} aria-pressed={selected} onClick={()=>pick(i)}><span className="option-letter">{revealed&&i===q.correctIndex?<Check size={17}/>:letters[i]}</span><span>{option.text}</span>{selected&&!revealed&&<span className="selected-dot"/>}</button><button className="eliminate" aria-label={`Eliminate option ${letters[i]}`} aria-pressed={!!eliminated} disabled={revealed} onClick={()=>edit(s=>({...s,eliminated:{...s.eliminated,[q.id]:eliminated?(s.eliminated[q.id]||[]).filter(v=>v!==i):[...(s.eliminated[q.id]||[]),i]}}))}><X size={16}/></button>{revealed&&state.preferences.explanation==="inside"&&q.rationaleScope!=="shared"&&<ChoiceRationale q={q} index={i} className="inline-rationale"/>}</div>;})}</div>{state.preferences.confidence&&!revealed&&<div className="confidence"><small>How sure are you?</small><div className="button-row">{["I’m sure","Not sure","Guessing"].map(value=><button key={value} className={answer?.confidence===value?"active":""} onClick={()=>edit(s=>({...s,answers:{...s.answers,[q.id]:{selected:s.answers[q.id]?.selected??-1,submitted:false,confidence:value}}}))}>{value}</button>)}</div></div>}{session.mode==="tutor"&&!revealed&&<button className="btn primary full submit" disabled={answer===undefined||answer.selected<0} onClick={submit}>Submit answer <ArrowRight size={17}/></button>}{revealed&&<div className={`rationale ${answer.selected===q.correctIndex?"correct":"wrong"}`}><h3>{answer.selected===q.correctIndex?<Check size={18}/>:<X size={18}/>} {answer.selected===q.correctIndex?"That’s right":"Let’s learn from this"}</h3><strong>{q.rationaleScope==="shared"?"Source keyed answer":unsafeDecision(q)?"Unsafe action to identify":"Best answer"}: {letters[q.correctIndex]}. {q.options[q.correctIndex].text}</strong>{(state.preferences.explanation!=="inside"||q.rationaleScope==="shared")&&<p>{displayRationale(q.rationale)}</p>}{q.difficulty==="challenge"&&distinctStudyNote(q)&&<div className="clinical-takeaway"><strong>Study note</strong><p>{distinctStudyNote(q)}</p></div>}{state.preferences.explanation!=="inside"&&q.rationaleScope!=="shared"&&<details><summary>Why the other choices aren’t the best answer <ChevronDown size={15}/></summary>{q.options.map((o,i)=>i!==q.correctIndex&&<ChoiceRationale key={i} q={q} index={i} letter/>)}</details>}<QuestionExtras q={q}/></div>}<div className="quiz-bottom"><button className="btn" disabled={session.cursor===0} onClick={()=>jump(session.cursor-1)}><ChevronLeft size={16}/>Previous</button><button className="btn primary" onClick={()=>session.cursor===session.questionIds.length-1?setFinish(true):jump(session.cursor+1)}>{session.cursor===session.questionIds.length-1?"Finish session":revealed||session.mode==="exam"&&answer?.selected!==undefined?"Next question":"Skip"}<ChevronRight size={16}/></button></div></Card><Card className="navigator"><div className="section-head"><h2>Question navigator</h2><span className="muted">{answered} / {session.questionIds.length}</span></div><div className="button-row"><button className="text-button" onClick={()=>nextMatching(session.questionIds.filter(id=>!session.answers[id]||session.answers[id].selected<0))}>Next unanswered</button><button className="text-button" disabled={!session.flagged.length} onClick={()=>nextMatching(session.flagged)}>Next flagged ({session.flagged.length})</button></div><SessionNavigator session={session} jump={jump}/><button className="btn full" onClick={()=>setFinish(true)}>Finish — see results ({answered} of {session.questionIds.length} answered)</button><small className="center muted">Your session saves automatically. You can come back anytime.</small></Card>{finish&&<Modal title="Finish this session?" onClose={()=>setFinish(false)}><p>You’ve selected answers for {answered} of {session.questionIds.length} questions. {session.questionIds.length-answered>0?"Unanswered questions count as incorrect in your result.":"Your full answer review will be ready next."}</p><div className="button-row end"><button className="btn" onClick={()=>setFinish(false)}>Keep studying</button><button className="btn primary" onClick={complete}>Submit and see results</button></div></Modal>}</div>;}
+  return <div className={focus?"quiz focus-mode":"quiz"}>
+    {isMock&&<div className="mock-quiz-controls">
+      <Link className="back" to={`/mock/${session.mockBoard}?attempt=${mockAttemptNumber(session)}`}><ArrowLeft size={15}/>Pause and return to board</Link>
+      {!ownClock&&<button className="btn small" onClick={()=>runMockClock(true)}>Resume timer here</button>}
+    </div>}
+    {!focus&&<Heading title={session.title} description={session.mode==="tutor"?"Practice session · learn with every answer":isMock?"Exam mode · the clock pauses when you leave this screen":"Exam mode · explanations appear after submission"}/>}{!focus&&resumed&&session.practiceSetup&&<Card className="resume-card"><div><strong>Resumed set</strong><p>{answered} of {session.questionIds.length} answered</p></div><Link className="btn" to={session.practiceSetup}>Build a fresh set</Link></Card>}
+    <Card className="question-card"><div className="quiz-top"><strong>{session.cursor+1} <span className="muted">of {session.questionIds.length}</span></strong>{remaining!==null?<span className={`timer-label ${remaining<300?"danger":""}`}><Clock size={15}/>{formatTime(remaining)}{isMock&&!ownClock?" · Paused":""}</span>:session.perQuestion?<span className={elapsed>session.perQuestion?"timer-label danger":"timer-label"}><Clock size={15}/>{formatTime(session.perQuestion-elapsed)}</span>:<small>{answered} answered</small>}<div className="button-row"><button className="icon-btn" aria-label="Previous question" disabled={session.cursor===0} onClick={()=>jump(session.cursor-1)}><ChevronLeft size={18}/></button><button className="icon-btn" aria-label="Next question" disabled={session.cursor===session.questionIds.length-1} onClick={()=>jump(session.cursor+1)}><ChevronRight size={18}/></button></div></div><Progress value={session.cursor+1} max={session.questionIds.length}/><div className="quiz-tools"><button title="Select text to highlight (H)" aria-label="Highlighter" aria-pressed={tool==="highlight"} onClick={()=>setTool(tool==="highlight"?"":"highlight")}><Highlighter size={17}/><span>Highlight</span></button><button title="Draw on the question (P)" aria-label="Pen" aria-pressed={tool==="pen"} onClick={()=>setTool(tool==="pen"?"":"pen")}><PenLine size={17}/><span>Pen</span></button><button aria-label="Scratch pad" aria-pressed={scratch} onClick={()=>setScratch(!scratch)}><NotebookPen size={17}/><span>Scratch pad</span></button><button aria-label="Focus mode" aria-pressed={focus} onClick={()=>setFocus(!focus)}><Focus size={17}/><span>Focus</span></button><button aria-label="Clear question annotations" onClick={()=>edit(s=>({...s,highlights:{...s.highlights,[q.id]:[]},strokes:{...s.strokes,[q.id]:[]}}))}><RotateCcw size={16}/></button><label className="text-size">Aa<select aria-label="Question text size" value={state.preferences.textSize} onChange={e=>update(s=>({...s,preferences:{...s.preferences,textSize:Number(e.target.value)}}))}>{[16,18,20,24].map(n=><option key={n} value={n}>{n}px</option>)}</select></label></div>{scratch&&<div className="scratch-pad"><label>Session scratch pad<textarea aria-label="Session scratch pad" placeholder="Work out calculations or jot down a thought…" value={session.scratch} onChange={e=>edit(s=>({...s,scratch:e.target.value}))}/></label><small>Saved with this session.</small></div>}<div className="question-label"><span>{q.subject==="CROSS"?"F&F":q.subject}</span><span>{q.topic}</span><button aria-label={flagged?"Unflag question":"Flag for review"} className={flagged?"flag active":"flag"} onClick={()=>{edit(s=>({...s,flagged:flagged?s.flagged.filter(v=>v!==q.id):[...s.flagged,q.id]}));if(!flagged)update(s=>({...s,vault:[...new Set([...s.vault,q.id])]}));}}><Flag size={16}/>{flagged?"Flagged":"Flag"}</button></div><QuestionProvenance q={q}/>{related.length>1&&<p className="notice small-notice">Shared situation · follow-up {relatedIndex} of {related.length}. These items test different nursing decisions in the same case.</p>}<div className={`stem-wrap ${tool}`} onMouseUp={captureHighlight} onTouchEnd={()=>setTimeout(captureHighlight,0)}><p className="question-stem" ref={questionPrompt} tabIndex={-1} style={{fontSize:state.preferences.textSize}}><MarkedText text={q.stem} marks={session.highlights[q.id]||[]}/></p><svg className="drawing" aria-label="Question drawing area" viewBox="0 0 1000 300" preserveAspectRatio="none" style={{pointerEvents:tool==="pen"?"auto":"none"}} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);drawn.current=point(e);setDraftStroke(drawn.current);}} onPointerMove={e=>{if(e.currentTarget.hasPointerCapture(e.pointerId)){drawn.current+=" "+point(e);setDraftStroke(drawn.current);}}} onPointerUp={e=>{e.currentTarget.releasePointerCapture(e.pointerId);if(drawn.current)edit(s=>({...s,strokes:{...s.strokes,[q.id]:[...(s.strokes[q.id]||[]),drawn.current]}}));setDraftStroke("");}}>{[...(session.strokes[q.id]||[]),draftStroke].filter(Boolean).map((points,i)=><polyline key={i} points={points} fill="none" stroke="#b46c46" strokeWidth="3" strokeLinecap="round" vectorEffect="non-scaling-stroke"/>)}</svg></div><div className={`options cross-${state.preferences.crossSide}`}>{q.options.map((option,i)=>{const eliminated=session.eliminated[q.id]?.includes(i),selected=answer?.selected===i;const cls=revealed?(i===q.correctIndex?"correct":selected?"wrong":""):selected?"selected":"";return <div key={i} className={`option ${cls} ${eliminated?"eliminated":""}`}><button className="option-main" disabled={revealed} aria-pressed={selected} onClick={()=>pick(i)}><span className="option-letter">{revealed&&i===q.correctIndex?<Check size={17}/>:letters[i]}</span><span>{option.text}</span>{selected&&!revealed&&<span className="selected-dot"/>}</button><button className="eliminate" aria-label={`Eliminate option ${letters[i]}`} aria-pressed={!!eliminated} disabled={revealed} onClick={()=>edit(s=>({...s,eliminated:{...s.eliminated,[q.id]:eliminated?(s.eliminated[q.id]||[]).filter(v=>v!==i):[...(s.eliminated[q.id]||[]),i]}}))}><X size={16}/></button>{revealed&&state.preferences.explanation==="inside"&&q.rationaleScope!=="shared"&&<ChoiceRationale q={q} index={i} className="inline-rationale"/>}</div>;})}</div>{state.preferences.confidence&&!revealed&&<div className="confidence"><small>How sure are you?</small><div className="button-row">{["I’m sure","Not sure","Guessing"].map(value=><button key={value} className={answer?.confidence===value?"active":""} onClick={()=>edit(s=>({...s,answers:{...s.answers,[q.id]:{selected:s.answers[q.id]?.selected??-1,submitted:false,confidence:value}}}))}>{value}</button>)}</div></div>}{session.mode==="tutor"&&!revealed&&<button className="btn primary full submit" disabled={answer===undefined||answer.selected<0} onClick={submit}>Submit answer <ArrowRight size={17}/></button>}{revealed&&<div className={`rationale ${answer.selected===q.correctIndex?"correct":"wrong"}`}><h3>{answer.selected===q.correctIndex?<Check size={18}/>:<X size={18}/>} {answer.selected===q.correctIndex?"That’s right":"Let’s learn from this"}</h3><strong>{q.rationaleScope==="shared"?"Source keyed answer":unsafeDecision(q)?"Unsafe action to identify":"Best answer"}: {letters[q.correctIndex]}. {q.options[q.correctIndex].text}</strong>{(state.preferences.explanation!=="inside"||q.rationaleScope==="shared")&&<p>{displayRationale(q.rationale)}</p>}{q.difficulty==="challenge"&&distinctStudyNote(q)&&<div className="clinical-takeaway"><strong>Study note</strong><p>{distinctStudyNote(q)}</p></div>}{state.preferences.explanation!=="inside"&&q.rationaleScope!=="shared"&&<details><summary>Why the other choices aren’t the best answer <ChevronDown size={15}/></summary>{q.options.map((o,i)=>i!==q.correctIndex&&<ChoiceRationale key={i} q={q} index={i} letter/>)}</details>}<QuestionExtras q={q}/></div>}<div className="quiz-bottom"><button className="btn" disabled={session.cursor===0} onClick={()=>jump(session.cursor-1)}><ChevronLeft size={16}/>Previous</button><button className="btn primary" onClick={()=>session.cursor===session.questionIds.length-1?setFinish(true):jump(session.cursor+1)}>{session.cursor===session.questionIds.length-1?"Finish session":revealed||session.mode==="exam"&&answer?.selected!==undefined?"Next question":"Skip"}<ChevronRight size={16}/></button></div></Card><Card className="navigator"><div className="section-head"><h2>Question navigator</h2><span className="muted">{answered} / {session.questionIds.length}</span></div><div className="button-row"><button className="text-button" onClick={()=>nextMatching(session.questionIds.filter(id=>!session.answers[id]||session.answers[id].selected<0))}>Next unanswered</button><button className="text-button" disabled={!session.flagged.length} onClick={()=>nextMatching(session.flagged)}>Next flagged ({session.flagged.length})</button></div><SessionNavigator session={session} jump={jump}/><button className="btn full" onClick={()=>setFinish(true)}>Finish — see results ({answered} of {session.questionIds.length} answered)</button><small className="center muted">Your session saves automatically. You can come back anytime.</small></Card>{finish&&<Modal title="Finish this session?" onClose={()=>setFinish(false)}><p>You’ve selected answers for {answered} of {session.questionIds.length} questions. {session.questionIds.length-answered>0?"Unanswered questions count as incorrect in your result.":"Your full answer review will be ready next."}</p><div className="button-row end"><button className="btn" onClick={()=>setFinish(false)}>Keep studying</button><button className="btn primary" onClick={complete}>Submit and see results</button></div></Modal>}</div>;}
 function SessionNavigator({session,jump}:{session:Session;jump:(index:number)=>void}){
  const [page,setPage]=useState(()=>Math.floor(session.cursor/100));
  useEffect(()=>setPage(Math.floor(session.cursor/100)),[session.cursor]);
@@ -248,13 +313,37 @@ export function QuestionProvenance({q}:{q:Question}){
  if(q.format)return <p className="question-provenance"><strong>{q.format==="concept"?"Original concept check":"Original comparison question"} · Open RN</strong><span>{q.format==="concept"?"Identify a concept from its nursing reference description.":"Compare a specific relationship from a nursing reference table."} Reference-based key and explanations for all four choices.</span></p>;
  return q.collection==="supplemental"?<p className="question-provenance"><strong>Supplemental medical science · MedMCQA</strong><span>{q.rationaleScope==="shared"?"Shared source explanation; separate rationales for the alternatives were not supplied.":"Source-based correction with per-choice explanations."} Supplemental material, not a PNLE item. Independent clinical review is still needed.</span></p>:null;
 }
-export function QuestionExtras({q}:{q:Question}){const {state,update}=useApp();const saved=state.bookmarks.includes(q.id);return <><details className="question-attribution"><summary>Question source & attribution</summary><p>{q.origin}</p>{q.sourceTopic&&<p>Source topic: {q.sourceTopic}</p>}{(q.format==="concept"||q.format==="comparison")&&<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">Reference adaptation license: CC BY 4.0</a>}{q.collection==="supplemental"&&<a href={apacheLicense} target="_blank" rel="noreferrer">Apache 2.0 license</a>}</details><div className="question-extras">{q.source&&<a className="text-button question-source" href={q.source} target="_blank" rel="noreferrer">{referenceLabel(q.source,q.sourceTopic)}</a>}<button className={`text-button ${saved?"saved":""}`} onClick={()=>update(s=>({...s,bookmarks:saved?s.bookmarks.filter(id=>id!==q.id):[...s.bookmarks,q.id]}))}><Bookmark size={15} fill={saved?"currentColor":"none"}/>{saved?"Bookmarked":"Bookmark question"}</button><details><summary><NotebookPen size={15}/>Your note</summary><textarea aria-label={`Note for ${q.id}`} placeholder="What helped this click for you?" value={state.notes[q.id]||""} onChange={e=>update(s=>({...s,notes:{...s.notes,[q.id]:e.target.value}}))}/></details></div></>;}
-export function ReviewQuestion({q,selected}:{q:Question;selected?:number}){const [open,setOpen]=useState(selected!==undefined);return <article className="review-question"><div className="section-head"><span className="tag">{q.subject==="CROSS"?"F&F":q.subject} · {q.topic}</span>{selected!==undefined&&<span className={selected===q.correctIndex?"success":"danger"}>{selected===q.correctIndex?"Correct":selected<0?"Unanswered":"Incorrect"}</span>}</div><QuestionProvenance q={q}/><h3>{q.stem}</h3><button className="text-button" onClick={()=>setOpen(!open)}>{open?"Hide answer":"Show answer and rationale"}<ChevronDown size={15}/></button>{open&&<><div className="review-options">{q.options.map((option,i)=><div key={i} className={`${i===q.correctIndex?"correct":""} ${selected===i&&i!==q.correctIndex?"wrong":""}`}><strong>{letters[i]}. {option.text} {i===q.correctIndex&&<Check size={15}/>}</strong>{q.rationaleScope!=="shared"&&<ChoiceRationale q={q} index={i}/>}</div>)}</div>{(q.rationaleScope==="shared"||distinctStudyNote(q))&&<div className="key-point"><strong>{q.rationaleScope==="shared"?"Source answer explanation":"Study note"}</strong><p>{q.rationaleScope==="shared"?q.rationale:distinctStudyNote(q)}</p></div>}<QuestionExtras q={q}/></>}</article>;}
+export function QuestionExtras({q}:{q:Question}){
+ const {state,update,path}=useApp();
+ const saved=state.bookmarks.includes(q.id);
+ const topic=findCurriculumTopic(`${q.subject}:${q.topic}`);
+ const fromQuiz=path.startsWith("/session/")||path.startsWith("/results/");
+ const notesPath=topic?`/resources/read?${new URLSearchParams({topic:topic.slug,...(fromQuiz?{returnTo:path}:{})})}`:undefined;
+ return <>
+  <details className="question-attribution"><summary>Question source & attribution</summary>
+   <p>{q.origin}</p>{q.sourceTopic&&<p>Source topic: {q.sourceTopic}</p>}
+   {(q.format==="concept"||q.format==="comparison")&&<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">Reference adaptation license: CC BY 4.0</a>}
+   {q.collection==="supplemental"&&<a href={apacheLicense} target="_blank" rel="noreferrer">Apache 2.0 license</a>}
+  </details>
+  <div className="question-extras">
+   {q.source&&<a className="text-button question-source" href={q.source} target="_blank" rel="noreferrer">{referenceLabel(q.source,q.sourceTopic)}</a>}
+   {notesPath&&<Link className="text-button" to={notesPath}><BookOpen size={15}/>Topic notes</Link>}
+   <button className={`text-button ${saved?"saved":""}`} onClick={()=>update(s=>({...s,bookmarks:saved?s.bookmarks.filter(id=>id!==q.id):[...s.bookmarks,q.id]}))}>
+    <Bookmark size={15} fill={saved?"currentColor":"none"}/>{saved?"Bookmarked":"Bookmark question"}
+   </button>
+   <QuestionFlashcard question={q}/>
+   <details><summary><NotebookPen size={15}/>Your note</summary><textarea aria-label={`Note for ${q.id}`} placeholder="What helped this click for you?" value={state.notes[q.id]||""} onChange={e=>update(s=>({...s,notes:{...s.notes,[q.id]:e.target.value}}))}/></details>
+  </div>
+ </>;
+}
+export function ReviewQuestion({q,selected,expanded,onToggle}:{q:Question;selected?:number;expanded?:boolean;onToggle?:()=>void}){
+ const [opened,setOpen]=useState(selected!==undefined),open=expanded??opened;return <article className="review-question"><div className="section-head"><span className="tag">{q.subject==="CROSS"?"F&F":q.subject} · {q.topic}</span>{selected!==undefined&&<span className={selected===q.correctIndex?"success":"danger"}>{selected===q.correctIndex?"Correct":selected<0?"Unanswered":"Incorrect"}</span>}</div><QuestionProvenance q={q}/><h3>{q.stem}</h3><button className="text-button" onClick={onToggle||(()=>setOpen(!open))} aria-expanded={open}>{open?"Hide answer":"Show answer and rationale"}<ChevronDown size={15}/></button>{open&&<><div className="review-options">{q.options.map((option,i)=><div key={i} className={`${i===q.correctIndex?"correct":""} ${selected===i&&i!==q.correctIndex?"wrong":""}`}><strong>{letters[i]}. {option.text} {i===q.correctIndex&&<Check size={15}/>}</strong>{q.rationaleScope!=="shared"&&<ChoiceRationale q={q} index={i}/>}</div>)}</div>{(q.rationaleScope==="shared"||distinctStudyNote(q))&&<div className="key-point"><strong>{q.rationaleScope==="shared"?"Source answer explanation":"Study note"}</strong><p>{q.rationaleScope==="shared"?q.rationale:distinctStudyNote(q)}</p></div>}<QuestionExtras q={q}/></>}</article>;}
 function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
  const {state}=useApp(),start=useStartSession();
  const session=state.sessions.find(s=>s.id===id);
  const [filter,setFilter]=useState("all"),[page,setPage]=useState(0),[query,setQuery]=useState(""),[jumpItem,setJumpItem]=useState("");
  const [target,setTarget]=useState<string>(),targetRef=useRef<HTMLDivElement>(null);
+ const [expandAll,setExpandAll]=useState(true),[overrides,setOverrides]=useState(new Set<string>());
  useEffect(()=>{
   if(!target)return;
   targetRef.current?.focus({preventScroll:true});targetRef.current?.scrollIntoView({block:"start"});
@@ -271,8 +360,9 @@ function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
  });
  const activePage=Math.max(0,Math.min(page,Math.ceil(filtered.length/10)-1));
  const jumpIndex=Number(jumpItem)-1;
- return <><Link to="/history" className="back"><ArrowLeft size={15}/> Your study history</Link><Heading title="One session closer." description={`${session.title} · ${session.questionIds.length} ${session.questionIds.length===1?"question":"questions"}`}/><Card className="results-summary"><div className="score-ring" style={{background:`conic-gradient(var(--green) ${percent}%, var(--line) 0)`}}><div><strong>{percent}%</strong><span>accuracy</span></div></div><div><h2>{percent>=75?"Keep building on this.":"Every rationale is a chance to improve."}</h2><p>{correct} correct · {session.questionIds.length-correct} incorrect or unanswered</p><p className="muted">{Math.floor((session.finishedAt-session.startedAt)/60000)} minutes · Projected rating {(40+percent*.6).toFixed(1)}*</p><div className="button-row"><button className="btn primary" onClick={()=>start({ids:session.questionIds.filter(id=>!isAnswerCorrect(session,id,bankMap)),count:session.questionIds.length,review:true,title:"Review missed questions"})} disabled={correct===session.questionIds.length}>Review missed questions</button><Link to="/practice" className="btn">Back to practice</Link></div></div></Card><p className="fine-print">*Study estimate: 40 + (raw accuracy × 0.6). This is not an official PRC rating or a prediction of passing.</p>
+ return <><Link to={session.mockBoard?`/mock/${session.mockBoard}?attempt=${mockAttemptNumber(session)}`:"/history"} className="back"><ArrowLeft size={15}/>{session.mockBoard?"Back to mock board":"Your study history"}</Link><Heading title="One session closer." description={`${session.title} · ${session.questionIds.length} ${session.questionIds.length===1?"question":"questions"}`}/><Card className="results-summary"><div className="score-ring" style={{background:`conic-gradient(var(--green) ${percent}%, var(--line) 0)`}}><div><strong>{percent}%</strong><span>accuracy</span></div></div><div><h2>{percent>=75?"Keep building on this.":"Every rationale is a chance to improve."}</h2><p>{correct} correct · {session.questionIds.length-correct} incorrect or unanswered</p><p className="muted">{Math.floor(mockDuration(session)/60000)} minutes · Projected rating {(40+percent*.6).toFixed(1)}*</p><div className="button-row"><button className="btn primary" onClick={()=>start({ids:session.questionIds.filter(id=>!isAnswerCorrect(session,id,bankMap)),count:session.questionIds.length,review:true,title:"Review missed questions"})} disabled={correct===session.questionIds.length}>Review missed questions</button><Link to={session.planTaskId?"/schedule":"/practice"} className="btn">{session.planTaskId?"Back to study plan":"Back to practice"}</Link></div></div></Card><p className="fine-print">*Study estimate: 40 + (raw accuracy × 0.6). This is not an official PRC rating or a prediction of passing.</p>
  <div className="section-head"><h2>Your answer review</h2><small>{filtered.length} {filtered.length===1?"question":"questions"}</small></div>
+ <button className="btn small" aria-expanded={expandAll} onClick={()=>{setExpandAll(!expandAll);setOverrides(new Set());}}>{expandAll?"Hide all explanations":"Show all explanations"}</button>
  <div className="result-review-tools">
   <SearchBox placeholder="Search this answer review" value={query} onChange={value=>{setQuery(value);setPage(0);setTarget(undefined);}}/>
   <form className="button-row" onSubmit={event=>{
@@ -290,7 +380,8 @@ function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
    const q=bankMap.get(questionId);
    return <div key={questionId} className="review-item" ref={target===questionId?targetRef:undefined} tabIndex={target===questionId?-1:undefined}>
     <small className="tag">Item {index+1}</small>
-    {q?<ReviewQuestion q={q} selected={session.answers[questionId]?.selected??-1}/>:<p className="notice">This question is unavailable.</p>}
+    {q?<ReviewQuestion q={q} selected={session.answers[questionId]?.selected??-1} expanded={expandAll!==overrides.has(questionId)}
+     onToggle={()=>setOverrides(current=>{const next=new Set(current);if(next.has(questionId))next.delete(questionId);else next.add(questionId);return next;})}/>:<p className="notice">This question is unavailable.</p>}
    </div>;
   })}
   {!filtered.length&&<Empty title="Nothing in this view" description="Try another search or view all questions."/>}
@@ -299,16 +390,19 @@ function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
 }
 export function Pagination({page,total,onChange}:{page:number;total:number;onChange:(n:number)=>void}){return <div className="pagination"><button className="btn small" disabled={page===0} onClick={()=>onChange(page-1)}><ChevronLeft size={15}/>Previous</button><small>{total?`${page*10+1}–${Math.min(total,page*10+10)} of ${total}`:"0 questions"}</small><button className="btn small" disabled={(page+1)*10>=total} onClick={()=>onChange(page+1)}>Next<ChevronRight size={15}/></button></div>;}
 export function BankBrowser({saved=false,notes=false}:{saved?:boolean;notes?:boolean}){
-  const {state,bank,bankMap}=useApp();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all"),[collection,setCollection]=useState<Collection>("all"),[page,setPage]=useState(0);
+  const {state,bank,bankMap}=useApp(),start=useStartSession();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all"),[collection,setCollection]=useState<Collection>("all"),[page,setPage]=useState(0);
   const query=search.toLowerCase();
   const browseBank=saved||notes?[...bankMap.values()]:bank;
   const filtered=browseBank.filter(q=>inCollection(q,collection,saved||notes)&&(!saved||state.bookmarks.includes(q.id))&&(!notes||!!state.notes[q.id]?.trim())&&(subject==="all"||q.subject===subject)&&`${q.topic} ${q.stem} ${q.options[q.correctIndex].text} ${notes?state.notes[q.id]||"":""}`.toLowerCase().includes(query));
+  const playable=new Set(saved?filtered.filter(q=>!q.retired).map(q=>q.id):[]);
+  const bookmarkedIds=saved?state.bookmarks.filter(id=>playable.has(id)).slice(-100):[];
   const topicNotes=notes?savedTopicNotes(state.notes,bank).filter(n=>(subject==="all"||n.subject===subject)&&`${n.title} ${n.text}`.toLowerCase().includes(query)):[];
   return <>
     <Heading title={notes?"My Notes":saved?"Bookmarks":"Question library"} description={notes?"Your topic, resource, and question notes, gathered in one place.":saved?"The questions you want to come back to.":`${bank.length} available questions. Browse by subject, read the answers, and understand the reasoning.`}/>
     <CollectionPicker bank={bank} value={collection} onChange={value=>{setCollection(value);setPage(0);}}/>
     <SearchBox placeholder={notes?"Search notes or topics":"Search questions or topics"} value={search} onChange={value=>{setSearch(value);setPage(0);}}/>
     <div className="tabs"><button className={subject==="all"?"active":""} onClick={()=>{setSubject("all");setPage(0);}}>All</button>{subjects.map(s=><button key={s.id} className={subject===s.id?"active":""} onClick={()=>{setSubject(s.id);setPage(0);}}>{s.short}</button>)}</div>
+    {bookmarkedIds.length>0&&<div className="button-row"><button className="btn primary" onClick={()=>start({ids:bookmarkedIds,count:bookmarkedIds.length,review:true,title:"Bookmarked questions"})}>Practice {bookmarkedIds.length} bookmarked {bookmarkedIds.length===1?"question":"questions"}<ArrowRight size={15}/></button></div>}
     {topicNotes.length>0&&<Card><h2>Topic notes</h2>{topicNotes.map(note=><article className="saved-topic-note" key={note.key}><span className="tag">{note.subject==="CROSS"?"F&F":note.subject}</span><h3>{note.title}</h3><p>{note.text}</p><Link className="text-button" to={note.to}>Open topic and edit note<ArrowRight size={15}/></Link></article>)}</Card>}
     {(filtered.length>0||!topicNotes.length)&&<Card>{notes&&filtered.length>0&&<h2>Question notes</h2>}{filtered.slice(page*10,page*10+10).map(q=><Fragment key={q.id}><ReviewQuestion q={q}/>{notes&&<div className="saved-note-body"><strong>Your note</strong><p>{state.notes[q.id]}</p></div>}</Fragment>)}{!filtered.length&&!topicNotes.length&&<Empty icon={<Search/>} title={notes?"No matching notes":"No questions here yet"} description={saved?"Bookmark a question from any answer review.":notes?"Add a note to a topic, resource, or question, or change your search.":"Try a different topic or search."}/>}{filtered.length>0&&<Pagination page={page} total={filtered.length} onChange={setPage}/>}</Card>}
   </>;
@@ -324,5 +418,78 @@ export function VaultView(){
  {qs.length>0&&<button className="text-button danger spaced-title" onClick={()=>setClear(true)}>Clear my Vault</button>}{clear&&<Modal title="Clear your Vault?" onClose={()=>setClear(false)}><p>This empties the review pile and its review schedule. Your answers, bookmarks, notes, and history stay saved.</p><div className="button-row end"><button className="btn" onClick={()=>setClear(false)}>Cancel</button><button className="btn primary" onClick={()=>{update(s=>({...s,vault:[],vaultReviews:{}}));setClear(false);}}>Clear Vault</button></div></Modal>}</>;
 }
 
-export function Mocks({board}:{board?:number}){const {state}=useApp(),start=useStartSession();const completed=(n:number,subject:Subject)=>state.sessions.find(s=>s.mockBoard===n&&s.subject===subject&&s.finishedAt);return <>{board&&<Link to="/mock" className="back"><ArrowLeft size={15}/>Mock boards</Link>}<Heading title={board?`Mock Board #${board}`:"Mock Boards"} description={board?"Take the five sections in any order. Settle in before you start: each section has 100 questions and a two-hour clock.":"Five practice simulations. Each board has five 100-question sections with a two-hour clock per section."}/><p className="notice small-notice">New mock sections skip questions already assigned in practice, diagnostics, or another board. They keep full cases together when possible. Resume or review a saved section to see its original questions.</p>{board?<div className="mock-sections">{subjects.filter(s=>s.id!=="CROSS").map((s,i)=>{const done=completed(board,s.id),active=state.sessions.find(t=>t.mockBoard===board&&t.subject===s.id&&!t.finishedAt);return <Card key={s.id}><span className="subject-code">{s.short}</span><div><h2>{s.name}</h2><p>Items {i*100+1}–{i*100+100} · 100 questions · 2 hours</p></div>{done?<Link to={`/results/${done.id}`} className="btn"><Check size={16}/>Review</Link>:active?<Link to={`/session/${active.id}`} className="btn primary">Resume</Link>:<button className="btn primary" onClick={()=>start({subject:s.id,collection:"situational",count:100,mode:"exam",kind:"mock",mockBoard:board,title:`Mock ${board} · ${s.short}`})}>Start<ArrowRight size={15}/></button>}</Card>;})}</div>:<div className="mock-list">{[1,2,3,4,5].map(n=>{const count=subjects.filter(s=>s.id!=="CROSS"&&completed(n,s.id)).length;return <Card key={n}><div className="mock-number">{String(n).padStart(2,"0")}</div><div><h2>Mock Board #{n}</h2><p>500 questions · {count} of 5 sections completed</p><Progress value={count} max={5}/></div><Link to={`/mock/${n}`} className="btn">{count===5?"Review":count||state.sessions.some(t=>t.mockBoard===n&&!t.finishedAt)?"Continue":"Start"}<ArrowRight size={16}/></Link></Card>;})}</div>}<p className="fine-print">An unfinished section resumes with its original clock. Time continues while the tab is closed.</p></>;}
+export function Mocks({board}:{board?:number}){
+ const {state,bankMap,path}=useApp(),start=useStartSession();
+ const [retake,setRetake]=useState(false);
+ const [firstSection,setFirstSection]=useState<Subject>("NP1");
+ const activeBoards=[1,2,3,4,5].map(number=>{
+  const attempts=mockAttempts(state.sessions,number);
+  const [latest,sections]=attempts[0]??[1,[]];
+  return {number,attempts,latest,sections,done:completedMockSubjects(sections).length};
+ });
+ if(!board){
+  const inProgress=activeBoards.flatMap(entry=>entry.sections).filter(s=>!s.finishedAt).sort((a,b)=>b.startedAt-a.startedAt)[0];
+  return <>
+   <Heading title="Mock Boards" description="Five boards with five 100-question sections. Each section has a two-hour clock that pauses when you leave."/>
+   {inProgress&&<Card className="resume-card"><div><strong>Continue your mock board</strong><p>{inProgress.title}</p></div><Link to={`/session/${inProgress.id}`} className="btn primary">Resume section<ArrowRight size={16}/></Link></Card>}
+   <div className="mock-list">{activeBoards.map(entry=>{
+    const pending=entry.sections.some(s=>!s.finishedAt);
+    return <Card key={entry.number}>
+     <span className="mock-number">{String(entry.number).padStart(2,"0")}</span>
+     <div><h2>Mock Board #{entry.number}</h2><p>{entry.done} of 5 sections submitted · 500 questions</p>
+      <Progress value={entry.done} max={5} label={`Board ${entry.number} progress`}/></div>
+     <Link to={`/mock/${entry.number}`} className="btn">{entry.done===5?"Results & retake":entry.done||pending?"Continue":"Start"}<ArrowRight size={15}/></Link>
+    </Card>;
+   })}</div>
+  </>;
+ }
+ const entry=activeBoards[board-1];
+ if(!entry)return <Empty title="Mock board unavailable" description="Choose one of the five available boards." action={<Link to="/mock">All mock boards</Link>}/>;
+ const requested=Number(new URLSearchParams(path.split("?")[1]).get("attempt"));
+ const [attempt,sections]=entry.attempts.find(([number])=>number===requested)??[entry.latest,entry.sections];
+ const isCurrent=attempt===entry.latest;
+ const completed=completedMockSubjects(sections);
+ const submittedSections=completed.map(subject=>sections.find(session=>session.subject===subject&&session.finishedAt)!);
+ const total=submittedSections.reduce((sum,session)=>sum+session.questionIds.length,0);
+ const correct=submittedSections.reduce((sum,session)=>sum+sessionScore(session,bankMap),0);
+ function startSection(subject:Subject,restart=false){
+  start({subject,collection:"situational",count:100,mode:"exam",kind:"mock",mockBoard:board,mockAttempt:attempt,retake:restart,title:`Mock ${board} · ${subject}`});
+ }
+ return <>
+  <Link to="/mock" className="back"><ArrowLeft size={15}/>Mock boards</Link>
+  <Heading title={`Mock Board #${board}`} description="Take the sections in any order. Each has 100 questions and two hours of active time."/>
+  <Card className="mock-board-summary">
+   <div className="section-head"><h2>Attempt {attempt}</h2><span className="tag">{completed.length} of 5 submitted</span></div>
+   <Progress value={completed.length} max={5} label="Sections submitted"/>
+   {completed.length===5?<p><strong>{correct} / {total} correct · {Math.round(correct/Math.max(1,total)*100)}% accuracy</strong></p>:<p>Open a submitted section to review its answers. The board total appears after all five are submitted.</p>}
+   {entry.attempts.length>1&&<div className="button-row mock-attempts" aria-label="Board attempts">
+    {entry.attempts.map(([number])=><Link key={number} to={`/mock/${board}?attempt=${number}`} className={number===attempt?"btn chosen":"btn"}>Attempt {number}</Link>)}
+   </div>}
+  </Card>
+  {[mockSubjects.slice(0,3),mockSubjects.slice(3)].map((day,dayIndex)=><section key={dayIndex} className="mock-day">
+   <h2>Day {dayIndex+1} · {day[0]}–{day.at(-1)}</h2>
+   <div className="mock-sections">{day.map(subject=>{
+    const s=subjects.find(item=>item.id===subject)!;
+    const session=sections.find(item=>item.subject===subject);
+    const index=mockSubjects.indexOf(subject);
+    return <Card key={subject}><span className="subject-code">{s.short}</span>
+     <div><h2>{s.name}</h2><p>Items {index*100+1}–{(index+1)*100} · 2 hours</p>
+      {session?.finishedAt&&<small>Submitted · {sessionScore(session,bankMap)} / {session.questionIds.length} correct</small>}
+      {session&&!session.finishedAt&&<small>{Object.values(session.answers).filter(answer=>answer.selected>=0).length} of {session.questionIds.length} answered</small>}
+     </div>
+     {session?<Link to={`/${session.finishedAt?"results":"session"}/${session.id}`} className="btn">{session.finishedAt?"View answers":"Resume"}<ArrowRight size={15}/></Link>:
+      isCurrent?<button className="btn primary" onClick={()=>startSection(subject)}>Start {subject}<ArrowRight size={15}/></button>:<small>Not taken</small>}
+    </Card>;
+   })}</div>
+  </section>)}
+  {isCurrent&&sections.length>0&&<button className="btn" onClick={()=>setRetake(true)}>{completed.length===5?"Retake this board":"Start this board over"}</button>}
+  {retake&&<Modal title="Start a new board attempt?" onClose={()=>setRetake(false)}>
+   <p>Your earlier sections and scores stay in History. A retake can use questions from the same board.</p>
+   <label>First section<select value={firstSection} onChange={event=>setFirstSection(event.target.value as Subject)}>
+    {mockSubjects.map(subject=><option key={subject}>{subject}</option>)}
+   </select></label>
+   <div className="button-row end"><button className="btn" onClick={()=>setRetake(false)}>Cancel</button><button className="btn primary" onClick={()=>{setRetake(false);startSection(firstSection,true);}}>Start new attempt</button></div>
+  </Modal>}
+ </>;
+}
 export function Diagnostic(){const start=useStartSession();return <><Heading title="Find your starting point." description="A diagnostic is a baseline, not a judgment. Let’s see which subjects need your attention."/><Card className="diagnostic"><span className="feature-icon"><Sparkles size={28}/></span><h2>30 questions. All five NPs.</h2><p>Answer six questions per subject in 25 minutes. Explanations wait until the end, so you can get a clear first look at your knowledge.</p><div className="diagnostic-stats"><div><strong>30</strong><small>questions</small></div><div><strong>25 min</strong><small>time limit</small></div><div><strong>5</strong><small>subjects</small></div></div><button className="btn primary" onClick={()=>start({kind:"diagnostic",mode:"exam",count:30,title:"30-question diagnostic"})}>Start diagnostic<ArrowRight size={17}/></button><p className="fine-print">This study estimate is not a validated readiness test or an official PRC rating.</p></Card></>;}

@@ -14,7 +14,9 @@ type Overview={
  season:string;
  cup?:{opensAt:number;startsAt:number;canJoin:boolean};
  rank:{tier:number;stars:number;matches:number;wins:number;losses:number}|null;
- leaders:{label:string;stars:number;wins:number}[];
+ leaders:{label:string;tier?:number;stars:number;wins:number;me?:boolean}[];
+ rankPosition?:number|null;
+ replaySharing?:boolean;
  openRooms:{code:string;mode:RoomMode;label:string;subject:string}[];
  recent:{code:string;mode:RoomMode;subject:string;ended:boolean}[];
 };
@@ -29,7 +31,7 @@ type Room={
  finishedAt?:number|null;matchmakingAt?:number|null;rankedResult?:RankedResult|null;
  closed?:boolean;left?:boolean;searching?:boolean;rejoinable?:boolean;
  item:number;total:number;questionId:string|null;selected:number|null;correctIndex:number|null;stability:number;
- players:{label:string;me:boolean;host:boolean;left:boolean;points:number;right:number;simulated?:boolean;
+ players:{label:string;me:boolean;host:boolean;left:boolean;points:number;right:number;simulated?:boolean;recorded?:boolean;
   status?:"waiting"|"playing"|"finished"|"left"|null}[];
  review:{id:string;choice:number;right:boolean}[];
  messages:{id:number;label:string;body:string;me:boolean}[];
@@ -52,6 +54,14 @@ const manilaDate=new Intl.DateTimeFormat("en-PH",{
  timeZone:"Asia/Manila",weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit",
 });
 const chatModes:RoomMode[]=["quiz","code","challenge"];
+type CupResults={
+ latest:{day:string;players:number;podium:{place:number;label:string;score:number;correct:number;me:boolean}[]}|null;
+ weekStart:string;myWeekPoints:number;
+ week:{position:number;label:string;points:number;wins:number;medals:number;me:boolean}[];
+ previousChampion:{label:string;points:number;wins:number;medals:number;me:boolean}|null;
+ hall:{position:number;label:string;wins:number;best:number;me:boolean}[];
+};
+const cupDate=new Intl.DateTimeFormat("en-PH",{month:"short",day:"numeric",timeZone:"UTC"});
 
 class PlayRequestError extends Error{
  constructor(message:string,readonly retryable:boolean,readonly needsJoin=false){super(message);}
@@ -105,6 +115,41 @@ function usePlayOverview(refreshMs=0){
  return {overview,error,retry:()=>setRetry(value=>value+1)};
 }
 
+function CupResultsButton(){
+ const [open,setOpen]=useState(false);
+ return <><button className="btn" onClick={()=>setOpen(true)}>Cup results</button>
+  {open&&<Modal title="Nightly Cup results" onClose={()=>setOpen(false)}><CupResultsContent/></Modal>}
+ </>;
+}
+
+function CupResultsContent(){
+ const [results,setResults]=useState<CupResults|null>(null),[error,setError]=useState(""),[retry,setRetry]=useState(0);
+ useEffect(()=>{
+  const request=new AbortController();
+  callPlay<CupResults>("play_cup_results",{},request.signal).then(
+   data=>{if(!request.signal.aborted){setResults(data);setError("");}},
+   failure=>{if(!request.signal.aborted)setError(humanError(failure));}
+  );
+  return()=>request.abort();
+ },[retry]);
+ if(error)return <><p role="status">{error}</p><button className="btn" onClick={()=>{setError("");setRetry(n=>n+1);}}>Retry results</button></>;
+ if(!results)return <p role="status">Loading Cup results…</p>;
+ return <div className="cup-results">
+  {results.latest?<section><h3>Latest Cup · {cupDate.format(new Date(results.latest.day+"T12:00:00Z"))}</h3>
+   <p>{results.latest.players} {results.latest.players===1?"player":"players"}</p><ol>{results.latest.podium.map(row=><li key={row.place}>
+    <span>{row.label}{row.me?" (you)":""}</span><strong>{row.score.toLocaleString()} pts · {row.correct}/15</strong>
+   </li>)}</ol></section>:<p>Results appear once players finish a Cup.</p>}
+  {results.previousChampion&&<section><h3>Last week’s champion</h3><p>{results.previousChampion.label}{results.previousChampion.me?" (you)":""} · {results.previousChampion.points} points</p></section>}
+  <section><h3>This week · {cupDate.format(new Date(results.weekStart+"T12:00:00Z"))}</h3>
+   <p>First place earns 10 points, second earns 6, and third earns 4. Your total is {results.myWeekPoints}.</p>
+   {results.week.length>0&&<ol>{results.week.map(row=><li key={row.position}><span>{row.label}{row.me?" (you)":""}</span><strong>{row.points} pts</strong></li>)}</ol>}
+  </section>
+  {results.hall.length>0&&<section><h3>All-time winners</h3><ol>{results.hall.map(row=><li key={row.position}>
+   <span>{row.label}{row.me?" (you)":""}</span><strong>{row.wins} {row.wins===1?"win":"wins"} · best {row.best.toLocaleString()} pts</strong>
+  </li>)}</ol></section>}
+ </div>;
+}
+
 export default function Play({route}:{route:string}){
  const segment=route.split("/")[2];
  if(route==="/play")return <PlayHome/>;
@@ -153,7 +198,7 @@ function PlayHome(){
    </div>
   </Card>
   {error&&<Card className="game-notice"><p role="status">{error} You can still play solo.</p><button className="btn" onClick={retry}>Retry online rooms</button></Card>}
-  <Card className="game-cup"><div><h2><Trophy size={20}/>Nightly Cup</h2><p>15 questions together. Lobby opens at 8:45 PM Philippine time.</p></div><Link to="/play/cup" className="btn">View the Cup</Link></Card>
+  <Card className="game-cup"><div><h2><Trophy size={20}/>Nightly Cup</h2><p>15 questions together. Lobby opens at 8:45 PM Philippine time.</p></div><div className="button-row"><Link to="/play/cup" className="btn">View the Cup</Link><CupResultsButton/></div></Card>
   <GameGroup title="1 v 1" modes={["ranked","duel"]}/>
   <GameGroup title="With friends" modes={["quiz","code","challenge"]}/>
   <Card className="game-join">
@@ -196,17 +241,24 @@ function GameGroup({title,modes}:{title:string;modes:GameMode[]}){
 }
 
 function RoomSetup({mode}:{mode:RoomMode}){
- const {navigate}=useApp();
+ const {navigate,path}=useApp();
  const {overview,error:overviewError,retry}=usePlayOverview(mode==="cup"?8000:0);
  const [subject,setSubject]=useState<Subject|"all">("all"),[topic,setTopic]=useState("");
- const [discoverable,setDiscoverable]=useState(mode==="duel"),[rules,setRules]=useState(false);
+ const [discoverable,setDiscoverable]=useState(()=>mode==="duel"&&!new URLSearchParams(path.split("?")[1]).has("private")),[rules,setRules]=useState(false);
  const [busy,setBusy]=useState(false),[error,setError]=useState("");
+ const [replaySharing,setReplaySharing]=useState<boolean>(),[savingReplay,setSavingReplay]=useState(false);
  const opening=useRef<AbortController|undefined>(undefined);
  const rank=overview?.rank;
  const activeRoom=overview?.recent.find(room=>room.mode===mode&&!room.ended);
  const activeRanked=mode==="ranked"&&!!activeRoom;
  const cup=overview?.cup;
  useEffect(()=>()=>opening.current?.abort(),[]);
+ async function changeReplaySharing(enabled:boolean){
+  setSavingReplay(true);setError("");
+  try{setReplaySharing(await callPlay<boolean>("play_replay_sharing",{p_enabled:enabled}));}
+  catch(failure){setError(humanError(failure));}
+  finally{setSavingReplay(false);}
+ }
  async function open(){
   if(opening.current)return;
   const request=new AbortController();
@@ -229,8 +281,10 @@ function RoomSetup({mode}:{mode:RoomMode}){
     :!overview?<p role="status">Loading the ladder…</p>
     :<p>{rank?.matches??0} matches · {rank?.wins??0} wins · {rank?.losses??0} losses · {rank?.stars??0} stars</p>}
    <div className="game-ranks">{ranks.map((tier,index)=><span className={rank?.tier===index?"active":""} key={tier}>{tier}</span>)}</div>
-   {overview&&<p className="fine-print">Season {overview.season} · Matchmaking looks for learners near your tier.</p>}
-   {!!overview?.leaders.length&&<><h3>Beacon top 10</h3><ol>{overview.leaders.map((player,index)=><li key={index}>{player.label} · {player.stars} stars</li>)}</ol></>}
+   {overview&&<p className="fine-print">Season {overview.season}{overview.rankPosition?` · #${overview.rankPosition} this season`:""}</p>}
+   {!!overview?.leaders.length&&<><h3>Season top 10</h3><ol className="ranked-leaders">{overview.leaders.map((player,index)=><li key={index}>
+    <span>{player.label}{player.me?" (you)":""}</span><strong>{ranks[player.tier??4]} · {player.stars} {player.stars===1?"star":"stars"}</strong>
+   </li>)}</ol></>}
   </Card>}
   <Card className="game-setup">
    {mode==="cup"?<>
@@ -243,6 +297,12 @@ function RoomSetup({mode}:{mode:RoomMode}){
     :<><h2>Choose a subject or topic</h2><GameTopics subject={subject} topic={topic} setSubject={setSubject} setTopic={setTopic}/>
      {mode!=="challenge"&&<label className="game-check"><input type="checkbox" checked={discoverable} onChange={event=>setDiscoverable(event.target.checked)}/>
       {mode==="duel"?"Find another player online":"List the room for other students"}</label>}</>}
+   {mode==="duel"&&<>
+    <p>When nobody joins the live queue, the match uses a shared replay or a simulated opponent.</p>
+    {overview?.replaySharing!==undefined&&<label className="game-check"><input type="checkbox" disabled={savingReplay}
+     checked={replaySharing??overview.replaySharing} onChange={event=>void changeReplaySharing(event.target.checked)}/>
+     Share my finished rounds for future matches</label>}
+   </>}
    {error&&<p className="form-error" role="alert">{error}</p>}
    <div className="button-row">
     {activeRoom&&!activeRanked&&<Link className={mode==="cup"?"btn primary":"btn"} to={roomRoute(activeRoom.code)}>Resume {gameTitles[mode]}<ArrowRight size={17}/></Link>}
@@ -250,6 +310,8 @@ function RoomSetup({mode}:{mode:RoomMode}){
      {busy?"Connecting…":activeRanked?"Resume ranked match":mode==="ranked"||mode==="duel"&&discoverable?"Find a match":
       mode==="cup"?cup?.canJoin?"Join tonight’s lobby":"Lobby closed":"Create room"}<ArrowRight size={17}/>
     </button>}
+    {mode==="cup"&&<CupResultsButton/>}
+    {mode==="challenge"&&<Link className="btn" to="/play/duel?private=1">Invite a friend to play live</Link>}
    </div>
   </Card>
   {rules&&<Modal title="How ranking works" onClose={()=>setRules(false)}>
@@ -408,7 +470,7 @@ function GameRoom({code}:{code:string}){
   </Card></>;
  const question=room.questionId?bankMap.get(room.questionId):undefined;
  const ranked=room.mode==="ranked";
- const opponent=ranked?room.players.find(player=>!player.me):undefined;
+ const opponent=ranked||room.mode==="duel"?room.players.find(player=>!player.me):undefined;
  const closedLobby=room.phase==="finished"&&!room.startsAt&&room.closed!==false;
  const awaitingFriend=room.mode==="challenge"&&room.phase==="finished"&&room.closed===false&&!room.left;
  const cupLobby=room.mode==="cup"&&room.phase==="countdown";
@@ -417,7 +479,7 @@ function GameRoom({code}:{code:string}){
  return <>
   <Link to={ranked?"/play/ranked":"/play"} className="back"><ArrowLeft size={16}/>{ranked?"Ranked ladder":"Play"}</Link>
   <Heading title={gameTitles[room.mode]} description={
-   ranked&&opponent?(opponent.simulated?"Simulated opponent":"Live match with "+opponent.label)
+   opponent?(opponent.simulated?"Simulated opponent":opponent.recorded?"Recorded round by "+opponent.label:"Live match with "+opponent.label)
     :!ranked&&room.phase==="lobby"?"Room "+code:undefined
   }/>
   {connection&&<Card className="game-notice">
@@ -433,9 +495,9 @@ function GameRoom({code}:{code:string}){
     <button className="btn" disabled={busy} onClick={()=>void action("cancel")}>Cancel search</button>
    </>:<>
     <p>{room.mode==="challenge"?"Send the link to a friend. Each of you can play the same round when ready."
-     :room.searching?"The match starts as soon as another player joins. You can also share the invite link."
+     :room.searching?"A live player can join while the queue is open. You can also share the invite link."
      :room.owner&&!canStart?"Share the invite link. You can start once another player joins.":"The host can start when everyone is ready."}</p>
-    {room.searching&&<p className="ranked-queue-time" role="timer">Search closes in {countdownText(seconds)}</p>}
+    {room.searching&&<p className="ranked-queue-time" role="timer">{seconds?`Finding a player · ${countdownText(seconds)}`:"Preparing a match…"}</p>}
     <div className="button-row"><code className="room-code">{code}</code><button className="btn" onClick={()=>void share()}><Copy size={16}/>Copy invite link</button></div>
     <div className="button-row">
      {room.searching&&<button className="btn" disabled={busy} onClick={()=>void action("cancel")}>Cancel search</button>}
@@ -473,7 +535,7 @@ function GameRoom({code}:{code:string}){
   </Card>}
   {!closedLobby&&<Card className="game-standings"><h2>{room.phase==="finished"?room.closed===false?"Current scores":"Final scores":"Players"}</h2>
    <ol>{room.players.map((player,index)=><li key={index}>
-    <span>{player.label}{player.me?" (you)":""}{player.left?" · left":
+    <span>{player.label}{player.me?" (you)":""}{player.recorded?" · replay":""}{player.left?" · left":
      player.status==="finished"?" · finished":player.status==="playing"?" · playing":
       player.status==="waiting"?room.closed?" · did not start":" · waiting":""}</span>
     <strong>{player.points.toLocaleString()} pts {room.phase==="finished"&&<small>· {player.right}/{room.total} correct</small>}</strong></li>)}</ol>

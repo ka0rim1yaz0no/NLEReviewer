@@ -3,8 +3,10 @@ import type {VaultReview} from "./vault-schedule.ts";
 import type {FocusSettings} from "./focus-timer.ts";
 import type { Question, Subject } from "./types.ts";
 import type {GameRun} from "./play-engine.ts";
+import {pauseMockClock} from "./mock-progress.ts";
+import type {MockClock} from "./mock-progress.ts";
 export type Answer = { selected: number; submitted: boolean; confidence: string };
-export type Session = { id: string; title: string; kind: "practice" | "exam" | "mock" | "diagnostic"; mode: "tutor" | "exam"; questionRevision?: 1 | 2 | 3; questionIds: string[]; answers: Record<string, Answer>; flagged: string[]; eliminated: Record<string, number[]>; cursor: number; startedAt: number; finishedAt?: number; timeLimit?: number; perQuestion?: number; mockBoard?: number; subject?: Subject; scratch: string; highlights: Record<string, string[]>; strokes: Record<string, string[]> };
+export type Session = { id: string; title: string; kind: "practice" | "exam" | "mock" | "diagnostic"; mode: "tutor" | "exam"; questionRevision?: 1 | 2 | 3; questionIds: string[]; answers: Record<string, Answer>; flagged: string[]; eliminated: Record<string, number[]>; cursor: number; startedAt: number; finishedAt?: number; timeLimit?: number; perQuestion?: number; mockBoard?: number; mockAttempt?: number; mockClock?: MockClock; practiceSetup?: string; planTaskId?: string; subject?: Subject; scratch: string; highlights: Record<string, string[]>; strokes: Record<string, string[]> };
 export type Attempt = { id: string; sessionId: string; questionId: string; selected: number; correct: boolean; confidence: string; at: number };
 export type CardProgress = { due: number; interval: number; reviews: number; lastAt: number };
 export type CustomCard = { id: string; deck: string; front: string; back: string };
@@ -47,18 +49,31 @@ function toAttempt(session: Session, question: Question, answer: Answer | undefi
   const selected = answer?.selected ?? -1;
   return { id: `${session.id}:${question.id}`, sessionId: session.id, questionId: question.id, selected, correct: selected === question.correctIndex, confidence: answer?.confidence || "", at };
 }
+export function linkedPracticeComplete(session: Session) {
+  return !!session.planTaskId && (session.mode === "tutor" || !!session.finishedAt) && session.questionIds.every(id => {
+    const answer = session.answers[id];
+    return answer?.selected >= 0 && (session.mode === "exam" || answer.submitted);
+  });
+}
+function finishLinkedTask(state: State, session: Session) {
+  if (!linkedPracticeComplete(session) || !state.tasks.some(task => task.id === session.planTaskId && task.type === "practice" && !task.done && !task.skipped)) return state;
+  return { ...state, tasks: state.tasks.map(task => task.id === session.planTaskId ? { ...task, done: true } : task) };
+}
 export function recordAnswer(state: State, session: Session, question: Question, answer: Answer, at = Date.now()): State {
   const attempt = toAttempt(session, question, answer, at);
   if (state.attempts.some(a => a.id === attempt.id)) return state;
-  return { ...updateVaultReviews(state, [attempt]), attempts: [...state.attempts, attempt] };
+  return finishLinkedTask({ ...updateVaultReviews(state, [attempt]), attempts: [...state.attempts, attempt] }, session);
 }
 export function sessionDeadline(session: Session) {
+  const clock = session.mockClock;
+  if (session.kind === "mock" && clock) return clock.owner ? clock.changedAt + clock.remainingMs : Infinity;
   const seconds = session.timeLimit;
   return seconds && Number.isFinite(seconds) && seconds > 0 ? session.startedAt + seconds * 1000 : Infinity;
 }
 export function gradeSession(state: State, session: Session, bank: Map<string, Question>, at = Date.now()): State {
   if (state.sessions.find(s=>s.id===session.id)?.finishedAt) return state;
   const finishedAt = Math.min(at, sessionDeadline(session));
+  const finished = { ...pauseMockClock(session, finishedAt), finishedAt };
   const recorded = new Set(state.attempts.map(attempt => attempt.id));
   const attempts: Attempt[] = [];
   for (const id of session.questionIds) {
@@ -69,11 +84,11 @@ export function gradeSession(state: State, session: Session, bank: Map<string, Q
     recorded.add(attempt.id);
     attempts.push(attempt);
   }
-  return {
+  return finishLinkedTask({
     ...updateVaultReviews(state, attempts),
     attempts: attempts.length ? [...state.attempts, ...attempts] : state.attempts,
-    sessions: state.sessions.map(s => s.id === session.id ? { ...session, finishedAt } : s),
-  };
+    sessions: state.sessions.map(s => s.id === session.id ? finished : s),
+  }, finished);
 }
 export function scheduleCard(previous: CardProgress | undefined, grade: "again" | "hard" | "good" | "easy", now = Date.now()): CardProgress {
   const base = previous?.interval || 1;

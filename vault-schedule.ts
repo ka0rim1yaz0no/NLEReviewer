@@ -28,4 +28,4 @@ export function updateVaultReviews(state:State,attempts:readonly Pick<Attempt,"q
  }
  return changed?{...state,vault:[...vault],vaultReviews:Object.fromEntries(schedule)}:state;
 }
-export function vaultIsDue(state:State,id:string,now=Date.now()){return !state.preferences.spacedVault||!state.vaultReviews?.[id]||state.vaultReviews[id].due<=now;}
+export function vaultIsDue(state:Pick<State,"preferences"|"vaultReviews">,id:string,now=Date.now()){return !state.preferences.spacedVault||!state.vaultReviews?.[id]||state.vaultReviews[id].due<=now;}

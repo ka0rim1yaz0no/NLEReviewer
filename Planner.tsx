@@ -9,6 +9,7 @@ import {applyTaskOverrides,buildStudyPlan,calendarDates,exportStudyCalendar,shif
 import type {PlanTopic} from './planning';
 import {download,useApp} from './store';
 import {useStartSession} from './Quiz';
+import {practiceSetupPath} from './practice-setup';
 import {Card,Empty,Heading,Modal,Progress} from './ui';
 import './planner.css';
 
@@ -20,7 +21,11 @@ export function TaskRow({task,onManage}:{task:Task;onManage?:(task:Task)=>void})
  function open(){
   if(task.skipped){onManage?.(task);return;}
   if(task.type==='read')navigate(`/resources/read?topic=${encodeURIComponent(task.subject+':'+task.topic)}`);
-  else if(task.type==='practice'){const topic=findCurriculumTopic(task.subject+':'+task.topic);if(topic)navigate(`/practice/session?topic=${topic.slug}&count=${task.count||state.preferences.questionGoal}&related=1&difficulty=mixed`);else start({topics:[task.subject+':'+task.topic],count:task.count||state.preferences.questionGoal,title:task.topic+' practice',quick:true});}
+  else if(task.type==='practice'){
+   const topic=findCurriculumTopic(task.subject+':'+task.topic),count=task.count||state.preferences.questionGoal;
+   if(topic)navigate(practiceSetupPath({collection:'situational',topics:[topic.slug],count,allowRelated:true,difficulty:'mixed',planTaskId:task.id}));
+   else start({topics:[task.subject+':'+task.topic],count,title:task.topic+' practice',quick:true,planTaskId:task.id});
+  }
   else if(task.type==='flashcards')navigate('/decks/review');
   else if(task.type==='vault')navigate('/vault');
   else if(task.type==='mock')navigate('/mock/'+task.mockBoard);

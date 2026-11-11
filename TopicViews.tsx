@@ -10,7 +10,7 @@ import { subjects } from "./bank";
 import { referenceCount, referenceTotal, referenceObservedAt, auditQuestionBank, uniqueQuestionCount } from "./catalog-metrics";
 import { download } from "./store";
 import { casesForTopic, curriculum, findCurriculumTopic, questionsForTopic, questionsForSelection } from "./curriculum";
-import { dailyAnswerCounts, dateKey, firstAttempts } from "./engine";
+import { answeredQuestionIds, dailyAnswerCounts, dateKey, firstAttempts } from "./engine";
 import { useApp } from "./store";
 import { Card, Empty, Heading, Link, Progress, SearchBox, TextLink } from "./ui";
 import { ReviewQuestion, useStartSession } from "./Quiz";
@@ -27,6 +27,7 @@ export function Practice(){
   const keywordQuestions=useMemo(()=>query.length>=2?practiceQuestionPool(bank,{collection,keyword:query}):[],[bank,collection,query]);
   const unusedMatches=useMemo(()=>keywordQuestions.length?availablePractice(keywordQuestions,state,{allowRelated:true,bank}):0,[keywordQuestions,state,bank]);
   const selectedIds=useMemo(()=>new Set(selectedBank.map(q=>q.id)),[selectedBank]);
+  const answered=useMemo(()=>answeredQuestionIds(state.attempts),[state.attempts]);
   const first=useMemo(()=>firstAttempts(state.attempts).filter(a=>selectedIds.has(a.questionId)),[state.attempts,selectedIds]);
   const rows=useMemo(()=>practiceTopicRows(state,selectedBank),[state,selectedBank]);
   const unfinished=state.sessions.filter(s=>!s.finishedAt&&s.kind!=="mock").at(-1);
@@ -41,10 +42,10 @@ export function Practice(){
       <p>Make a nursing decision from the case clues, then review each choice. Quick sets start with new situations and use unanswered follow-ups once you’ve seen those cases.</p>
       <div className="button-row"><button className="btn primary" onClick={()=>start({collection,quick:true})}>{collection==="situational"?"Start challenge set":"Start mixed set"}<ArrowRight size={16}/></button><Link className="btn" to={practiceSetupPath({collection})}>Build a custom set</Link></div>
     </Card>
-    {unfinished&&<Card className="resume-card"><div><strong>Pick up where you left off</strong><p>{unfinished.title} · {Object.values(unfinished.answers).filter(a=>a.selected>=0).length} of {unfinished.questionIds.length} answered</p></div><Link to={`/session/${unfinished.id}`} className="btn">Resume<ArrowRight size={15}/></Link></Card>}
+    {unfinished&&<Card className="resume-card"><div><strong>Pick up where you left off</strong><p>{unfinished.title} · {Object.values(unfinished.answers).filter(a=>a.selected>=0).length} of {unfinished.questionIds.length} answered</p></div><div className="button-row"><Link to={`/session/${unfinished.id}`} className="btn primary">Resume<ArrowRight size={15}/></Link>{unfinished.practiceSetup&&<Link to={unfinished.practiceSetup} className="btn">Build a fresh set</Link>}</div></Card>}
     <div className="section-head bank-head"><h2>Your question bank</h2><TextLink to="/topics">All {curriculum.length} topics</TextLink></div>
     <div className="legend"><span className="green-dot"/>{first.filter(a=>a.correct).length} correct <span className="red-dot"/>{first.filter(a=>!a.correct).length} wrong or skipped<TextLink to="/vault">Vault</TextLink></div>
-    <p className="fine-print">{uniqueQuestionCount(bank).toLocaleString()} unique questions across {curriculum.length} topics.</p>
+    <p className="fine-print">{selectedBank.filter(q=>answered.has(q.id)).length.toLocaleString()} of {selectedBank.length.toLocaleString()} answered in this collection · {uniqueQuestionCount(bank).toLocaleString()} questions across {curriculum.length} topics.</p>
     <CollectionPicker bank={bank} value={collection} onChange={setCollection}/>
     <Card className="keyword-practice"><h2>Practice by keyword</h2>
       <p>Search topics, question text, and answer choices in this collection.</p>
@@ -56,13 +57,13 @@ export function Practice(){
       </div>
     </Card>
     <SearchBox value={search} onChange={setSearch}/>
-    <div className="tabs">{[["all",`Topics with questions ${counts.all}`],["needs",`Needs work ${counts.needs}`],["new",`Not started ${counts.new}`],["flagged",`Flagged ${counts.flagged}`],["saved",`Saved ${counts.saved}`]].map(([id,label])=><button key={id} aria-pressed={filter===id} className={filter===id?"active":""} onClick={()=>setFilter(id)}>{label}</button>)}</div>
+    <div className="tabs">{[["all",`Topics with questions ${counts.all}`],["needs",`To redo ${counts.needs}`],["new",`Not started ${counts.new}`],["flagged",`Flagged ${counts.flagged}`],["saved",`Saved ${counts.saved}`]].map(([id,label])=><button key={id} aria-pressed={filter===id} className={filter===id?"active":""} onClick={()=>setFilter(id)}>{label}</button>)}</div>
     <div className="subject-list">{subjects.map(subject=>{
       const topics=filtered.filter(r=>r.topic.subject===subject.id);
       if(!topics.length)return null;
-      const size=selectedBank.filter(q=>q.subject===subject.id).length;
+      const subjectQuestions=selectedBank.filter(q=>q.subject===subject.id),size=subjectQuestions.length;
       return <details key={subject.id} className="subject-group" open={searchQuery||filter!=="all"?true:undefined}>
-        <summary><span className="subject-code" style={{color:subject.color,background:subject.color+"16"}}>{subject.id==="CROSS"?"ALL":subject.short}</span><div><h3>{subject.name}</h3><small>{topics.length} {topics.length===1?"topic":"topics"} · {size.toLocaleString()} in this subject</small></div><ChevronDown size={18}/></summary>
+        <summary><span className="subject-code" style={{color:subject.color,background:subject.color+"16"}}>{subject.id==="CROSS"?"ALL":subject.short}</span><div><h3>{subject.name}</h3><small>{topics.length} {topics.length===1?"topic":"topics"} · {subjectQuestions.filter(q=>answered.has(q.id)).length.toLocaleString()} of {size.toLocaleString()} answered</small></div><ChevronDown size={18}/></summary>
         <div className="topic-rows">{size>0&&<Link className="text-button" to={practiceSetupPath({subject:subject.id,collection})}>Build a set from this subject<ArrowRight size={14}/></Link>}
           {topics.map(({topic:t,questions:qs,tried,missedIds,flaggedIds,savedIds})=>{
             const reviewIds=filter==="flagged"?flaggedIds:filter==="saved"?savedIds:filter==="needs"?missedIds:undefined;
@@ -87,23 +88,24 @@ export function Setup(){
   const [selected,setSelected]=useState(()=>params.getAll("topic").filter(Boolean).map(topic=>findCurriculumTopic(topic)?.slug||topic));
   const [search,setSearch]=useState("");
   const [keyword,setKeyword]=useState(params.get("keyword")||"");
+  const taskId=params.get("task"),taskTopic=params.get("topic");
   const query=useDeferredValue(keyword.trim());
-  const [count,setCount]=useState(Math.min(bank.length,Math.max(1,Math.floor(Number(params.get("count")))||20)));
+  const [count,setCount]=useState(Math.min(bank.length,Math.max(1,Math.floor(Number(params.get("count")))||10)));
   const [mode,setMode]=useState<"tutor"|"exam">(params.get("mode")==="exam"?"exam":"tutor");
-  const [filter,setFilter]=useState<"unanswered"|"missed"|"all">(params.get("filter")==="missed"?"missed":params.get("filter")==="all"?"all":"unanswered");
-  const [timer,setTimer]=useState(0);
+  const [filter,setFilter]=useState<"unanswered"|"vault"|"all">(params.get("filter")==="missed"||params.get("filter")==="vault"?"vault":params.get("filter")==="all"?"all":"unanswered");
+  const [timer,setTimer]=useState(()=>{const value=Number(params.get("timer"));return [60,90,120].includes(value)?value:0;});
   const [collection,setCollection]=useState<Collection>(parseCollection(params.get("collection")));
   const [difficulty,setDifficulty]=useState<PracticeDifficulty>(params.get("difficulty")==="mixed"?"mixed":"challenge");
   const [allowRelated,setAllowRelated]=useState(params.get("related")==="1");
   const supportsDifficulty=collection==="situational"||collection==="all"||collection==="nursing";
   const baseLevel=supportsDifficulty?difficulty:"mixed";
-  const level=filter==="missed"?"mixed":baseLevel;
+  const level=filter==="vault"?"mixed":baseLevel;
   const scopedBank=useMemo(()=>practiceQuestionPool(bank,{collection,subject,keyword:query}),[bank,collection,subject,query]);
   const pool=useMemo(()=>questionsForSelection(selected,scopedBank),[selected,scopedBank]);
   const selection={filter,allowRelated,difficulty:level,bank};
   const counts=useMemo(()=>({
     unanswered:availablePractice(pool,state,{allowRelated,difficulty:baseLevel,bank}),
-    missed:availablePractice(pool,state,{filter:"missed"}),
+    vault:availablePractice(pool,state,{filter:"vault"}),
     all:availablePractice(pool,state,{filter:"all",allowRelated,difficulty:baseLevel}),
   }),[pool,state,allowRelated,baseLevel,bank]);
   const available=counts[filter],setCountAvailable=Math.min(count,available);
@@ -111,7 +113,7 @@ export function Setup(){
   const changeTopics=(slugs:string[],checked:boolean)=>setSelected(values=>checked?[...new Set([...values,...slugs])]:values.filter(slug=>!slugs.includes(slug)));
   const filters=[
     {id:"unanswered",title:"New questions",description:allowRelated?"Skip previously assigned questions":"Skip previously assigned questions and situations"},
-    {id:"missed",title:"Wrong before",description:"Review your latest misses"},
+    {id:"vault",title:"Redo",description:"Review questions due in your Vault"},
     {id:"all",title:"All questions",description:"Include new and familiar questions"},
   ] as const;
   return <>
@@ -154,18 +156,18 @@ export function Setup(){
       <div className="select-cards">{filters.map(({id,title,description})=>
         <button key={id} aria-pressed={filter===id} className={filter===id?"selected":""} onClick={()=>setFilter(id)}><strong>{title} · {counts[id].toLocaleString()}</strong><small>{description}</small></button>
       )}</div>
-      {supportsDifficulty&&filter!=="missed"&&<>
+      {supportsDifficulty&&filter!=="vault"&&<>
         <h2>Difficulty</h2>
         <div className="select-cards two">
           <button aria-pressed={level==="challenge"} className={level==="challenge"?"selected":""} onClick={()=>setDifficulty("challenge")}><strong>Challenge</strong><small>Priorities, safe actions, and clinical reasoning</small></button>
           <button aria-pressed={level==="mixed"} className={level==="mixed"?"selected":""} onClick={()=>setDifficulty("mixed")}><strong>Mixed</strong><small>All question types in the selected collection</small></button>
         </div>
       </>}
-      {filter!=="missed"&&<label className="followup-choice"><input type="checkbox" checked={allowRelated} onChange={e=>setAllowRelated(e.target.checked)}/>Include follow-up questions from the same situation</label>}
+      {filter!=="vault"&&<label className="followup-choice"><input type="checkbox" checked={allowRelated} onChange={e=>setAllowRelated(e.target.checked)}/>Include follow-up questions from the same situation</label>}
       <h2>Question count</h2>
       <div className="button-row">{[10,20,30,50,100].map(n=><button key={n} aria-pressed={count===n} className={`btn ${count===n?"chosen":""}`} onClick={()=>setCount(n)}>{n}</button>)}<input aria-label="Custom number of questions" className="count-input" type="number" min="1" max={bank.length} value={count||""} onChange={e=>setCount(Math.min(bank.length,Math.max(0,Math.floor(Number(e.target.value)))))}/></div>
       <p className="fine-print" aria-live="polite">{available.toLocaleString()} available for these settings</p>
-      {!available&&<p className="notice">{!pool.length?"No questions match this subject, topic, collection, and keyword.":filter==="missed"?"You have no recorded misses in this selection.":"Try Mixed difficulty, include follow-ups, or choose a different question filter."}</p>}
+      {!available&&<p className="notice">{!pool.length?"No questions match this subject, topic, collection, and keyword.":filter==="vault"?"No questions in this selection are due in your Vault.":"Try Mixed difficulty, include follow-ups, or choose a different question filter."}</p>}
       <h2>Mode</h2>
       <div className="select-cards two">
         <button aria-pressed={mode==="tutor"} className={mode==="tutor"?"selected":""} onClick={()=>setMode("tutor")}><strong>Practice</strong><small>Rationale after each answer</small></button>
@@ -174,7 +176,7 @@ export function Setup(){
       <h2>Per-question timer</h2>
       <div className="button-row">{[[0,"Off"],[60,"1:00"],[90,"1:30"],[120,"2:00"]].map(([n,label])=><button key={n} aria-pressed={timer===n} className={`btn ${timer===n?"chosen":""}`} onClick={()=>setTimer(Number(n))}>{label}</button>)}</div>
       <p className="fine-print">The timer pauses during rationales and shows overtime when time runs out.</p>
-      <button className="btn primary full" disabled={!available||count<1||query!==keyword.trim()} onClick={()=>start({...selection,subject,topics:selected,keyword:query,count,mode,collection,perQuestion:timer,title:!query&&selected.length===1?findCurriculumTopic(selected[0])?.name:undefined})}>Start {level==="challenge"?"challenge":"session"} · {setCountAvailable} {setCountAvailable===1?"question":"questions"}<ArrowRight size={16}/></button>
+      <button className="btn primary full" disabled={!available||count<1||query!==keyword.trim()} onClick={()=>start({...selection,subject,topics:selected,keyword:query,count,mode,collection,perQuestion:timer,planTaskId:taskId&&selected.length===1&&selected[0]===taskTopic&&!query?taskId:undefined,title:!query&&selected.length===1?findCurriculumTopic(selected[0])?.name:undefined})}>Start {level==="challenge"?"challenge":"session"} · {setCountAvailable} {setCountAvailable===1?"question":"questions"}<ArrowRight size={16}/></button>
     </Card>
   </>;
 }

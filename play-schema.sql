@@ -35,6 +35,7 @@ create table if not exists reviewer_play.players (
 alter table reviewer_play.rooms add column if not exists ranked_last_seen_at timestamptz;
 alter table reviewer_play.rooms add column if not exists duel_last_seen_at timestamptz;
 alter table reviewer_play.rooms add column if not exists ranked_opponent_points smallint[];
+alter table reviewer_play.rooms add column if not exists replay_label text;
 alter table reviewer_play.players add column if not exists ranked_result jsonb;
 create index if not exists reviewer_play_players_history on reviewer_play.players(profile,joined_at desc);
 create index if not exists reviewer_play_ranked_queue on reviewer_play.rooms(created_at)
@@ -70,6 +71,10 @@ create table if not exists reviewer_play.messages (
  posted_at timestamptz not null default clock_timestamp(),
  foreign key(room,profile) references reviewer_play.players(room,profile) on delete cascade
 );
+create table if not exists reviewer_play.replay_sharing (
+ profile uuid primary key references public.study_profiles(user_id) on delete cascade,
+ enabled boolean not null
+);
 revoke all on all tables in schema reviewer_play from public, anon, authenticated;
 alter table reviewer_play.question_pool enable row level security;
 alter table reviewer_play.rooms enable row level security;
@@ -77,6 +82,7 @@ alter table reviewer_play.players enable row level security;
 alter table reviewer_play.answers enable row level security;
 alter table reviewer_play.ranks enable row level security;
 alter table reviewer_play.messages enable row level security;
+alter table reviewer_play.replay_sharing enable row level security;
 
 create or replace function reviewer_play.viewer() returns uuid
 language plpgsql stable security definer set search_path='' as $$
@@ -208,6 +214,42 @@ begin
   question_ids=selected,ranked_opponent_points=opponent_points,starts_at=moment+interval '4 seconds',
   expires_at=moment+interval '10 minutes'
  where code=room_code;
+end $$;
+
+create or replace function reviewer_play.advance_duel_queue(room_code text, actor uuid, moment timestamptz)
+returns void language plpgsql security definer set search_path='' as $$
+declare game reviewer_play.rooms%rowtype; replay record; opponent_points smallint[];
+begin
+ select * into game from reviewer_play.rooms where code=room_code for update;
+ if not found or game.mode<>'duel' or not game.discoverable or game.host<>actor
+  or game.starts_at is not null or game.finished_at is not null or game.expires_at<=moment then return; end if;
+ if game.created_at+interval '8 seconds'>moment then
+  update reviewer_play.rooms set duel_last_seen_at=moment where code=room_code;
+  return;
+ end if;
+
+ select round.code,round.question_ids,player.profile,player.label into replay
+ from reviewer_play.rooms round
+ join reviewer_play.players player on player.room=round.code
+ join reviewer_play.replay_sharing sharing on sharing.profile=player.profile and sharing.enabled
+ where round.mode='duel' and round.subject=game.subject and round.topic=game.topic
+  and player.profile<>actor and player.left_at is null and cardinality(round.question_ids)=10
+  and round.finished_at is not null and round.finished_at>=round.starts_at+interval '180 seconds'
+  and not exists(select 1 from unnest(round.question_ids) id where not exists(select 1 from reviewer_play.question_pool q where q.id=id))
+  and exists(select 1 from reviewer_play.answers a where a.room=round.code and a.profile=player.profile)
+ order by round.finished_at desc,round.code,player.profile limit 1;
+
+ if found then
+  select array_agg(coalesce(a.points,0)::smallint order by n.item) into opponent_points
+  from generate_series(1,10) as n(item)
+  left join reviewer_play.answers a on a.room=replay.code and a.profile=replay.profile and a.item=n.item;
+ else
+  select array_agg((case when random()<0.55 then 500+floor(random()*400) else 0 end)::smallint order by item)
+  into opponent_points from generate_series(1,10) item;
+ end if;
+ update reviewer_play.rooms set question_ids=coalesce(replay.question_ids,game.question_ids),
+  ranked_opponent_points=opponent_points,replay_label=replay.label,
+  starts_at=moment+interval '4 seconds',expires_at=moment+interval '10 minutes' where code=room_code;
 end $$;
 
 create or replace function reviewer_play.settle(room_code text, moment timestamptz) returns void
@@ -503,10 +545,9 @@ begin
   perform reviewer_play.advance_ranked_queue(game.code,actor,moment);
  end if;
  if game.mode='duel' and game.discoverable and game.host=actor and member.left_at is null
-  and (game.duel_last_seen_at is null or game.duel_last_seen_at<=moment-interval '3 seconds') then
-  update reviewer_play.rooms set duel_last_seen_at=moment
-  where code=game.code and starts_at is null and finished_at is null and expires_at>moment
-   and (duel_last_seen_at is null or duel_last_seen_at<=moment-interval '3 seconds');
+  and game.starts_at is null and game.finished_at is null and game.expires_at>moment
+  and (game.created_at+interval '8 seconds'<=moment or game.duel_last_seen_at is null or game.duel_last_seen_at<=moment-interval '3 seconds') then
+  perform reviewer_play.advance_duel_queue(game.code,actor,moment);
  end if;
  select * into game from reviewer_play.rooms where code=game.code;
  moment:=clock_timestamp();
@@ -561,11 +602,12 @@ begin
   'item',current_item,'total',case when game.mode='ranked' then 10 else cardinality(game.question_ids) end,
   'questionId',game.question_ids[current_item],
   'selected',my_answer,'correctIndex',key_index,'stability',stability,
-  'matchmakingAt',case when game.mode='ranked' and phase='lobby' then extract(epoch from (game.created_at+interval '8 seconds'))*1000 end,
+  'matchmakingAt',case when phase='lobby' and (game.mode='ranked' or game.mode='duel' and game.discoverable)
+   then extract(epoch from (game.created_at+interval '8 seconds'))*1000 end,
   'rankedResult',member.ranked_result,
   'players',coalesce((select jsonb_agg(entry order by points desc,label) from (
    select p.label,p.profile=actor as me,p.profile=game.host as host,p.left_at is not null as left,
-    coalesce(sum(a.points),0)::int as points,count(*) filter(where a.correct)::int as right,false as simulated,
+    coalesce(sum(a.points),0)::int as points,count(*) filter(where a.correct)::int as right,false as simulated,false as recorded,
     case when game.mode='challenge' then case
      when p.left_at is not null then 'left'
      when p.starts_at+cardinality(game.question_ids)*interval '18 seconds'<=moment then 'finished'
@@ -580,7 +622,8 @@ begin
     or p.left_at>=game.starts_at-case when game.mode='cup' then interval '0 seconds' else interval '4 seconds' end)
    group by p.profile,p.label,p.left_at,p.starts_at
    union all
-   select 'Simulated opponent',false,false,false,simulated_points,simulated_right,true,null
+   select coalesce(game.replay_label,'Simulated opponent'),false,false,false,simulated_points,simulated_right,
+    game.replay_label is null,game.replay_label is not null,null
    where game.ranked_opponent_points is not null
   ) entry),'[]'::jsonb),
   'review',case when phase='finished' then coalesce((select jsonb_agg(jsonb_build_object(
@@ -609,21 +652,88 @@ begin
  return true;
 end $$;
 
+create or replace function public.play_replay_sharing(p_enabled boolean) returns boolean
+language plpgsql security definer set search_path='' as $$
+declare actor uuid:=reviewer_play.viewer();
+begin
+ if p_enabled is null then raise exception 'Choose whether to share finished rounds.'; end if;
+ insert into reviewer_play.replay_sharing(profile,enabled) values(actor,p_enabled)
+ on conflict(profile) do update set enabled=excluded.enabled;
+ return p_enabled;
+end $$;
+
+create or replace function public.play_cup_results() returns jsonb
+language plpgsql security definer set search_path='' as $$
+declare actor uuid:=reviewer_play.viewer(); moment timestamptz:=clock_timestamp();
+ monday date:=date_trunc('week',moment at time zone 'Asia/Manila')::date;
+ results jsonb;
+begin
+ with rounds as (
+  select r.cup_day as day,p.profile,p.label,p.joined_at,
+   sum(a.points)::int as score,count(*) filter(where a.correct)::int as correct
+  from reviewer_play.rooms r
+  join reviewer_play.players p on p.room=r.code and p.left_at is null
+  join reviewer_play.answers a on a.room=p.room and a.profile=p.profile
+  where r.mode='cup' and r.cup_day is not null and r.starts_at+interval '270 seconds'<=moment
+  group by r.cup_day,p.profile,p.label,p.joined_at
+ ), podiums as (
+  select *,row_number() over(partition by day order by score desc,correct desc,joined_at,profile)::int as place
+  from rounds
+ ), awarded as (
+  select *,case place when 1 then 10 when 2 then 6 when 3 then 4 else 0 end as medal_points from podiums
+ ), weeks as (
+  select date_trunc('week',day::timestamp)::date as week,profile,(array_agg(label order by day desc))[1] as label,
+   sum(medal_points)::int as points,sum(score)::int as total_score,
+   count(*) filter(where place=1)::int as wins,count(*) filter(where place<=3)::int as medals
+  from awarded where day>=monday-7 group by 1,profile having sum(medal_points)>0
+ ), champions as (
+  select profile,(array_agg(label order by day desc))[1] as label,
+   count(*) filter(where place=1)::int as wins,max(score) as best
+  from awarded group by profile having count(*) filter(where place=1)>0
+ ), latest as (
+  select max(day) as day from podiums
+ )
+ select jsonb_build_object(
+  'latest', (select jsonb_build_object('day',latest.day,'players',count(*),'podium',
+   jsonb_agg(jsonb_build_object('place',place,'label',label,'score',score,'correct',correct,'me',profile=actor) order by place) filter(where place<=3))
+   from podiums join latest on podiums.day=latest.day group by latest.day),
+  'weekStart',monday,
+  'week',coalesce((select jsonb_agg(entry order by position) from (
+   select row_number() over(order by points desc,total_score desc,profile) as position,label,points,wins,medals,profile=actor as me
+   from weeks where week=monday order by points desc,total_score desc,profile limit 10
+  ) entry),'[]'::jsonb),
+  'myWeekPoints',coalesce((select points from weeks where week=monday and profile=actor),0),
+  'previousChampion',(select jsonb_build_object('label',label,'points',points,'wins',wins,'medals',medals,'me',profile=actor)
+   from weeks where week=monday-7 order by points desc,total_score desc,profile limit 1),
+  'hall',coalesce((select jsonb_agg(entry order by position) from (
+   select row_number() over(order by wins desc,best desc,profile) as position,label,wins,best,profile=actor as me
+   from champions order by wins desc,best desc,profile limit 10
+  ) entry),'[]'::jsonb)
+ ) into results;
+ return results;
+end $$;
+
 create or replace function public.play_overview() returns jsonb
 language plpgsql security definer set search_path='' as $$
 declare actor uuid:=reviewer_play.viewer(); moment timestamptz:=clock_timestamp(); season_key text:=reviewer_play.season(moment);
  today_cup timestamptz:=reviewer_play.cup_start(moment);
  next_cup timestamptz:=case when moment<today_cup then today_cup else reviewer_play.cup_start(moment+interval '1 day') end;
+ leaders jsonb; position int;
 begin
  perform reviewer_play.finish_due_ranked(actor,moment);
+ with ladder as (
+  select profile,label,tier,stars,wins,row_number() over(order by tier desc,stars desc,wins desc,label,profile) as place
+  from reviewer_play.ranks where season=season_key and matches>=3
+ )
+ select min(place) filter(where profile=actor),coalesce(jsonb_agg(jsonb_build_object('label',label,'tier',tier,'stars',stars,'wins',wins,'me',profile=actor) order by place) filter(where place<=10),'[]'::jsonb)
+ into position,leaders from ladder;
  return jsonb_build_object('season',season_key,
   'cup',jsonb_build_object('opensAt',extract(epoch from (next_cup-interval '15 minutes'))*1000,
    'startsAt',extract(epoch from next_cup)*1000,'canJoin',moment>=today_cup-interval '15 minutes' and moment<today_cup),
   'rank',coalesce((select to_jsonb(r)-'profile'-'label' from reviewer_play.ranks r where profile=actor and season=season_key),
    jsonb_build_object('tier',reviewer_play.ranked_tier(actor,season_key),'stars',0,'matches',0,'wins',0,'losses',0)),
-  'leaders',coalesce((select jsonb_agg(entry) from (
-   select label,stars,wins from reviewer_play.ranks where season=season_key and tier=4 order by stars desc,wins desc,label limit 10
-  ) entry),'[]'::jsonb),
+  'leaders',leaders,'rankPosition',position,
+  'replaySharing',coalesce((select enabled from reviewer_play.replay_sharing where profile=actor),false),
   'openRooms',coalesce((select jsonb_agg(entry) from (
    select r.code,r.mode,r.subject,p.label from reviewer_play.rooms r join reviewer_play.players p on p.room=r.code and p.profile=r.host
    where r.discoverable and r.mode in ('quiz','code') and r.starts_at is null and r.finished_at is null and r.expires_at>clock_timestamp()
@@ -641,6 +751,8 @@ begin
 end $$;
 
 revoke execute on all functions in schema reviewer_play from public, anon, authenticated;
+revoke all on function public.play_cup_results(),public.play_replay_sharing(boolean) from public,anon;
+grant execute on function public.play_cup_results(),public.play_replay_sharing(boolean) to authenticated;
 revoke all on function public.play_open(text,text,text,boolean),public.play_join(text),public.play_room_action(text,text),
  public.play_answer(text,integer,integer),public.play_room(text),public.play_message(text,text),public.play_overview() from public,anon;
 grant execute on function public.play_open(text,text,text,boolean),public.play_join(text),public.play_room_action(text,text),

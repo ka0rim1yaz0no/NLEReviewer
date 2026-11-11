@@ -33,7 +33,10 @@ export function practiceQuestionPool(bank: readonly Question[], scope: PracticeS
   });
 }
 
-export function practiceSetupPath(scope: PracticeScope & { difficulty?: PracticeDifficulty; exhausted?: boolean; count?: number }) {
+export function practiceSetupPath(scope: PracticeScope & {
+  difficulty?: PracticeDifficulty; exhausted?: boolean; count?: number; mode?: "tutor" | "exam";
+  filter?: string; allowRelated?: boolean; perQuestion?: number; planTaskId?: string;
+}) {
   const params = new URLSearchParams({ collection: scope.collection });
   if (scope.subject) params.set("np", scope.subject);
   for (const topic of scope.topics || []) params.append("topic", topic);
@@ -41,5 +44,10 @@ export function practiceSetupPath(scope: PracticeScope & { difficulty?: Practice
   if (scope.difficulty) params.set("difficulty", scope.difficulty);
   if (scope.exhausted) params.set("exhausted", "1");
   if (scope.count) params.set("count", String(scope.count));
+  if (scope.mode === "exam") params.set("mode", "exam");
+  if (scope.filter && scope.filter !== "unanswered") params.set("filter", scope.filter);
+  if (scope.allowRelated) params.set("related", "1");
+  if (scope.perQuestion) params.set("timer", String(scope.perQuestion));
+  if (scope.planTaskId) params.set("task", scope.planTaskId);
   return `/practice/session?${params}`;
 }

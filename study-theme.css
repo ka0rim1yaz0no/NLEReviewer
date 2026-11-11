@@ -118,6 +118,30 @@
   min-width: 0;
   overflow-wrap: anywhere;
 }
+.mock-board-summary, .flashcard-from-question {
+  display: grid;
+  gap: 12px;
+}
+.mock-day > h2 {
+  margin: 20px 0 10px;
+}
+.mock-list .progress {
+  margin-top: 8px;
+}
+.mock-quiz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.mock-quiz-controls .back {
+  margin: 0;
+}
+.flashcard-from-question textarea {
+  min-height: 72px;
+}
 @media (max-width: 380px) {
   .resource-grid {
     grid-template-columns: minmax(0, 1fr);

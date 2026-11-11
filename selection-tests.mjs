@@ -3,10 +3,11 @@ import assert from 'node:assert/strict';
 import {questions,previousQuestions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
 import {contentDigest} from './content-integrity.ts';
 import {normalizeQuestionStem} from './bank.ts';
-import {initialState,recordAnswer,gradeSession,sessionScore,dailyAnswerCounts,sessionDeadline} from './engine.ts';
+import {initialState,recordAnswer,gradeSession,sessionScore,dailyAnswerCounts,sessionDeadline,linkedPracticeComplete} from './engine.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {practiceQuestionPool,practiceSetupPath} from './practice-setup.ts';
+import {completedMockSubjects,mergeMockClock,mockAttempts,mockRemaining,pauseMockClock,startMockClock} from './mock-progress.ts';
 import {mockQuestionIds} from './mock-papers.ts';
 import {selectPractice,selectQuickPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
 import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review.ts';
@@ -130,6 +131,62 @@ test('timed completion keeps saved answers, records the deadline, and excludes b
  assert.deepEqual(graded.vault,[blank.id]);
  assert.deepEqual([...dailyAnswerCounts(graded.attempts,'Asia/Manila')],[['2026-11-11',1]]);
  assert.equal(gradeSession(graded,active,bank,deadline+180000),graded);
+});
+test('mock clocks pause off-screen and preserve time used during a resume on a different device',()=>{
+ const [q]=situationBank;
+ const started={...session([q.id]),kind:'mock',mode:'exam',startedAt:1000,timeLimit:60,mockClock:{remainingMs:60000,changedAt:1000}};
+ const first=startMockClock(started,'phone',10000);
+ assert.equal(sessionDeadline(first),70000);
+ const paused=pauseMockClock(first,25000);
+ assert.equal(mockRemaining(paused,86425000),45000);
+ const resumed=startMockClock(paused,'laptop',86425000);
+ assert.equal(sessionDeadline(resumed),86470000);
+ assert.deepEqual(mergeMockClock(paused.mockClock,resumed.mockClock),resumed.mockClock);
+ assert.deepEqual(mergeMockClock(resumed.mockClock,paused.mockClock),resumed.mockClock);
+ const state={...initialState(),sessions:[resumed]};
+ const finished=gradeSession(state,resumed,bank,86479000).sessions[0];
+ assert.equal(finished.finishedAt,86470000);
+ assert.equal(finished.mockClock.owner,undefined);
+ assert.equal(finished.mockClock.remainingMs,0);
+});
+test('mock retakes keep the previous sections distinct',()=>{
+ const subjects=['NP1','NP2','NP3','NP4','NP5'];
+ const earlier=subjects.map((subject,i)=>({...session([situationBank[i].id]),id:'earlier-'+i,kind:'mock',mockBoard:1,subject,finishedAt:300}));
+ const latest={...earlier[0],id:'later',mockAttempt:2,finishedAt:undefined};
+ const grouped=mockAttempts([...earlier,latest],1);
+ assert.deepEqual(grouped.map(([number])=>number),[2,1]);
+ assert.equal(completedMockSubjects(grouped[0][1]).length,0);
+ assert.equal(completedMockSubjects(grouped[1][1]).length,5);
+});
+test('Redo draws the due Vault questions including a game miss without a practice attempt',()=>{
+ const [due,later,unseen]=situationBank;
+ const state=initialState();
+ state.vault=[due.id,later.id];state.preferences.spacedVault=true;
+ state.vaultReviews={[later.id]:{due:Date.now()+60000,successes:0}};
+ const pool=[due,later,unseen];
+ assert.equal(availablePractice(pool,state,{filter:'vault'}),1);
+ assert.deepEqual(selectPractice(pool,state,10,1,{filter:'vault'}),[due.id]);
+});
+test('a linked tutor set completes its moved plan task only when all answers are submitted',()=>{
+ const [q1,q2]=situationBank,taskId='plan:practice:qa';
+ const active={...session([q1.id,q2.id]),planTaskId:taskId};
+ const state={...initialState(),sessions:[active],tasks:[{id:taskId,type:'practice',date:'2026-11-14',title:'Study session',done:false}]};
+ const first={...active,answers:{[q1.id]:{selected:0,submitted:true,confidence:''}}};
+ const partial=recordAnswer(state,first,q1,first.answers[q1.id],100);
+ assert.equal(partial.tasks[0].done,false);
+ const second={...first,answers:{...first.answers,[q2.id]:{selected:1,submitted:true,confidence:''}}};
+ assert.equal(linkedPracticeComplete(second),true);
+ const full=recordAnswer(partial,second,q2,second.answers[q2.id],150);
+ assert.equal(full.tasks[0].done,true);
+ assert.equal(full.tasks[0].date,state.tasks[0].date);
+});
+test('Match Up uses a different distractor for every clue even when choices overlap',()=>{
+ const text=[['First','Shared','Alternative','Second'],['Second','Shared','First','Third'],['Third','Only third','First','Second'],['Fourth','Only fourth','First','Third']];
+ const board=text.map((row,i)=>({...situationBank[i],correctIndex:0,options:row.map(label=>({text:label,rationale:''}))}));
+ const tiles=matchTiles(board,512);
+ assert.equal(tiles.length,8);
+ assert.equal(new Set(tiles.map(tile=>tile.label)).size,8);
+ assert.equal(tiles.filter(tile=>tile.questionId).length,4);
 });
 test('cross-topic mappings and retired equivalent IDs share the same reservation',()=>{
  const retired=retirements.find(r=>r.id==='CROSS-010-1'),target=bank.get(retired.replacedBy);

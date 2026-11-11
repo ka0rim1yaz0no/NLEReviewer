@@ -1,6 +1,7 @@
 import redirects from './question-redirects.json' with {type:'json'};
 import {normalizeQuestionStem,shuffled} from './bank.ts';
 import {isSituational} from './collections.ts';
+import {vaultIsDue} from './vault-schedule.ts';
 import type {Question,Subject} from './types.ts';
 import type {State,CustomCard} from './engine.ts';
 const aliases:Record<string,string>=redirects;
@@ -12,7 +13,7 @@ export function questionFamily(q:Question|string):string{
  if(typeof q==='string')return familyFromId(canonicalQuestionId(q));
  const canonical=canonicalQuestionId(q.id);return canonical!==q.id?familyFromId(canonical):q.caseId||familyFromId(q.id);
 }
-export type QuestionHistory=Pick<State,'attempts'|'sessions'|'vault'>&Partial<Pick<State,'importedQuestions'>>;
+export type QuestionHistory=Pick<State,'attempts'|'sessions'|'vault'>&Partial<Pick<State,'importedQuestions'|'preferences'|'vaultReviews'>>;
 export type PracticeDifficulty='challenge'|'mixed';
 export type SelectionOptions={filter?:string;allowRelated?:boolean;review?:boolean;difficulty?:PracticeDifficulty;bank?:readonly Question[]};
 const decisionObjectives=new Set(['action','planning','evaluation','reasoning','safety','decision']);
@@ -20,7 +21,9 @@ export function isDecisionQuestion(q:Question){
  return isSituational(q)&&(q.difficulty==='challenge'||decisionObjectives.has(q.clinicalObjective||'')||q.id.startsWith('EXP2-')||/^(CROSS|NP[1-5])-\d{3}-[24]$/.test(q.id));
 }
 export function practicePool(pool:readonly Question[],state:QuestionHistory,options:SelectionOptions={}):Question[]{
- const review=options.review||options.filter==='missed',filter=review?'all':options.filter||'unanswered';
+ const review=options.review||options.filter==='missed'||options.filter==='vault',filter=review?'all':options.filter||'unanswered';
+ const now=Date.now();
+ const due=options.filter==='vault'?new Set(state.vault.filter(id=>!state.preferences||vaultIsDue({preferences:state.preferences,vaultReviews:state.vaultReviews},id,now)).map(canonicalQuestionId)):undefined;
  const assigned=new Set<string>(),assignedStems=new Set<string>(),seenFamilies=new Set<string>();
  if(filter==='unanswered'){
   const known=new Map([...(options.bank||[]),...(state.importedQuestions||[]),...pool].map(q=>[q.id,q]));
@@ -41,6 +44,7 @@ export function practicePool(pool:readonly Question[],state:QuestionHistory,opti
   if(q.retired||!review&&options.difficulty==='challenge'&&!isDecisionQuestion(q))return false;
   if(options.filter==='missed'&&latest.get(canonicalQuestionId(q.id))?.correct!==false)return false;
   const id=canonicalQuestionId(q.id),stem=normalizeQuestionStem(q.stem);
+  if(due&&!due.has(id))return false;
   if(filter==='unanswered'&&(assigned.has(id)||assignedStems.has(stem)||!options.allowRelated&&seenFamilies.has(questionFamily(q))))return false;
   if(ids.has(id)||stems.has(stem))return false;
   ids.add(id);stems.add(stem);
@@ -49,11 +53,11 @@ export function practicePool(pool:readonly Question[],state:QuestionHistory,opti
 }
 export function distinctSituations(pool:Question[]):Question[]{const families=new Set<string>();return pool.filter(q=>{const family=questionFamily(q);if(families.has(family))return false;families.add(family);return true;});}
 export function availablePractice(pool:Question[],state:QuestionHistory,options:SelectionOptions={}):number{
- const eligible=practicePool(pool,state,options);return options.allowRelated||options.review||options.filter==='missed'?eligible.length:distinctSituations(eligible).length;
+ const eligible=practicePool(pool,state,options);return options.allowRelated||options.review||options.filter==='missed'||options.filter==='vault'?eligible.length:distinctSituations(eligible).length;
 }
 export function selectPractice(pool:Question[],state:QuestionHistory,count:number,seed:number,options:SelectionOptions={}):string[]{
  const eligible=shuffled(practicePool(pool,state,options),seed);
- const selected=options.allowRelated||options.review||options.filter==='missed'?eligible:distinctSituations(eligible);
+ const selected=options.allowRelated||options.review||options.filter==='missed'||options.filter==='vault'?eligible:distinctSituations(eligible);
  return selected.slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
 }
 export function selectQuickPractice(pool:Question[],state:QuestionHistory,count:number,seed:number,options:Pick<SelectionOptions,'difficulty'|'bank'>={}){
