@@ -75,6 +75,16 @@ create table if not exists reviewer_play.replay_sharing (
  profile uuid primary key references public.study_profiles(user_id) on delete cascade,
  enabled boolean not null
 );
+create table if not exists reviewer_play.friendships (
+ first_profile uuid not null references public.study_profiles(user_id) on delete cascade,
+ second_profile uuid not null references public.study_profiles(user_id) on delete cascade,
+ requested_by uuid not null,
+ requested_at timestamptz not null default clock_timestamp(),
+ accepted_at timestamptz,
+ primary key(first_profile,second_profile),
+ check(first_profile<second_profile and requested_by in (first_profile,second_profile))
+);
+create index if not exists reviewer_play_friendships_second on reviewer_play.friendships(second_profile);
 revoke all on all tables in schema reviewer_play from public, anon, authenticated;
 alter table reviewer_play.question_pool enable row level security;
 alter table reviewer_play.rooms enable row level security;
@@ -83,6 +93,13 @@ alter table reviewer_play.answers enable row level security;
 alter table reviewer_play.ranks enable row level security;
 alter table reviewer_play.messages enable row level security;
 alter table reviewer_play.replay_sharing enable row level security;
+alter table reviewer_play.friendships enable row level security;
+
+create or replace function reviewer_play.are_friends(first_id uuid,second_id uuid) returns boolean
+language sql stable set search_path='' as $$
+ select exists(select 1 from reviewer_play.friendships
+  where first_profile=least(first_id,second_id) and second_profile=greatest(first_id,second_id) and accepted_at is not null);
+$$;
 
 create or replace function reviewer_play.viewer() returns uuid
 language plpgsql stable security definer set search_path='' as $$
@@ -292,9 +309,12 @@ begin
    values(current_season,player.profile,player.label,reviewer_play.ranked_tier(player.profile,current_season))
    on conflict(season,profile) do nothing;
   select * into rank from reviewer_play.ranks where season=current_season and profile=player.profile for update;
-  gain:=case when won then 1 when lost and player.right<7 then -1 else 0 end;
   rank_before:=rank.tier;
   tier_after:=rank_before;
+  gain:=case
+   when won and not opponent_left and player.right>=(array[8,8,9,9,10])[rank_before+1] then 2
+   when won then 1 when lost and player.right<7 then -1 else 0
+  end;
   if rank.matches<3 then
    gain:=0;
    if rank.matches=2 then tier_after:=greatest(tier_after,least(2,rank.wins+won::int)); end if;
@@ -311,7 +331,7 @@ begin
   update reviewer_play.players set ranked_result=jsonb_build_object(
    'outcome',case when won then 'win' when lost then 'loss' else 'draw' end,
    'season',current_season,'tier',tier_after,'stars',stars_after,'matches',rank.matches+1,
-   'starChange',star_change,'promoted',rank.matches>=3 and tier_after>rank_before,
+   'starChange',star_change,'bonus',star_change=2,'promoted',rank.matches>=3 and tier_after>rank_before,
    'protected',rank.matches>=3 and lost and player.right>=7,
    'forfeit',player.left_at is not null or opponent_left
   ) where room=room_code and profile=player.profile;
@@ -360,6 +380,7 @@ begin
    and r.starts_at is null and r.finished_at is null and r.expires_at>moment
    and r.ranked_last_seen_at>moment-interval '12 seconds'
    and abs(actor_tier-reviewer_play.ranked_tier(r.host,season_key))<=1
+   and not reviewer_play.are_friends(actor,r.host)
   order by r.created_at limit 1 for update of r;
   if code_text is null then
    insert into reviewer_play.rooms(mode,host,subject,discoverable,expires_at,ranked_last_seen_at)

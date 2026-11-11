@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "node --experimental-strip-types write-bank-summary.mjs && tsc --noEmit && vite build && node --experimental-strip-types verify-build.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --experimental-strip-types --test --test-concurrency=1 tests.mjs sync-tests.mjs selection-tests.mjs improvement-tests.mjs"
+    "test": "node --experimental-strip-types --test --test-concurrency=1 tests.mjs sync-tests.mjs selection-tests.mjs improvement-tests.mjs push-tests.mjs"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",
@@ -23,7 +23,8 @@
     "postprocessing": "6.39.6",
     "react": "19.2.6",
     "react-dom": "19.2.6",
-    "three": "0.187.0"
+    "three": "0.187.0",
+    "web-push": "3.6.7"
   },
   "devDependencies": {
     "@types/react": "19.2.14",

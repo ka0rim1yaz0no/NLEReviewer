@@ -11,6 +11,25 @@
 .game-cup {background:var(--notebook-lavender);margin:16px 0}
 .game-cup h2 {display:flex;align-items:center;gap:7px}
 .game-cup>.button-row {flex:0 0 auto;max-width:100%}
+.play-friends,.play-reminders {display:grid;gap:14px;min-width:0}
+.play-friends h2,.play-reminders h2 {display:flex;align-items:center;gap:8px}
+.play-invites:empty {display:none}
+.play-invites,.play-reminders-anchor {scroll-margin-top:88px}
+.play-people {list-style:none;display:grid;gap:8px;margin:0;padding:0}
+.play-invites h3 {margin-bottom:8px}
+.play-people li,.play-reminder-row {display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+.play-people li {padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.play-people li.invite-target {border-color:var(--green);background:var(--tint)}
+.play-people span,.play-reminder-row span {min-width:0;overflow-wrap:anywhere}
+.play-people strong,.play-reminder-row strong,.play-people small,.play-reminder-row small {display:block}
+.play-people .friend-online::before {content:"";display:inline-block;background:#258257;border-radius:50%;width:7px;height:7px;margin-right:6px;vertical-align:1px}
+.friend-request {display:flex;align-items:end;flex-wrap:wrap;gap:10px}
+.friend-request label {flex:1 1 160px;min-width:0}
+.play-reminder-row .btn {flex-shrink:0}
+@media (max-width:540px) {
+ .game-cup>div:first-child {flex:1 1 100%}
+ .play-people li {align-items:flex-start;flex-wrap:wrap}
+}
 .cup-results,.cup-results section {display:grid;gap:8px;min-width:0}
 .cup-results section + section {margin-top:12px}
 .cup-results ol,.ranked-leaders {padding-inline-start:1.4rem;margin:0;display:grid;gap:6px}
