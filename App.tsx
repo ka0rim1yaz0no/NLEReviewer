@@ -1,11 +1,12 @@
 import {StudyNotebook} from "./StudyNotebook";
+import {isStudySession,MobileStudyDock,ReviewerFooter,ReviewerHeader,StudyMenu,studyPageTitle} from "./StudyNavigation";
 import {StudyTargets} from "./StudyTargets";
 import {StudyTimer} from "./StudyTimer";
 import { PDFLibrary } from "./PDFLibrary";
 import bankSummary from "./bank-summary.json";
 import apacheLicense from "./apache-2.0.txt?url";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
-import { ArrowRight, Award, BarChart3, BookOpen, CalendarDays, Check, ChevronRight, Clock, Flame, GraduationCap, HeartPulse, HelpCircle, History, House, Layers3, Menu, Moon, Pause, Play, RotateCcw, Settings as SettingsIcon, ShieldCheck, Sparkles, Stethoscope, Sun, Target, User, Vault, X } from "lucide-react";
+import { ArrowRight, Award, BookOpen, CalendarDays, Check, ChevronRight, Flame, GraduationCap, HeartPulse, Layers3, Play, ShieldCheck, Sparkles, Target, Vault } from "lucide-react";
 import { subjects } from "./bank";
 import { canAccessPDFs, needsUsername, priorityUsername } from "./access";
 import { dateKey, daysBetween, rating } from "./engine";
@@ -18,7 +19,6 @@ import { Practice, Setup, Topics, TopicDetail } from "./TopicViews";
 const StudyMotion=lazy(()=>import("./StudyMotion"));
 const motionRoutes=new Set(["/login","/dashboard","/topics","/resources","/practice"]);
 function StudyCount({value}:{value:number}){return <><span className="study-count-readable">{value}</span><span aria-hidden="true" className="study-count" data-study-count={value}>{value}</span></>;}
-const navigation=[{to:"/dashboard",label:"Home",icon:House,group:""},{to:"/schedule",label:"Study Plan",icon:CalendarDays,group:"Study"},{to:"/topics",label:"Topics",icon:BookOpen,group:"Study"},{to:"/decks",label:"Flashcards",icon:Layers3,group:"Study"},{to:"/resources",label:"Resources",icon:BookOpen,group:"Study"},{to:"/resources/pdfs",label:"PDF library",icon:BookOpen,group:"Study"},{to:"/practice",label:"Practice",icon:Stethoscope,group:"Practice"},{to:"/questions",label:"Question library",icon:BookOpen,group:"Practice"},{to:"/mock",label:"Mock Boards",icon:GraduationCap,group:"Practice"},{to:"/vault",label:"Vault",icon:Vault,group:"Practice"},{to:"/performance",label:"Performance",icon:BarChart3,group:"Progress"},{to:"/history",label:"History",icon:History,group:"Progress"},{to:"/achievements",label:"Achievements",icon:Award,group:"Progress"},{to:"/profile",label:"Profile",icon:User,group:"Account"},{to:"/settings",label:"Settings",icon:SettingsIcon,group:"Account"},{to:"/help",label:"Help & Support",icon:HelpCircle,group:"Account"}];
 function Dashboard(){const {state,bank}=useApp(),stats=useStats(),badges=useBadges(),topics=useTopicList(),start=useStartSession();const today=dateKey(Date.now(),state.profile.timezone),tasks=planTasks(today,state,topics),done=tasks.filter(t=>t.done).length;const hour=Number(new Intl.DateTimeFormat("en-GB",{hour:"numeric",hourCycle:"h23",timeZone:state.profile.timezone}).format(new Date()));const greeting=hour<12?"Good morning":hour<18?"Good afternoon":"Good evening";const last=state.sessions.filter(s=>!s.finishedAt).at(-1);const todayCount=state.attempts.filter(a=>dateKey(a.at,state.profile.timezone)===today).length;const nextBadge=badges.find(b=>b.value<b.target);return <><div className="welcome"><StudyNotebook className="welcome-notebook"/><Link to="/profile" className="avatar" title="Your profile" ><span style={{background:state.profile.color}}>{state.profile.name.slice(0,2).toUpperCase()}</span></Link><div><p className="welcome-kicker">Your nursing study space</p><h1>{greeting}, {state.profile.name||"Future RN"}!</h1><p className="welcome-summary">Choose a topic and build confidence with each case.</p><Link to="/practice" className="btn primary welcome-action">Practice questions<ArrowRight size={15}/></Link></div><span className="welcome-date">{new Date().toLocaleDateString("en-PH",{weekday:"long",month:"short",day:"numeric",timeZone:state.profile.timezone})}</span></div><div className="home-stats"><Link to="/achievements" className="stat streak-stat"><small><Flame size={14}/>Streak</small><strong><StudyCount value={stats.streak}/> {stats.streak===1?"day":"days"}<Check size={14}/></strong></Link><Link to="/schedule" className="stat target-stat"><small><CalendarDays size={14}/>Your target</small><strong><StudyCount value={Math.max(0,daysBetween(today,state.profile.examDate))}/> days <span>· {new Date(state.profile.examDate+"T12:00:00Z").toLocaleDateString("en-PH",{month:"short",day:"numeric"})}</span></strong></Link><Link to="/performance" className="stat"><small><Target size={14}/>Today’s practice</small><strong><StudyCount value={todayCount}/><span> / {state.preferences.questionGoal} questions</span></strong></Link><Link to="/mock" className="stat"><small><GraduationCap size={15}/>Mock boards</small><strong><StudyCount value={stats.completedBoards}/><span> / 5 completed</span></strong></Link></div>{last&&<Link to={`/session/${last.id}`} className="resume-banner"><span className="tile-icon"><Play size={18}/></span><div><small>{Object.values(last.answers).filter(a=>a.selected>=0).length} of {last.questionIds.length} answered</small><strong>Continue {last.title.toLowerCase()}</strong></div><ArrowRight size={18}/></Link>}<div className="home-grid"><div className="home-main"><Card className="today-card"><div className="section-head"><h2><CalendarDays size={18}/>Today’s Plan</h2><span className="tag">{done} / {tasks.length} done</span></div><Progress value={done} max={tasks.length}/><small className="muted">{tasks.length?Math.round(done/tasks.length*100):0}% of today complete. One step at a time.</small><div className="task-list">{tasks.map(t=><TaskRow key={t.id} task={t}/>)}</div><TextLink to="/schedule">Open your Study Plan</TextLink></Card>{!state.sessions.some(s=>s.kind==="diagnostic"&&s.finishedAt)&&<Link to="/diagnostic" className="diagnostic-banner"><span className="tile-icon"><Sparkles size={22}/></span><div><small>A good place to begin</small><h2>Find your starting point.</h2><p>30 questions across all five NPs. A clearer picture of what to study next.</p><strong>Take the 25-minute diagnostic <ArrowRight size={15}/></strong></div><ChevronRight size={19}/></Link>}<Card><div className="section-head"><h2>Study by subject</h2><TextLink to="/performance/topics">Topic Mastery</TextLink></div><p className="muted">Quick sets use situational nursing questions. Custom practice also offers concepts and comparisons.</p><div className="subject-tiles">{stats.bySubject.map(s=>{const size=bank.filter(q=>q.subject===s.id).length,score=rating(s.attempts,10);return <button className="subject-tile" key={s.id} onClick={()=>start({subject:s.id,count:20,quick:true})}><span className="subject-code" style={{color:s.color,background:s.color+"16"}}>{s.short}</span><div><strong>{s.name}</strong><small>{s.attempts.length} of {size} answered {score!==null&&`· ${score.toFixed(1)} rating`}</small><Progress value={s.attempts.length} max={size}/></div><ChevronRight size={15}/></button>;})}</div></Card><Card className="daily-practice"><div><h2>A little practice goes a long way.</h2><p>Work through priorities, safety decisions, and clinical reasoning.</p></div><button className="btn primary" onClick={()=>start({quick:true})}>Start a challenge set<ArrowRight size={16}/></button></Card></div><aside className="home-aside"><StudyTargets/>{nextBadge&&<Link to="/achievements" className="next-badge"><Award size={24}/><div><small>Your next milestone</small><strong>{nextBadge.name}</strong><Progress value={nextBadge.value} max={nextBadge.target}/><small>{nextBadge.target-nextBadge.value} to go</small></div><ChevronRight size={16}/></Link>}<Card className="explore"><h2>Explore</h2><RowLink to="/questions" title="Question library" description="Read questions & rationales" icon={<BookOpen size={18}/>}/><RowLink to="/decks" title="Flashcards" description="Keep the important facts" icon={<Layers3 size={18}/>}/><RowLink to="/resources" title="Resources" description="Topic notes & quick references" icon={<BookOpen size={18}/>}/><RowLink to="/achievements" title="Achievements" description="Your progress, recognized" icon={<Award size={18}/>}/></Card><div className="quiet-note"><ShieldCheck size={19}/><p>Built for your study rhythm.<br/>Your progress stays yours.</p></div></aside></div></>;}
 function Help({about=false}:{about?:boolean}){
  const {user,username,sharedProfile}=useApp();
@@ -41,5 +41,107 @@ function Help({about=false}:{about?:boolean}){
  return <><Heading title={about?"About For Elaine Only Reviewer":"Help & Support"} description={about?"A calmer place to practice, understand, and keep going.":"A little guidance for your next study session."}/>{about&&<Card className="reader"><h2>Your daily review companion</h2><p>Questions, answer rationales, topic notes, flashcards, mock practice, and study progress share one personal workspace. There are no subscriptions or payment features.</p><h2>Content and sources</h2><p>The expanded bank includes original question designs built from <a href="https://www.ncbi.nlm.nih.gov/books/NBK590025/" target="_blank" rel="noreferrer">Open RN nursing textbooks</a>, edited by Kimberly Ernstmeyer and Elizabeth Christman and published by Chippewa Valley Technical College / WisTech Open. Myra Reuter-Sandquist also authored Nursing Assistant. Reference wording is adapted under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>. The situational cases and clinical decisions are original educational writing informed by the cited references. Other changes include converting definitions and table relationships into four-choice questions and adding answer and alternative explanations. Each item identifies its book, chapter, and reference. No author endorsement is implied.</p><p>The two corrected source items originate in <a href="https://huggingface.co/datasets/openlifescienceai/medmcqa" target="_blank" rel="noreferrer">MedMCQA</a> by Ankit Pal, Logesh Kumar Umapathi, and Malaikannan Sankarasubbu (2022), adapted under its published <a href={apacheLicense} target="_blank" rel="noreferrer">Apache 2.0 dataset license</a>. Their scenarios and per-choice explanations were substantially corrected using NHS, CDC, and NICE references. The larger research candidate was withheld after contradictory keys were found and is not included.</p><p>Source matching and automated checks do not replace independent clinical review. These are educational practice materials; use the linked references for full context and current guidance. The app does not connect to or submit anything on your BoardPal account.</p></Card>}<Card><RowLink to="/resources/guide" title="Start here — your study rhythm" description="Recall, understand, and revisit" icon={<BookOpen size={21}/>}/><RowLink to="/settings" title="Backups & imports" description="Keep a copy of your work" icon={<ShieldCheck size={21}/>}/></Card><h2 className="spaced-title">Frequently asked questions</h2><Card className="faq">{faq.filter(([question])=>question!=="Where are the PDFs?"||canAccessPDFs(username,!!user,sharedProfile)).map(([question,answer])=><details key={question}><summary>{question}<PlusIcon/></summary><p>{answer}</p></details>)}</Card></>;
 }
 function PlusIcon(){return <span className="plus-symbol">+</span>;}
-function Shell(){const {state,update,path,ready,sync,user,username,sharedProfile,navigate,accessError,retryContent,switchProfile}=useApp();const mainRef=useRef<HTMLElement>(null);const [menu,setMenu]=useState(false),[tour,setTour]=useState(-1);const route=path.split("?")[0];const allowed=!!user||!needsUsername(route);useEffect(()=>{if(ready&&!allowed)navigate("/login?returnTo="+encodeURIComponent(path));},[ready,allowed,path,navigate]);useEffect(()=>{setMenu(false);const title=navigation.find(n=>n.to===route)?.label||"Study";document.title=`${title} — For Elaine Only Reviewer`;},[path]);useEffect(()=>{const listener=(e:KeyboardEvent)=>{if(e.key==="Escape"){setMenu(false);setTour(-1);}};window.addEventListener("keydown",listener);return ()=>window.removeEventListener("keydown",listener);},[]);let content;if(route==="/"||route==="/dashboard")content=<Dashboard/>;else if(route==="/practice")content=<Practice/>;else if(route==="/practice/session")content=<Setup key={path}/>;else if(route.startsWith("/session/"))content=<SessionView key={route} id={route.split("/")[2]}/>;else if(route.startsWith("/results/"))content=<Results key={route} id={route.split("/")[2]}/>;else if(route==="/topics")content=<Topics/>;else if(route.startsWith("/topics/"))content=<TopicDetail key={route} slug={route.split("/")[2]}/>;else if(route==="/questions")content=<BankBrowser/>;else if(route==="/vault")content=<VaultView/>;else if(route==="/diagnostic"||route==="/welcome")content=<Diagnostic/>;else if(route==="/mock")content=<Mocks/>;else if(/^\/mock\/[1-5]$/.test(route))content=<Mocks board={Number(route.split("/")[2])}/>;else if(route==="/decks")content=<Flashcards/>;else if(route==="/decks/review")content=<FlashcardReview key={path}/>;else if(route==="/decks/custom")content=<ChooseDeck/>;else if(route==="/decks/new")content=<CreateDeck/>;else if(route==="/decks/import")content=<CreateDeck importing/>;else if(route==="/schedule")content=<Planner/>;else if(route==="/resources")content=<Resources/>;else if(route==="/resources/pdfs")content=<PDFLibrary/>;else if(route==="/resources/read")content=<ResourceReader key={path}/>;else if(route==="/resources/guide")content=<ResourceReader guide/>;else if(route==="/resources/bookmarks")content=<BankBrowser saved/>;else if(route==="/resources/notes")content=<BankBrowser notes/>;else if(route==="/performance"||route==="/performance/topics")content=<Performance topicsOnly={route.endsWith("topics")}/>;else if(route==="/history")content=<HistoryView/>;else if(route==="/achievements")content=<Achievements/>;else if(route==="/profile")content=<Profile/>;else if(route==="/settings")content=<Settings/>;else if(route==="/login")content=<Login/>;else if(route==="/help"||route==="/about")content=<Help about={route==="/about"}/>;else content=<Empty title="Let’s get you back to studying." description="This page isn’t part of your reviewer." action={<Link to="/dashboard" className="btn primary">Go home</Link>}/>;return <><a className="skip-link" href="#main">Skip to content</a><header className="site-header"><div className="header-inner"><button className="icon-btn menu-button" aria-label="Open menu" aria-expanded={menu} onClick={()=>setMenu(!menu)}><Menu size={23}/></button><Link to="/dashboard" className="brand"><span className="brand-mark" aria-hidden="true"><HeartPulse size={21}/></span><span className="brand-name">For Elaine Only <b>Reviewer</b></span></Link><nav className="desktop-nav" aria-label="Main navigation">{[["/dashboard","Home"],["/schedule","Study Plan"],["/practice","Practice"],["/mock","Mock Boards"],["/performance","Progress"]].map(([to,label])=><Link key={to} to={to} className={route===to||to==="/practice"&&route.startsWith("/session")?"active":""}>{label}</Link>)}</nav><div className="header-actions"><button className="icon-btn theme-toggle" aria-label="Switch light and dark mode" onClick={()=>update(s=>({...s,preferences:{...s.preferences,theme:s.preferences.theme==="dark"?"light":"dark"}}))}>{state.preferences.theme==="dark"?<Sun size={18}/>:<Moon size={18}/>}</button><button className="icon-btn" title="Take the tour" aria-label="Take the tour" onClick={()=>setTour(0)}><Sparkles size={18}/></button><Link to="/profile" className="header-avatar" title="Your profile">{state.profile.name.slice(0,2).toUpperCase()||"RN"}</Link><button className="icon-btn desktop-more" aria-label="Open all pages" aria-expanded={menu} onClick={()=>setMenu(!menu)}><Menu size={19}/></button></div></div></header>{menu&&<div className="menu-backdrop" onClick={()=>setMenu(false)}><aside className="side-menu" aria-label="All pages" onClick={e=>{e.stopPropagation();if(e.target instanceof Element&&e.target.closest("a[href]"))setMenu(false);}}><div className="section-head"><span className="brand-text">Your study space</span><button className="icon-btn" aria-label="Close menu" onClick={()=>setMenu(false)}><X size={22}/></button></div>{["","Study","Practice","Progress","Account"].map(group=><div key={group} className="nav-group">{group&&<small>{group}</small>}{navigation.filter(n=>n.group===group&&(n.to!=="/resources/pdfs"||canAccessPDFs(username,!!user,sharedProfile))).map(n=><Link key={n.to} to={n.to} className={route===n.to?"active":""}><n.icon size={18}/>{n.label}</Link>)}</div>)}<div className="menu-foot">{sync}</div></aside></div>}<main id="main" ref={mainRef} className={`main-shell ${route.startsWith("/session/")?"session-shell":""}`}>{ready?(accessError?<Empty title="Study content is temporarily unavailable" description={accessError} action={<div className="button-row"><button className="btn primary" onClick={retryContent}>Try again</button><button className="btn" onClick={()=>void switchProfile()}>Switch profile</button></div>}/>:allowed?content:<Login/>):<div className="loading"><span className="brand-mark">B</span><p>{sync==="Saving your profile…"?"Saving your study progress…":"Opening your study workspace…"}</p></div>}{ready&&!accessError&&allowed&&motionRoutes.has(route)&&<Suspense fallback={null}><StudyMotion scope={mainRef} route={route} paused={menu||tour>=0}/></Suspense>}</main><footer className="site-footer"><span><span className="footer-brand">B</span>For Elaine Only Reviewer</span><div><Link to="/about">About</Link><Link to="/help">Help & study guide</Link><Link to="/settings">Settings</Link></div><small>One question at a time.</small></footer>{user&&!accessError&&ready&&<StudyTimer key={user.id}/>}{tour>=0&&<Modal title={["Your daily review, in one place","Learn from every answer","Keep what you learn"][tour]} onClose={()=>setTour(-1)}><span className="tour-icon">{tour===0?<CalendarDays size={35}/>:tour===1?<BookOpen size={35}/>:<Layers3 size={35}/>}</span><p>{["Start with Today’s Plan, or choose a subject. The dashboard tracks your own answers, your streak, and your progress.","Practice gives immediate rationales. Exam mode waits until you finish. Flag questions, take notes, cross out choices, and revisit misses in the Vault.","Review flashcards when they’re due, skim topic notes, and use mock sections to build endurance. Settings lets you export a backup or import your own authorized questions."][tour]}</p><div className="section-head"><small>{tour+1} of 3</small><button className="btn primary" onClick={()=>tour===2?setTour(-1):setTour(tour+1)}>{tour===2?"Let’s study":"Next"}<ArrowRight size={15}/></button></div></Modal>}</>;}
+function studyPage(route:string,path:string){
+ const segment=route.split("/")[2];
+ if(route.startsWith("/session/"))return <SessionView key={route} id={segment}/>;
+ if(route.startsWith("/results/"))return <Results key={route} id={segment}/>;
+ if(route.startsWith("/topics/"))return <TopicDetail key={route} slug={segment}/>;
+ if(/^\/mock\/[1-5]$/.test(route))return <Mocks board={Number(segment)}/>;
+ switch(route){
+  case "/":
+  case "/dashboard":return <Dashboard/>;
+  case "/practice":return <Practice/>;
+  case "/practice/session":return <Setup key={path}/>;
+  case "/topics":return <Topics/>;
+  case "/questions":return <BankBrowser/>;
+  case "/vault":return <VaultView/>;
+  case "/diagnostic":
+  case "/welcome":return <Diagnostic/>;
+  case "/mock":return <Mocks/>;
+  case "/decks":return <Flashcards/>;
+  case "/decks/review":return <FlashcardReview key={path}/>;
+  case "/decks/custom":return <ChooseDeck/>;
+  case "/decks/new":return <CreateDeck/>;
+  case "/decks/import":return <CreateDeck importing/>;
+  case "/schedule":return <Planner/>;
+  case "/resources":return <Resources/>;
+  case "/resources/pdfs":return <PDFLibrary key={path}/>;
+  case "/resources/read":return <ResourceReader key={path}/>;
+  case "/resources/guide":return <ResourceReader guide/>;
+  case "/resources/bookmarks":return <BankBrowser saved/>;
+  case "/resources/notes":return <BankBrowser notes/>;
+  case "/performance":return <Performance/>;
+  case "/performance/topics":return <Performance topicsOnly/>;
+  case "/history":return <HistoryView/>;
+  case "/achievements":return <Achievements/>;
+  case "/profile":return <Profile/>;
+  case "/settings":return <Settings/>;
+  case "/login":return <Login/>;
+  case "/help":return <Help/>;
+  case "/about":return <Help about/>;
+  default:return <Empty title="Page unavailable" description="Open the study notebook to find a page." action={<Link to="/dashboard" className="btn primary">Go home</Link>}/>;
+ }
+}
+
+const tourSteps=[
+ {title:"Your daily review, in one place",icon:CalendarDays,description:"Start with Today’s Plan, or choose a subject. The dashboard tracks your answers, streak, and progress."},
+ {title:"Learn from every answer",icon:BookOpen,description:"Practice shows rationales after each answer. Exams show them after you submit. Flag questions, take notes, cross out choices, and revisit misses in the Vault."},
+ {title:"Keep what you learn",icon:Layers3,description:"Review due flashcards, read topic notes, and use mock boards to build endurance. Settings lets you export a backup or import your own questions."},
+];
+
+function Shell(){
+ const {state,path,ready,sync,user,navigate,accessError,retryContent,switchProfile}=useApp();
+ const mainRef=useRef<HTMLElement>(null);
+ const focusedPath=useRef(path);
+ const [menu,setMenu]=useState(false);
+ const [tour,setTour]=useState(-1);
+ const route=path.split("?")[0].replace(/\/+$/,"")||"/";
+ const allowed=!!user||!needsUsername(route);
+ const sessionPage=isStudySession(route);
+ const session=sessionPage?state.sessions.find(entry=>entry.id===route.split("/")[2]):undefined;
+ const primaryRoute=sessionPage?(session?.kind==="mock"?"/mock":"/practice"):route==="/"?"/dashboard":"/"+route.split("/")[1];
+ const showDock=!!user&&ready&&!accessError&&!sessionPage&&route!=="/login"&&route!=="/decks/review";
+ const step=tourSteps[tour];
+
+ useEffect(()=>{
+  if(ready&&!allowed)navigate("/login?returnTo="+encodeURIComponent(path),{replace:true});
+ },[ready,allowed,path,navigate]);
+
+ useEffect(()=>{setMenu(false);setTour(-1);},[path]);
+
+ useEffect(()=>{
+  document.title=studyPageTitle(route,session?.title)+" — For Elaine Only Reviewer";
+ },[route,session?.title]);
+
+ useEffect(()=>{
+  if(ready&&allowed&&focusedPath.current!==path){
+   focusedPath.current=path;
+   mainRef.current?.focus({preventScroll:true});
+  }
+ },[path,ready,allowed]);
+
+ return <div className={showDock?"reviewer-shell has-study-dock":"reviewer-shell"}>
+  <a className="skip-link" href="#main">Skip to content</a>
+  <ReviewerHeader route={route} active={primaryRoute} menuOpen={menu} onMenu={()=>setMenu(true)} onTour={()=>setTour(0)}/>
+  <main id="main" tabIndex={-1} ref={mainRef} className={route.startsWith("/session/")?"main-shell session-shell":"main-shell"}>
+   {!ready?<div className="loading" role="status"><span className="brand-mark" aria-hidden="true"><HeartPulse size={23}/></span><p>{sync==="Saving your profile…"?"Saving your study progress…":"Opening your study workspace…"}</p></div>
+    :accessError?<Empty title="Study workspace unavailable" description={accessError} action={<div className="button-row">
+     <button className="btn primary" onClick={retryContent}>Try again</button>
+     <button className="btn" onClick={()=>void switchProfile()}>Switch profile</button>
+    </div>}/>:allowed?studyPage(route,path):<Login/>}
+   {ready&&!accessError&&allowed&&motionRoutes.has(route)&&<Suspense fallback={null}><StudyMotion scope={mainRef} route={route} paused={menu||!!step}/></Suspense>}
+  </main>
+  <ReviewerFooter/>
+  {showDock&&<MobileStudyDock route={route} active={primaryRoute}/>}
+  {user&&!accessError&&ready&&<StudyTimer key={user.id}/>}
+  {menu&&<StudyMenu route={route} active={primaryRoute} onClose={()=>setMenu(false)} onTour={()=>setTour(0)}/>}
+  {step&&<Modal title={step.title} onClose={()=>setTour(-1)}>
+   <span className="tour-icon" aria-hidden="true"><step.icon size={34}/></span>
+   <p>{step.description}</p>
+   <div className="section-head"><small>{tour+1} of {tourSteps.length}</small>
+    <button className="btn primary" onClick={()=>setTour(tour+1===tourSteps.length?-1:tour+1)}>{tour+1===tourSteps.length?"Let’s study":"Next"}<ArrowRight size={15}/></button>
+   </div>
+  </Modal>}
+ </div>;
+}
 export default function App(){return <Provider><Shell/></Provider>;}

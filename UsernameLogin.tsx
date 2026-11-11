@@ -3,7 +3,7 @@ import bankSummary from "./bank-summary.json";
 import { useState } from "react";
 import { ArrowRight, BookOpen, ChevronRight, User } from "lucide-react";
 import { openUsernameProfile, rememberedProfiles, supabase } from "./auth";
-import { priorityUsername, profilePickerEntries } from "./access";
+import { priorityUsername, profilePickerEntries, studyLocation } from "./access";
 import { useApp } from "./store";
 import { Card, Link } from "./ui";
 export default function UsernameLogin(){
@@ -15,7 +15,9 @@ export default function UsernameLogin(){
   try{
    await openUsernameProfile(value,rememberedId);
    const target=new URLSearchParams(path.split("?")[1]).get("returnTo")||"/dashboard";
-   navigate(target.startsWith("/")&&!target.startsWith("//")&&!target.startsWith("/login")?target:"/dashboard");
+   const destination=studyLocation(target,location.origin);
+   const safe=destination&&destination.origin===location.origin&&!destination.pathname.startsWith("/login");
+   navigate(safe?destination.pathname+destination.search:"/dashboard",{replace:true});
   }catch(e){setError((e as Error).message);}finally{setBusy(false);}
  }
  return <div className="username-login">

@@ -3,12 +3,28 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {initialState} from './engine.ts';
 import {mergeStudyStates,mergeLegacyState,sameStudyState,readProfileCache,writeProfileCache} from './sync-state.ts';
-import {synchronizeProgress} from './progress-sync.ts';
+import {hasPendingProgress,reconcileCloudProgress,synchronizeProgress} from './progress-sync.ts';
 import {formatQuestionForDisplay} from './clinical-display.ts';
 import {questions,originalQuestions} from './author-bank.ts';
 import {validateBackup} from './validation.ts';
 const copy=structuredClone;
 const session=()=>({id:'shared-session',title:'QA',kind:'practice',mode:'tutor',questionIds:originalQuestions.slice(0,2).map(q=>q.id),answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}});
+test('reconnecting keeps local work that was saved before the first cloud read',()=>{
+ const base=initialState();
+ const local={state:{...base,notes:{draft:'Offline note'},updatedAt:200},base:null,pending:null};
+ const remote={revision:3,data:{...base,notes:{existing:'Cloud note'},updatedAt:100}};
+ const merged=reconcileCloudProgress(local,remote,'QA');
+ assert.deepEqual(merged.state.notes,{existing:'Cloud note',draft:'Offline note'});
+ assert.equal(merged.base,remote);
+ assert.equal(hasPendingProgress(merged),true);
+});
+test('reconnecting keeps the pending save receipt and rejects an older cloud state',()=>{
+ const data=initialState(),base={revision:7,data};
+ const pending={clientId:randomUUID(),sequence:2,snapshot:data,base,data};
+ const local={state:data,base,pending};
+ assert.equal(reconcileCloudProgress(local,{revision:8,data},'QA'),local);
+ assert.throws(()=>reconcileCloudProgress(local,{revision:6,data},'QA'),/existing progress has been kept/);
+});
 test('concurrent answers, notes and focus time merge without mutating either device',()=>{
  const base={...initialState(),sessions:[session()],studySeconds:60,studyLog:{'2026-11-05':60}},a=copy(base),b=copy(base);
  const [q1,q2]=originalQuestions;

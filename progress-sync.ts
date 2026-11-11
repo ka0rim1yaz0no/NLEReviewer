@@ -1,9 +1,31 @@
 import type {State} from './engine.ts';
-import {mergeStudyStates,sameStudyState} from './sync-state.ts';
+import {mergeLegacyState,mergeStudyStates,sameStudyState} from './sync-state.ts';
 import type {CloudBase,PendingSave,ProfileCache} from './sync-state.ts';
 
 export type SaveReceipt={saved:boolean;profileId:string;revision:number;data:State};
 export type SaveRequest=(profileId:string,pending:PendingSave)=>Promise<SaveReceipt>;
+
+export function hasPendingProgress(cache:ProfileCache){
+ return !!cache.pending||(!!cache.base&&!sameStudyState(cache.state,cache.base.data));
+}
+
+/** Reconcile a fresh read without replacing an in-flight save or unsynced work. */
+export function reconcileCloudProgress(local:ProfileCache|null,remote:CloudBase,username:string):ProfileCache{
+ if(local?.base&&remote.revision<local.base.revision){
+  throw new Error('The cloud backup could not be verified. Your existing progress has been kept.');
+ }
+ if(local?.pending||local?.base?.revision===remote.revision)return local;
+ if(!local){
+  const state=remote.revision===0?{...remote.data,profile:{...remote.data.profile,name:username}}:remote.data;
+  return {state,base:remote,pending:null};
+ }
+ if(remote.revision===0&&!local.base)return {...local,base:remote};
+ const state=local.base
+  ?(sameStudyState(local.state,local.base.data)?remote.data:mergeStudyStates(local.base.data,local.state,remote.data))
+  :mergeLegacyState(local.state,remote.data);
+ return {state,base:remote,pending:null};
+}
+
 /** A pending operation keeps its original ID through retries and reloads. */
 export async function synchronizeProgress(profileId:string,clientId:string,sequence:number,read:()=>ProfileCache,checkpoint:(cache:ProfileCache)=>void,request:SaveRequest,alive:()=>boolean=()=>true){
  let cache=read();

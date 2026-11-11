@@ -22,7 +22,7 @@ export function Flashcards(){
   return <>
     <Heading title="Flashcards" description="A little recall today. A little more confidence tomorrow."/>
     <Card className="flash-intro"><div><span className="feature-icon"><Layers3 size={24}/></span><h2>Today’s flashcards</h2><p>Due cards first, then new situations from your weak spots. Each session uses one card per situation. Take your time and say the answer before you turn the card.</p><Progress value={count} max={state.preferences.flashcardGoal} label="Flashcard daily goal"/><small>{count} / {state.preferences.flashcardGoal} reviewed today</small><div className="button-row"><Link className="btn primary" to="/decks/review">Start today’s session<ArrowRight size={16}/></Link><Link className="btn" to="/decks/custom">Choose topics</Link></div></div><div className="card-stack" aria-hidden="true"><div/><div/><div><Layers3 size={32}/><span>Know it.<br/>Keep it.</span></div></div></Card>
-    <div className="section-head"><h2>Explore all 155 topic decks</h2><TextLink to="/decks/new">Create a deck</TextLink></div>
+    <div className="section-head"><h2>Explore all {curriculum.length} topic decks</h2><TextLink to="/decks/new">Create a deck</TextLink></div>
     <SearchBox value={search} onChange={setSearch} placeholder="Search decks"/>
     <div className="subject-list">{subjects.map(s=>{
       const list=curriculum.filter(t=>t.subject===s.id&&`${t.name} ${s.name}`.toLowerCase().includes(search.toLowerCase()));
@@ -51,13 +51,13 @@ export function Resources(){
   const reviewed=curriculum.filter(t=>state.read.includes("catalog:"+t.slug)).length;
   const imported=[...new Map(state.importedQuestions.filter(q=>!findCurriculumTopic(q.subject+":"+q.topic)&&(subject==="all"||q.subject===subject)&&q.topic.toLowerCase().includes(search.toLowerCase())).map(q=>[q.subject+":"+q.topic,q])).values()];
   return <>
-    <Heading title="Resources" description="Review points across all 155 topics. Read, make notes, and put them into practice." action={canAccessPDFs(username,!!user,sharedProfile)?<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>:undefined}/>
+    <Heading title="Resources" description={`Review notes and key points across ${curriculum.length} topics.`} action={canAccessPDFs(username,!!user,sharedProfile)?<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>:undefined}/>
     <div className="section-head"><h2>Your study library</h2><TextLink to="/topics">Full 155-topic catalog</TextLink></div>
     <div className="resource-shortcuts"><Card><RowLink to="/resources/notes" title="My Notes" description="Your own explanations, all together" icon={<BookOpen size={21}/>}/></Card><Card><RowLink to="/resources/bookmarks" title="Bookmarks" description="Questions worth coming back to" icon={<Layers3 size={21}/>}/></Card></div>
     <Card className="soft-card"><RowLink to="/resources/guide" title="Start here — make the most of your review" description="A practical guide to active recall, rationales, and spaced repetition" icon={<BookOpen size={21}/>}/></Card>
     <SearchBox value={search} onChange={setSearch} placeholder="Search resources"/>
     <div className="tabs"><button className={subject==="all"?"active":""} onClick={()=>setSubject("all")}>All</button>{subjects.map(s=><button key={s.id} className={subject===s.id?"active":""} onClick={()=>setSubject(s.id)}>{s.short}</button>)}</div>
-    <div className="section-head"><h2>Topic notes</h2><small>{reviewed} completed · 155 topics</small></div>
+    <div className="section-head"><h2>Topic notes</h2><small>{reviewed} completed · {curriculum.length} topics</small></div>
     <div className="resource-grid">{filtered.map(t=>{const questions=questionsForTopic(t,bank).filter(isSituational),situations=new Set(questions.map(q=>q.caseId||q.id.match(/^(CROSS|NP[1-5])-\d{3}/)?.[0]||q.id)).size;return <Link key={t.slug} to={`/resources/read?topic=${encodeURIComponent(t.subject+":"+t.slug)}`} className="resource-card"><div className="resource-book"><BookOpen size={28}/>{state.read.includes("catalog:"+t.slug)&&<span className="read-check"><Check size={13}/></span>}</div><span className="tag">{t.subject==="CROSS"?"Foundations":t.subject}</span><h3>{t.name}</h3><small>{`${situations} situation ${situations===1?"review":"reviews"}`} <ArrowRight size={15}/></small></Link>;})}{imported.map(q=><Link key={q.subject+q.topic} to={`/resources/read?topic=${encodeURIComponent(q.subject+":"+q.topic)}`} className="resource-card"><div className="resource-book"><BookOpen size={28}/></div><span className="tag">{q.subject}</span><h3>{q.topic}</h3><small>Your imported questions <ArrowRight size={15}/></small></Link>)}</div>
     {!filtered.length&&!imported.length&&<Empty title="No matching resources" description="Try a broader search or choose another subject."/>}
   </>;

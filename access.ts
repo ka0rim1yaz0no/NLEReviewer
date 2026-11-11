@@ -1,5 +1,13 @@
 export function needsUsername(path:string){return !["/login","/about","/help"].includes(path.split("?")[0]);}
 
+export function studyLocation(path:string,origin:string){
+  if(!path.startsWith("/")||path.startsWith("//"))return null;
+  try{
+    const destination=new URL(path,origin);
+    return destination.origin===origin?destination:null;
+  }catch{return null;}
+}
+
 export const priorityUsername="isabel";
 export function isPriorityUsername(username:string){return username.trim().toLowerCase()===priorityUsername;}
 
