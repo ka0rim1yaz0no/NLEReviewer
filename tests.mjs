@@ -501,10 +501,11 @@ test('legacy clinical clarifications are explicitly bounded and the corrected-ag
 });
 
 
-test('PDF visibility uses the signed-in canonical elaine username',()=>{
- assert.equal(canAccessPDFs('elaine',true),true);assert.equal(canAccessPDFs(' Elaine ',true),true);
- for(const name of ['', 'Elaine Only', 'elaine2', 'ReviewerCheck-1102', 'ｅｌａｉｎｅ'])assert.equal(canAccessPDFs(name,true),false,name);
- assert.equal(canAccessPDFs('elaine',false),false);
+test('PDF visibility requires the signed-in shared Isabel identity',()=>{
+ assert.equal(canAccessPDFs('isabel',true,true),true);assert.equal(canAccessPDFs(' Isabel ',true,true),true);
+ for(const name of ['', 'Elaine', 'Isabel (previous)', 'isabel2', 'ReviewerCheck-1102', 'ｉｓａｂｅｌ'])assert.equal(canAccessPDFs(name,true,true),false,name);
+ assert.equal(canAccessPDFs('isabel',false,true),false);
+ assert.equal(canAccessPDFs('isabel',true,false),false);
 });
 const planTopics=curriculum.map(t=>({subject:t.subject,name:t.name,slug:t.slug,count:29}));
 function plannedState(){const s=initialState();s.profile.examDate='2027-02-20';s.plan={...planSettings(s),startDate:'2026-11-05',restDays:[0,6]};return s;}

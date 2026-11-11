@@ -31,8 +31,8 @@ export function Practice(){
     <Heading title="Practice Questions" description="Every answer comes with its rationale. That’s where the learning happens."/>
     <Card className="practice-intro">
       <div className="section-head"><h2>Today’s practice</h2><span className="tag">{todayCount} answered</span></div>
-      <p>Make a nursing decision from the case clues, then review the reasoning behind each choice. Quick sets use one question per new situation.</p>
-      <div className="button-row"><button className="btn primary" onClick={()=>start({collection,filter:"unanswered"})}>{collection==="situational"?"Start challenge set":"Start mixed set"}<ArrowRight size={16}/></button><Link className="btn" to="/practice/session">Build a custom set</Link></div>
+      <p>Make a nursing decision from the case clues, then review each choice. Quick sets start with new situations and use unanswered follow-ups once you’ve seen those cases.</p>
+      <div className="button-row"><button className="btn primary" onClick={()=>start({collection,quick:true})}>{collection==="situational"?"Start challenge set":"Start mixed set"}<ArrowRight size={16}/></button><Link className="btn" to="/practice/session">Build a custom set</Link></div>
     </Card>
     {unfinished&&<Card className="resume-card"><div><strong>Pick up where you left off</strong><p>{unfinished.title} · {Object.values(unfinished.answers).filter(a=>a.selected>=0).length} of {unfinished.questionIds.length} answered</p></div><Link to={`/session/${unfinished.id}`} className="btn">Resume<ArrowRight size={15}/></Link></Card>}
     <div className="section-head bank-head"><h2>Your question bank</h2><TextLink to="/topics">All {curriculum.length} topics</TextLink></div>
@@ -48,7 +48,7 @@ export function Practice(){
         <summary><span className="subject-code" style={{color:subject.color,background:subject.color+"16"}}>{subject.id==="CROSS"?"ALL":subject.short}</span><div><h3>{subject.name}</h3><small>{topics.length} {topics.length===1?"topic":"topics"} · {selectedBank.filter(q=>q.subject===subject.id).length.toLocaleString()} available · reference {referenceSubjectCount(subject.id).toLocaleString()}</small></div><ChevronDown size={18}/></summary>
         <div className="topic-rows"><Link className="text-button" to={`/practice/session?np=${subject.id}&collection=${collection}`}>Build a set from this subject<ArrowRight size={14}/></Link>{topics.map(({topic:t,questions:qs,tried,missedIds,flaggedIds})=><div className="topic-row practice-topic-row" key={t.slug}>
           <div className="topic-info"><Link to={`/topics/${t.slug}`} className="topic-name"><strong>{t.name}</strong></Link><small>{qs.length?`${qs.length} related ${qs.length===1?"question":"questions"} · ${tried} tried`:"Question content not imported yet"}{missedIds.length>0&&` · ${missedIds.length} to redo`}{flaggedIds.length>0&&` · ${flaggedIds.length} flagged`}</small><small>Reference: {referenceCount(t)} questions</small>{qs.length>0&&<Progress value={tried} max={qs.length}/>}</div>
-          <div className="topic-actions">{missedIds.length>0&&<button className="btn small redo-misses" aria-label={`Redo ${missedIds.length} ${t.name} misses`} onClick={()=>start({collection,ids:missedIds,count:missedIds.length,review:true,title:t.name+" · redo misses"})}>Redo {missedIds.length} {missedIds.length===1?"miss":"misses"}</button>}{qs.length?<button aria-label={`Practice ${t.name}`} className="btn small" onClick={()=>start({collection,ids:filter==="flagged"?flaggedIds:filter==="saved"?state.bookmarks.filter(id=>qs.some(q=>q.id===id)):filter==="needs"?missedIds:qs.map(q=>q.id),count:20,review:["flagged","saved","needs"].includes(filter),title:t.name})}>Practice<ArrowRight size={14}/></button>:<Link to={`/topics/${t.slug}`} className="btn small">View topic<ChevronRight size={14}/></Link>}</div>
+          <div className="topic-actions">{missedIds.length>0&&<button className="btn small redo-misses" aria-label={`Redo ${missedIds.length} ${t.name} misses`} onClick={()=>start({collection,ids:missedIds,count:missedIds.length,review:true,title:t.name+" · redo misses"})}>Redo {missedIds.length} {missedIds.length===1?"miss":"misses"}</button>}{qs.length?<button aria-label={`Practice ${t.name}`} className="btn small" onClick={()=>start({collection,topics:[t.slug],ids:filter==="flagged"?flaggedIds:filter==="saved"?state.bookmarks.filter(id=>qs.some(q=>q.id===id)):filter==="needs"?missedIds:qs.map(q=>q.id),count:20,review:["flagged","saved","needs"].includes(filter),quick:true,title:t.name})}>Practice<ArrowRight size={14}/></button>:<Link to={`/topics/${t.slug}`} className="btn small">View topic<ChevronRight size={14}/></Link>}</div>
         </div>)}</div>
       </details>;
     })}</div>
@@ -80,6 +80,7 @@ export function Setup(){
   return <>
     <Link to="/practice" className="back"><ArrowLeft size={15}/>Back to practice</Link>
     <Heading title="Custom set" description="Choose topics, then build a practice or timed exam set."/>
+    {params.get("exhausted")==="1"&&available===0&&<Card className="practice-intro"><h2>No unused questions in this selection</h2><p>Choose Mixed difficulty or another topic for more practice. You can also resume an unfinished set or choose All questions to review familiar ones.</p></Card>}
     {unfinished.length>0&&<Card className="setup-resume">
       <h2>Pick up again</h2>
       {unfinished.map(session=><div className="setup-resume-row" key={session.id}>

@@ -56,6 +56,14 @@ export function selectPractice(pool:Question[],state:QuestionHistory,count:numbe
  const selected=options.allowRelated||options.review||options.filter==='missed'?eligible:distinctSituations(eligible);
  return selected.slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
 }
+export function selectQuickPractice(pool:Question[],state:QuestionHistory,count:number,seed:number,options:Pick<SelectionOptions,'difficulty'|'bank'>={}){
+ const fresh=selectPractice(pool,state,count,seed,options);
+ if(fresh.length)return {ids:fresh,followUp:false};
+ // A new decision can share a case, but never reuse an assigned question or stem.
+ const unused=shuffled(practicePool(pool,state,{...options,allowRelated:true}),seed);
+ const ids=distinctSituations(unused).slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
+ return {ids,followUp:ids.length>0};
+}
 export function diagnosticQuestionIds(bank:Question[],state:QuestionHistory,seed:number):string[]{
  const eligible=practicePool(bank.filter(isSituational),state,{bank});
  const parts=(['NP1','NP2','NP3','NP4','NP5'] as Subject[]).map((subject,i)=>distinctSituations(shuffled(eligible.filter(q=>q.subject===subject),seed+i)).slice(0,6).map(q=>q.id));

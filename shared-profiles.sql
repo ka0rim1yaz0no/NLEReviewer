@@ -1,5 +1,6 @@
 -- Username-only roaming for explicitly shared study profiles.
--- The user accepts that anyone entering elaine can access that study profile.
+-- Anyone entering isabel can access the explicitly shared priority profile.
+-- On an existing Elaine installation, apply isabel-priority.sql first.
 -- Existing owner IDs and study-state JSON are never copied or reassigned.
 begin;
 
@@ -17,7 +18,7 @@ alter table public.study_profile_devices enable row level security;
 revoke all on public.study_shared_profiles,public.study_profile_devices from public,anon,authenticated;
 
 insert into public.study_shared_profiles(profile_id,enabled)
- select user_id,true from public.study_profiles where normalized_username='elaine'
+ select user_id,true from public.study_profiles where normalized_username='isabel'
  on conflict(profile_id) do update set enabled=true;
 
 create or replace function public.current_study_profile_id()
@@ -163,6 +164,6 @@ create policy "Username profiles read study releases" on public.study_content_re
 select p.username,p.user_id as profile_id,s.revision,
  md5(coalesce(s.data::text,'')) as state_fingerprint
  from public.study_profiles p left join public.study_states s on s.user_id=p.user_id
- where p.normalized_username='elaine';
+ where p.normalized_username='isabel';
 commit;
 notify pgrst,'reload schema';

@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Session, User } from "@supabase/supabase-js";
+import {isPriorityUsername,priorityUsername} from "./access";
 const env=import.meta.env;
 const instanceKey=`nle-reviewer:auth:${crypto.randomUUID()}`;
 const storageName=(key:string)=>key.replace(instanceKey,"nle-reviewer:active-auth:v2");
@@ -18,7 +19,8 @@ export function rememberedProfiles(){return cachedProfiles().map(({id,username,p
 export function rememberSession(session:Session|null,username?:string,identity?:StudyIdentity){
  if(!session)return;const entries=cachedProfiles(),previous=entries.find(p=>p.id===session.user.id);if(!previous&&!username)return;
  const record={id:session.user.id,username:identity?.username||username||previous!.username,profileId:identity?.profileId||previous?.profileId||session.user.id,shared:identity?.shared??previous?.shared??false,access_token:session.access_token,refresh_token:session.refresh_token};
- localStorage.setItem(cacheKey,JSON.stringify([...entries.filter(p=>p.id!==record.id&&p.username.toLowerCase()!==record.username.toLowerCase()),record]));
+ // Save by device identity; a renamed profile may briefly share another cached display name.
+ try{localStorage.setItem(cacheKey,JSON.stringify([...entries.filter(p=>p.id!==record.id),record]));}catch{/* The signed-in tab can still use its session. */}
 }
 function parseIdentity(row:unknown):StudyIdentity|null{
  const r=row as {profile_id?:unknown;username?:unknown;shared?:unknown}|undefined;
@@ -38,18 +40,26 @@ export async function readStudyIdentity(user:User):Promise<StudyIdentity|null>{
 }
 export async function readUsername(user:User){return (await readStudyIdentity(user))?.username||null;}
 export function lockProfile(){sessionStorage.setItem(lockKey,"locked");window.dispatchEvent(new Event("nle-profile-change"));}
-export async function openUsernameProfile(raw:string):Promise<void>{
+export async function openUsernameProfile(raw:string,rememberedId?:string):Promise<void>{
  if(!supabase)throw new Error("The study database has not been configured.");
  const username=normalize(raw);if(!username||username.length>40)throw new Error("Enter a username up to 40 characters.");
  transitioning=true;sessionStorage.setItem(lockKey,"locked");let success=false;
  try{
-  const remembered=cachedProfiles().find(p=>p.username.toLowerCase()===username.toLowerCase());
+  const remembered=cachedProfiles().find(p=>rememberedId?p.id===rememberedId:p.username.toLowerCase()===username.toLowerCase());
   let opened=false;
   if(remembered){
    const result=await supabase.auth.setSession({access_token:remembered.access_token,refresh_token:remembered.refresh_token});
-   if(!result.error&&result.data.session){const identity=await readStudyIdentity(result.data.session.user);if(identity){rememberSession(result.data.session,identity.username,identity);opened=true;}}
-   if(!opened&&!remembered.shared&&username.toLowerCase()!=="elaine")throw new Error("This browser’s saved profile session has expired. Use a backup to move your progress into a new profile.");
+   if(!result.error&&result.data.session){
+    const identity=await readStudyIdentity(result.data.session.user);
+    if(identity){
+     rememberSession(result.data.session,identity.username,identity);
+     opened=!!rememberedId||identity.username.toLowerCase()===username.toLowerCase();
+     if(!opened&&!isPriorityUsername(username))throw new Error(`This saved profile is now named ${identity.username}. Enter that username to open it.`);
+    }
+   }
+   if(!opened&&!isPriorityUsername(username)&&(!remembered.shared||rememberedId))throw new Error("This browser’s saved profile session has expired. Use a backup to move your progress into a new profile.");
   }
+  if(rememberedId&&!remembered)throw new Error("This profile is no longer saved on this browser. Enter its current username to try again.");
   if(!opened){
    let {data:{session},error}=await supabase.auth.getSession();if(error)throw error;
    const existing=session?await readStudyIdentity(session.user):null;
@@ -63,8 +73,9 @@ export async function openUsernameProfile(raw:string):Promise<void>{
     const identity=parseIdentity(shared.data?.[0]);
     if(identity){rememberSession(session,identity.username,identity);opened=true;}
     else{
+     if(isPriorityUsername(username))throw new Error(`The shared ${priorityUsername} profile is temporarily unavailable. Try reconnecting.`);
      const {error:claimError}=await supabase.from("study_profiles").insert({user_id:session.user.id,username});
-     if(claimError){if(claimError.code==="23505")throw new Error(username.toLowerCase()==="elaine"?"Elaine’s shared login is temporarily unavailable. Try reconnecting.":"That username belongs to a browser-saved profile. Open it on its original browser, or choose another username.");throw new Error("Could not save the username profile. Check the database connection.");}
+     if(claimError){if(claimError.code==="23505")throw new Error("That username belongs to a browser-saved profile. Open it on its original browser, or choose another username.");throw new Error("Could not save the username profile. Check the database connection.");}
      rememberSession(session,username,{profileId:session.user.id,username,shared:false});opened=true;
     }
    }

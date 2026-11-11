@@ -7,7 +7,7 @@ import {initialState,recordAnswer,gradeSession,sessionScore} from './engine.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {mockQuestionIds} from './mock-papers.ts';
-import {selectPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
+import {selectPractice,selectQuickPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
 import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review.ts';
 import retirements from './repetition-retirements.json' with {type:'json'};
 import corrections from './repetition-corrections.json' with {type:'json'};
@@ -37,6 +37,25 @@ test('cross-topic mappings and retired equivalent IDs share the same reservation
  assert.deepEqual(selectPractice(activeQuestions.filter(q=>q.caseId===target.caseId),state,20,3),[]);
  const alias=retirements.find(r=>r.kind==='redundant-fact');state.sessions.push(session([alias.id]));
  assert.deepEqual(selectPractice([bank.get(canonicalQuestionId(alias.id))],state,20,3),[]);
+});
+test('quick practice continues with different questions from familiar cases before exhaustion',()=>{
+ for(const topic of curriculum){
+  const pool=questionsForTopic(topic,situationBank).filter(isDecisionQuestion),state=initialState();
+  const options={difficulty:'challenge',bank:questions};
+  const fresh=selectQuickPractice(pool,state,100,40,options);
+  assert.equal(fresh.followUp,false,topic.slug);
+  assert.ok(fresh.ids.length>0,topic.slug);
+  const assigned=new Set(),stems=new Set();
+  let next=fresh;
+  while(next.ids.length){
+   assert.equal(new Set(next.ids.map(questionFamily)).size,next.ids.length,topic.slug);
+   for(const id of next.ids){const stem=normalizeQuestionStem(bank.get(id).stem);assert.ok(!assigned.has(id)&&!stems.has(stem),id);assigned.add(id);stems.add(stem);}
+   state.sessions.push(session(next.ids));
+   next=selectQuickPractice(pool,state,100,41,options);
+   assert.equal(next.followUp,!!next.ids.length,topic.slug);
+  }
+  assert.equal(availablePractice(pool,state,{...options,allowRelated:true}),0,topic.slug);
+ }
 });
 test('explicit review keeps all selected missed follow-ups while excluding archived items',()=>{
  const linked=situationBank.filter(q=>q.caseId==='SIT-NP3-pre-operative-phase-01').slice(0,4),ids=linked.map(q=>q.id),state=initialState();

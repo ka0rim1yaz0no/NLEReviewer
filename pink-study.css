@@ -131,3 +131,84 @@ h1, .login-introduction h1, .username-card h2, .practice-intro h2,
 @media print {
   .card, .subject-group { border-radius: 0; }
 }
+
+/* A quiet study desk: the hero carries the decoration, the questions stay still. */
+.welcome {
+  min-height: 225px;
+  padding-right: 236px;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 89% 47%, var(--soft), transparent 52%), var(--paper);
+}
+.welcome > .avatar { align-self: flex-start; flex-shrink: 0; margin-top: 14px; }
+.welcome h1 { font-size: clamp(28px, 3.2vw, 43px); margin: 3px 0 5px; }
+.welcome-kicker, .login-introduction .login-kicker {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.welcome-summary { margin: 0 0 13px; color: var(--muted); }
+.welcome-action { min-height: 43px; }
+.welcome-date { inset: auto 22px 13px auto; color: var(--muted); font-size: 11px; }
+.study-notebook { aspect-ratio: 1; pointer-events: none; }
+.welcome .welcome-notebook { position: absolute; width: 218px; top: 48%; right: 16px; transform: translateY(-50%); }
+.notebook-poster, .notebook-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.notebook-poster { display: block; object-fit: contain; filter: drop-shadow(0 10px 10px var(--notebook-shadow)); }
+.notebook-canvas { opacity: 0; filter: drop-shadow(0 10px 10px var(--notebook-shadow)); }
+.study-notebook[data-live=true] .notebook-canvas { opacity: 1; }
+.study-notebook[data-live=true] .notebook-poster { opacity: 0; }
+.notebook-orbit {
+  position: absolute;
+  inset: 13%;
+  border: 1px dashed color-mix(in srgb, var(--notebook-accent) 65%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--paper), transparent 72%);
+}
+.notebook-spark { position: absolute; width: 13px; height: 13px; background: var(--notebook-accent); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.spark-one { top: 17%; right: 13%; }
+.spark-two { bottom: 19%; left: 12%; width: 9px; height: 9px; }
+.login-introduction {
+  overflow: hidden;
+  background: radial-gradient(ellipse at 67% 27%, var(--soft), transparent 56%), linear-gradient(156deg, var(--paper), var(--tint));
+  box-shadow: var(--shadow);
+}
+.login-introduction .login-kicker { margin: 0; display: flex; align-items: center; gap: 7px; }
+.login-notebook { position: relative; width: min(67%, 236px); margin: -5px auto -9px; }
+.login-introduction .login-description { max-width: 34ch; }
+.login-benefits span { font-weight: 650; }
+.username-login { align-items: start; }
+.username-card { align-self: start; }
+.study-count-readable { position: absolute; width: 1px; height: 1px; overflow: hidden; white-space: nowrap; clip-path: inset(50%); }
+.stat strong > .study-count { font: inherit; font-variant-numeric: tabular-nums; }
+.btn:focus-visible, .stat:focus-visible, .subject-tile:focus-visible, .remembered-profiles button:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .notebook-poster, .notebook-canvas { transition: opacity .22s ease; }
+  .stat, .subject-tile, .row-link, .welcome-action { transition: transform .18s ease, border-color .18s ease, background-color .18s ease; }
+  .stat:hover, .subject-tile:hover { transform: translateY(-2px); border-color: var(--notebook-accent); }
+  .row-link:hover { transform: translateX(2px); }
+  .welcome-action:active { transform: scale(.98); }
+}
+@media (max-width: 650px) {
+  .welcome { min-height: 142px; padding: 15px 103px 15px 14px; gap: 9px; }
+  .welcome > .avatar { display: none; }
+  .welcome h1 { font-size: clamp(20px, 5.65vw, 29px); }
+  .welcome .welcome-notebook { width: 109px; top: 49%; right: 0; }
+  .welcome-kicker, .login-introduction .login-kicker { font-size: 9px; }
+  .welcome-summary { font-size: 12px; margin-bottom: 8px; }
+  .welcome-action { min-height: 44px; padding-inline: 12px; font-size: 12px; }
+  .welcome-date { display: none; }
+  .login-introduction { grid-template-columns: minmax(0,1fr) 114px; column-gap: 3px; }
+  .login-introduction .login-kicker { grid-column: 1; grid-row: 1; }
+  .login-notebook { width: 114px; grid-column: 2; grid-row: 1 / 4; margin: 0; }
+  .login-introduction h1 { grid-row: 2; margin-top: 5px; }
+  .login-introduction .login-description { grid-row: 3; margin: 0; }
+  .login-benefits { grid-column: 1 / -1; grid-row: 4; margin-top: 13px; }
+}
+@media (max-width: 360px) {
+  .welcome { padding-right: 83px; }
+  .welcome .welcome-notebook { width: 89px; }
+  .login-introduction { grid-template-columns: minmax(0,1fr) 88px; }
+  .login-notebook { width: 88px; }
+}

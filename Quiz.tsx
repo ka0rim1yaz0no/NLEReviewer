@@ -5,7 +5,7 @@ import {currentQuestionRevision} from "./content-release";
 import {quizShortcut} from "./quiz-shortcuts";
 import {vaultIsDue} from "./vault-schedule";
 import type {PracticeDifficulty} from "./question-selection";
-import {selectPractice,diagnosticQuestionIds,questionFamily} from "./question-selection";
+import {selectPractice,selectQuickPractice,diagnosticQuestionIds,questionFamily} from "./question-selection";
 import {mockQuestionIds} from "./mock-papers";
 import apacheLicense from "./apache-2.0.txt?url";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
@@ -21,16 +21,18 @@ import type { Session, State } from "./engine";
 import { firstAttempts, gradeSession, recordAnswer, sessionScore, isAnswerCorrect } from "./engine";
 import { useApp } from "./store";
 import { Card, Empty, Heading, letters, Link, Modal, Progress, SearchBox, TextLink } from "./ui";
-type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;perQuestion?:number;review?:boolean;allowRelated?:boolean;difficulty?:PracticeDifficulty};
+type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;perQuestion?:number;review?:boolean;allowRelated?:boolean;difficulty?:PracticeDifficulty;quick?:boolean};
 export function useStartSession() {const {update,bank,navigate,toast}=useApp();return (options:StartOptions={})=>{
   const collection=options.collection||(options.ids?"all":"situational");
   const difficulty=options.difficulty||(collection==="situational"?"challenge":"mixed");
   const selectedIds=options.ids?new Set(options.ids):undefined;
   const pool=questionsForSelection(options.topics||[],bank).filter(q=>inCollection(q,collection)&&(!options.subject||q.subject===options.subject)&&(!selectedIds||selectedIds.has(q.id)));
   const seed=Date.now()+(options.mockBoard||0)*413;
+  const quick=options.quick&&!options.review&&(!options.filter||options.filter==="unanswered");
   let target:string|undefined,message:string|undefined;
-  update(state=>{
+  const saved=update(state=>{
     let ids:string[];
+    let followUp=false;
     if(options.kind==="mock"){
       const saved=state.sessions.find(s=>s.kind==="mock"&&s.subject===options.subject&&s.mockBoard===options.mockBoard);
       if(saved){target=`/${saved.finishedAt?"results":"session"}/${saved.id}`;return state;}
@@ -39,13 +41,20 @@ export function useStartSession() {const {update,bank,navigate,toast}=useApp();r
     }else if(options.kind==="diagnostic"){
       ids=diagnosticQuestionIds(bank,state,seed);
       if(ids.length!==30){message="A new diagnostic needs six unused situations per NP. Resume an earlier diagnostic or use custom practice to review familiar situations.";return state;}
-    }else ids=selectPractice(pool,state,options.count||20,seed,{...options,difficulty,bank});
-    if(!ids.length){message="No questions match this set. Resume a saved set or choose Mixed, another topic, or follow-ups in Custom set.";return state;}
+    }else if(quick){({ids,followUp}=selectQuickPractice(pool,state,options.count||20,seed,{difficulty,bank}));}
+    else ids=selectPractice(pool,state,options.count||20,seed,{...options,difficulty,bank});
+    if(!ids.length){
+      if(quick){const params=new URLSearchParams({collection,difficulty,exhausted:"1"});if(options.topics?.length===1)params.set("topic",options.topics[0]);else if(options.subject)params.set("np",options.subject);target=`/practice/session?${params}`;}
+      else message="No questions match this set. Resume a saved set or change your custom set choices.";
+      return state;
+    }
     const mode=options.mode||"tutor",kind=options.kind||(mode==="exam"?"exam":"practice");
-    const session:Session={id:crypto.randomUUID(),title:options.title||(options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"||options.filter==="all"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice"),kind,mode,questionRevision:currentQuestionRevision,questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:Date.now(),timeLimit:kind==="mock"?7200:kind==="diagnostic"?1500:undefined,perQuestion:options.perQuestion,mockBoard:options.mockBoard,subject:options.subject,scratch:"",highlights:{},strokes:{}};
+    const title=options.title||(options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"||options.filter==="all"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice");
+    const session:Session={id:crypto.randomUUID(),title:followUp?`${title} · follow-ups`:title,kind,mode,questionRevision:currentQuestionRevision,questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:Date.now(),timeLimit:kind==="mock"?7200:kind==="diagnostic"?1500:undefined,perQuestion:options.perQuestion,mockBoard:options.mockBoard,subject:options.subject,scratch:"",highlights:{},strokes:{}};
     target=`/session/${session.id}`;
     return {...state,sessions:[...state.sessions,session]};
   });
+  if(!saved){toast("Your study profile isn’t ready. Reconnect or reopen your profile, then try again.");return;}
   if(target)navigate(target);else if(message)toast(message);
 };}
 function MarkedText({text,marks}:{text:string;marks:string[]}){let segments:{text:string;mark:boolean}[]=[{text,mark:false}];for(const mark of marks.filter(Boolean)){segments=segments.flatMap(part=>part.mark?[part]:part.text.split(mark).flatMap((piece,i)=>(i?[{text:mark,mark:true},{text:piece,mark:false}]:[{text:piece,mark:false}])));}return <>{segments.map((s,i)=>s.mark?<mark key={i}>{s.text}</mark>:s.text)}</>;}

@@ -15,7 +15,7 @@ import {formatQuestionForDisplay} from "./clinical-display";
 export { supabase } from "./auth";
 export { validateBackup } from "./validation";
 import { validateBackup } from "./validation";
-type Context = { creditStudy:(profileId:string,credits:Record<string,number>)=>void; state:State; update:(fn:(state:State)=>State)=>void; user:User|null; profileId:string; username:string; sharedProfile:boolean; switchProfile:()=>Promise<void>; ready:boolean; sync:string; accessError:string; retryContent:()=>void; toast:(message:string)=>void; navigate:(path:string)=>void; path:string; bank:typeof questions; bankMap:Map<string,typeof questions[number]> };
+type Context = { creditStudy:(profileId:string,credits:Record<string,number>)=>void; state:State; update:(fn:(state:State)=>State)=>boolean; user:User|null; profileId:string; username:string; sharedProfile:boolean; switchProfile:()=>Promise<void>; ready:boolean; sync:string; accessError:string; retryContent:()=>void; toast:(message:string)=>void; navigate:(path:string)=>void; path:string; bank:typeof questions; bankMap:Map<string,typeof questions[number]> };
 const AppContext=createContext<Context|null>(null);
 export const useApp=()=>{const context=useContext(AppContext);if(!context)throw new Error("App context is missing");return context;};
 function legacyCache(id:string):State|null{try{const raw=localStorage.getItem("nle-reviewer:v1:"+id);return raw?validateBackup(JSON.parse(raw)):null;}catch{return null;}}
@@ -23,7 +23,12 @@ export function Provider({children}:{children:ReactNode}){
  const [state,setState]=useState<State>(initialState),[user,setUser]=useState<User|null>(null),[profileId,setProfileId]=useState(""),[username,setUsername]=useState(""),[sharedProfile,setSharedProfile]=useState(false);
  const [accessError,setAccessError]=useState(""),[bankVersion,setBankVersion]=useState(0),[ready,setReady]=useState(!supabase),[sync,setSync]=useState(supabase?"Connecting…":"Saved on this device"),[path,setPath]=useState(location.pathname+location.search),[message,setMessage]=useState("");
  const identity=useRef(""),authIdentity=useRef(""),generation=useRef(0),switching=useRef(false),saving=useRef<Promise<void>|null>(null),writable=useRef(false),cache=useRef<ProfileCache>({state:initialState(),base:null,pending:null}),clientId=useRef(crypto.randomUUID()),sequence=useRef(0);
- const put=useCallback((next:ProfileCache)=>{cache.current=next;setState(next.state);if(identity.current){try{writeProfileCache(identity.current,next);}catch{setSync("Storage full · export a backup");throw new Error("Device storage is full. Export a backup before continuing.");}}},[]);
+ const onDevice=useRef(true);
+ const hasUnsavedMemory=useCallback(()=>!onDevice.current&&(!!cache.current.pending||!cache.current.base||!sameStudyState(cache.current.state,cache.current.base.data)),[]);
+ const put=useCallback((next:ProfileCache)=>{
+  cache.current=next;setState(next.state);
+  if(identity.current){try{writeProfileCache(identity.current,next);onDevice.current=true;}catch{onDevice.current=false;setSync(writable.current?"Device storage unavailable · syncing online":"Device storage unavailable · export a backup");}}
+ },[]);
  const flush=useCallback(async()=>{
   if(!supabase||!identity.current||!writable.current||profileLocked())return;
   if(saving.current){await saving.current;return;}
@@ -40,10 +45,10 @@ export function Provider({children}:{children:ReactNode}){
       if(!row)throw new Error("The save could not be confirmed.");return {saved:row.saved===true,profileId:row.profile_id,revision:Number(row.revision),data:validateBackup(row.data)};
      }finally{clearTimeout(timer);}
     },alive);
-    if(alive())setSync("Synced with Supabase");
-   }catch(error){if(alive())setSync((error as Error).message);}
+    if(alive())setSync(hasUnsavedMemory()?"New changes are awaiting cloud sync":"Synced with Supabase");
+   }catch(error){if(alive())setSync(hasUnsavedMemory()?"Changes only in this tab · export a backup":(error as Error).message);}
   })();saving.current=task;try{await task;}finally{if(saving.current===task)saving.current=null;}
- },[put]);
+ },[put,hasUnsavedMemory]);
  const pull=useCallback(async()=>{
   if(!supabase||!identity.current||!writable.current||profileLocked()||saving.current)return;
   await flush();if(saving.current||cache.current.pending)return;
@@ -53,8 +58,8 @@ export function Provider({children}:{children:ReactNode}){
    const remote={revision:Number(data.revision),data:validateBackup(data.data)},current=cache.current;
    if(current.base&&remote.revision!==current.base.revision){const next=sameStudyState(current.state,current.base.data)?remote.data:mergeStudyStates(current.base.data,current.state,remote.data);put({state:next,base:remote,pending:null});}
    setSync("Synced with Supabase");
-  }catch{if(target===identity.current)setSync("Saved on this device · reconnect to sync");}finally{clearTimeout(timer);}
- },[flush,put]);
+  }catch{if(target===identity.current)setSync(hasUnsavedMemory()?"Changes only in this tab · export a backup":"Saved on this device · reconnect to sync");}finally{clearTimeout(timer);}
+ },[flush,put,hasUnsavedMemory]);
  useEffect(()=>{const handler=()=>setPath(location.pathname+location.search);window.addEventListener("popstate",handler);return()=>window.removeEventListener("popstate",handler);},[]);
  useEffect(()=>{if(!message)return;const t=setTimeout(()=>setMessage(""),4500);return()=>clearTimeout(t);},[message]);
  useEffect(()=>{
@@ -82,7 +87,7 @@ export function Provider({children}:{children:ReactNode}){
     if(!next.pending){let merged=local?.base?(sameStudyState(local.state,local.base.data)?remote.data:mergeStudyStates(local.base.data,local.state,remote.data)):legacy?mergeLegacyState(legacy,remote.data):remote.data;if(!data&&!local&&!legacy)merged={...merged,profile:{...merged.profile,name:owner.username}};next={state:merged,base:remote,pending:null};}
    }catch(error){status="Saved on this device · reconnect to sync";if(!local&&!legacy){loadError="Your cloud progress could not be loaded. Reconnect before studying so a second profile is not created.";}else if(error instanceof Error&&error.message==="Invalid cloud revision")loadError="The cloud backup could not be verified. Your existing progress has been kept.";}
    finally{clearTimeout(timeout);}
-   if(active&&turn===generation.current){identity.current=owner.profileId;setProfileId(owner.profileId);setUsername(owner.username);setSharedProfile(owner.shared);setUser(nextUser);writable.current=canWrite;setAccessError(loadError);setSync(status);try{put(next);}catch{writable.current=false;}setReady(true);}
+   if(active&&turn===generation.current){identity.current=owner.profileId;setProfileId(owner.profileId);setUsername(owner.username);setSharedProfile(owner.shared);setUser(nextUser);writable.current=canWrite;setAccessError(loadError);setSync(status);put(next);setReady(true);}
   }
   void supabase.auth.getSession().then(({data})=>load(data.session?.user||null)).catch(()=>{setReady(true);setSync("Connection unavailable · try reconnecting");});
   const {data:{subscription}}=supabase.auth.onAuthStateChange((event,session)=>{rememberSession(session);if(!identityChanging()&&(event==="SIGNED_OUT"||(event==="SIGNED_IN"&&session?.user.id!==authIdentity.current)))setTimeout(()=>void load(session?.user||null),0);});
@@ -93,15 +98,20 @@ export function Provider({children}:{children:ReactNode}){
  useEffect(()=>{const focus=()=>{if(document.visibilityState==="visible")void pull();};window.addEventListener("focus",focus);window.addEventListener("online",focus);document.addEventListener("visibilitychange",focus);const interval=setInterval(focus,30000);return()=>{window.removeEventListener("focus",focus);window.removeEventListener("online",focus);document.removeEventListener("visibilitychange",focus);clearInterval(interval);};},[pull]);
  useEffect(()=>{const media=matchMedia("(prefers-color-scheme: dark)");const apply=()=>{document.documentElement.dataset.theme=state.preferences.theme==="system"?(media.matches?"dark":"light"):state.preferences.theme;};apply();media.addEventListener("change",apply);return()=>media.removeEventListener("change",apply);},[state.preferences.theme]);
  const navigate=useCallback((next:string)=>{if(!next.startsWith("/")||next.startsWith("//"))return;history.pushState({},"",next);setPath(next);window.scrollTo({top:0,behavior:"instant"});},[]);
- const update=useCallback((fn:(value:State)=>State)=>{const previous=cache.current.state,next=fn(previous);if(next===previous)return;if(!user||accessError){setState({...previous,preferences:{...previous.preferences,theme:next.preferences.theme}});return;}try{put({...cache.current,state:{...next,updatedAt:Date.now()}});}catch(error){setMessage((error as Error).message);}},[user,accessError,put]);
- const creditStudy=useCallback((target:string,credits:Record<string,number>)=>{if(identity.current!==target||profileLocked())return;const previous=cache.current.state,next=applyStudyCredits(previous,credits);if(next!==previous)try{put({...cache.current,state:{...next,updatedAt:Date.now()}});}catch(error){setMessage((error as Error).message);}},[put]);
+ useEffect(()=>{if(!user)return;const warn=(event:BeforeUnloadEvent)=>{if(hasUnsavedMemory()){event.preventDefault();event.returnValue="";}};window.addEventListener("beforeunload",warn);return()=>window.removeEventListener("beforeunload",warn);},[user,hasUnsavedMemory]);
+ const update=useCallback((fn:(value:State)=>State)=>{const previous=cache.current.state;if(!user||accessError||profileLocked()){const next=fn(previous);if(next.preferences.theme!==previous.preferences.theme)setState({...previous,preferences:{...previous.preferences,theme:next.preferences.theme}});return false;}const next=fn(previous);if(next!==previous)put({...cache.current,state:{...next,updatedAt:Date.now()}});return true;},[user,accessError,put]);
+ const creditStudy=useCallback((target:string,credits:Record<string,number>)=>{if(identity.current!==target||profileLocked())return;const previous=cache.current.state,next=applyStudyCredits(previous,credits);if(next!==previous)put({...cache.current,state:{...next,updatedAt:Date.now()}});},[put]);
  async function switchProfile(){
   if(switching.current)return;switching.current=true;const credits:Record<string,number>={};
   if(user)window.dispatchEvent(new CustomEvent("nle-study-timer-pause",{detail:{userId:identity.current,credits}}));
   if(Object.keys(credits).length)creditStudy(identity.current,credits);
   setReady(false);setSync("Saving your profile…");
-  try{await flush();if(cache.current.pending)setMessage("Progress is kept on this device; cloud sync will retry when you return.");}
-  finally{lockProfile();navigate("/login");switching.current=false;}
+  try{
+   await flush();
+   if(hasUnsavedMemory()){setReady(true);setSync("Changes only in this tab · export a backup");setMessage("Reconnect to save your changes or export a backup from Settings before switching profiles.");return;}
+   if(cache.current.pending)setMessage("Progress is kept on this device; cloud sync will retry when you return.");
+   lockProfile();navigate("/login");
+  }finally{switching.current=false;}
  }
  const retryContent=()=>window.dispatchEvent(new Event("nle-profile-change"));
  const bank=useMemo(()=>{if(!user||accessError)return[];const ids=new Set(questionMap.keys());return [...questions,...state.importedQuestions.filter(q=>!q.retired&&!ids.has(q.id))].map(formatQuestionForDisplay);},[state.importedQuestions,bankVersion,user,accessError]);

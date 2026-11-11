@@ -46,12 +46,12 @@ export {planTasks} from "./planning";
 export function Planner(){const topicList=useTopicList();return <StudyPlanner topicList={topicList}/>;}
 
 export function Resources(){
-  const {state,bank,user,username}=useApp();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all");
+  const {state,bank,user,username,sharedProfile}=useApp();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all");
   const filtered=curriculum.filter(t=>(subject==="all"||t.subject===subject)&&t.name.toLowerCase().includes(search.toLowerCase()));
   const reviewed=curriculum.filter(t=>state.read.includes("catalog:"+t.slug)).length;
   const imported=[...new Map(state.importedQuestions.filter(q=>!findCurriculumTopic(q.subject+":"+q.topic)&&(subject==="all"||q.subject===subject)&&q.topic.toLowerCase().includes(search.toLowerCase())).map(q=>[q.subject+":"+q.topic,q])).values()];
   return <>
-    <Heading title="Resources" description="Review points across all 155 topics. Read, make notes, and put them into practice." action={canAccessPDFs(username,!!user)?<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>:undefined}/>
+    <Heading title="Resources" description="Review points across all 155 topics. Read, make notes, and put them into practice." action={canAccessPDFs(username,!!user,sharedProfile)?<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>:undefined}/>
     <div className="section-head"><h2>Your study library</h2><TextLink to="/topics">Full 155-topic catalog</TextLink></div>
     <div className="resource-shortcuts"><Card><RowLink to="/resources/notes" title="My Notes" description="Your own explanations, all together" icon={<BookOpen size={21}/>}/></Card><Card><RowLink to="/resources/bookmarks" title="Bookmarks" description="Questions worth coming back to" icon={<Layers3 size={21}/>}/></Card></div>
     <Card className="soft-card"><RowLink to="/resources/guide" title="Start here — make the most of your review" description="A practical guide to active recall, rationales, and spaced repetition" icon={<BookOpen size={21}/>}/></Card>
@@ -63,7 +63,7 @@ export function Resources(){
   </>;
 }
 export function ResourceReader({guide=false}:{guide?:boolean}){
-  const {state,bank,path,update,navigate,user,username}=useApp(),start=useStartSession();
+  const {state,bank,path,update,navigate,user,username,sharedProfile}=useApp(),start=useStartSession();
   const key=new URLSearchParams(path.split("?")[1]).get("topic")||"CROSS:Infection prevention";
   const split=key.indexOf(":"),catalogTopic=findCurriculumTopic(key),subject=catalogTopic?.subject||key.slice(0,split),topic=catalogTopic?.name||key.slice(split+1);
   const keys=resourceKeys(subject,topic);
@@ -72,7 +72,7 @@ export function ResourceReader({guide=false}:{guide?:boolean}){
   const found=cases.length>0||questions.length>0;
   return <>
     <Link to="/resources" className="back"><ArrowLeft size={15}/>All resources</Link>
-    <Heading title={guide?"Make every study session count.":topic} description={guide?"A simple rhythm: recall, understand, revisit.":`${subject==="CROSS"?"Foundations & Fundamentals":subject} · original topic notes`} action={canAccessPDFs(username,!!user)?guide?<button className="btn" onClick={()=>window.print()}><Download size={15}/>Print / save PDF</button>:catalogTopic?<Link className="btn" to={`/resources/pdfs?topic=${encodeURIComponent(catalogTopic.subject+":"+catalogTopic.slug)}`}><Download size={15}/>PDF downloads</Link>:<button className="btn" onClick={()=>window.print()}><Download size={15}/>Print / save PDF</button>:undefined}/>
+    <Heading title={guide?"Make every study session count.":topic} description={guide?"A simple rhythm: recall, understand, revisit.":`${subject==="CROSS"?"Foundations & Fundamentals":subject} · original topic notes`} action={canAccessPDFs(username,!!user,sharedProfile)?guide?<button className="btn" onClick={()=>window.print()}><Download size={15}/>Print / save PDF</button>:catalogTopic?<Link className="btn" to={`/resources/pdfs?topic=${encodeURIComponent(catalogTopic.subject+":"+catalogTopic.slug)}`}><Download size={15}/>PDF downloads</Link>:<button className="btn" onClick={()=>window.print()}><Download size={15}/>Print / save PDF</button>:undefined}/>
     <Card className="reader">{guide?<>
       <h2>1. Try before you look.</h2><p>Read the situation carefully. Identify what the question asks: an assessment, a priority action, teaching, an outcome, or an unsafe statement. Choose an answer before revealing the explanation.</p>
       <h2>2. Explain why every choice fits or fails.</h2><p>Spend time on the rationale even when you are correct. A lucky answer is different from a well-understood answer. Use the confidence buttons to notice where the two differ.</p>
