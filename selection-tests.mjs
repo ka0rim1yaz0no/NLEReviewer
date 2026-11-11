@@ -3,9 +3,10 @@ import assert from 'node:assert/strict';
 import {questions,previousQuestions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
 import {contentDigest} from './content-integrity.ts';
 import {normalizeQuestionStem} from './bank.ts';
-import {initialState,recordAnswer,gradeSession,sessionScore} from './engine.ts';
+import {initialState,recordAnswer,gradeSession,sessionScore,dailyAnswerCounts,sessionDeadline} from './engine.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
+import {practiceQuestionPool,practiceSetupPath} from './practice-setup.ts';
 import {mockQuestionIds} from './mock-papers.ts';
 import {selectPractice,selectQuickPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
 import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review.ts';
@@ -87,6 +88,48 @@ test('all 156 topic quick sets use each situation once and never backfill earlie
   const followups=selectPractice(pool,state,100,31,{allowRelated:true});assert.equal(followups.length,pool.length-ids.length,t.slug);assert.ok(followups.every(id=>!ids.includes(id)));
   assert.ok(selectPractice(pool,state,20,31,{filter:'all'}).length>0,t.slug);
  }
+});
+test('subject shortcuts include their entire collection while topics can include related subjects',()=>{
+ const full=[...activeQuestions,...newStudyQuestions];
+ const scope={collection:'situational',subject:'NP3'};
+ const subjectPool=practiceQuestionPool(full,scope);
+ assert.deepEqual(subjectPool,full.filter(q=>q.subject==='NP3'&&isSituational(q)));
+ const topic='pneumothorax-hemothorax-chest-tubes';
+ const relatedTopic=curriculum.find(t=>t.slug===topic);
+ assert.ok(relatedTopic);
+ assert.deepEqual(practiceQuestionPool(full,{collection:'situational',topics:[topic]}),questionsForTopic(relatedTopic,full).filter(isSituational));
+ assert.deepEqual(practiceQuestionPool(full,{...scope,topics:[topic]}),subjectPool.filter(q=>questionsForTopic(relatedTopic,full).includes(q)));
+});
+test('keyword practice matches choices and retains a narrow scope after exhaustion',()=>{
+ const [base,other]=situationBank;
+ const exact={...base,options:base.options.map((option,i)=>i===0?{...option,text:'Unique-breathing clue'}:option)};
+ const scope={collection:'situational',subject:base.subject,keyword:' UNIQUE breathing '};
+ const pool=practiceQuestionPool([exact,other],scope),state=initialState();
+ assert.deepEqual(pool.map(q=>q.id),[base.id]);
+ state.sessions.push(session([base.id]));
+ assert.deepEqual(selectQuickPractice(pool,state,20,1).ids,[]);
+ assert.equal(availablePractice(pool,state,{filter:'all'}),1);
+ const url=new URL(practiceSetupPath({...scope,topics:['first','second'],difficulty:'mixed',exhausted:true,count:10}),'https://reviewer.test');
+ assert.equal(url.searchParams.get('keyword'),'UNIQUE breathing');
+ assert.equal(url.searchParams.get('np'),base.subject);
+ assert.equal(url.searchParams.get('collection'),'situational');
+ assert.deepEqual(url.searchParams.getAll('topic'),['first','second']);
+ assert.equal(url.searchParams.get('exhausted'),'1');
+});
+test('timed completion keeps saved answers, records the deadline, and excludes blanks from daily totals',()=>{
+ const [q,blank]=situationBank;
+ const active={...session([q.id,blank.id]),mode:'exam',kind:'mock',startedAt:Date.parse('2026-11-11T15:59:00Z'),timeLimit:30};
+ active.answers[q.id]={selected:q.correctIndex,submitted:false,confidence:'sure'};
+ const deadline=sessionDeadline(active),state={...initialState(),sessions:[active]};
+ const graded=gradeSession(state,active,bank,deadline+120000);
+ assert.equal(graded.sessions[0].finishedAt,deadline);
+ assert.equal(graded.attempts.length,2);
+ assert.ok(graded.attempts.every(a=>a.at===deadline));
+ assert.equal(graded.attempts[0].correct,true);
+ assert.equal(graded.attempts[1].selected,-1);
+ assert.deepEqual(graded.vault,[blank.id]);
+ assert.deepEqual([...dailyAnswerCounts(graded.attempts,'Asia/Manila')],[['2026-11-11',1]]);
+ assert.equal(gradeSession(graded,active,bank,deadline+180000),graded);
 });
 test('cross-topic mappings and retired equivalent IDs share the same reservation',()=>{
  const retired=retirements.find(r=>r.id==='CROSS-010-1'),target=bank.get(retired.replacedBy);

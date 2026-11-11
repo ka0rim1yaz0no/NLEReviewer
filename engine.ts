@@ -1,4 +1,4 @@
-import {updateVaultReview} from "./vault-schedule.ts";
+import {updateVaultReviews} from "./vault-schedule.ts";
 import type {VaultReview} from "./vault-schedule.ts";
 import type {FocusSettings} from "./focus-timer.ts";
 import type { Question, Subject } from "./types.ts";
@@ -11,27 +11,69 @@ export type CustomCard = { id: string; deck: string; front: string; back: string
 export type Task = { id: string; date: string; title: string; done: boolean; type: "read" | "practice" | "flashcards" | "custom" | "vault" | "mock"; subject?: Subject; topic?: string; skipped?: boolean; minutes?: number; count?: number; mockBoard?: number };
 export type StudyPlanSettings = { startDate:string; dailyMinutes:number; restDays:number[]; subjects:Subject[]; focus:Subject[]; reading:boolean; flashcards:boolean; mocks:boolean };
 export type State = { gameRuns?:GameRun[]; vaultReviews?:Record<string,VaultReview>; focusSettings?:FocusSettings; studyLog?:Record<string,number>; plan?:StudyPlanSettings; version: 1; updatedAt: number; profile: { name: string; fullName: string; color: string; photo: string; examDate: string; timezone: string }; preferences: { spacedVault?:boolean; playVault?:boolean; playSound?:boolean; flashcardSound?:boolean; showWall?:boolean; calendarView?:"day"|"week"|"month"|"month-list"; theme: string; flashcardGoal: number; questionGoal: number; confidence: boolean; crossSide: string; explanation: string; textSize: number }; attempts: Attempt[]; sessions: Session[]; vault: string[]; bookmarks: string[]; notes: Record<string, string>; tasks: Task[]; cards: Record<string, CardProgress>; customCards: CustomCard[]; importedQuestions: Question[]; read: string[]; studySeconds: number };
+const dateFormatters = new Map<string, Intl.DateTimeFormat>();
 export function dateKey(time = Date.now(), timezone = "Asia/Manila"): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(time));
+  let formatter = dateFormatters.get(timezone);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-CA", { timeZone: timezone, year: "numeric", month: "2-digit", day: "2-digit" });
+    dateFormatters.set(timezone, formatter);
+  }
+  const parts = formatter.formatToParts(time);
+  return ["year", "month", "day"].map(type => parts.find(part => part.type === type)?.value).join("-");
+}
+export function dailyAnswerCounts(attempts: readonly Attempt[], timezone: string) {
+  const days = new Map<string, number>();
+  for (const attempt of attempts) {
+    if (attempt.selected < 0) continue;
+    const day = dateKey(attempt.at, timezone);
+    days.set(day, (days.get(day) || 0) + 1);
+  }
+  return days;
+}
+export function answeredQuestionIds(attempts: readonly Attempt[]) {
+  return new Set(attempts.filter(attempt => attempt.selected >= 0).map(attempt => attempt.questionId));
 }
 export function addDays(key: string, count: number): string { const d = new Date(`${key}T12:00:00Z`); d.setUTCDate(d.getUTCDate() + count); return d.toISOString().slice(0, 10); }
 export function daysBetween(a: string, b: string): number { return Math.round((Date.parse(`${b}T12:00:00Z`) - Date.parse(`${a}T12:00:00Z`)) / 86400000); }
 export function initialState(): State { return { version: 1, updatedAt: 0, profile: { name: "Future RN", fullName: "", color: "#1b3a2d", photo: "", examDate: addDays(dateKey(), 110), timezone: "Asia/Manila" }, preferences: { theme: "light", flashcardGoal: 20, questionGoal: 30, confidence: true, crossSide: "right", explanation: "below", textSize: 18 }, attempts: [], sessions: [], vault: [], bookmarks: [], notes: {}, tasks: [], cards: {}, customCards: [], importedQuestions: [], read: [], studySeconds: 0 }; }
 export function firstAttempts(attempts: Attempt[]): Attempt[] { const seen = new Set<string>(); return [...attempts].sort((a,b) => a.at - b.at).filter(a => { if (seen.has(a.questionId)) return false; seen.add(a.questionId); return true; }); }
 export function rating(attempts: Attempt[], minimum = 1): number | null { return attempts.length >= minimum ? 40 + attempts.filter(a => a.correct).length / attempts.length * 60 : null; }
-export function streak(attempts: Attempt[], timezone: string, games:readonly GameRun[]=[]): number { const days = new Set([...attempts.map(a=>dateKey(a.at,timezone)),...games.map(game=>dateKey(game.finishedAt,timezone))]); let current = dateKey(Date.now(), timezone); if (!days.has(current)) current = addDays(current, -1); let count = 0; while (days.has(current)) { count++; current = addDays(current, -1); } return count; }
-export function longestStreak(attempts: Attempt[], timezone: string, games:readonly GameRun[]=[]): number { const dates=[...new Set([...attempts.map(a=>dateKey(a.at,timezone)),...games.map(game=>dateKey(game.finishedAt,timezone))])].sort();let best=0,current=0,previous="";for(const date of dates){current=previous&&daysBetween(previous,date)===1?current+1:1;best=Math.max(best,current);previous=date;}return best; }
+function studyDays(attempts: Attempt[], timezone: string, games: readonly GameRun[]) {
+  return new Set([...dailyAnswerCounts(attempts, timezone).keys(), ...games.map(game => dateKey(game.finishedAt, timezone))]);
+}
+export function streak(attempts: Attempt[], timezone: string, games:readonly GameRun[]=[]): number { const days=studyDays(attempts,timezone,games); let current = dateKey(Date.now(), timezone); if (!days.has(current)) current = addDays(current, -1); let count = 0; while (days.has(current)) { count++; current = addDays(current, -1); } return count; }
+export function longestStreak(attempts: Attempt[], timezone: string, games:readonly GameRun[]=[]): number { const dates=[...studyDays(attempts,timezone,games)].sort();let best=0,current=0,previous="";for(const date of dates){current=previous&&daysBetween(previous,date)===1?current+1:1;best=Math.max(best,current);previous=date;}return best; }
+function toAttempt(session: Session, question: Question, answer: Answer | undefined, at: number): Attempt {
+  const selected = answer?.selected ?? -1;
+  return { id: `${session.id}:${question.id}`, sessionId: session.id, questionId: question.id, selected, correct: selected === question.correctIndex, confidence: answer?.confidence || "", at };
+}
 export function recordAnswer(state: State, session: Session, question: Question, answer: Answer, at = Date.now()): State {
-  const id = `${session.id}:${question.id}`;
-  if (state.attempts.some(a => a.id === id)) return state;
-  const correct = answer.selected === question.correctIndex;
-  return { ...updateVaultReview(state,question.id,correct,at), attempts: [...state.attempts, { id, sessionId: session.id, questionId: question.id, selected: answer.selected, correct, confidence: answer.confidence, at }] };
+  const attempt = toAttempt(session, question, answer, at);
+  if (state.attempts.some(a => a.id === attempt.id)) return state;
+  return { ...updateVaultReviews(state, [attempt]), attempts: [...state.attempts, attempt] };
+}
+export function sessionDeadline(session: Session) {
+  const seconds = session.timeLimit;
+  return seconds && Number.isFinite(seconds) && seconds > 0 ? session.startedAt + seconds * 1000 : Infinity;
 }
 export function gradeSession(state: State, session: Session, bank: Map<string, Question>, at = Date.now()): State {
   if (state.sessions.find(s=>s.id===session.id)?.finishedAt) return state;
-  let next = state;
-  for (const id of session.questionIds) { const q = bank.get(id); if (!q) continue; const answer = session.answers[id] ?? { selected: -1, submitted: true, confidence: "" }; next = recordAnswer(next, session, q, answer, at); }
-  return { ...next, sessions: next.sessions.map(s => s.id === session.id ? { ...session, finishedAt: at } : s) };
+  const finishedAt = Math.min(at, sessionDeadline(session));
+  const recorded = new Set(state.attempts.map(attempt => attempt.id));
+  const attempts: Attempt[] = [];
+  for (const id of session.questionIds) {
+    const question = bank.get(id);
+    if (!question) continue;
+    const attempt = toAttempt(session, question, session.answers[id], finishedAt);
+    if (recorded.has(attempt.id)) continue;
+    recorded.add(attempt.id);
+    attempts.push(attempt);
+  }
+  return {
+    ...updateVaultReviews(state, attempts),
+    attempts: attempts.length ? [...state.attempts, ...attempts] : state.attempts,
+    sessions: state.sessions.map(s => s.id === session.id ? { ...session, finishedAt } : s),
+  };
 }
 export function scheduleCard(previous: CardProgress | undefined, grade: "again" | "hard" | "good" | "easy", now = Date.now()): CardProgress {
   const base = previous?.interval || 1;

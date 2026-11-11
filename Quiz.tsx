@@ -8,25 +8,23 @@ import type {PracticeDifficulty} from "./question-selection";
 import {selectPractice,selectQuickPractice,diagnosticQuestionIds,questionFamily} from "./question-selection";
 import {mockQuestionIds} from "./mock-papers";
 import apacheLicense from "./apache-2.0.txt?url";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Bookmark, Check, ChevronDown, ChevronLeft, ChevronRight, Clock, Flag, Focus, Highlighter, NotebookPen, PenLine, RotateCcw, Search, SlidersHorizontal, Sparkles, X } from "lucide-react";
 import { subjects, shuffled } from "./bank";
 import { inCollection, isSituational } from "./collections";
 import type { Collection } from "./collections";
 import { CollectionPicker } from "./CollectionPicker";
-import { questionsForSelection } from "./curriculum";
+import { practiceQuestionPool, practiceSetupPath } from "./practice-setup";
 import { savedTopicNotes } from "./saved-notes";
 import type { Question, Subject } from "./types";
 import type { Session, State } from "./engine";
-import { firstAttempts, gradeSession, recordAnswer, sessionScore, isAnswerCorrect } from "./engine";
+import { firstAttempts, gradeSession, recordAnswer, sessionDeadline, sessionScore, isAnswerCorrect } from "./engine";
 import { useApp } from "./store";
 import { Card, Empty, Heading, letters, Link, Modal, Progress, SearchBox, TextLink } from "./ui";
-type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;perQuestion?:number;review?:boolean;allowRelated?:boolean;difficulty?:PracticeDifficulty;quick?:boolean};
+type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];keyword?:string;count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;perQuestion?:number;review?:boolean;allowRelated?:boolean;difficulty?:PracticeDifficulty;quick?:boolean};
 export function useStartSession() {const {update,bank,navigate,toast}=useApp();return (options:StartOptions={})=>{
   const collection=options.collection||(options.ids?"all":"situational");
   const difficulty=options.difficulty||(collection==="situational"?"challenge":"mixed");
-  const selectedIds=options.ids?new Set(options.ids):undefined;
-  const pool=questionsForSelection(options.topics||[],bank).filter(q=>inCollection(q,collection)&&(!options.subject||q.subject===options.subject)&&(!selectedIds||selectedIds.has(q.id)));
   const seed=Date.now()+(options.mockBoard||0)*413;
   const quick=options.quick&&!options.review&&(!options.filter||options.filter==="unanswered");
   let target:string|undefined,message:string|undefined;
@@ -41,15 +39,18 @@ export function useStartSession() {const {update,bank,navigate,toast}=useApp();r
     }else if(options.kind==="diagnostic"){
       ids=diagnosticQuestionIds(bank,state,seed);
       if(ids.length!==30){message="A new diagnostic needs six unused situations per NP. Resume an earlier diagnostic or use custom practice to review familiar situations.";return state;}
-    }else if(quick){({ids,followUp}=selectQuickPractice(pool,state,options.count||20,seed,{difficulty,bank}));}
-    else ids=selectPractice(pool,state,options.count||20,seed,{...options,difficulty,bank});
+    }else{
+      const pool=practiceQuestionPool(bank,{...options,collection});
+      if(quick)({ids,followUp}=selectQuickPractice(pool,state,options.count||20,seed,{difficulty,bank}));
+      else ids=selectPractice(pool,state,options.count||20,seed,{...options,difficulty,bank});
+    }
     if(!ids.length){
-      if(quick){const params=new URLSearchParams({collection,difficulty,exhausted:"1"});if(options.topics?.length===1)params.set("topic",options.topics[0]);else if(options.subject)params.set("np",options.subject);target=`/practice/session?${params}`;}
+      if(quick&&!options.ids)target=practiceSetupPath({...options,collection,difficulty,exhausted:true});
       else message="No questions match this set. Resume a saved set or change your custom set choices.";
       return state;
     }
     const mode=options.mode||"tutor",kind=options.kind||(mode==="exam"?"exam":"practice");
-    const title=options.title||(options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"||options.filter==="all"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice");
+    const title=options.title||(options.keyword?.trim()?`Practice: ${options.keyword.trim()}`:options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"||options.filter==="all"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice");
     const session:Session={id:crypto.randomUUID(),title:followUp?`${title} · follow-ups`:title,kind,mode,questionRevision:currentQuestionRevision,questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:Date.now(),timeLimit:kind==="mock"?7200:kind==="diagnostic"?1500:undefined,perQuestion:options.perQuestion,mockBoard:options.mockBoard,subject:options.subject,scratch:"",highlights:{},strokes:{}};
     target=`/session/${session.id}`;
     return {...state,sessions:[...state.sessions,session]};
@@ -120,6 +121,23 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
   const q=session?bankMap.get(session.questionIds[session.cursor]):undefined;
   const answer=q&&session?session.answers[q.id]:undefined;
   const revealed=!!answer?.submitted&&session?.mode==="tutor";
+  const deadline=session?sessionDeadline(session):Infinity;
+  const perQuestion=session?.perQuestion;
+
+  const changeActiveSession=useCallback((change?:(state:State,active:Session,at:number)=>State)=>{
+    let expired=false;
+    const saved=update(current=>{
+      const active=current.sessions.find(item=>item.id===id);
+      if(!active||active.finishedAt)return current;
+      const now=Date.now();
+      if(now>=sessionDeadline(active)){
+        expired=true;
+        return gradeSession(current,active,bankMap,now);
+      }
+      return change?.(current,active,now)??current;
+    });
+    if(saved&&expired)toast("Time is up. Your exam has been submitted.");
+  },[update,id,bankMap,toast]);
 
   useEffect(()=>{
     entered.current=Date.now();
@@ -133,47 +151,39 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
   },[q?.id]);
 
   useEffect(()=>{
-    const timeLimit=session?.timeLimit;
-    const perQuestion=session?.perQuestion;
-    if(!timeLimit&&(!perQuestion||revealed))return;
-    const timer=setInterval(()=>{
+    const timed=Number.isFinite(deadline);
+    if(session?.finishedAt||!timed&&(!perQuestion||revealed))return;
+    const refresh=()=>{
       const now=Date.now();
-      if(timeLimit)setTick(now);
+      if(now>=deadline){changeActiveSession();return;}
+      if(timed)setTick(now);
       if(perQuestion&&!revealed)setElapsed(Math.floor((now-entered.current)/1000));
-    },1000);
-    return()=>clearInterval(timer);
-  },[revealed,session?.timeLimit,session?.perQuestion]);
+    };
+    refresh();
+    const timer=setInterval(refresh,1000);
+    const expiry=timed?setTimeout(()=>changeActiveSession(),Math.max(0,deadline-Date.now())):undefined;
+    document.addEventListener("visibilitychange",refresh);
+    return()=>{
+      clearInterval(timer);
+      clearTimeout(expiry);
+      document.removeEventListener("visibilitychange",refresh);
+    };
+  },[revealed,deadline,perQuestion,session?.finishedAt,changeActiveSession]);
 
   useEffect(()=>{
     if(session?.finishedAt)navigate(`/results/${id}`,{replace:true});
   },[session?.finishedAt,id,navigate]);
 
   function edit(change:(session:Session)=>Session){
-    update(current=>{
-      const before=current.sessions.find(item=>item.id===id);
-      if(!before||before.finishedAt)return current;
+    changeActiveSession((current,before)=>{
       const after=change(before);
       return after===before?current:{...current,sessions:current.sessions.map(item=>item.id===id?after:item)};
     });
   }
 
   function complete(){
-    let finished=false;
-    const saved=update(current=>{
-      const active=current.sessions.find(item=>item.id===id);
-      if(!active)return current;
-      finished=true;
-      return active.finishedAt?current:gradeSession(current,active,bankMap);
-    });
-    if(saved&&finished)navigate(`/results/${id}`,{replace:true});
+    changeActiveSession((current,active,now)=>gradeSession(current,active,bankMap,now));
   }
-
-  useEffect(()=>{
-    if(session?.timeLimit&&!session.finishedAt&&tick-session.startedAt>=session.timeLimit*1000){
-      toast("Time is up. Your mock or diagnostic has been submitted.");
-      complete();
-    }
-  },[tick]);
 
   function pick(index:number){
     if(!q)return;
@@ -186,14 +196,13 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
 
   function submit(){
     if(!q)return;
-    update(current=>{
-      const active=current.sessions.find(item=>item.id===id);
-      const selected=active?.answers[q.id];
-      if(!active||active.finishedAt||!selected||selected.selected<0||selected.submitted)return current;
+    changeActiveSession((current,active,now)=>{
+      const selected=active.answers[q.id];
+      if(!selected||selected.selected<0||selected.submitted)return current;
       const submitted={...selected,submitted:true};
       const next={...active,answers:{...active.answers,[q.id]:submitted}};
       const changed={...current,sessions:current.sessions.map(item=>item.id===id?next:item)};
-      return active.mode==="tutor"?recordAnswer(changed,next,q,submitted):changed;
+      return active.mode==="tutor"?recordAnswer(changed,next,q,submitted,now):changed;
     });
   }
 
@@ -219,7 +228,7 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
   };window.addEventListener("keydown",handler);return ()=>window.removeEventListener("keydown",handler);});
   if(!session||!q)return <Empty title="Session not found" description="Start a new set from the practice page." action={<Link to="/practice" className="btn primary">Go to practice</Link>}/>;
   const related=session.questionIds.filter(id=>questionFamily(bankMap.get(id)||id)===questionFamily(q)),relatedIndex=related.indexOf(q.id)+1;
-  const answered=Object.values(session.answers).filter(a=>a.selected>=0).length,flagged=session.flagged.includes(q.id),remaining=session.timeLimit?Math.max(0,session.timeLimit-Math.floor((tick-session.startedAt)/1000)):null;
+  const answered=Object.values(session.answers).filter(a=>a.selected>=0).length,flagged=session.flagged.includes(q.id),remaining=Number.isFinite(deadline)?Math.max(0,Math.ceil((deadline-tick)/1000)):null;
   function nextMatching(ids:string[]){const current=session!.cursor;for(let n=1;n<=session!.questionIds.length;n++){const index=(current+n)%session!.questionIds.length;if(ids.includes(session!.questionIds[index])){jump(index);return;}}toast("No matching questions left.");}
   function captureHighlight(){if(tool!=="highlight")return;const selected=window.getSelection()?.toString().trim();if(selected&&q!.stem.includes(selected)){edit(s=>({...s,highlights:{...s.highlights,[q!.id]:[...new Set([...(s.highlights[q!.id]||[]),selected])]}}));window.getSelection()?.removeAllRanges();}}
   function point(e:React.PointerEvent<SVGSVGElement>){const r=e.currentTarget.getBoundingClientRect();return `${((e.clientX-r.left)/r.width*1000).toFixed(1)},${((e.clientY-r.top)/r.height*300).toFixed(1)}`;}

@@ -1,6 +1,6 @@
 import {gzipSync,gunzipSync,strToU8,strFromU8} from 'fflate';
 import type {State,Session} from './engine.ts';
-import {updateVaultReview} from './vault-schedule.ts';
+import {updateVaultReviews} from './vault-schedule.ts';
 import {initialState} from './engine.ts';
 
 const equal=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
@@ -32,8 +32,9 @@ function sessionChanges(base:Session|undefined,local:Session,remote:Session):Ses
  const previous=base||{...remote,answers:{},flagged:[],eliminated:{},highlights:{},strokes:{},scratch:''};
  const next=dictionary(previous as unknown as Record<string,unknown>,local as unknown as Record<string,unknown>,remote as unknown as Record<string,unknown>) as unknown as Session;
  const finished=[local.finishedAt,remote.finishedAt].filter((at):at is number=>!!at);
+ const questionIds=new Set(remote.questionIds);
  return {...next,questionIds:remote.questionIds,startedAt:Math.min(local.startedAt,remote.startedAt),finishedAt:finished.length?Math.min(...finished):undefined,
-  answers:Object.fromEntries(Object.entries(dictionary(previous.answers,local.answers,remote.answers)).filter(([id])=>remote.questionIds.includes(id))),
+  answers:Object.fromEntries(Object.entries(dictionary(previous.answers,local.answers,remote.answers)).filter(([id])=>questionIds.has(id))),
   flagged:setChanges(previous.flagged,local.flagged,remote.flagged),
   eliminated:arrayDictionary(previous.eliminated,local.eliminated,remote.eliminated),
   highlights:arrayDictionary(previous.highlights,local.highlights,remote.highlights),
@@ -43,11 +44,16 @@ function sessionChanges(base:Session|undefined,local:Session,remote:Session):Ses
 /** Apply only local changes since base to the current remote state. */
 export function mergeStudyStates(base:State,local:State,remote:State,now=Date.now()):State{
  const attempts=records(base.attempts,local.attempts,remote.attempts,(_b,a,b)=>a.at<b.at?a:b).sort((a,b)=>a.at-b.at||a.id.localeCompare(b.id));
- const sessions=records(base.sessions,local.sessions,remote.sessions,sessionChanges).map(s=>({...s,answers:{...s.answers}}));
  // A submitted response is immutable. Two devices submitting the same saved
  // session retain the earliest recorded response in both history and scoring.
  const recorded=new Map(attempts.map(a=>[a.sessionId+':'+a.questionId,a]));
- for(const session of sessions)for(const id of session.questionIds){const a=recorded.get(session.id+':'+id);if(a)session.answers={...session.answers,[id]:{selected:a.selected,confidence:a.confidence,submitted:true}};}
+ const sessions=records(base.sessions,local.sessions,remote.sessions,sessionChanges).map(session=>{
+  const updates=session.questionIds.flatMap(id=>{
+   const attempt=recorded.get(`${session.id}:${id}`);
+   return attempt?[[id,{selected:attempt.selected,confidence:attempt.confidence,submitted:true}] as const]:[];
+  });
+  return updates.length?{...session,answers:{...session.answers,...Object.fromEntries(updates)}}:session;
+ });
  const studyLog:Record<string,number>={...remote.studyLog};
  for(const day of new Set([...Object.keys(base.studyLog||{}),...Object.keys(local.studyLog||{})])){
   const delta=(local.studyLog?.[day]||0)-(base.studyLog?.[day]||0);if(delta)studyLog[day]=Math.max(0,(remote.studyLog?.[day]||0)+delta);
@@ -73,10 +79,10 @@ export function mergeStudyStates(base:State,local:State,remote:State,now=Date.no
   importedQuestions:records(base.importedQuestions,local.importedQuestions,remote.importedQuestions),
   studySeconds:Math.max(0,remote.studySeconds+local.studySeconds-base.studySeconds),studyLog,updatedAt:now};
  const baselineIds=new Set(base.attempts.map(a=>a.id)),newAttempts=attempts.filter(a=>!baselineIds.has(a.id));
- let replay:State={...merged,vault:[...base.vault],vaultReviews:{...base.vaultReviews}};
- for(const a of newAttempts)replay=updateVaultReview(replay,a.questionId,a.correct,a.at);
+ const replay=updateVaultReviews({...merged,vault:base.vault,vaultReviews:base.vaultReviews},newAttempts);
+ const replayedVault=new Set(replay.vault);
  const pile=new Set(merged.vault),reviews={...merged.vaultReviews};
- for(const id of new Set(newAttempts.map(a=>a.questionId))){if(replay.vault.includes(id))pile.add(id);else pile.delete(id);if(replay.vaultReviews?.[id])reviews[id]=replay.vaultReviews[id];else delete reviews[id];}
+ for(const id of new Set(newAttempts.map(a=>a.questionId))){if(replayedVault.has(id))pile.add(id);else pile.delete(id);if(replay.vaultReviews?.[id])reviews[id]=replay.vaultReviews[id];else delete reviews[id];}
  merged={...merged,vault:[...pile],vaultReviews:reviews};
  return merged;
 }

@@ -114,6 +114,18 @@
 .setup .topic-count {
   display: block;
 }
+.resource-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 380px) {
+  .resource-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .resource-card {
+    min-height: 0;
+  }
+}
 .quiz .question-card {
   border-top: 4px solid var(--sage);
 }
