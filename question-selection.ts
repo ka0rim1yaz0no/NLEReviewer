@@ -12,18 +12,25 @@ export function questionFamily(q:Question|string):string{
  if(typeof q==='string')return familyFromId(canonicalQuestionId(q));
  const canonical=canonicalQuestionId(q.id);return canonical!==q.id?familyFromId(canonical):q.caseId||familyFromId(q.id);
 }
-type History=Pick<State,'attempts'|'sessions'|'vault'>&Partial<Pick<State,'importedQuestions'>>;
+export type QuestionHistory=Pick<State,'attempts'|'sessions'|'vault'>&Partial<Pick<State,'importedQuestions'>>;
 export type PracticeDifficulty='challenge'|'mixed';
-export type SelectionOptions={filter?:string;allowRelated?:boolean;review?:boolean;difficulty?:PracticeDifficulty};
+export type SelectionOptions={filter?:string;allowRelated?:boolean;review?:boolean;difficulty?:PracticeDifficulty;bank?:readonly Question[]};
 const decisionObjectives=new Set(['action','planning','evaluation','reasoning','safety','decision']);
 export function isDecisionQuestion(q:Question){
  return isSituational(q)&&(q.difficulty==='challenge'||decisionObjectives.has(q.clinicalObjective||'')||q.id.startsWith('EXP2-')||/^(CROSS|NP[1-5])-\d{3}-[24]$/.test(q.id));
 }
-export function practicePool(pool:Question[],state:History,options:SelectionOptions={}):Question[]{
+export function practicePool(pool:readonly Question[],state:QuestionHistory,options:SelectionOptions={}):Question[]{
  const review=options.review||options.filter==='missed',filter=review?'all':options.filter||'unanswered';
- const assigned=new Set([...state.attempts.map(a=>a.questionId),...state.sessions.flatMap(s=>s.questionIds)].map(canonicalQuestionId));
- const known=new Map([...(state.importedQuestions||[]),...pool].map(q=>[q.id,q]));
- const seenFamilies=new Set([...assigned].map(id=>questionFamily(known.get(id)||id)));
+ const assigned=new Set<string>(),assignedStems=new Set<string>(),seenFamilies=new Set<string>();
+ if(filter==='unanswered'){
+  const known=new Map([...(options.bank||[]),...(state.importedQuestions||[]),...pool].map(q=>[q.id,q]));
+  for(const prior of [...state.attempts.map(a=>a.questionId),...state.sessions.flatMap(s=>s.questionIds)]){
+   const id=canonicalQuestionId(prior),q=known.get(id);
+   assigned.add(id);
+   seenFamilies.add(questionFamily(q||id));
+   for(const version of new Set([q,known.get(prior)]))if(version)assignedStems.add(normalizeQuestionStem(version.stem));
+  }
+ }
  const latest=new Map<string,State['attempts'][number]>();
  if(options.filter==='missed')for(const attempt of state.attempts){
   const id=canonicalQuestionId(attempt.questionId);
@@ -34,23 +41,24 @@ export function practicePool(pool:Question[],state:History,options:SelectionOpti
   if(q.retired||!review&&options.difficulty==='challenge'&&!isDecisionQuestion(q))return false;
   if(options.filter==='missed'&&latest.get(canonicalQuestionId(q.id))?.correct!==false)return false;
   const id=canonicalQuestionId(q.id),stem=normalizeQuestionStem(q.stem);
+  if(filter==='unanswered'&&(assigned.has(id)||assignedStems.has(stem)||!options.allowRelated&&seenFamilies.has(questionFamily(q))))return false;
   if(ids.has(id)||stems.has(stem))return false;
   ids.add(id);stems.add(stem);
-  if(filter==='unanswered'&&(assigned.has(id)||!options.allowRelated&&seenFamilies.has(questionFamily(q))))return false;
   return true;
  });
 }
 export function distinctSituations(pool:Question[]):Question[]{const families=new Set<string>();return pool.filter(q=>{const family=questionFamily(q);if(families.has(family))return false;families.add(family);return true;});}
-export function availablePractice(pool:Question[],state:History,options:SelectionOptions={}):number{
+export function availablePractice(pool:Question[],state:QuestionHistory,options:SelectionOptions={}):number{
  const eligible=practicePool(pool,state,options);return options.allowRelated||options.review||options.filter==='missed'?eligible.length:distinctSituations(eligible).length;
 }
-export function selectPractice(pool:Question[],state:History,count:number,seed:number,options:SelectionOptions={}):string[]{
+export function selectPractice(pool:Question[],state:QuestionHistory,count:number,seed:number,options:SelectionOptions={}):string[]{
  const eligible=shuffled(practicePool(pool,state,options),seed);
  const selected=options.allowRelated||options.review||options.filter==='missed'?eligible:distinctSituations(eligible);
  return selected.slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
 }
-export function diagnosticQuestionIds(bank:Question[],state:History,seed:number):string[]{
- const parts=(['NP1','NP2','NP3','NP4','NP5'] as Subject[]).map((subject,i)=>selectPractice(bank.filter(q=>q.subject===subject&&isSituational(q)),state,6,seed+i));
+export function diagnosticQuestionIds(bank:Question[],state:QuestionHistory,seed:number):string[]{
+ const eligible=practicePool(bank.filter(isSituational),state,{bank});
+ const parts=(['NP1','NP2','NP3','NP4','NP5'] as Subject[]).map((subject,i)=>distinctSituations(shuffled(eligible.filter(q=>q.subject===subject),seed+i)).slice(0,6).map(q=>q.id));
  return parts.every(p=>p.length===6)?parts.flat():[];
 }
 export function flashcardQueue(pool:CustomCard[],state:Pick<State,'cards'>,bank:Question[],misses:Set<string>,count:number,now=Date.now()):CustomCard[]{

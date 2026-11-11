@@ -1,14 +1,14 @@
 import {supabase} from "./auth";
 import {validateProtectedContent} from "./content-integrity";
 import type {ContentRow} from "./content-integrity";
-import {contentRelease,priorQuestionRelease} from "./content-release";
+import {contentRelease,releaseForArchive} from "./content-release";
 import {processContentRelease} from "./content-processing";
-import type {ReleaseManifest} from "./content-release";
+import type {ArchivedQuestionRevision,ReleaseManifest} from "./content-release";
 import {throwIfAborted,timedRequest} from './abort-utils';
-export async function loadProtectedContent(signal?:AbortSignal,archivedQuestionIds?:readonly string[]){
+export async function loadProtectedContent(signal?:AbortSignal,archive?:{ids:readonly string[];revision:ArchivedQuestionRevision}){
  throwIfAborted(signal);
  if(!supabase)throw new Error("The study database is not configured.");
- const release=archivedQuestionIds?priorQuestionRelease:contentRelease;
+ const release=archive?releaseForArchive(archive.revision):contentRelease;
  const request=timedRequest(signal,15000);
  try{
   const {data,error}=await supabase.from("study_content_releases").select("data").eq("release",release).eq("id","manifest").abortSignal(request.signal).maybeSingle();
@@ -24,10 +24,10 @@ export async function loadProtectedContent(signal?:AbortSignal,archivedQuestionI
     throwIfAborted(signal);const pageRequest=timedRequest(signal,20000);
     try{const result=await supabase.from("study_content_releases").select("id,kind,data").eq("release",release).eq("kind","page").order("id").range(offset,offset+1).abortSignal(pageRequest.signal);throwIfAborted(signal);if(result.error)throw new Error("Study questions could not be loaded. Your progress has been kept. Please try again.");pages.push(...(result.data||[]));}finally{pageRequest.dispose();}
    }
-   return await processContentRelease(manifest,pages,signal,archivedQuestionIds);
+   return await processContentRelease(manifest,pages,signal,archive?.ids);
   }
  }finally{request.dispose();}
- if(archivedQuestionIds)throw new Error("Saved questions could not be loaded. Please try again.");
+ if(archive)throw new Error("Saved questions could not be loaded. Please try again.");
  // Backward-compatible fallback while a new release is being staged.
  const rows:ContentRow[]=[];
  for(let offset=0;offset<1000;offset+=100){

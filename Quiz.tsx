@@ -1,4 +1,5 @@
 import {loadProtectedContent} from "./content-access";
+import {currentQuestionRevision} from "./content-release";
 import {quizShortcut} from "./quiz-shortcuts";
 import {vaultIsDue} from "./vault-schedule";
 import type {PracticeDifficulty} from "./question-selection";
@@ -19,24 +20,31 @@ import { firstAttempts, gradeSession, recordAnswer, sessionScore, isAnswerCorrec
 import { useApp } from "./store";
 import { Card, Empty, Heading, letters, Link, Modal, Progress, SearchBox, TextLink } from "./ui";
 type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;perQuestion?:number;review?:boolean;allowRelated?:boolean;difficulty?:PracticeDifficulty};
-export function useStartSession() {const {state,update,bank,navigate,toast}=useApp();return (options:StartOptions={})=>{
+export function useStartSession() {const {update,bank,navigate,toast}=useApp();return (options:StartOptions={})=>{
   const collection=options.collection||(options.ids?"all":"situational");
   const difficulty=options.difficulty||(collection==="situational"?"challenge":"mixed");
   const selectedIds=options.ids?new Set(options.ids):undefined;
   const pool=questionsForSelection(options.topics||[],bank).filter(q=>inCollection(q,collection)&&(!options.subject||q.subject===options.subject)&&(!selectedIds||selectedIds.has(q.id)));
   const seed=Date.now()+(options.mockBoard||0)*413;
-  let ids:string[];
-  if(options.kind==="mock"){
-    ids=options.subject&&options.mockBoard?mockQuestionIds(bank,options.subject,options.mockBoard,state.importedQuestions.map(q=>q.id)):[];
-    if(ids.length!==100){toast("The complete mock section is unavailable. Reconnect to load the current question bank.");return;}
-  }else if(options.kind==="diagnostic"){
-    ids=diagnosticQuestionIds(bank,state,seed);
-    if(ids.length!==30){toast("A new diagnostic needs six unused situations per NP. Resume an earlier diagnostic or use custom practice to review familiar situations.");return;}
-  }else ids=selectPractice(pool,state,options.count||20,seed,{...options,difficulty});
-  if(!ids.length){toast("No questions match this set. Resume a saved set or choose Mixed, another topic, or follow-ups in Custom set.");return;}
-  const mode=options.mode||"tutor",kind=options.kind||(mode==="exam"?"exam":"practice");
-  const session:Session={id:crypto.randomUUID(),title:options.title||(options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice"),kind,mode,questionRevision:1,questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:Date.now(),timeLimit:kind==="mock"?7200:kind==="diagnostic"?1500:undefined,perQuestion:options.perQuestion,mockBoard:options.mockBoard,subject:options.subject,scratch:"",highlights:{},strokes:{}};
-  update(s=>({...s,sessions:[...s.sessions,session]}));navigate(`/session/${session.id}`);
+  let target:string|undefined,message:string|undefined;
+  update(state=>{
+    let ids:string[];
+    if(options.kind==="mock"){
+      const saved=state.sessions.find(s=>s.kind==="mock"&&s.subject===options.subject&&s.mockBoard===options.mockBoard);
+      if(saved){target=`/${saved.finishedAt?"results":"session"}/${saved.id}`;return state;}
+      ids=options.subject&&options.mockBoard?mockQuestionIds(bank,options.subject,options.mockBoard,state.importedQuestions.map(q=>q.id),state):[];
+      if(ids.length!==100){message="This mock section needs 100 unused questions. Resume a saved section or choose a different subject.";return state;}
+    }else if(options.kind==="diagnostic"){
+      ids=diagnosticQuestionIds(bank,state,seed);
+      if(ids.length!==30){message="A new diagnostic needs six unused situations per NP. Resume an earlier diagnostic or use custom practice to review familiar situations.";return state;}
+    }else ids=selectPractice(pool,state,options.count||20,seed,{...options,difficulty,bank});
+    if(!ids.length){message="No questions match this set. Resume a saved set or choose Mixed, another topic, or follow-ups in Custom set.";return state;}
+    const mode=options.mode||"tutor",kind=options.kind||(mode==="exam"?"exam":"practice");
+    const session:Session={id:crypto.randomUUID(),title:options.title||(options.subject?`${subjects.find(s=>s.id===options.subject)?.name} practice`:options.review||options.filter==="missed"||options.filter==="all"?"Review practice":difficulty==="challenge"?"Challenge practice":"Mixed practice"),kind,mode,questionRevision:currentQuestionRevision,questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:Date.now(),timeLimit:kind==="mock"?7200:kind==="diagnostic"?1500:undefined,perQuestion:options.perQuestion,mockBoard:options.mockBoard,subject:options.subject,scratch:"",highlights:{},strokes:{}};
+    target=`/session/${session.id}`;
+    return {...state,sessions:[...state.sessions,session]};
+  });
+  if(target)navigate(target);else if(message)toast(message);
 };}
 function MarkedText({text,marks}:{text:string;marks:string[]}){let segments:{text:string;mark:boolean}[]=[{text,mark:false}];for(const mark of marks.filter(Boolean)){segments=segments.flatMap(part=>part.mark?[part]:part.text.split(mark).flatMap((piece,i)=>(i?[{text:mark,mark:true},{text:piece,mark:false}]:[{text:piece,mark:false}])));}return <>{segments.map((s,i)=>s.mark?<mark key={i}>{s.text}</mark>:s.text)}</>;}
 const formatTime=(seconds:number)=>`${seconds<0?"+":""}${Math.floor(Math.abs(seconds)/60)}:${String(Math.floor(Math.abs(seconds)%60)).padStart(2,"0")}`;
@@ -46,28 +54,29 @@ export function Results({id}:{id:string}){return <SessionContent id={id} results
 function SessionContent({id,results=false}:{id:string;results?:boolean}){
  const {state,bankMap,profileId}=useApp();
  const session=state.sessions.find(s=>s.id===id);
+ const revision=session?.questionRevision===1?1:0;
  const archivedIds=useMemo(()=>{
-  if(!session||session.questionRevision===1)return [];
+  if(!session||session.questionRevision===currentQuestionRevision)return [];
   const imports=new Set(state.importedQuestions.map(q=>q.id));
   return session.questionIds.filter(questionId=>{
    const question=bankMap.get(questionId);
-   return question&&!imports.has(questionId)&&isSituational(question);
+   return question&&!imports.has(questionId)&&isSituational(question)&&(session.questionRevision!==1||question.questionRevision===currentQuestionRevision);
   });
  },[session?.questionIds,session?.questionRevision,state.importedQuestions,bankMap]);
  const idsKey=JSON.stringify(archivedIds);
- const requestKey=profileId+":"+id+":"+idsKey;
+ const requestKey=profileId+":"+id+":"+revision+":"+idsKey;
  const [saved,setSaved]=useState<{key:string;questions?:Question[];error?:string}>();
  const [retry,setRetry]=useState(0);
  useEffect(()=>{
   if(idsKey==="[]")return;
   const controller=new AbortController();
   const ids=JSON.parse(idsKey) as string[];
-  loadProtectedContent(controller.signal,ids).then(
+  loadProtectedContent(controller.signal,{ids,revision}).then(
    content=>{if(!controller.signal.aborted)setSaved({key:requestKey,questions:content.questions});},
    error=>{if(!controller.signal.aborted)setSaved({key:requestKey,error:error instanceof Error?error.message:"Saved questions are unavailable."});}
   );
   return ()=>controller.abort();
- },[idsKey,requestKey,retry]);
+ },[idsKey,requestKey,retry,revision]);
  const savedQuestions=saved?.key===requestKey?saved.questions:undefined;
  const sessionBank=useMemo(()=>{
   if(!savedQuestions)return bankMap;
@@ -156,5 +165,5 @@ export function VaultView(){
  {qs.length>0&&<button className="text-button danger spaced-title" onClick={()=>setClear(true)}>Clear my Vault</button>}{clear&&<Modal title="Clear your Vault?" onClose={()=>setClear(false)}><p>This empties the review pile and its review schedule. Your answers, bookmarks, notes, and history stay saved.</p><div className="button-row end"><button className="btn" onClick={()=>setClear(false)}>Cancel</button><button className="btn primary" onClick={()=>{update(s=>({...s,vault:[],vaultReviews:{}}));setClear(false);}}>Clear Vault</button></div></Modal>}</>;
 }
 
-export function Mocks({board}:{board?:number}){const {state,bank}=useApp(),start=useStartSession();const completed=(n:number,subject:Subject)=>state.sessions.find(s=>s.mockBoard===n&&s.subject===subject&&s.finishedAt);return <>{board&&<Link to="/mock" className="back"><ArrowLeft size={15}/>Mock boards</Link>}<Heading title={board?`Mock Board #${board}`:"Mock Boards"} description={board?"Take the five sections in any order. Settle in before you start: each section has 100 questions and a two-hour clock.":"Five practice simulations. Each board has five 100-question sections with a two-hour clock per section."}/><p className="notice small-notice">New mock sections use five fixed 100-item selections per subject, with whole seven-part situations kept together and no repeated items between the five new boards. They are drawn from this reviewer’s shared situational bank and are not official exam papers. Previously saved sections retain their original questions.</p>{board?<div className="mock-sections">{subjects.filter(s=>s.id!=="CROSS").map((s,i)=>{const done=completed(board,s.id),active=state.sessions.find(t=>t.mockBoard===board&&t.subject===s.id&&!t.finishedAt);return <Card key={s.id}><span className="subject-code">{s.short}</span><div><h2>{s.name}</h2><p>Items {i*100+1}–{i*100+100} · 100 questions · 2 hours</p></div>{done?<Link to={`/results/${done.id}`} className="btn"><Check size={16}/>Review</Link>:active?<Link to={`/session/${active.id}`} className="btn primary">Resume</Link>:<button className="btn primary" onClick={()=>start({subject:s.id,collection:"situational",count:100,mode:"exam",kind:"mock",mockBoard:board,title:`Mock ${board} · ${s.short}`})}>Start<ArrowRight size={15}/></button>}</Card>;})}</div>:<div className="mock-list">{[1,2,3,4,5].map(n=>{const count=subjects.filter(s=>s.id!=="CROSS"&&completed(n,s.id)).length;return <Card key={n}><div className="mock-number">{String(n).padStart(2,"0")}</div><div><h2>Mock Board #{n}</h2><p>500 questions · {count} of 5 sections completed</p><Progress value={count} max={5}/></div><Link to={`/mock/${n}`} className="btn">{count===5?"Review":count||state.sessions.some(t=>t.mockBoard===n&&!t.finishedAt)?"Continue":"Start"}<ArrowRight size={16}/></Link></Card>;})}</div>}<p className="fine-print">An unfinished section resumes with its original clock. Time continues while the tab is closed.</p></>;}
+export function Mocks({board}:{board?:number}){const {state}=useApp(),start=useStartSession();const completed=(n:number,subject:Subject)=>state.sessions.find(s=>s.mockBoard===n&&s.subject===subject&&s.finishedAt);return <>{board&&<Link to="/mock" className="back"><ArrowLeft size={15}/>Mock boards</Link>}<Heading title={board?`Mock Board #${board}`:"Mock Boards"} description={board?"Take the five sections in any order. Settle in before you start: each section has 100 questions and a two-hour clock.":"Five practice simulations. Each board has five 100-question sections with a two-hour clock per section."}/><p className="notice small-notice">New mock sections skip questions already assigned in practice, diagnostics, or another board. They keep full cases together when possible. Resume or review a saved section to see its original questions.</p>{board?<div className="mock-sections">{subjects.filter(s=>s.id!=="CROSS").map((s,i)=>{const done=completed(board,s.id),active=state.sessions.find(t=>t.mockBoard===board&&t.subject===s.id&&!t.finishedAt);return <Card key={s.id}><span className="subject-code">{s.short}</span><div><h2>{s.name}</h2><p>Items {i*100+1}–{i*100+100} · 100 questions · 2 hours</p></div>{done?<Link to={`/results/${done.id}`} className="btn"><Check size={16}/>Review</Link>:active?<Link to={`/session/${active.id}`} className="btn primary">Resume</Link>:<button className="btn primary" onClick={()=>start({subject:s.id,collection:"situational",count:100,mode:"exam",kind:"mock",mockBoard:board,title:`Mock ${board} · ${s.short}`})}>Start<ArrowRight size={15}/></button>}</Card>;})}</div>:<div className="mock-list">{[1,2,3,4,5].map(n=>{const count=subjects.filter(s=>s.id!=="CROSS"&&completed(n,s.id)).length;return <Card key={n}><div className="mock-number">{String(n).padStart(2,"0")}</div><div><h2>Mock Board #{n}</h2><p>500 questions · {count} of 5 sections completed</p><Progress value={count} max={5}/></div><Link to={`/mock/${n}`} className="btn">{count===5?"Review":count||state.sessions.some(t=>t.mockBoard===n&&!t.finishedAt)?"Continue":"Start"}<ArrowRight size={16}/></Link></Card>;})}</div>}<p className="fine-print">An unfinished section resumes with its original clock. Time continues while the tab is closed.</p></>;}
 export function Diagnostic(){const start=useStartSession();return <><Heading title="Find your starting point." description="A diagnostic is a baseline, not a judgment. Let’s see which subjects need your attention."/><Card className="diagnostic"><span className="feature-icon"><Sparkles size={28}/></span><h2>30 questions. All five NPs.</h2><p>Answer six questions per subject in 25 minutes. Explanations wait until the end, so you can get a clear first look at your knowledge.</p><div className="diagnostic-stats"><div><strong>30</strong><small>questions</small></div><div><strong>25 min</strong><small>time limit</small></div><div><strong>5</strong><small>subjects</small></div></div><button className="btn primary" onClick={()=>start({kind:"diagnostic",mode:"exam",count:30,title:"30-question diagnostic"})}>Start diagnostic<ArrowRight size={17}/></button><p className="fine-print">This study estimate is not a validated readiness test or an official PRC rating.</p></Card></>;}

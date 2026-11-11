@@ -3,8 +3,14 @@ import { validateProtectedContent } from "./content-integrity.ts";
 import type { ContentRow } from "./content-integrity.ts";
 // Immutable release: stage all pages before publishing its manifest. Older
 // deployments continue using study_content and never see half a release.
-export const contentRelease="2026-11-11-situational-judgment-1";
+export const contentRelease="2026-11-11-clinical-audit-1";
 export const priorQuestionRelease="2026-11-11-challenge-pink-2";
+export const firstJudgmentRelease="2026-11-11-situational-judgment-1";
+export const currentQuestionRevision=2;
+export type ArchivedQuestionRevision=0|1;
+export function releaseForArchive(revision:ArchivedQuestionRevision){
+ return revision===1?firstJudgmentRelease:priorQuestionRelease;
+}
 export type ReleaseManifest={version:2;encoding:"gzip-base64";pages:number;questionCount:number;caseCount:number;digest:string;bytes:number};
 export async function decodeContentRelease(manifest:ReleaseManifest,pages:ContentRow[],questionIds?:readonly string[]){
  // Includes historical records so saved answers keep their original keys.

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {questions,previousQuestions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
 import {contentDigest} from './content-integrity.ts';
+import {normalizeQuestionStem} from './bank.ts';
 import {initialState,recordAnswer,gradeSession,sessionScore} from './engine.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
@@ -54,6 +55,44 @@ test('diagnostics have six fresh distinct situations per NP and fail closed if o
 });
 test('mock papers intentionally retain linked follow-ups and fixed disjoint selections',()=>{
  for(const np of ['NP1','NP2','NP3','NP4','NP5']){const seen=new Set();for(let board=1;board<=5;board++){const ids=mockQuestionIds(activeQuestions,np,board,[]);assert.equal(ids.length,100);assert.equal(new Set(ids.map(questionFamily)).size,16);for(const id of ids){assert.ok(!seen.has(id));seen.add(id);}}}
+});
+test('fresh practice, diagnostics and all 25 mock sections share the same assignment history',()=>{
+ const state=initialState(),seen=new Set(),stems=new Set();
+ const reserve=(ids,count)=>{
+  assert.equal(ids.length,count);
+  for(const id of ids){
+   const stem=normalizeQuestionStem(bank.get(id).stem);
+   assert.ok(!seen.has(id)&&!stems.has(stem),id);
+   seen.add(id);stems.add(stem);
+  }
+  state.sessions.push({...session(ids),id:`selection-${state.sessions.length}`});
+ };
+ reserve(diagnosticQuestionIds(activeQuestions,state,53),30);
+ for(const np of ['NP1','NP2','NP3','NP4','NP5']){
+  const preferred=mockQuestionIds(activeQuestions,np,3);
+  const known=new Set(preferred.slice(0,5));
+  const pool=situationBank.filter(q=>q.subject===np);
+  reserve(selectPractice(pool.filter(q=>known.has(q.id)),state,5,54,{allowRelated:true,bank:activeQuestions}),preferred.slice(0,5).filter(id=>!seen.has(id)).length);
+  for(const board of [3,5,1,4,2])reserve(mockQuestionIds(activeQuestions,np,board,[],state),100);
+  reserve(selectPractice(pool,state,20,55,{allowRelated:true,bank:activeQuestions}),20);
+ }
+});
+test('an equivalent stem under a different ID is excluded from a fresh set, even across pools',()=>{
+ const original=situationBank.find(q=>q.subject==='NP2');
+ const copy={...original,id:'personal-copy',stem:original.stem.toUpperCase()+'!!'};
+ const state=initialState();state.sessions.push(session([original.id]));
+ assert.deepEqual(selectPractice([copy],state,1,4,{allowRelated:true,bank:[original,copy]}),[]);
+ assert.deepEqual(selectPractice([copy],state,1,4,{filter:'all'}),[copy.id]);
+});
+test('mock sections use only unused items and refuse to start below 100',()=>{
+ const pool=situationBank.filter(q=>q.subject==='NP3'),state=initialState();
+ const remaining=pool.slice(-100);
+ state.sessions.push(session(pool.slice(0,-100).map(q=>q.id)));
+ const section=mockQuestionIds(activeQuestions,'NP3',1,[],state);
+ assert.equal(section.length,100);
+ assert.deepEqual(new Set(section),new Set(remaining.map(q=>q.id)));
+ state.sessions.push(session(section.slice(0,1)));
+ assert.deepEqual(mockQuestionIds(activeQuestions,'NP3',1,[],state),[]);
 });
 test('flashcards prioritize due items then fresh situations, one card per case',()=>{
  const pool=situationBank.map(q=>({id:q.id,deck:q.topic,front:q.stem,back:q.rationale})),state=initialState(),now=100000;

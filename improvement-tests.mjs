@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {questions,previousQuestions,clinicalCases,activeQuestions,challengeQuestions} from './author-bank.ts';
+import {questions,previousQuestions,judgmentQuestions,clinicalCases,activeQuestions,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -12,7 +12,10 @@ import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease} from './content-release.ts';
+import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,currentQuestionRevision} from './content-release.ts';
+import {questionFamily} from './question-selection.ts';
+import {auditCases} from './clinical-audit-data.ts';
+import {auditedReferenceUpdates} from './clinical-audit.ts';
 import edits from './judgment-edits.json' with {type:'json'};
 import evidence from './situational-evidence.json' with {type:'json'};
 
@@ -160,7 +163,7 @@ test('linked answer keys and explanations agree with their clinical evidence or 
  const prior=new Map(previousQuestions.map(q=>[q.id,q]));
  const fields={recognition:'problem',action:'action',teaching:'teaching',planning:'outcome',safety:'unsafe',reasoning:'reason'};
  const lower=value=>/^[A-Z]{2}/.test(value)?value:value.charAt(0).toLowerCase()+value.slice(1);
- for(const q of activeQuestions.filter(isSituational)){
+ for(const q of judgmentQuestions.filter(isSituational)){
   const answer=q.options[q.correctIndex].text;
   if(caseEvidence.has(q.caseId)){
    const c=caseEvidence.get(q.caseId);
@@ -187,4 +190,38 @@ test('linked answer keys and explanations agree with their clinical evidence or 
    assert.ok(q.rationale.includes(updated?.reasons?.[field]||c.facts[index].reason),q.id);
   }
  }
+});
+
+test('every situational choice is traceable to its source vignette or its reviewed replacement',()=>{
+ const source=url=>auditedReferenceUpdates[url]||url;
+ const families=new Map(judgmentQuestions.filter(isSituational).map(q=>[questionFamily(q),source(q.source)]));
+ const auditById=new Map(auditCases.flatMap(audit=>Object.keys(audit.items).map(suffix=>[audit.id+'-'+suffix,audit])));
+ let choices=0;
+ for(const q of activeQuestions.filter(isSituational)){
+  const review=auditById.get(q.id);
+  assert.equal(q.questionRevision,review?currentQuestionRevision:undefined,q.id);
+  for(const o of q.options){
+   const id=o.referenceId.slice(0,o.referenceId.lastIndexOf(':'));
+   assert.equal(o.source,review?.source||families.get(id),o.referenceId);
+   if(o.contextSource)assert.equal(o.contextSource,q.source,o.referenceId);
+   choices++;
+  }
+ }
+ assert.equal(choices,20468);
+});
+
+test('corrected cases preserve prior revision content for saved quiz review',async()=>{
+ assert.equal(releaseForArchive(1),firstJudgmentRelease);
+ assert.equal(await contentDigest(judgmentQuestions,clinicalCases),'146ed234b0613d02e54057c67b9508dd3ff774f3632eeb8f6e40aa851ebe9eb6');
+ const id='SIT-NP4-endocrine-emergencies-summary-04-action';
+ const old=judgmentQuestions.find(q=>q.id===id),current=questions.find(q=>q.id===id);
+ assert.equal(current.correctIndex,old.correctIndex);
+ assert.match(current.options[current.correctIndex].text,/Hold the insulin/);
+ assert.match(current.rationale,/above 3\.5 mmol\/L/);
+ assert.notEqual(current.stem,old.stem);
+ const raw=Buffer.from(JSON.stringify({questions:[old],cases:[]}));
+ const pages=[{id:'page-0000',kind:'page',data:gzipSync(raw).toString('base64')}];
+ const manifest={version:2,encoding:'gzip-base64',pages:1,bytes:raw.length,caseCount:0,questionCount:1,digest:await contentDigest([old],[])};
+ const restored=await decodeContentRelease(manifest,pages,[id]);
+ assert.deepEqual(restored.questions,[old]);
 });

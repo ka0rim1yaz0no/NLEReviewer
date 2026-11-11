@@ -5,4 +5,5 @@ import "./styles.css";
 import "./curriculum.css";
 import "./username-login.css";
 import "./study-theme.css";
+import "./pink-study.css";
 createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);

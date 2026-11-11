@@ -1,11 +1,11 @@
 {
   "format": "gzip-json-array",
   "file": "question-bank.json.gz",
-  "release": "2026-11-11-situational-judgment-1",
+  "release": "2026-11-11-clinical-audit-1",
   "questionCount": 10694,
   "activeQuestionCount": 9531,
   "retiredHistoricalQuestionCount": 1163,
-  "uncompressedBytes": 34315316,
-  "sha256": "7a1ec2b54bab8fa7cb50ff4b03270feff4596f147f4472a56b6e884a1e90f5bc",
+  "uncompressedBytes": 34296517,
+  "sha256": "2dbdab41a90a14aad4feef3ef331d2a10ac5cf95be4484b07a3c18b2bffe20ba",
   "instructions": "Gunzip question-bank.json.gz for the full array, including retired:true historical records. Exclude retired records when making new study sets. Or run node export-bank.mjs --plain for outputs/question-bank.json. The student app retrieves protected database releases, not this authoring export."
 }
