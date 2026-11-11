@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {questions,activeQuestions,clinicalCases} from './author-bank.ts';
+import {questions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
 import {contentDigest} from './content-integrity.ts';
 import {initialState,recordAnswer,gradeSession,sessionScore} from './engine.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {mockQuestionIds} from './mock-papers.ts';
-import {selectPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId} from './question-selection.ts';
+import {selectPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
 import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review.ts';
 import retirements from './repetition-retirements.json' with {type:'json'};
 import corrections from './repetition-corrections.json' with {type:'json'};
@@ -19,13 +19,13 @@ test('two fresh sets reserve different situations before any question is answere
  state.sessions.push(session(a));const b=selectPractice(situationBank,state,50,20);
  assert.equal(b.length,50);const old=new Set(a.map(questionFamily));assert.ok(b.every(id=>!old.has(questionFamily(id))));assert.equal(state.attempts.length,0);
 });
-test('all 155 topic quick sets use each situation once and never backfill earlier situations',()=>{
+test('all 156 topic quick sets use each situation once and never backfill earlier situations',()=>{
  for(const t of curriculum){
   const pool=questionsForTopic(t,situationBank),state=initialState(),count=availablePractice(pool,state);
   const ids=selectPractice(pool,state,100,30);assert.equal(ids.length,count,t.slug);assert.ok(count>=5,t.slug);
   assert.equal(new Set(ids.map(questionFamily)).size,ids.length,t.slug);
   state.sessions.push(session(ids));assert.deepEqual(selectPractice(pool,state,20,31),[],t.slug);
-  const followups=selectPractice(pool,state,100,31,{allowRelated:true});assert.ok(followups.length>=24,t.slug);assert.ok(followups.every(id=>!ids.includes(id)));
+  const followups=selectPractice(pool,state,100,31,{allowRelated:true});assert.equal(followups.length,pool.length-ids.length,t.slug);assert.ok(followups.every(id=>!ids.includes(id)));
   assert.ok(selectPractice(pool,state,20,31,{filter:'all'}).length>0,t.slug);
  }
 });
@@ -40,8 +40,10 @@ test('cross-topic mappings and retired equivalent IDs share the same reservation
 test('explicit review keeps all selected missed follow-ups while excluding archived items',()=>{
  const linked=situationBank.filter(q=>q.caseId==='SIT-NP3-pre-operative-phase-01').slice(0,4),ids=linked.map(q=>q.id),state=initialState();
  state.sessions.push(session(ids));state.vault=ids;
+ state.attempts=linked.slice(0,3).map((q,i)=>({id:String(i),sessionId:'selection-check',questionId:q.id,selected:(q.correctIndex+1)%4,correct:false,confidence:'',at:i+1}));
+ state.attempts.push({...state.attempts[2],id:'corrected',correct:true,selected:linked[2].correctIndex,at:4});
  assert.equal(selectPractice(linked,state,20,5,{review:true}).length,4);
- assert.equal(selectPractice(linked,state,20,5,{filter:'missed'}).length,4);
+ assert.deepEqual(new Set(selectPractice(linked,state,20,5,{filter:'missed',difficulty:'challenge'})),new Set(ids.slice(0,2)));
  assert.equal(selectPractice([...linked,...linked,questions.find(q=>q.retired)],state,100,5,{review:true}).length,4);
 });
 test('diagnostics have six fresh distinct situations per NP and fail closed if one NP is exhausted',()=>{
@@ -63,8 +65,8 @@ test('flashcards prioritize due items then fresh situations, one card per case',
 test('the content cleanup is bounded and fully restores the prior published release',async()=>{
  assert.equal(retirements.length,169);assert.equal(new Set(retirements.map(r=>r.id)).size,169);
  for(const r of retirements){assert.ok(bank.get(r.id)?.retired,r.id);if(r.replacedBy)assert.ok(!bank.get(canonicalQuestionId(r.id))?.retired,r.id);}
- const prior=restoreRepetitionReview(questions);assert.equal(await contentDigest(prior,clinicalCases),'e8a750c63e3161668582134dc864076dd057bda723e82eed1b47fff53aebbd90');assert.deepEqual(applyRepetitionReview(prior),questions);
- for(const q of questions){const old=prior.find(p=>p.id===q.id);assert.equal(q.correctIndex,old.correctIndex,q.id);assert.deepEqual(q.options.map(o=>o.text),old.options.map(o=>o.text),q.id);}
+ const previous=questions.slice(0,-challengeQuestions.length),prior=restoreRepetitionReview(previous);assert.equal(await contentDigest(prior,clinicalCases),'e8a750c63e3161668582134dc864076dd057bda723e82eed1b47fff53aebbd90');assert.deepEqual(applyRepetitionReview(prior),previous);
+ for(const q of previous){const old=prior.find(p=>p.id===q.id);assert.equal(q.correctIndex,old.correctIndex,q.id);assert.deepEqual(q.options.map(o=>o.text),old.options.map(o=>o.text),q.id);}
  for(const q of activeQuestions.filter(q=>q.format==='concept'||q.format==='comparison')){const refs=q.options.map(o=>canonicalQuestionId(o.referenceId));assert.equal(new Set(refs).size,4,`Equivalent reference choices in ${q.id}`);}
  assert.equal(corrections.rules.length,14);assert.equal(corrections.patches.length,65);
  for(const r of corrections.rules){for(const q of questions){for(const value of [q.stem,q.rationale,q.keyPoint,...q.options.map(o=>o.rationale)])assert.ok(!value.includes(r.from),`${r.id}: ${q.id}`);}assert.match(r.source,/^https:\/\//);}
@@ -74,4 +76,21 @@ test('the content cleanup is bounded and fully restores the prior published rele
 test('archived history still grades with its original key without altering earlier attempts',()=>{
  const q=bank.get('CROSS-010-1'),s=session([q.id]);s.answers[q.id]={selected:q.correctIndex,submitted:true,confidence:''};
  const state={...initialState(),sessions:[s]};const graded=gradeSession(state,s,bank,10);assert.equal(sessionScore(s,bank),1);assert.equal(graded.attempts[0].correct,true);assert.equal(state.attempts.length,0);
+});
+
+test('Challenge covers every topic and gives fresh original judgment items priority',()=>{
+ const state=initialState(),options={difficulty:'challenge'};
+ for(const topic of curriculum){
+  const pool=questionsForTopic(topic,activeQuestions),count=availablePractice(pool,state,options);
+  const ids=selectPractice(pool,state,count,44,options);
+  assert.ok(count>=5,topic.slug);
+  assert.equal(ids.length,count,topic.slug);
+  assert.ok(ids.every(id=>isDecisionQuestion(bank.get(id))),topic.slug);
+  assert.equal(new Set(ids.map(questionFamily)).size,ids.length,topic.slug);
+ }
+ const first=selectPractice(situationBank,state,20,45,options);
+ assert.equal(first.length,20);assert.ok(first.every(id=>bank.get(id).difficulty==='challenge'));
+ state.sessions.push(session(first));
+ const second=selectPractice(situationBank,state,20,46,options);
+ assert.ok(second.every(id=>bank.get(id).difficulty==='challenge'&&!first.includes(id)));
 });

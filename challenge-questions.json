@@ -1,0 +1,1724 @@
+[
+  {
+    "id": "CH-001",
+    "subject": "CROSS",
+    "topic": "Dosage Calculation & Medication Administration",
+    "stem": "A prepared medication is labeled 100 mg/mL. The verified order calls for 0.60 g, diluted to a final volume of 60 mL and infused over 30 minutes.\n\nWhich preparation and pump setting both match the order?",
+    "options": [
+      {
+        "text": "Withdraw 6 mL and program 120 mL/hour",
+        "rationale": "0.60 g equals 600 mg, which takes 6 mL at 100 mg/mL. The final 60 mL runs over half an hour, so the rate is 120 mL/hour.",
+        "source": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+        "referenceId": "CH-001:choice-1"
+      },
+      {
+        "text": "Withdraw 6 mL and program 12 mL/hour",
+        "rationale": "The withdrawal volume is right. The pump must deliver the diluted 60 mL, so calculating the rate from the 6 mL stock volume underdelivers the dose.",
+        "source": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+        "referenceId": "CH-001:choice-2"
+      },
+      {
+        "text": "Withdraw 0.6 mL and program 120 mL/hour",
+        "rationale": "The pump rate is right, but 0.6 mL at 100 mg/mL contains 60 mg rather than the prescribed 600 mg.",
+        "source": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+        "referenceId": "CH-001:choice-3"
+      },
+      {
+        "text": "Withdraw 6 mL and program 60 mL/hour",
+        "rationale": "The dose is prepared correctly, but this rate delivers the final volume in an hour. The prescribed time is half an hour.",
+        "source": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+        "referenceId": "CH-001:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "0.60 g equals 600 mg, which takes 6 mL at 100 mg/mL. The final 60 mL runs over half an hour, so the rate is 120 mL/hour.",
+    "keyPoint": "Convert the drug dose before calculating the withdrawal volume. Use the final diluted volume for the pump rate.",
+    "source": "https://www.ncbi.nlm.nih.gov/books/NBK596732/",
+    "sourceTopic": "Open RN · Math Calculations",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-002",
+    "subject": "CROSS",
+    "topic": "Nursing Process & Prioritization",
+    "stem": "Before discharge, a client accurately names a liquid medicine and its purpose. When handed the labeled oral syringe, the client draws up twice the prescribed volume.\n\nWhich response best addresses the finding?",
+    "options": [
+      {
+        "text": "Repeat the medicine’s purpose and ask the client to restate it",
+        "rationale": "The client already understands the purpose. Restating it does not show the ability to measure the volume.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-002:choice-2"
+      },
+      {
+        "text": "Demonstrate the correct marking, then have the client measure the dose again",
+        "rationale": "The observed technique is unsafe. Demonstration followed by return demonstration checks whether the revised explanation fixed the error.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-002:choice-1"
+      },
+      {
+        "text": "Provide a large-print label and record the teaching as complete",
+        "rationale": "Clear labels may help, but the nurse still needs to verify how the client uses the syringe.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-002:choice-3"
+      },
+      {
+        "text": "Ask whether the client is confident enough to manage at home",
+        "rationale": "Confidence may guide support, but the demonstrated error is direct evidence that another check is needed.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-002:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "The observed technique is unsafe. Demonstration followed by return demonstration checks whether the revised explanation fixed the error.",
+    "keyPoint": "A correct verbal answer can coexist with an unsafe technique. Ask the learner to demonstrate the task again after reteaching.",
+    "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+    "sourceTopic": "AHRQ teach-back toolkit",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-003",
+    "subject": "CROSS",
+    "topic": "Asepsis, IV Therapy & Wound Care",
+    "stem": "A client develops three new watery stools after several days of antibiotics. The client has received no laxatives. A stool specimen is ordered for suspected C. difficile.\n\nWhich action belongs in the plan while the result is pending?",
+    "options": [
+      {
+        "text": "Use standard precautions until the laboratory confirms a positive result",
+        "rationale": "Waiting leaves a period of preventable exposure. Suspicion based on symptoms is enough to start contact precautions.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-003:choice-2"
+      },
+      {
+        "text": "Use droplet precautions and continue sharing the commode after routine wiping",
+        "rationale": "This presentation requires contact measures and attention to the contaminated environment. Droplet precautions do not address the main route.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-003:choice-3"
+      },
+      {
+        "text": "Use contact precautions now and coordinate a dedicated toilet or commode",
+        "rationale": "The symptomatic client may transmit spores while testing is pending. Contact precautions and dedicated equipment reduce exposure.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-003:choice-1"
+      },
+      {
+        "text": "Begin contact precautions only if a second client develops diarrhea",
+        "rationale": "Precautions apply to this symptomatic client. Waiting for another case delays prevention.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-003:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "The symptomatic client may transmit spores while testing is pending. Contact precautions and dedicated equipment reduce exposure.",
+    "keyPoint": "Start appropriate contact measures when the clinical picture suggests C. difficile. A laboratory result is not required to begin precautions.",
+    "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+    "sourceTopic": "CDC C. difficile prevention guidance",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-004",
+    "subject": "CROSS",
+    "topic": "Nursing Research",
+    "stem": "A ward compares falls before and after a prevention program. Before the change, patients at high risk had 9 falls in 1,000 patient-days, and patients at lower risk had 1 fall in 1,000 patient-days. Afterward, the groups had 2 falls in 200 patient-days and 3 falls in 1,800 patient-days, respectively.\n\nWhat should the nurse report about the lower overall fall rate?",
+    "options": [
+      {
+        "text": "Falls improved in both risk groups because the overall count fell from 10 to 5",
+        "rationale": "The high-risk group had fewer falls but far fewer patient-days. Dividing by patient-days shows a higher rate in both groups.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-004:choice-1"
+      },
+      {
+        "text": "The change helped the high-risk group because its fall count dropped from 9 to 2",
+        "rationale": "The high-risk denominator dropped from 1,000 to 200 patient-days. The rate actually increased from 9 to 10 per 1,000 patient-days.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-004:choice-2"
+      },
+      {
+        "text": "The combined rate is enough because the total number of patient-days was identical",
+        "rationale": "The total exposure time matched, but the distribution of high-risk and lower-risk days changed. The separate rates reveal a pattern the combined rate hides.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-004:choice-3"
+      },
+      {
+        "text": "Both risk groups had higher fall rates even though the combined rate fell",
+        "rationale": "Per 1,000 patient-days, the high-risk rate rose from 9 to 10 and the lower-risk rate from 1 to about 1.7. The overall rate fell from 5 to 2.5 as the proportion of high-risk days decreased.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-004:choice-4"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Per 1,000 patient-days, the high-risk rate rose from 9 to 10 and the lower-risk rate from 1 to about 1.7. The overall rate fell from 5 to 2.5 as the proportion of high-risk days decreased.",
+    "keyPoint": "Compare rates within risk groups as well as the combined rate. A shift in who makes up the denominator can obscure worsening within groups.",
+    "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+    "sourceTopic": "IHI measures for improvement",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-005",
+    "subject": "CROSS",
+    "topic": "Leadership & Management",
+    "stem": "A ward wants to add a discharge teach-back prompt. Staff disagree about whether it fits the handoff, and the unit has no observations of how it works during a busy shift.\n\nWhat is the best first improvement test?",
+    "options": [
+      {
+        "text": "Try the prompt with one nurse and one discharge, then review what helped or delayed the handoff",
+        "rationale": "A small test exposes practical barriers and produces observations the team can use before expanding the change.",
+        "source": "https://www.ihi.org/library/model-for-improvement/testing-changes",
+        "referenceId": "CH-005:choice-1"
+      },
+      {
+        "text": "Require the prompt for all discharges on all wards and measure it after a quarter",
+        "rationale": "Spreading an untested change makes it harder to identify and correct local problems quickly.",
+        "source": "https://www.ihi.org/library/model-for-improvement/testing-changes",
+        "referenceId": "CH-005:choice-2"
+      },
+      {
+        "text": "Survey staff opinions and approve the change if most support it",
+        "rationale": "Opinions may help design the test, but they do not show how the prompt works during an actual discharge.",
+        "source": "https://www.ihi.org/library/model-for-improvement/testing-changes",
+        "referenceId": "CH-005:choice-3"
+      },
+      {
+        "text": "Wait until the next annual policy update to try the prompt",
+        "rationale": "A small, supervised test can answer the workflow question before a hospital-wide policy decision.",
+        "source": "https://www.ihi.org/library/model-for-improvement/testing-changes",
+        "referenceId": "CH-005:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "A small test exposes practical barriers and produces observations the team can use before expanding the change.",
+    "keyPoint": "Test a change at a small scale and use observations to decide how it should be adapted.",
+    "source": "https://www.ihi.org/library/model-for-improvement/testing-changes",
+    "sourceTopic": "IHI testing changes",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-006",
+    "subject": "CROSS",
+    "topic": "Basic Needs: Mobility, Comfort, Elimination & Oxygenation",
+    "stem": "During repositioning, the connection between an indwelling urinary catheter and the drainage tube separates and touches the bed linen. The catheter still has a documented indication.\n\nWhich action best addresses the broken system?",
+    "options": [
+      {
+        "text": "Wipe the two ends and reconnect the original drainage tubing",
+        "rationale": "Cleaning the ends does not restore the integrity of the contaminated closed system.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-006:choice-2"
+      },
+      {
+        "text": "Arrange aseptic replacement of the catheter and drainage system",
+        "rationale": "The break in the closed system creates a contamination risk. Replacing the catheter and collecting system restores closed drainage with sterile equipment.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-006:choice-1"
+      },
+      {
+        "text": "Replace only the bag and leave the exposed catheter connection in use",
+        "rationale": "The catheter connection was also exposed. A new bag alone does not address the entire break.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-006:choice-3"
+      },
+      {
+        "text": "Clamp the catheter and wait for the next routine equipment change",
+        "rationale": "Clamping delays correction of the contamination and obstructs drainage.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-006:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "The break in the closed system creates a contamination risk. Replacing the catheter and collecting system restores closed drainage with sterile equipment.",
+    "keyPoint": "A disconnected catheter system no longer meets closed-drainage requirements. Replacement should follow aseptic procedure and local policy.",
+    "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+    "sourceTopic": "CDC catheter-associated UTI recommendations",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-007",
+    "subject": "NP1",
+    "topic": "Expanded Program on Immunization (EPI)",
+    "stem": "At a community clinic, a reconstituted vaccine vial is labeled with a mixing time of 08:10. The manufacturer requires disposal four hours after reconstitution, and the printed expiration date is next month. At 12:30, a family arrives for vaccination.\n\nHow should the nurse handle this vial?",
+    "options": [
+      {
+        "text": "Use the vial because the printed manufacturer expiration date is still valid",
+        "rationale": "The printed date does not extend the period after mixing. The shorter post-reconstitution interval controls this decision.",
+        "source": "https://www.cdc.gov/pinkbook/hcp/table-of-contents/chapter-5-vaccine-storage-and-handling.html",
+        "referenceId": "CH-007:choice-1"
+      },
+      {
+        "text": "Refrigerate the vial for a new four-hour window and use it once it cools",
+        "rationale": "Cooling does not reset the product's interval after reconstitution. The vial already exceeded the time the manufacturer allows.",
+        "source": "https://www.cdc.gov/pinkbook/hcp/table-of-contents/chapter-5-vaccine-storage-and-handling.html",
+        "referenceId": "CH-007:choice-2"
+      },
+      {
+        "text": "Discard the reconstituted vial according to policy and prepare an eligible replacement",
+        "rationale": "The four-hour deadline was 12:10. The vial is past the labeled post-reconstitution interval even though the unopened product expiration date is later.",
+        "source": "https://www.cdc.gov/pinkbook/hcp/table-of-contents/chapter-5-vaccine-storage-and-handling.html",
+        "referenceId": "CH-007:choice-3"
+      },
+      {
+        "text": "Start the four-hour interval at the time the first dose is drawn from the vial",
+        "rationale": "This product specifies when it is mixed, not when the first dose is withdrawn. The documented 08:10 mixing time determines the cutoff.",
+        "source": "https://www.cdc.gov/pinkbook/hcp/table-of-contents/chapter-5-vaccine-storage-and-handling.html",
+        "referenceId": "CH-007:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "The four-hour deadline was 12:10. The vial is past the labeled post-reconstitution interval even though the unopened product expiration date is later.",
+    "keyPoint": "A vaccine can reach its beyond-use time before its printed expiry. Calculate the deadline from the product instructions and recorded mixing time.",
+    "source": "https://www.cdc.gov/pinkbook/hcp/table-of-contents/chapter-5-vaccine-storage-and-handling.html",
+    "sourceTopic": "CDC Pink Book · Vaccine Storage and Handling",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-008",
+    "subject": "NP1",
+    "topic": "Epidemiology, Vital Statistics & Demography",
+    "stem": "After a community meal, 19 of 76 people who ate a particular dish became ill. Among 100 who did not eat it, 10 became ill.\n\nWhich value describes the risk ratio for eating the dish?",
+    "options": [
+      {
+        "text": "1.9",
+        "rationale": "This divides the case counts and ignores the different sizes of the exposed and unexposed groups.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section5.html",
+        "referenceId": "CH-008:choice-2"
+      },
+      {
+        "text": "0.15",
+        "rationale": "This is the risk difference in proportions. The question asks for the ratio.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section5.html",
+        "referenceId": "CH-008:choice-3"
+      },
+      {
+        "text": "0.4",
+        "rationale": "This is the reciprocal comparison. The question specifies exposure as the numerator group.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section5.html",
+        "referenceId": "CH-008:choice-4"
+      },
+      {
+        "text": "2.5",
+        "rationale": "The risks are 19/76 = 0.25 and 10/100 = 0.10. Their ratio is 2.5.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section5.html",
+        "referenceId": "CH-008:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "The risks are 19/76 = 0.25 and 10/100 = 0.10. Their ratio is 2.5.",
+    "keyPoint": "Divide the exposed group’s risk by the unexposed group’s risk. Calculate each risk using its own denominator.",
+    "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section5.html",
+    "sourceTopic": "CDC epidemiology measures of association",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-009",
+    "subject": "NP1",
+    "topic": "Epidemiology, Vital Statistics & Demography",
+    "stem": "Two outreach groups were followed for unequal periods. Group A had 6 new cases over 1,200 person-days. Group B had 8 new cases over 2,400 person-days.\n\nWhich rate comparison is correct per 1,000 person-days?",
+    "options": [
+      {
+        "text": "A has 5 and B has about 3.3",
+        "rationale": "Divide each new-case count by its own person-days and multiply by 1,000. A has the higher incidence rate.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+        "referenceId": "CH-009:choice-1"
+      },
+      {
+        "text": "A has 6 and B has 8",
+        "rationale": "Those are the observed counts. They omit the different observation times.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+        "referenceId": "CH-009:choice-2"
+      },
+      {
+        "text": "A has about 3.3 and B has 5",
+        "rationale": "The case counts and exposure times must stay paired with their own groups. Reversing the results changes the conclusion.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+        "referenceId": "CH-009:choice-3"
+      },
+      {
+        "text": "A has 5 and B has about 6.7",
+        "rationale": "The estimate for B uses the wrong exposure denominator. B contributed 2,400 person-days.",
+        "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+        "referenceId": "CH-009:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Divide each new-case count by its own person-days and multiply by 1,000. A has the higher incidence rate.",
+    "keyPoint": "Person-time rates account for differences in how long people contributed observation time.",
+    "source": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section1.html",
+    "sourceTopic": "CDC epidemiology measures of risk",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-010",
+    "subject": "NP1",
+    "topic": "Tuberculosis",
+    "stem": "A client on airborne precautions for suspected pulmonary tuberculosis needs an urgent test that cannot be performed in the isolation room.\n\nWhich plan best protects others without delaying the necessary test?",
+    "options": [
+      {
+        "text": "Transfer the client unmasked because the journey is short",
+        "rationale": "A short journey still exposes others in shared areas. Essential transport needs source control.",
+        "source": "https://www.cdc.gov/infection-control/hcp/basics/transmission-based-precautions.html",
+        "referenceId": "CH-010:choice-2"
+      },
+      {
+        "text": "Notify the receiving team and have the client wear a surgical mask during essential transport if tolerated",
+        "rationale": "Advance coordination protects the receiving area. A patient mask provides source control during movement outside the isolation room.",
+        "source": "https://www.cdc.gov/infection-control/hcp/basics/transmission-based-precautions.html",
+        "referenceId": "CH-010:choice-1"
+      },
+      {
+        "text": "Wait for a negative culture before arranging any test outside the room",
+        "rationale": "A necessary urgent test can proceed using precautions. Waiting for culture results could delay care.",
+        "source": "https://www.cdc.gov/infection-control/hcp/basics/transmission-based-precautions.html",
+        "referenceId": "CH-010:choice-3"
+      },
+      {
+        "text": "Use a surgical mask only on the staff member and leave the client unmasked",
+        "rationale": "Staff protection and source control serve different purposes. This plan omits control at the source.",
+        "source": "https://www.cdc.gov/infection-control/hcp/basics/transmission-based-precautions.html",
+        "referenceId": "CH-010:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Advance coordination protects the receiving area. A patient mask provides source control during movement outside the isolation room.",
+    "keyPoint": "Keep movement outside isolation to necessary care. Plan source control and notify the receiving team before transport.",
+    "source": "https://www.cdc.gov/infection-control/hcp/basics/transmission-based-precautions.html",
+    "sourceTopic": "CDC transmission-based precautions",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-011",
+    "subject": "NP1",
+    "topic": "Family Nursing Process",
+    "stem": "During a home visit, a caregiver correctly recites a follow-up plan. The caregiver then explains that the family can only reach the clinic after its last appointment slot.\n\nWhich next step best tests whether the plan is workable?",
+    "options": [
+      {
+        "text": "Repeat the original instructions more slowly and close the visit",
+        "rationale": "The caregiver already knows the instructions. Repetition does not solve the access problem.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-011:choice-2"
+      },
+      {
+        "text": "Document refusal because the family cannot attend at the listed time",
+        "rationale": "The caregiver described a barrier rather than refusing care. Explore a feasible arrangement first.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-011:choice-3"
+      },
+      {
+        "text": "Arrange a feasible follow-up option with the caregiver, then ask them to describe how they will use it",
+        "rationale": "The transport constraint makes the original plan impractical. A new feasible plan and teach-back check both access and understanding.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-011:choice-1"
+      },
+      {
+        "text": "Give a printed reminder with the original appointment time",
+        "rationale": "A reminder may help memory, but it does not change when transport is available.",
+        "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+        "referenceId": "CH-011:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "The transport constraint makes the original plan impractical. A new feasible plan and teach-back check both access and understanding.",
+    "keyPoint": "Understanding instructions and being able to carry them out are separate checks. Teach-back can uncover barriers that need a revised plan.",
+    "source": "https://www.ahrq.gov/health-literacy/improve/precautions/tool5.html",
+    "sourceTopic": "AHRQ teach-back toolkit",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-012",
+    "subject": "NP1",
+    "topic": "Community Health Nursing Process",
+    "stem": "A community project tests reminder calls for missed follow-ups. The team tracks the percentage of eligible clients who return within 30 days.\n\nWhich additional measure best checks for an unintended cost of the change?",
+    "options": [
+      {
+        "text": "Percentage of eligible clients who return within 30 days",
+        "rationale": "That is the project outcome already being measured. It cannot show the separate workload effect.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-012:choice-2"
+      },
+      {
+        "text": "Percentage of reminder calls completed according to the script",
+        "rationale": "That tracks whether the new process was carried out. It does not show what the process displaced.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-012:choice-3"
+      },
+      {
+        "text": "Number of clients included in the project roster",
+        "rationale": "The roster defines the population. It does not measure an unintended effect of the intervention.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-012:choice-4"
+      },
+      {
+        "text": "Minutes of nursing time diverted from other essential visits",
+        "rationale": "This measures a plausible cost in another part of care. It helps detect workload displacement while follow-up improves.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-012:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "This measures a plausible cost in another part of care. It helps detect workload displacement while follow-up improves.",
+    "keyPoint": "A balancing measure checks for harm or strain elsewhere while the intended outcome improves.",
+    "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+    "sourceTopic": "IHI measures for improvement",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-013",
+    "subject": "NP2",
+    "topic": "Postpartum Complications",
+    "stem": "Ten days after discharge, a client reports a severe headache that persists after rest. The client now sees flashing spots and asks whether to wait until the scheduled blood pressure check tomorrow.\n\nWhich response is safest?",
+    "options": [
+      {
+        "text": "Arrange immediate assessment and tell the receiving team about the recent delivery and symptoms",
+        "rationale": "Postpartum hypertension and other serious causes must be considered. The combination of persistent headache and visual symptoms warrants prompt evaluation.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-013:choice-1"
+      },
+      {
+        "text": "Keep tomorrow’s appointment if swelling is unchanged",
+        "rationale": "Visible swelling is not required for a serious postpartum complication. Waiting ignores two urgent warning signs.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-013:choice-2"
+      },
+      {
+        "text": "Try another period of rest before calling back",
+        "rationale": "Rest did not resolve the headache. New visual symptoms make further home observation unsafe.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-013:choice-3"
+      },
+      {
+        "text": "Schedule a routine eye examination because the headache is already being treated",
+        "rationale": "An eye appointment does not address the potentially serious systemic cause of headache and visual changes.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-013:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Postpartum hypertension and other serious causes must be considered. The combination of persistent headache and visual symptoms warrants prompt evaluation.",
+    "keyPoint": "Persistent severe headache with visual changes after delivery calls for immediate assessment.",
+    "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+    "sourceTopic": "CDC urgent maternal warning signs",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-014",
+    "subject": "NP2",
+    "topic": "Normal Puerperium",
+    "stem": "Eight days after delivery, a client reports new swelling and tenderness in one calf. The other leg is unchanged. The client was planning to massage the painful area after the call.\n\nWhat is the appropriate advice?",
+    "options": [
+      {
+        "text": "Compare ankle measurements again tomorrow after elevating both legs",
+        "rationale": "This postpones evaluation of new unilateral symptoms that differ from expected generalized swelling.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-014:choice-2"
+      },
+      {
+        "text": "Seek urgent assessment and avoid massaging the painful leg while arranging care",
+        "rationale": "Unilateral pain and swelling raise concern for a thrombotic complication. Assessment should precede measures directed at a presumed muscle strain.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-014:choice-1"
+      },
+      {
+        "text": "Try a calf massage and seek care only if it fails to relieve pain",
+        "rationale": "Massage does not rule out thrombosis and may delay urgent assessment.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-014:choice-3"
+      },
+      {
+        "text": "Wait for shortness of breath before contacting a clinician",
+        "rationale": "Leg symptoms alone warrant evaluation. Breathing difficulty would indicate an additional emergency warning sign.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-014:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Unilateral pain and swelling raise concern for a thrombotic complication. Assessment should precede measures directed at a presumed muscle strain.",
+    "keyPoint": "One-sided leg pain and swelling during postpartum recovery need prompt evaluation for a clot.",
+    "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+    "sourceTopic": "CDC urgent maternal warning signs",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-015",
+    "subject": "NP2",
+    "topic": "Pediatric Gastrointestinal Disorders",
+    "stem": "Two otherwise similar newborns are being considered for discharge. Both have bilirubin below their individual phototherapy thresholds. Infant A is much closer to the treatment threshold and a repeat bilirubin visit has not been arranged.\n\nWhich plan should the nurse question?",
+    "options": [
+      {
+        "text": "Review the age-specific threshold used for each infant",
+        "rationale": "Age and other risk factors inform the threshold. Checking it supports an individualized follow-up plan.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-015:choice-2"
+      },
+      {
+        "text": "Confirm that each family knows when and where follow-up will occur",
+        "rationale": "Coordinated follow-up is part of safe discharge care for jaundice risk.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-015:choice-3"
+      },
+      {
+        "text": "Discharge infant A without coordinating the indicated bilirubin follow-up",
+        "rationale": "A smaller gap can call for closer monitoring. The team should resolve the missing follow-up plan before discharge.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-015:choice-1"
+      },
+      {
+        "text": "Ask the clinician to reassess the discharge plan if a needed repeat measure cannot be scheduled",
+        "rationale": "A missing indicated follow-up test is a reason to reconsider timing and arrange a safe plan.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-015:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "A smaller gap can call for closer monitoring. The team should resolve the missing follow-up plan before discharge.",
+    "keyPoint": "Bilirubin follow-up depends on the gap from the individual treatment threshold and the ability to arrange timely reassessment.",
+    "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+    "sourceTopic": "AAP newborn hyperbilirubinemia guideline FAQ",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-016",
+    "subject": "NP2",
+    "topic": "Health Promotion & Disease Prevention (Pedia)",
+    "stem": "Two newborns have reached similar bilirubin margins below their treatment thresholds after phototherapy. One started treatment in the first 24 hours. The other started on day three.\n\nWhich consideration is most useful when planning reassessment?",
+    "options": [
+      {
+        "text": "Both infants have the same rebound risk because the margins now match",
+        "rationale": "Matching margins do not remove differences in age at treatment or contributing conditions.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-016:choice-2"
+      },
+      {
+        "text": "The later-treated infant always needs earlier reassessment because more hours have elapsed since birth",
+        "rationale": "Age at treatment is one risk factor. Later treatment alone does not establish greater rebound risk.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-016:choice-3"
+      },
+      {
+        "text": "Once the bilirubin falls, the start time of phototherapy no longer matters",
+        "rationale": "Timing helps assess the likelihood of rebound and should inform follow-up.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-016:choice-4"
+      },
+      {
+        "text": "The infant treated in the first 24 hours may have a higher rebound risk even with a similar current margin",
+        "rationale": "Early treatment can reflect hemolysis or other risk. The current bilirubin margin alone does not capture that history.",
+        "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+        "referenceId": "CH-016:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Early treatment can reflect hemolysis or other risk. The current bilirubin margin alone does not capture that history.",
+    "keyPoint": "Starting phototherapy very early can signal a greater chance of rebound and a need for coordinated monitoring.",
+    "source": "https://www.aap.org/en/patient-care/hyperbilirubinemia/frequently-asked-questions-about-the-2022-aap-guideline-on-the-management-of-hyperbilirubinemia/",
+    "sourceTopic": "AAP newborn hyperbilirubinemia guideline FAQ",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-017",
+    "subject": "NP2",
+    "topic": "Postpartum Complications",
+    "stem": "A client who delivered a week ago calls about bleeding. Two pads soaked through in the past hour, and standing now causes lightheadedness. The family asks whether this is simply a normal change in lochia.\n\nWhat should the nurse prioritize?",
+    "options": [
+      {
+        "text": "Arrange emergency evaluation and communicate the bleeding and recent delivery",
+        "rationale": "The rate of bleeding and symptoms of possible circulatory compromise require urgent care.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-017:choice-1"
+      },
+      {
+        "text": "Ask the family to collect the next two hours of pad counts before deciding",
+        "rationale": "More measurements are unnecessary before escalation when heavy bleeding and symptoms are already present.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-017:choice-2"
+      },
+      {
+        "text": "Reassure the family because some lochia is expected during the first week",
+        "rationale": "Normal lochia does not explain away rapid pad saturation with lightheadedness.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-017:choice-3"
+      },
+      {
+        "text": "Book the earliest routine postpartum appointment and advise resting until then",
+        "rationale": "A routine appointment would delay evaluation of a potentially serious bleed.",
+        "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+        "referenceId": "CH-017:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "The rate of bleeding and symptoms of possible circulatory compromise require urgent care.",
+    "keyPoint": "Heavy postpartum bleeding with lightheadedness requires emergency assessment.",
+    "source": "https://www.cdc.gov/hearher/maternal-warning-signs/",
+    "sourceTopic": "CDC urgent maternal warning signs",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-018",
+    "subject": "NP2",
+    "topic": "Pediatric Neurologic Disorders",
+    "stem": "A child’s convulsion has stopped. The child opens their eyes but cannot follow simple instructions and coughs when a caregiver offers a cup.\n\nWhich action best addresses the immediate risk?",
+    "options": [
+      {
+        "text": "Offer small sips through a straw because the convulsion has ended",
+        "rationale": "Stopping movement does not establish safe swallowing. The child is still impaired.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-018:choice-2"
+      },
+      {
+        "text": "Remove the drink and monitor breathing and alertness while seeking help for delayed recovery",
+        "rationale": "Incomplete alertness makes swallowing unsafe. Breathing and recovery need assessment before oral intake.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-018:choice-1"
+      },
+      {
+        "text": "Give a snack to help the child regain alertness",
+        "rationale": "Food can be aspirated before full alertness returns. Assess recovery first.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-018:choice-3"
+      },
+      {
+        "text": "Ask the child to swallow a large sip as a screening test",
+        "rationale": "A large sip creates avoidable aspiration risk when the child is not fully responsive.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-018:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Incomplete alertness makes swallowing unsafe. Breathing and recovery need assessment before oral intake.",
+    "keyPoint": "After a seizure, wait for full alertness before giving food or drink and assess breathing and recovery.",
+    "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+    "sourceTopic": "CDC seizure first aid",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-019",
+    "subject": "NP3",
+    "topic": "Hematologic Disorders",
+    "stem": "Two hours after a red-cell transfusion, a client with heart failure develops hypoxemia and bilateral pulmonary opacities. The team is considering transfusion-associated circulatory overload and transfusion-related acute lung injury.\n\nWhich additional finding most strongly favors circulatory overload?",
+    "options": [
+      {
+        "text": "Onset within two hours of the transfusion",
+        "rationale": "An early onset can occur with either reaction. Timing supports a transfusion association but does not discriminate between these two causes.",
+        "source": "https://professionaleducation.blood.ca/en/transfusion/clinical-guide/transfusion-reactions",
+        "referenceId": "CH-019:choice-1"
+      },
+      {
+        "text": "A new increase in oxygen requirement with bilateral opacities",
+        "rationale": "Either form of pulmonary edema can produce this combination. Further evidence about pressure and volume status is needed.",
+        "source": "https://professionaleducation.blood.ca/en/transfusion/clinical-guide/transfusion-reactions",
+        "referenceId": "CH-019:choice-2"
+      },
+      {
+        "text": "A rise in blood pressure with new jugular venous distension and positive fluid balance",
+        "rationale": "This cluster points toward elevated filling pressures and excess volume, favoring hydrostatic pulmonary edema from circulatory overload.",
+        "source": "https://professionaleducation.blood.ca/en/transfusion/clinical-guide/transfusion-reactions",
+        "referenceId": "CH-019:choice-3"
+      },
+      {
+        "text": "A fall in blood pressure with no new evidence of volume overload",
+        "rationale": "This cluster does not favor hydrostatic overload. Hypotension and lack of overload can raise concern for lung injury or another reaction.",
+        "source": "https://professionaleducation.blood.ca/en/transfusion/clinical-guide/transfusion-reactions",
+        "referenceId": "CH-019:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "This cluster points toward elevated filling pressures and excess volume, favoring hydrostatic pulmonary edema from circulatory overload.",
+    "keyPoint": "Both reactions may cause hypoxemia and pulmonary opacities. New pressure and volume-overload findings help distinguish TACO from TRALI.",
+    "source": "https://professionaleducation.blood.ca/en/transfusion/clinical-guide/transfusion-reactions",
+    "sourceTopic": "Canadian Blood Services transfusion reactions",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-020",
+    "subject": "NP3",
+    "topic": "Hematologic Disorders",
+    "stem": "A client developed rigors and hypotension during a transfusion. The nurse has stopped the transfusion, activated the emergency response, and is monitoring the client. The transfusion service asks for the implicated unit and tubing while the team needs IV access for treatment.\n\nWhich plan best addresses both requests?",
+    "options": [
+      {
+        "text": "Flush the blood tubing with saline to preserve access and then send the unit and tubing",
+        "rationale": "Flushing the existing line can deliver residual blood from the implicated unit. Treatment needs a separate path while the set is preserved.",
+        "source": "https://www.lifeblood.com.au/health-professionals/clinical-practice/adverse-events/management-of-suspected-reactions",
+        "referenceId": "CH-020:choice-1"
+      },
+      {
+        "text": "Discard the giving set after removing it and send the sealed blood unit alone",
+        "rationale": "The transfusion service requested both materials. Discarding the set removes a potentially important part of the investigation.",
+        "source": "https://www.lifeblood.com.au/health-professionals/clinical-practice/adverse-events/management-of-suspected-reactions",
+        "referenceId": "CH-020:choice-2"
+      },
+      {
+        "text": "Restart the same unit at a slower rate once blood pressure returns to baseline",
+        "rationale": "Rigors and hypotension can indicate a serious reaction. Improved vital signs do not clear the implicated unit for restarting.",
+        "source": "https://www.lifeblood.com.au/health-professionals/clinical-practice/adverse-events/management-of-suspected-reactions",
+        "referenceId": "CH-020:choice-3"
+      },
+      {
+        "text": "Preserve the unit and giving set for the transfusion service and use separate IV access as needed",
+        "rationale": "This keeps the materials available for the investigation while allowing emergency treatment. Avoid flushing the line used for the suspected reaction.",
+        "source": "https://www.lifeblood.com.au/health-professionals/clinical-practice/adverse-events/management-of-suspected-reactions",
+        "referenceId": "CH-020:choice-4"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "This keeps the materials available for the investigation while allowing emergency treatment. Avoid flushing the line used for the suspected reaction.",
+    "keyPoint": "After a serious suspected reaction, keep the implicated component and tubing for investigation. Maintain access for treatment without flushing the implicated line.",
+    "source": "https://www.lifeblood.com.au/health-professionals/clinical-practice/adverse-events/management-of-suspected-reactions",
+    "sourceTopic": "Australian Red Cross Lifeblood · Management of Suspected Reactions",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-021",
+    "subject": "NP3",
+    "topic": "Post-operative Phase",
+    "stem": "After a procedure, a client receiving supplemental oxygen becomes difficult to rouse and breathes shallowly. The pulse oximeter still shows 97%.\n\nWhich assessment priority is best?",
+    "options": [
+      {
+        "text": "Assess airway and ventilation promptly and escalate the change in responsiveness",
+        "rationale": "Supplemental oxygen can maintain saturation despite inadequate ventilation. The clinical change requires action now.",
+        "source": "https://www.apsf.org/article/monitoring-for-opioid-induced-respiratory-depression/",
+        "referenceId": "CH-021:choice-1"
+      },
+      {
+        "text": "Continue routine checks because oxygen saturation remains within range",
+        "rationale": "A normal displayed saturation does not explain shallow breathing and reduced responsiveness.",
+        "source": "https://www.apsf.org/article/monitoring-for-opioid-induced-respiratory-depression/",
+        "referenceId": "CH-021:choice-2"
+      },
+      {
+        "text": "Reduce the oxygen flow to see whether the saturation falls",
+        "rationale": "Removing support to provoke a reading does not address the airway or breathing problem.",
+        "source": "https://www.apsf.org/article/monitoring-for-opioid-induced-respiratory-depression/",
+        "referenceId": "CH-021:choice-3"
+      },
+      {
+        "text": "Wait for the client to wake before assessing breathing",
+        "rationale": "Waiting delays assessment of a potentially serious postoperative respiratory change.",
+        "source": "https://www.apsf.org/article/monitoring-for-opioid-induced-respiratory-depression/",
+        "referenceId": "CH-021:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "Supplemental oxygen can maintain saturation despite inadequate ventilation. The clinical change requires action now.",
+    "keyPoint": "Pulse oximetry measures oxygen saturation. Clinical signs of poor ventilation still require prompt assessment.",
+    "source": "https://www.apsf.org/article/monitoring-for-opioid-induced-respiratory-depression/",
+    "sourceTopic": "APSF · Monitoring for Opioid-Induced Respiratory Depression",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-022",
+    "subject": "NP3",
+    "topic": "Acute Kidney Injury (AKI)",
+    "stem": "A stable postoperative client’s catheter stopped draining after a bed transfer. The tubing is visibly trapped under the side rail, and the closed connection is intact.\n\nWhich action best distinguishes an equipment problem from persistent low urine output?",
+    "options": [
+      {
+        "text": "Document acute kidney injury from the empty drainage bag",
+        "rationale": "An empty bag can reflect blocked flow. This finding alone does not establish reduced kidney function.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-022:choice-2"
+      },
+      {
+        "text": "Free the tubing, confirm unobstructed drainage, and reassess measured output",
+        "rationale": "The timing and visible kink support a mechanical cause. Correct it and evaluate output again before concluding that urine production fell.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-022:choice-1"
+      },
+      {
+        "text": "Open the closed system and irrigate immediately",
+        "rationale": "A visible external obstruction should be corrected first. Opening the system adds infection risk and may be unnecessary.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-022:choice-3"
+      },
+      {
+        "text": "Increase IV fluids before examining the drainage system",
+        "rationale": "Additional fluid will not relieve a kink and could introduce an avoidable volume problem.",
+        "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+        "referenceId": "CH-022:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "The timing and visible kink support a mechanical cause. Correct it and evaluate output again before concluding that urine production fell.",
+    "keyPoint": "Check for a mechanical obstruction and reassess drainage before interpreting a sudden drop in recorded output.",
+    "source": "https://www.cdc.gov/infection-control/hcp/cauti/summary-of-recommendations.html",
+    "sourceTopic": "CDC catheter-associated UTI recommendations",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-023",
+    "subject": "NP3",
+    "topic": "Health Education & Quality Improvement",
+    "stem": "A surgical ward introduces a discharge checklist to improve patient teaching. The project already tracks readmissions as its outcome.\n\nWhich measure best shows whether staff actually performed the new teaching step?",
+    "options": [
+      {
+        "text": "Percentage of discharged patients readmitted in 30 days",
+        "rationale": "This is the downstream outcome. It does not show whether the teaching step was delivered.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-023:choice-2"
+      },
+      {
+        "text": "Average time from discharge order to leaving the ward",
+        "rationale": "This could detect workflow delays as a balancing measure, but it does not measure checklist use.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-023:choice-3"
+      },
+      {
+        "text": "Percentage of eligible discharges with teach-back documented as completed",
+        "rationale": "This directly tracks delivery of the new step using the relevant discharge population.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-023:choice-1"
+      },
+      {
+        "text": "Number of posters explaining the checklist",
+        "rationale": "Posting reminders does not establish that staff completed teach-back with patients.",
+        "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+        "referenceId": "CH-023:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "This directly tracks delivery of the new step using the relevant discharge population.",
+    "keyPoint": "A process measure checks whether the planned care step occurred in the eligible group.",
+    "source": "https://www.ihi.org/library/model-for-improvement/establishing-measures",
+    "sourceTopic": "IHI measures for improvement",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-024",
+    "subject": "NP3",
+    "topic": "Infectious Disorders",
+    "stem": "A client with C. difficile has been discharged. Environmental services reports that the sheets were changed and the room looks clean.\n\nWhat check is most important before assigning the room to another patient?",
+    "options": [
+      {
+        "text": "Assign the next patient once the floor is visibly dry",
+        "rationale": "The floor’s appearance does not verify that contaminated surfaces and equipment were cleaned appropriately.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-024:choice-2"
+      },
+      {
+        "text": "Replace the linens again and release the room",
+        "rationale": "Additional linen changes do not replace environmental cleaning of high-touch sites.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-024:choice-3"
+      },
+      {
+        "text": "Keep the room closed for several hours in place of terminal cleaning",
+        "rationale": "Waiting does not remove contamination from surfaces or equipment.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-024:choice-4"
+      },
+      {
+        "text": "Verify that terminal cleaning included high-touch surfaces and equipment with a sporicidal product",
+        "rationale": "Visual cleanliness and fresh linens do not show that spores were addressed. Check the appropriate cleaning process before room reuse.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-024:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Visual cleanliness and fresh linens do not show that spores were addressed. Check the appropriate cleaning process before room reuse.",
+    "keyPoint": "After C. difficile, terminal cleaning should address spores on surfaces and equipment using an appropriate product and process.",
+    "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+    "sourceTopic": "CDC C. difficile prevention guidance",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-025",
+    "subject": "NP3",
+    "topic": "Integumentary Disorders & Burn Care",
+    "stem": "The burn chart separates 9% of body surface with moist blistered partial-thickness injury from another 6% with dry, blanching superficial redness.\n\nWhat percentage should the nurse enter for burned TBSA?",
+    "options": [
+      {
+        "text": "9%",
+        "rationale": "The 9% partial-thickness area counts. The separate superficial area is excluded from the burn TBSA calculation.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-025:choice-1"
+      },
+      {
+        "text": "15%",
+        "rationale": "Adding the superficial area would overstate the TBSA used in burn assessment.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-025:choice-2"
+      },
+      {
+        "text": "6%",
+        "rationale": "This counts only the superficial area and omits the qualifying partial-thickness injury.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-025:choice-3"
+      },
+      {
+        "text": "3%",
+        "rationale": "The two areas are separate findings. Subtracting the superficial area from the qualifying area is not appropriate.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-025:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "The 9% partial-thickness area counts. The separate superficial area is excluded from the burn TBSA calculation.",
+    "keyPoint": "Count partial-thickness and deeper burns in TBSA. Keep superficial redness separate.",
+    "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+    "sourceTopic": "American Burn Association referral guidelines",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-026",
+    "subject": "NP3",
+    "topic": "Integumentary Disorders & Burn Care",
+    "stem": "A client has a small thermal burn across two finger joints. The center looks pale, does not blanch, and has reduced sensation. The total area is well under 10%.\n\nWhat should guide the disposition discussion?",
+    "options": [
+      {
+        "text": "Use the small surface area to rule out need for consultation",
+        "rationale": "Surface area alone misses high-risk locations and deeper injuries.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-026:choice-2"
+      },
+      {
+        "text": "Contact a burn service promptly because the hand and joint injury may be deep",
+        "rationale": "The depth cues and location matter despite the small surface area. Specialist assessment helps protect function.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-026:choice-1"
+      },
+      {
+        "text": "Treat it as superficial because the center hurts less than the edges",
+        "rationale": "Reduced sensation can occur with deeper burns. Pain intensity alone does not establish a shallow injury.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-026:choice-3"
+      },
+      {
+        "text": "Wait for a visible loss of hand movement before requesting advice",
+        "rationale": "A potentially deep burn across joints warrants assessment before functional loss develops.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-026:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "The depth cues and location matter despite the small surface area. Specialist assessment helps protect function.",
+    "keyPoint": "Depth and location can make a small burn high risk. Deep burns involving the hand or joints merit prompt burn consultation.",
+    "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+    "sourceTopic": "American Burn Association referral guidelines",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-027",
+    "subject": "NP3",
+    "topic": "Integumentary Disorders & Burn Care",
+    "stem": "A client has a circumferential full-thickness forearm burn. The fingers were warm earlier. At reassessment they are cooler and numb, capillary refill is slower, and a distal Doppler signal has weakened. The radial pulse remains palpable.\n\nWhich action best addresses the change?",
+    "options": [
+      {
+        "text": "Continue routine reassessment because the radial pulse is still palpable",
+        "rationale": "A palpable proximal pulse does not establish adequate digital circulation. The trend in warmth, refill, sensation, and Doppler signal is concerning.",
+        "source": "https://www.vicburns.org.au/severe-burns/secondary-survey/circumferential-burn",
+        "referenceId": "CH-027:choice-1"
+      },
+      {
+        "text": "Wait to report the change until the distal Doppler signal is entirely absent",
+        "rationale": "Loss of the signal is a later finding. Waiting risks delaying assessment of perfusion that is already worsening.",
+        "source": "https://www.vicburns.org.au/severe-burns/secondary-survey/circumferential-burn",
+        "referenceId": "CH-027:choice-2"
+      },
+      {
+        "text": "Escalate the new perfusion findings promptly to the burn team for urgent evaluation",
+        "rationale": "A constricting deep burn with increasing swelling can threaten the hand. The distal changes warrant prompt assessment even with a palpable radial pulse.",
+        "source": "https://www.vicburns.org.au/severe-burns/secondary-survey/circumferential-burn",
+        "referenceId": "CH-027:choice-3"
+      },
+      {
+        "text": "Ask only for additional analgesia and reassess after the pain settles",
+        "rationale": "Pain control may still be needed, but it does not address coolness, numbness, or the declining Doppler signal. These findings need urgent attention.",
+        "source": "https://www.vicburns.org.au/severe-burns/secondary-survey/circumferential-burn",
+        "referenceId": "CH-027:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "A constricting deep burn with increasing swelling can threaten the hand. The distal changes warrant prompt assessment even with a palpable radial pulse.",
+    "keyPoint": "Use trends in distal circulation and sensation after a circumferential burn. A palpable proximal pulse does not rule out threatened distal perfusion.",
+    "source": "https://www.vicburns.org.au/severe-burns/secondary-survey/circumferential-burn",
+    "sourceTopic": "Victorian Adult Burns Service · Circumferential Burn",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-028",
+    "subject": "NP3",
+    "topic": "Integumentary Disorders & Burn Care",
+    "stem": "A seven-year-old has a small partial-thickness scald. The family can give basic wound care, but the child has severe pain during dressing changes despite the current plan.\n\nWhich referral decision is best supported?",
+    "options": [
+      {
+        "text": "Defer advice until the burn reaches an adult TBSA threshold",
+        "rationale": "A fixed area threshold overlooks pediatric dressing and pain needs.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-028:choice-2"
+      },
+      {
+        "text": "Skip planned dressing care until the child reports no pain",
+        "rationale": "Omitting needed care does not address inadequate pain management or the need for specialist guidance.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-028:choice-3"
+      },
+      {
+        "text": "Rely on family willingness as evidence that consultation is unnecessary",
+        "rationale": "A willing caregiver is helpful, but the severe pain shows that the current plan needs review.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-028:choice-4"
+      },
+      {
+        "text": "Seek burn-service advice about pain control and dressing support",
+        "rationale": "Age and poorly controlled procedural pain matter in referral decisions. The small area does not resolve these care needs.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-028:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Age and poorly controlled procedural pain matter in referral decisions. The small area does not resolve these care needs.",
+    "keyPoint": "For children, dressing needs and inadequate pain control can justify burn-service input even when the burn area is small.",
+    "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+    "sourceTopic": "American Burn Association referral guidelines",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-029",
+    "subject": "NP3",
+    "topic": "Integumentary Disorders & Burn Care",
+    "stem": "A worker has a small-looking skin injury after contact with an industrial cleaning product. The exact product has not yet been confirmed. A colleague suggests waiting for the burn-size estimate before seeking specialist advice.\n\nWhat should guide the nurse’s next action?",
+    "options": [
+      {
+        "text": "Start the facility’s chemical-exposure response and contact the burn service while clarifying the product",
+        "rationale": "The chemical mechanism changes management. Identify the exposure and escalate without waiting for a percentage estimate.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-029:choice-1"
+      },
+      {
+        "text": "Use the visible area alone to decide that the injury can be treated as a minor thermal burn",
+        "rationale": "A chemical injury is assessed by mechanism and potential progression as well as area.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-029:choice-2"
+      },
+      {
+        "text": "Wait for skin changes to stabilize before notifying the team",
+        "rationale": "This delays exposure-specific assessment and potential treatment.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-029:choice-3"
+      },
+      {
+        "text": "Choose a neutralizing agent before identifying the product",
+        "rationale": "Unverified neutralization can worsen injury. Follow an exposure-specific protocol and seek guidance.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-029:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "The chemical mechanism changes management. Identify the exposure and escalate without waiting for a percentage estimate.",
+    "keyPoint": "Chemical injury needs an exposure-specific response and prompt specialist advice. Surface area alone does not determine risk.",
+    "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+    "sourceTopic": "American Burn Association referral guidelines",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-030",
+    "subject": "NP3",
+    "topic": "Integumentary Disorders & Burn Care",
+    "stem": "A client has a thermal burn and a suspected pelvic injury after a fall. The client is pale and hypotensive. One team member wants to finish the burn chart before reporting the associated trauma.\n\nWhich handoff is most appropriate?",
+    "options": [
+      {
+        "text": "Describe only the skin burn until the pelvic injury has been confirmed by imaging",
+        "rationale": "This omits a time-sensitive suspected source of circulatory compromise.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-030:choice-2"
+      },
+      {
+        "text": "Activate urgent trauma and burn evaluation and report the unstable circulation immediately",
+        "rationale": "Potential bleeding and burn injury both matter. The emergency team needs the instability and associated trauma before the detailed chart is complete.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-030:choice-1"
+      },
+      {
+        "text": "Complete the TBSA calculation before activating the emergency team",
+        "rationale": "A detailed burn estimate is useful later. It should not delay escalation of unstable circulation.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-030:choice-3"
+      },
+      {
+        "text": "Treat the low pressure as evidence of burn shock alone",
+        "rationale": "Concurrent trauma offers another serious cause. The available information does not justify narrowing the assessment to one mechanism.",
+        "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+        "referenceId": "CH-030:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Potential bleeding and burn injury both matter. The emergency team needs the instability and associated trauma before the detailed chart is complete.",
+    "keyPoint": "Concurrent trauma changes burn triage. Communicate unstable circulation and the associated injury promptly.",
+    "source": "https://www.ameriburn.org/burn-care-team/resources/guidelines-for-burn-patient-referral",
+    "sourceTopic": "American Burn Association referral guidelines",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-031",
+    "subject": "NP4",
+    "topic": "Diabetes Mellitus",
+    "stem": "An inpatient using a continuous glucose monitor becomes sweaty and shaky. The sensor shows 101 mg/dL, and the previous readings looked stable. A bedside glucose meter is immediately available.\n\nWhich action best addresses the mismatch?",
+    "options": [
+      {
+        "text": "Reassure the client because the sensor value is above the usual low threshold",
+        "rationale": "The symptoms need assessment even with an apparently reassuring sensor value.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-031:choice-2"
+      },
+      {
+        "text": "Wait for the next scheduled sensor reading before assessing further",
+        "rationale": "Waiting could delay recognition of symptomatic hypoglycemia.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-031:choice-3"
+      },
+      {
+        "text": "Obtain a prompt bedside glucose and follow the hypoglycemia protocol as indicated",
+        "rationale": "Symptoms can disagree with a sensor reading. A confirmatory point-of-care result helps guide a timely response.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-031:choice-1"
+      },
+      {
+        "text": "Give the next scheduled insulin dose based on the sensor reading before checking",
+        "rationale": "An insulin decision made during a possible low could worsen the problem. Confirm the bedside glucose promptly.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-031:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "Symptoms can disagree with a sensor reading. A confirmatory point-of-care result helps guide a timely response.",
+    "keyPoint": "Check a bedside glucose when symptoms disagree with the sensor and respond promptly using the hospital protocol.",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+    "sourceTopic": "ADA · Diabetes Care in the Hospital",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-032",
+    "subject": "NP4",
+    "topic": "Diabetes Mellitus",
+    "stem": "A hospitalized client with type 1 diabetes will fast for a procedure. An order says to omit every insulin dose while the client is fasting. The glucose is currently in range.\n\nWhich nursing action best addresses the order?",
+    "options": [
+      {
+        "text": "Hold every dose because no carbohydrate will be eaten",
+        "rationale": "Withholding mealtime insulin may be appropriate, but stopping basal insulin can lead to ketosis.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-032:choice-2"
+      },
+      {
+        "text": "Give the usual mealtime dose regardless of the fasting order",
+        "rationale": "Mealtime dosing depends on intake and the peri-procedure plan. This risks hypoglycemia without resolving the basal order.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-032:choice-3"
+      },
+      {
+        "text": "Wait for glucose to rise substantially before asking about basal insulin",
+        "rationale": "A normal current glucose does not remove the need for a safe basal plan during fasting.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-032:choice-4"
+      },
+      {
+        "text": "Clarify the basal insulin and glucose-monitoring plan before implementing the blanket hold",
+        "rationale": "Type 1 diabetes requires basal insulin even without meals. The clinical team should individualize dose and monitoring during fasting.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+        "referenceId": "CH-032:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Type 1 diabetes requires basal insulin even without meals. The clinical team should individualize dose and monitoring during fasting.",
+    "keyPoint": "Fasting changes insulin needs. People with type 1 diabetes generally still need basal insulin, with a reviewed dose and monitoring plan.",
+    "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12690180/",
+    "sourceTopic": "ADA · Diabetes Care in the Hospital",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-033",
+    "subject": "NP4",
+    "topic": "Cerebrovascular Accident (Stroke)",
+    "stem": "Thirty minutes after IV alteplase ends, a stroke patient's blood pressure is 184/108 mm Hg on two correctly taken readings. The neurological findings are stable. A colleague says to wait because the reading would have been below the treatment threshold before thrombolysis.\n\nWhich response fits the post-treatment phase?",
+    "options": [
+      {
+        "text": "Escalate the readings and follow the post-thrombolysis blood pressure protocol",
+        "rationale": "The readings exceed the post-thrombolysis ceiling of 180/105 mm Hg. Increase monitoring and coordinate the prescribed treatment despite a stable neurological examination.",
+        "source": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000513",
+        "referenceId": "CH-033:choice-1"
+      },
+      {
+        "text": "Use the pre-thrombolysis limit of 185/110 mm Hg and continue routine monitoring",
+        "rationale": "The threshold used to decide whether thrombolysis can begin differs from the limit afterward. Using the earlier threshold misses the current elevation.",
+        "source": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000513",
+        "referenceId": "CH-033:choice-2"
+      },
+      {
+        "text": "Wait for new weakness or headache before reporting the elevated readings",
+        "rationale": "The blood pressure limit applies even when the neurological examination is stable. Waiting for symptoms delays the response to an established risk.",
+        "source": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000513",
+        "referenceId": "CH-033:choice-3"
+      },
+      {
+        "text": "Aim for an immediate systolic pressure below 140 mm Hg as the routine post-treatment target",
+        "rationale": "Intensive systolic lowering below 140 mm Hg is not the routine target after IV thrombolysis. Use the stroke protocol's limit and prescribed treatment.",
+        "source": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000513",
+        "referenceId": "CH-033:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "The readings exceed the post-thrombolysis ceiling of 180/105 mm Hg. Increase monitoring and coordinate the prescribed treatment despite a stable neurological examination.",
+    "keyPoint": "Blood pressure limits change after IV thrombolysis. Check the post-treatment target and use the ordered monitoring and treatment plan when readings exceed it.",
+    "source": "https://www.ahajournals.org/doi/10.1161/STR.0000000000000513",
+    "sourceTopic": "AHA/ASA · 2026 Acute Ischemic Stroke Guideline",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-034",
+    "subject": "NP4",
+    "topic": "Parkinson's Disease",
+    "stem": "A client with Parkinson’s disease is made temporarily nil by mouth because of swallowing concerns. A time-sensitive Parkinson medicine is due soon, and the chart has no alternative plan.\n\nWhich response is most appropriate?",
+    "options": [
+      {
+        "text": "Skip the medicine until regular meals resume without notifying the team",
+        "rationale": "This leaves a time-sensitive interruption unaddressed.",
+        "source": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations",
+        "referenceId": "CH-034:choice-2"
+      },
+      {
+        "text": "Contact the prescriber and pharmacist promptly to arrange the medication plan around the swallowing restriction",
+        "rationale": "Abrupt interruption can worsen symptoms. An appropriate formulation or route requires a reviewed plan that also respects swallowing safety.",
+        "source": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations",
+        "referenceId": "CH-034:choice-1"
+      },
+      {
+        "text": "Crush the medicine into water and administer it despite the restriction",
+        "rationale": "The route is unsafe in this setting, and some formulations cannot be crushed.",
+        "source": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations",
+        "referenceId": "CH-034:choice-3"
+      },
+      {
+        "text": "Move all Parkinson medicines to the next routine drug round",
+        "rationale": "Routine rounds may not match the individual schedule. The current dose needs timely review.",
+        "source": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations",
+        "referenceId": "CH-034:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Abrupt interruption can worsen symptoms. An appropriate formulation or route requires a reviewed plan that also respects swallowing safety.",
+    "keyPoint": "Coordinate a safe alternative administration plan promptly when swallowing changes threaten time-sensitive Parkinson treatment.",
+    "source": "https://www.nice.org.uk/guidance/ng71/chapter/Recommendations",
+    "sourceTopic": "NICE Parkinson’s disease recommendations",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-035",
+    "subject": "NP4",
+    "topic": "GI Absorption & Elimination",
+    "stem": "A client’s treated C. difficile diarrhea has resolved, and the stools are formed. A routine order asks for a repeat stool test solely to prove cure before follow-up.\n\nWhich action best fits the situation?",
+    "options": [
+      {
+        "text": "Collect the formed specimen and interpret any positive result as recurrence",
+        "rationale": "A positive test without compatible symptoms can reflect carriage rather than recurrent disease.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-035:choice-2"
+      },
+      {
+        "text": "Repeat tests until two are negative before recording symptom resolution",
+        "rationale": "Negative tests are not needed to document resolved symptoms. Repeated testing can cause misleading results.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-035:choice-3"
+      },
+      {
+        "text": "Clarify the repeat order and explain that clinical recovery guides follow-up",
+        "rationale": "A positive result may persist after symptoms resolve. Routine testing of a recovered, asymptomatic client does not establish treatment failure.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-035:choice-1"
+      },
+      {
+        "text": "Restart treatment solely because the previous test was positive",
+        "rationale": "A historical positive result does not establish a new symptomatic infection.",
+        "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+        "referenceId": "CH-035:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "A positive result may persist after symptoms resolve. Routine testing of a recovered, asymptomatic client does not establish treatment failure.",
+    "keyPoint": "After symptoms resolve, routine testing to prove cure can be misleading because carriage may persist.",
+    "source": "https://www.cdc.gov/c-diff/hcp/clinical-guidance/index.html",
+    "sourceTopic": "CDC C. difficile prevention guidance",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-036",
+    "subject": "NP4",
+    "topic": "Seizure Disorders",
+    "stem": "An adult has a two-minute convulsion. Before returning to the usual level of awareness, a second convulsion begins. A coworker says to wait because neither episode has lasted five minutes.\n\nWhich decision is safest?",
+    "options": [
+      {
+        "text": "Wait until the second seizure reaches five minutes before asking for help",
+        "rationale": "The recurrence without recovery already warrants escalation.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-036:choice-2"
+      },
+      {
+        "text": "Wait until both episodes end and then offer oral medication immediately",
+        "rationale": "Oral intake is unsafe before full alertness, and waiting delays emergency assessment.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-036:choice-3"
+      },
+      {
+        "text": "Treat each episode as an isolated event because the first stopped on its own",
+        "rationale": "The lack of recovery links the episodes clinically and changes the urgency.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-036:choice-4"
+      },
+      {
+        "text": "Activate emergency help now while protecting the client and assessing breathing",
+        "rationale": "A second seizure before recovery is an emergency warning sign. The duration of each episode does not remove that risk.",
+        "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+        "referenceId": "CH-036:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "A second seizure before recovery is an emergency warning sign. The duration of each episode does not remove that risk.",
+    "keyPoint": "Repeated seizures without recovery need emergency help even when each observed seizure is brief.",
+    "source": "https://www.cdc.gov/epilepsy/first-aid-for-seizures/",
+    "sourceTopic": "CDC seizure first aid",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-037",
+    "subject": "NP5",
+    "topic": "Cognitive & Other Psychiatric Disorders",
+    "stem": "An older adult who normally joins conversations becomes quiet and slow to respond during an admission. Attention varies over the shift, and the family says this began yesterday. The client has not become agitated.\n\nWhat is the priority interpretation?",
+    "options": [
+      {
+        "text": "Assess promptly for delirium and investigate possible medical contributors",
+        "rationale": "The sudden, fluctuating change and reduced attention fit a delirium concern. Quiet behavior does not make it harmless.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-037:choice-1"
+      },
+      {
+        "text": "Assume gradual dementia progression and defer assessment",
+        "rationale": "The short onset and variation over hours are not explained by a gradual change alone.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-037:choice-2"
+      },
+      {
+        "text": "Classify the behavior as ordinary fatigue because the client is cooperative",
+        "rationale": "Being calm does not exclude hypoactive delirium. The family’s baseline comparison matters.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-037:choice-3"
+      },
+      {
+        "text": "Wait for agitation before using a delirium assessment",
+        "rationale": "Hypoactive delirium may lack agitation. Assessment should respond to the change already present.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-037:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "The sudden, fluctuating change and reduced attention fit a delirium concern. Quiet behavior does not make it harmless.",
+    "keyPoint": "An abrupt, fluctuating change in attention can be hypoactive delirium even in a quiet patient.",
+    "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+    "sourceTopic": "NICE delirium recommendations",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-038",
+    "subject": "NP5",
+    "topic": "Altered Perception",
+    "stem": "A hospitalized client at risk of delirium is becoming disoriented at dusk. The hearing aids and glasses are in a drawer, and the room changes have made it hard to recognize familiar cues.\n\nWhich nursing plan addresses the modifiable risks first?",
+    "options": [
+      {
+        "text": "Keep the room dark and remove clocks to decrease stimulation",
+        "rationale": "This can make orientation harder and does not restore sensory access.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-038:choice-2"
+      },
+      {
+        "text": "Restore the sensory aids, provide orientation cues, and reassess for contributing problems",
+        "rationale": "Improving vision, hearing, and orientation addresses preventable contributors while assessment continues.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-038:choice-1"
+      },
+      {
+        "text": "Request routine sedation before trying environmental adjustments",
+        "rationale": "Sedation does not correct the missing sensory aids or orientation cues and may add risk.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-038:choice-3"
+      },
+      {
+        "text": "Discourage familiar visitors until the client stops asking where they are",
+        "rationale": "Supportive familiar contact can aid orientation. Removing it does not address the identified barriers.",
+        "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+        "referenceId": "CH-038:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "Improving vision, hearing, and orientation addresses preventable contributors while assessment continues.",
+    "keyPoint": "Support orientation and sensory access as part of delirium prevention and care.",
+    "source": "https://www.nice.org.uk/guidance/cg103/chapter/Recommendations",
+    "sourceTopic": "NICE delirium recommendations",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-039",
+    "subject": "NP5",
+    "topic": "Substance Use Disorders",
+    "stem": "A client in monitored alcohol withdrawal becomes disoriented and gives inconsistent answers about symptoms. A colleague enters zeros for symptoms the client cannot describe on the CIWA-Ar.\n\nWhat should the nurse do?",
+    "options": [
+      {
+        "text": "Record zero for every unanswered item and continue using the total to guide care",
+        "rationale": "A missing response is not evidence of absence. This can underestimate severity.",
+        "source": "https://www.asam.org/docs/default-source/quality-science/the_asam_clinical_practice_guideline_on_alcohol-1.pdf",
+        "referenceId": "CH-039:choice-2"
+      },
+      {
+        "text": "Stop all monitoring until the client can answer consistently",
+        "rationale": "Delirium increases the need for monitoring. Waiting can miss deterioration.",
+        "source": "https://www.asam.org/docs/default-source/quality-science/the_asam_clinical_practice_guideline_on_alcohol-1.pdf",
+        "referenceId": "CH-039:choice-3"
+      },
+      {
+        "text": "Escalate the mental-status change and use the ordered objective delirium or withdrawal monitoring approach",
+        "rationale": "The inability to report symptoms invalidates the proposed scoring. The change needs evaluation and appropriate monitoring.",
+        "source": "https://www.asam.org/docs/default-source/quality-science/the_asam_clinical_practice_guideline_on_alcohol-1.pdf",
+        "referenceId": "CH-039:choice-1"
+      },
+      {
+        "text": "Ask the family to guess the symptom ratings and treat the total as valid",
+        "rationale": "Family history may help assessment, but estimated answers do not restore the validity of self-report scoring.",
+        "source": "https://www.asam.org/docs/default-source/quality-science/the_asam_clinical_practice_guideline_on_alcohol-1.pdf",
+        "referenceId": "CH-039:choice-4"
+      }
+    ],
+    "correctIndex": 2,
+    "rationale": "The inability to report symptoms invalidates the proposed scoring. The change needs evaluation and appropriate monitoring.",
+    "keyPoint": "A symptom score that relies on self-report is unreliable during delirium. Use the team’s appropriate structured assessment and escalate.",
+    "source": "https://www.asam.org/docs/default-source/quality-science/the_asam_clinical_practice_guideline_on_alcohol-1.pdf",
+    "sourceTopic": "ASAM alcohol withdrawal management guideline",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-040",
+    "subject": "NP5",
+    "topic": "Trauma-Related Disorders",
+    "stem": "During a routine examination, a client becomes tense when a nurse moves behind them and reaches for clothing. The examination can safely pause.\n\nWhich response best applies a trauma-informed approach?",
+    "options": [
+      {
+        "text": "Continue quickly so the client spends less time anticipating touch",
+        "rationale": "Proceeding without renewed consent may increase distress and does not address the loss of control.",
+        "source": "https://www.samhsa.gov/mental-health/trauma-violence/trauma-informed-approaches-programs",
+        "referenceId": "CH-040:choice-2"
+      },
+      {
+        "text": "Require a detailed account of past trauma before making any adjustment",
+        "rationale": "The nurse can respect the client’s cues and offer choices without requiring disclosure.",
+        "source": "https://www.samhsa.gov/mental-health/trauma-violence/trauma-informed-approaches-programs",
+        "referenceId": "CH-040:choice-3"
+      },
+      {
+        "text": "Ask another staff member to hold the client still so the examination can finish",
+        "rationale": "The nonurgent examination can pause. Holding the client would escalate distress and remove choice.",
+        "source": "https://www.samhsa.gov/mental-health/trauma-violence/trauma-informed-approaches-programs",
+        "referenceId": "CH-040:choice-4"
+      },
+      {
+        "text": "Pause, ask permission, and offer a comfortable position before continuing",
+        "rationale": "Explaining the procedure and offering choice help restore a sense of control while allowing needed care.",
+        "source": "https://www.samhsa.gov/mental-health/trauma-violence/trauma-informed-approaches-programs",
+        "referenceId": "CH-040:choice-1"
+      }
+    ],
+    "correctIndex": 3,
+    "rationale": "Explaining the procedure and offering choice help restore a sense of control while allowing needed care.",
+    "keyPoint": "Pause, explain what will happen, and offer choices that preserve safety and control.",
+    "source": "https://www.samhsa.gov/mental-health/trauma-violence/trauma-informed-approaches-programs",
+    "sourceTopic": "SAMHSA trauma-informed care principles",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-041",
+    "subject": "NP5",
+    "topic": "High Acuity & Emergency Situations",
+    "stem": "A monitored adult suddenly becomes unresponsive. The rhythm is a regular wide-complex tachycardia, and the team confirms no pulse. A defibrillator is available.\n\nWhich response matches this clinical state?",
+    "options": [
+      {
+        "text": "Continue resuscitation with CPR and prompt defibrillation for pulseless ventricular tachycardia",
+        "rationale": "The absence of a pulse determines the arrest pathway. Pulseless ventricular tachycardia is shockable.",
+        "source": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-CA-250527.pdf",
+        "referenceId": "CH-041:choice-1"
+      },
+      {
+        "text": "Prepare synchronized cardioversion using the pathway for a patient with a pulse",
+        "rationale": "A perfusing tachycardia pathway does not fit a confirmed pulseless arrest.",
+        "source": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-CA-250527.pdf",
+        "referenceId": "CH-041:choice-2"
+      },
+      {
+        "text": "Observe the rhythm because organized electrical activity proves circulation",
+        "rationale": "Electrical activity does not establish a pulse. This patient needs immediate resuscitation.",
+        "source": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-CA-250527.pdf",
+        "referenceId": "CH-041:choice-3"
+      },
+      {
+        "text": "Delay CPR while obtaining a formal 12-lead ECG",
+        "rationale": "Confirmatory documentation should not delay resuscitation and defibrillation in an established shockable arrest.",
+        "source": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-CA-250527.pdf",
+        "referenceId": "CH-041:choice-4"
+      }
+    ],
+    "correctIndex": 0,
+    "rationale": "The absence of a pulse determines the arrest pathway. Pulseless ventricular tachycardia is shockable.",
+    "keyPoint": "A wide-complex rhythm with no pulse is managed as a shockable arrest when identified as pulseless ventricular tachycardia.",
+    "source": "https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-CA-250527.pdf",
+    "sourceTopic": "AHA adult cardiac arrest algorithm 2025",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  },
+  {
+    "id": "CH-042",
+    "subject": "NP5",
+    "topic": "Collaboration & Communication in Critical Care",
+    "stem": "During an urgent handoff, the receiving nurse repeats a verbal instruction incorrectly. The sender notices the discrepancy just before the team acts.\n\nWhat completes the safest communication loop?",
+    "options": [
+      {
+        "text": "Repeat the instruction louder and assume the receiver now understands",
+        "rationale": "Sending it again does not verify that the receiver heard and interpreted it correctly.",
+        "source": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/teamstepps-pocket-guide.pdf",
+        "referenceId": "CH-042:choice-2"
+      },
+      {
+        "text": "Correct the instruction, ask for another read-back, and confirm the repeated message before action",
+        "rationale": "The initial repeat exposed a misunderstanding. A verified corrected repeat confirms that both people share the same plan.",
+        "source": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/teamstepps-pocket-guide.pdf",
+        "referenceId": "CH-042:choice-1"
+      },
+      {
+        "text": "Ask the receiver to proceed and clarify the discrepancy afterward",
+        "rationale": "Acting before confirming the instruction can convert a communication error into a care error.",
+        "source": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/teamstepps-pocket-guide.pdf",
+        "referenceId": "CH-042:choice-3"
+      },
+      {
+        "text": "Ask a bystander whether the sender’s instruction sounded clear",
+        "rationale": "A bystander’s impression does not confirm what the person carrying out the instruction understood.",
+        "source": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/teamstepps-pocket-guide.pdf",
+        "referenceId": "CH-042:choice-4"
+      }
+    ],
+    "correctIndex": 1,
+    "rationale": "The initial repeat exposed a misunderstanding. A verified corrected repeat confirms that both people share the same plan.",
+    "keyPoint": "A check-back closes the loop when the receiver repeats the corrected message and the sender confirms it.",
+    "source": "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/teamstepps-pocket-guide.pdf",
+    "sourceTopic": "AHRQ TeamSTEPPS check-back",
+    "origin": "Original clinical judgment scenario for For Elaine Only Reviewer.",
+    "format": "situational",
+    "clinicalObjective": "decision",
+    "difficulty": "challenge"
+  }
+]

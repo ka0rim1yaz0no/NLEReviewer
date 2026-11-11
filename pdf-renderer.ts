@@ -7,13 +7,13 @@ const brand='For Elaine Only Reviewer',W=595.28,H=841.89,M=48,BOTTOM=60;
 export async function renderTopicPDF(guide:TopicGuide):Promise<Uint8Array>{
  const doc=await PDFDocument.create(),regular=await doc.embedFont(StandardFonts.Helvetica),bold=await doc.embedFont(StandardFonts.HelveticaBold),serif=await doc.embedFont(StandardFonts.TimesRomanBold);
  doc.setTitle(pdfText(`${guide.title} - ${brand}`));doc.setAuthor(brand);doc.setSubject('Original scenario-linked nursing review notes');doc.setLanguage('en-PH');
- const green=rgb(.10,.24,.19),ink=rgb(.16,.20,.18),muted=rgb(.34,.39,.36),pale=rgb(.92,.95,.92);
+ const berry=rgb(.51,.19,.34),ink=rgb(.22,.15,.19),muted=rgb(.43,.31,.38),pale=rgb(.97,.88,.92);
  // Standard-font text is emitted without pair kerning. Measure the glyph
  // advances that readers actually use, so long lines stay inside the margins.
  const advances=new Map<PDFFont,Map<string,number>>();
  function measure(text:string,font:PDFFont,size:number){let cache=advances.get(font);if(!cache){cache=new Map();advances.set(font,cache);}let sum=0;for(const char of text){let width=cache.get(char);if(width===undefined){width=font.widthOfTextAtSize(char,1);cache.set(char,width);}sum+=width;}return sum*size;}
  let page:PDFPage,y=0;
- function newPage(){page=doc.addPage([W,H]);y=H-70;page.drawText(brand,{x:M,y:H-36,size:10,font:bold,color:green});let title=pdfText(guide.title);while(measure(title,regular,8)>260)title=title.slice(0,-4)+'...';page.drawText(title,{x:W-M-measure(title,regular,8),y:H-36,size:8,font:regular,color:muted});page.drawLine({start:{x:M,y:H-45},end:{x:W-M,y:H-45},thickness:.6,color:pale});}
+ function newPage(){page=doc.addPage([W,H]);y=H-70;page.drawRectangle({x:0,y:H-52,width:W,height:52,color:pale});page.drawText(brand,{x:M,y:H-36,size:10,font:bold,color:berry});let title=pdfText(guide.title);while(measure(title,regular,8)>260)title=title.slice(0,-4)+'...';page.drawText(title,{x:W-M-measure(title,regular,8),y:H-36,size:8,font:regular,color:muted});}
  function ensure(height:number){if(y-height<BOTTOM)newPage();}
  function lines(text:string,font:PDFFont,size:number,width=W-2*M){
   const output:string[]=[];
@@ -36,30 +36,30 @@ export async function renderTopicPDF(guide:TopicGuide):Promise<Uint8Array>{
   for(const line of lines(text,font,size,W-2*M-indent)){ensure(leading);page.drawText(line,{x:M+indent,y,size,font,color});y-=leading;}
   y-=after;
  }
- function heading(text:string,size=15){const n=lines(text,bold,size).length;ensure(n*size*1.45+38);paragraph(text,{font:bold,size,color:green,after:8});}
+ function heading(text:string,size=15){const n=lines(text,bold,size).length;ensure(n*size*1.45+38);paragraph(text,{font:bold,size,color:berry,after:8});}
  function reference(url:string,index:number){
-  ensure(38);paragraph(`[${index}]`,{font:bold,size:10,after:2});
-  for(const line of lines(url,regular,9.2)){
-   ensure(15);const width=measure(line,regular,9.2);page.drawText(line,{x:M,y,size:9.2,font:regular,color:green});
+  ensure(25);
+  for(const line of lines(`[${index}] ${guide.referenceLabels[index-1]}`,regular,10)){
+   ensure(15);const width=measure(line,regular,10);page.drawText(line,{x:M,y,size:10,font:regular,color:berry});
    const annotation=doc.context.register(doc.context.obj({Type:'Annot',Subtype:'Link',Rect:[M,y-3,M+width,y+11],Border:[0,0,0],A:{Type:'Action',S:'URI',URI:PDFString.of(url)}}));page.node.addAnnot(annotation);y-=14;
   }
-  y-=8;
+  y-=5;
  }
  newPage();
  paragraph(`${guide.subject} | ORIGINAL TOPIC REVIEW`,{font:bold,size:10,color:muted,after:12});
- paragraph(guide.title,{font:serif,size:25,color:green,after:14});
+ paragraph(guide.title,{font:serif,size:25,color:berry,after:14});
  paragraph(`${guide.questionCount} situational questions | ${guide.sections.length} scenarios | ${guide.references.length} references`,{size:10,color:muted,after:12});
- paragraph('Review the clinical clues, explain each care principle, then return to the app to test yourself. These notes come from the reviewer\'s original practice scenarios. They are not BoardPal sheets or official PNLE papers.',{size:10,color:muted});
- paragraph('Educational reference review; independent clinician approval remains pending. Use the linked guidance and local protocols for full clinical context.',{size:9.5,color:muted,after:18});
- for(const [i,section] of guide.sections.entries()){
-  heading(`${i+1}. ${section.title}`);paragraph(section.scenario,{size:10.5,color:muted,after:12});
-  for(const point of section.points)paragraph(`- ${point.text} [${point.reference}]`,{indent:8,after:9,color:point.avoid?rgb(.54,.19,.14):ink});
-  y-=8;
+ paragraph('Review the case clues and key decisions. Open the numbered references for full clinical guidance.',{size:10,color:muted,after:16});
+ for(const section of guide.sections){
+  heading(section.title);paragraph(section.scenario,{size:10.5,color:muted,after:8});
+  if(section.summary)paragraph(section.summary,{font:bold,size:10,after:8});
+  for(const point of section.points)paragraph(`- ${point.avoid?'':point.objective+' - '}${point.text} [${point.reference}]`,{indent:8,after:6,color:point.avoid?rgb(.54,.19,.25):ink});
+  y-=10;
  }
  heading('References');paragraph('Numbers beside the review points identify their clinical references. Open a link for the full source and publication context.',{size:10,color:muted});
  guide.references.forEach((url,i)=>reference(url,i+1));
  heading('About this guide',13);paragraph('Prepared from original educational scenarios in For Elaine Only Reviewer. Nursing reference facts informed the scenarios; source authors do not endorse this guide. Open RN nursing texts are published by WisTech Open / Chippewa Valley Technical College under CC BY 4.0. Editors include Kimberly Ernstmeyer and Elizabeth Christman; Myra Reuter-Sandquist authored Nursing Assistant. The app\'s About page provides full source attribution.',{size:9,color:muted});
- paragraph('https://nlereviewer.vercel.app/about',{size:9,color:green});
+ paragraph('https://nlereviewer.vercel.app/about',{size:9,color:berry});
  const total=doc.getPageCount();
  for(const [i,p] of doc.getPages().entries()){
   p.drawLine({start:{x:M,y:42},end:{x:W-M,y:42},thickness:.5,color:pale});

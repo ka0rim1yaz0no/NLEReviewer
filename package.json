@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "node --experimental-strip-types write-bank-summary.mjs && tsc --noEmit && vite build && node --experimental-strip-types verify-build.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --experimental-strip-types --test --test-concurrency=1 tests.mjs sync-tests.mjs selection-tests.mjs"
+    "test": "node --experimental-strip-types --test --test-concurrency=1 tests.mjs sync-tests.mjs selection-tests.mjs improvement-tests.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",

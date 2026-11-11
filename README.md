@@ -4,40 +4,41 @@ A BoardPal-inspired nursing study app with username profiles, separate progress,
 
 ## Published content
 
-**5,075 situational nursing questions across all 155 topics**, in a bank of **9,489 active questions** (10,652 stored including 1,163 retired historical records):
+**5,117 situational nursing questions across 156 topics**, in a bank of **9,531 active questions** (10,694 stored including 1,163 retired historical records):
 
 | Question format | Count |
 | --- | ---: |
 | Existing questions in 116 five-part situations | 580 |
 | New questions in 620 seven-part situations | 4,340 |
-| Additional standalone situational scenarios, one per topic | 155 |
+| Standalone situational scenarios from the November 3 expansion | 155 |
+| New original clinical judgment cases | 42 |
 | Other earlier standalone originals | 51 |
 | Source-based concept checks | 3,714 |
 | Reference-comparison questions | 647 |
 | Corrected supplemental source items | 2 |
 
-The situational total exceeds the requested minimum of 4,771. Each of the 155 topics has four linked situations (28 questions) plus one standalone scenario. Each linked situation tests seven decisions: recognition, action, teaching, safety, planning, evaluation, and reasoning. The current collection includes 736 linked situations and 155 additional independent standalone vignettes; 5,075 is the question count. The standalone expansion adds a different applied decision to every topic. Cases cover bedside, community, family, professional, and critical-care decisions. No names-only or age-only variants are generated.
+The situational bank has 933 distinct vignettes. It includes 620 linked cases with seven nursing-process decisions each, 116 earlier five-part cases, and 197 standalone cases. The November 11 update adds 42 original judgment cases, including six for the new NP3 topic Integumentary Disorders & Burn Care.
 
 Every question has four distinct choices, one keyed answer, an answer explanation, and explanations for all alternatives. `situational-evidence.json` records the clinical findings, care need, safe response, teaching, desired outcome, unsafe proposal, clinical reasoning, and reference for each new situation. The answer key is checked against this authored evidence. References include Open RN nursing chapters, WHO, CDC, NIH/NEI, NHS, NICE, AHA, and Philippine statutes. Checks include all-topic coverage, complete per-choice explanations, unique situations and questions, balanced answer positions, ABG arithmetic, scoring, and preservation of every earlier record. The November 3 audit reviewed the evidence behind all 740 original case sets and checked all 4,940 question records. Reference and structural checking is **not independent professional clinical approval**; independent clinician review remains pending.
 
 There are 4,361 active concept and comparison items for focused review, with all 4,515 source records still available to existing saved sessions. Their reference evidence and corrections are preserved. The repetition review archives 138 redundant items and withholds 31 ambiguous items; 14 bounded reference corrections update 65 records, including affected alternative explanations. Saved IDs, choice wording, order and key positions are preserved. See `repetition-review-report.json`. They are not counted as situational questions. Earlier IDs, option positions, and answer keys remain stable. The two documented legacy context clarifications and more specific reference links are explicitly rolled back when checking the original release checksums; all other earlier content must still match.
 
-The catalog retains the 155 reference topic names and observed 9,541-question reference distribution rechecked on November 3, 2026. BoardPal's paid question text is not copied, and this app does not claim the same per-topic counts or official PNLE content.
+The [BoardPal practice catalog](https://www.nleboardpal.com/practice) listed 156 topics and 9,598 reference questions on November 11, 2026. The reviewer uses the observed topic names and organization with its own original practice content.
 
-`question-bank.json` is a small export manifest; `question-bank.json.gz` contains the complete lossless JSON array, including 1,163 `retired:true` historical records. There are 10,652 stored records and 9,489 active questions. New practice and decks exclude historical records; saved sessions, results, bookmarks, and notes can still resolve them. Run `node export-bank.mjs --plain` to write an uncompressed array to `outputs/question-bank.json`, or export the active bank from the app's Settings. The gzip format keeps individual files within GitHub's browser upload limit. `situational-questions.json` freezes the new records, `situational-evidence.json` records case evidence, and `situational-review-report.json` records counts and review limits. The six `situations-*.txt` files and `build-situational-bank.mjs` are authoring-only. `build-audited-bank.mjs` preserves published option identities and key positions; replacements get new IDs. `--draft` writes only ignored outputs. Create and review a new immutable release before publishing further changes. See [THIRD_PARTY.md](THIRD_PARTY.md) for references and attribution.
+`question-bank.json` is a small export manifest; `question-bank.json.gz` contains the complete lossless JSON array, including 1,163 `retired:true` historical records. There are 10,694 stored records and 9,531 active questions. New practice and decks exclude historical records; saved sessions, results, bookmarks, and notes can still resolve them. Run `node export-bank.mjs --plain` to write an uncompressed array to `outputs/question-bank.json`, or export the active bank from the app's Settings. The gzip format keeps individual files within GitHub's browser upload limit. `situational-questions.json` freezes the new records, `situational-evidence.json` records case evidence, and `situational-review-report.json` records counts and review limits. The six `situations-*.txt` files and `build-situational-bank.mjs` are authoring-only. `build-audited-bank.mjs` preserves published option identities and key positions; replacements get new IDs. `--draft` writes only ignored outputs. Create and review a new immutable release before publishing further changes. See [THIRD_PARTY.md](THIRD_PARTY.md) for references and attribution.
 
 A proposed 4,120-item MedMCQA research candidate remains withheld after spot-checks found scenario/key mismatches. It is not counted or available in practice. The two provisional bulk database releases and the superseded first concept-bank candidate remain excluded by row-level security. Only the two separately corrected source items are published from that dataset.
 
 ## Study features
 
 - Tutor mode with immediate explanations; exam mode with deferred grading, blanks counted as incorrect, and full result review.
-- Custom subject/topic sets, new/missed filters, timers, saved sessions, flags, elimination, confidence, highlights, pen annotations, scratch notes, bookmarks, and question notes.
+- Challenge and Mixed difficulty, resumable custom subject and topic sets, new and missed filters, timers, flags, elimination, confidence, highlights, scratch notes, bookmarks, and question notes.
 - Counted Needs work, Not started, Flagged, and Saved topic filters; per-topic redo-miss sets; preserved first-try scores and a Vault for unresolved misses.
 - Five mock variants, each with five 100-item, two-hour sections; a balanced 30-item diagnostic. New mock sections use fixed disjoint 100-item selections per subject: fourteen complete seven-part situations and two independent scenario questions. They remain selections from this app’s shared bank, not official papers. Earlier saved sessions retain their exact questions.
-- All 155 topics connected to flashcards, spaced review, complete original resource notes, the full planner, and calendar export. Shared topic/resource notes, gathered My Notes, Anki text/TSV/CSV import, and legacy deck/resource links.
+- All 156 topics connect to flashcards, spaced review, short clinical notes, the full planner, and calendar export. Shared topic/resource notes, gathered My Notes, Anki text/TSV/CSV import, and legacy deck/resource links.
 - History, performance, milestones, profile/settings, theme and text-size preferences, JSON backups, and authorized personal question imports.
 - Username profiles backed by separate Supabase identities, isolated progress, cloud sync, retry controls, and a responsive mobile layout.
-- Format filters for situational questions, earlier clinical/standalone items, concept checks, comparisons, and corrected source items. Quick practice, diagnostics, mocks, topic decks, and daily flashcards default to situational questions. Other formats remain available in custom selections.
+- Format filters for situational questions, earlier clinical/standalone items, concept checks, comparisons, and corrected source items. Quick practice defaults to clinical decisions from new situations. Diagnostic, mock, and review selections retain their established rules.
 
 Large sessions render at most 100 navigator buttons at a time. This keeps phone rendering bounded while every question remains reachable. The full bank is available to custom sets; counts are capped at the actual selection. Resource key points load 20 at a time. Question-library, topic-question, and result reviews render 10 at a time.
 
@@ -154,3 +155,11 @@ Quick practice and diagnostics now use one question per new situation. They rese
 The content review compared normalized stems throughout the active bank, adjudicated 197 same-answer fact groups, 125 cross-label fact pairs and 142 broader scenario pairs, and archived 138 redundant questions. Another 31 reference-matching items were withheld because the prompt did not support a sufficiently unique answer. Source corrections address pulmonary vessels, BMP versus CMP, TRALI versus circulatory overload, antacids, pustules, parity terminology and a valve typo. `repetition-corrections.json` gives every exact field change and primary reference; `repetition-retirements.json` gives the retirement decisions; `repetition-candidate-review.json` records retained distinctions. The full preceding release digest is reproduced by undoing only this documented patch set.
 
 All 100 regression tests, all-topic coverage, 37,956 active choice-explanation checks and the production build pass. Structural checking and targeted source review cannot certify every clinical claim. Independent nursing-educator approval remains pending. Publication uses ten immutable pages followed by the manifest preflight transaction; do not reapply the older release schema or change existing profile policies.
+
+## Challenge practice and short references — November 11, 2026
+
+Release `2026-11-11-challenge-pink-2` adds 42 original cases with sourced explanations for all four choices. Challenge prioritizes these cases and draws on decision-focused questions across every topic. Custom set previews the available count, offers Mixed difficulty, and lists recent unfinished practice and exam sets. Wrong before uses each question's latest result.
+
+The light pink theme covers the study interface and PDFs. Each of the 156 topic guides gives the case clues and a concise keyed decision with a clickable clinical source. The full per-choice rationales are available in answer review. Earlier question IDs, keys, choice order, and payloads match the previous protected release.
+
+The verification covers all 9,531 active normalized stems, 20,468 situational choice explanations, 109 automated tests, and every topic guide. Clinical review of the new questions used the linked primary sources. Independent educator review remains pending.

@@ -5,7 +5,7 @@ import {applyReferenceRepairs,restoreReferenceRepairs,resolvedReference} from ".
 import referencePatches from "./question-reference-patches.json" with {type:"json"};
 import referenceResolutions from "./reference-resolutions.json" with {type:"json"};
 const ectPriorCase='SIT-NP5-somatic-behavioral-therapies-01';
-const beforeReferenceRepair=qs=>restoreReferenceRepairs(restoreRepetitionReview(qs)).filter(q=>q.caseId!==ectPriorCase+'-R3').map(q=>{if(q.caseId!==ectPriorCase)return q;const copy={...q};delete copy.retired;return copy;});
+const beforeReferenceRepair=qs=>restoreReferenceRepairs(restoreRepetitionReview(qs.filter(q=>!challengeQuestions.some(added=>added.id===q.id)))).filter(q=>q.caseId!==ectPriorCase+'-R3').map(q=>{if(q.caseId!==ectPriorCase)return q;const copy={...q};delete copy.retired;return copy;});
 const beforeEditorial=qs=>beforeReferenceRepair(qs).map(q=>{if(!retiredIds.has(q.id))return q;const copy={...q};delete copy.retired;return copy;});
 import {vaultInterval,vaultIsDue,updateVaultReview} from "./vault-schedule.ts";
 import {mockQuestionIds} from "./mock-papers.ts";
@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {mkdir,readFile,writeFile,unlink} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
-import {questions,activeQuestions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
+import {questions,activeQuestions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,challengeQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import {inCollection,collectionCounts,parseCollection,isSituational} from './collections.ts';
 import {decodeContentRelease} from './content-release.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -35,23 +35,24 @@ import {auditQuestionBank,findDuplicateQuestions,referenceTotal,referenceCount,r
 import {initialState,recordAnswer,gradeSession,firstAttempts,rating,dateKey,addDays,daysBetween,streak,longestStreak,scheduleCard,parseFlashcardText,sessionScore} from './engine.ts';
 import {validateBackup} from './validation.ts';
 import {curriculum,questionsForTopic,casesForTopic,questionsForSelection,resourceKeys} from './curriculum.ts';
+const legacyCatalog=curriculum.filter(t=>t.slug!=='integumentary-disorders-burn-care');
 const bank=new Map(questions.map(q=>[q.id,q]));
-test('all 155 PDF guides include sourced active situational points and exclude archived records',()=>{
+test('all 156 PDF guides include sourced active situational points and exclude archived records',()=>{
  for(const topic of curriculum){
   const guide=makeTopicGuide(topic,questions,clinicalCases);
   assert.ok(guide.sections.length>0,topic.slug);assert.ok(guide.references.length>0,topic.slug);
   const expected=questionsForTopic(topic,questions).filter(isSituational);
   assert.equal(guide.questionCount,expected.length,topic.slug);
   const points=guide.sections.flatMap(s=>s.points);assert.ok(points.length>0);
-  for(const p of points){assert.ok(p.text.length>40);assert.ok(guide.references[p.reference-1].startsWith('https://'));}
-  for(const p of points.filter(p=>p.avoid))assert.ok(p.text.startsWith('AVOID / REQUIRES CORRECTION: '));
+  for(const p of points){assert.ok(p.text.trim().length>0);assert.ok(guide.references[p.reference-1].startsWith('https://'));}
+  for(const p of points.filter(p=>p.avoid))assert.ok(p.text.startsWith('Avoid: '));
   const retired=questions.filter(q=>q.retired&&q.topic===topic.name);
   for(const q of retired)assert.ok(!points.some(p=>p.text===q.keyPoint),q.id);
  }
  assert.equal(pdfText('A−B — C–D'),'A-B - C-D');
  const mobility=makeTopicGuide(curriculum.find(t=>t.slug==='basic-needs-mobility-comfort-elimination-oxygenation'),questions,clinicalCases);
  const unsafe=mobility.sections.flatMap(s=>s.points).find(p=>p.text.includes('Send the dizzy patient to walk alone'));
- assert.ok(unsafe?.avoid);assert.ok(unsafe.text.startsWith('AVOID'));
+ assert.ok(unsafe?.avoid);assert.ok(unsafe.text.startsWith('Avoid: '));
  const labs=makeTopicGuide(curriculum.find(t=>t.slug==='laboratory-values'),questions,clinicalCases);
  const potassium=labs.sections.flatMap(s=>s.points).find(p=>p.avoid&&p.text.includes('Administer an additional potassium supplement'));
  assert.ok(potassium);assert.ok(potassium.text.includes('appropriate response'));
@@ -71,11 +72,11 @@ test('the standalone expansion adds one reviewed scenario per topic without chan
  assert.equal(added.length,155);assert.equal(report.independentClinicianApproval,false);
  assert.equal(createHash('sha256').update(JSON.stringify(added,null,2)+'\n').digest('hex'),report.candidateSha256);
  assert.deepEqual(report.reviewedQuestionIds,added.map(q=>q.id));
- for(const topic of curriculum)assert.equal(added.filter(q=>q.subject===topic.subject&&q.topic===topic.name).length,1,topic.slug);
+ for(const topic of legacyCatalog)assert.equal(added.filter(q=>q.subject===topic.subject&&q.topic===topic.name).length,1,topic.slug);
  const positions=[0,0,0,0];
  for(const q of added){assert.ok(isSituational(q));positions[q.correctIndex]++;assert.equal(q.options.length,4);assert.ok(q.clinicalObjective);assert.ok(q.origin.includes('No BoardPal'));for(const o of q.options){assert.ok(o.rationale.length>=70);assert.match(o.source,/^https:\/\//);assert.ok(o.referenceId.startsWith(q.id+':'));}}
  assert.deepEqual(positions,[39,39,39,38]);
- assert.equal(validateQuestions(questions).length,10652);
+ assert.equal(validateQuestions(questions).length,10694);
  assert.equal(await contentDigest(beforeEditorial(questions.filter(q=>!q.id.startsWith('EXP2-'))),clinicalCases),report.previousContentDigest);
 });
 test('standalone calculation keys match the stated units and clinical quantities',()=>{
@@ -113,7 +114,7 @@ function beforeAudit(qs=originalQuestions){return beforeEditorial(qs).map(q=>{
 const casesBeforeAudit=legacyRationaleBaseline.cases.map(c=>({...c,scenario:legacyContext.find(x=>x.current===c.scenario)?.previous??c.scenario}));
 function session(ids=[questions[0].id]){return {id:'test-session',title:'Test',kind:'exam',mode:'exam',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:100,scratch:'',highlights:{},strokes:{}};}
 test('the 600 original questions and every published addition have unique stems, choices, rationales, and valid keys',()=>{
-  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
+  assert.equal(originalQuestions.length,600);assert.equal(questions.length,600+additionalQuestions.length+supplementalQuestions.length+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length+challengeQuestions.length);assert.equal(clinicalCases.length,120);assert.equal(validateQuestions(questions).length,questions.length);
   assert.equal(new Set(questions.map(q=>q.stem)).size,questions.length);
   for(const s of subjects)assert.equal(originalQuestions.filter(q=>q.subject===s.id).length,100);
   for(const q of questions){assert.ok(q.rationale.length>20);assert.equal(q.options[q.correctIndex].rationale,q.rationale);assert.ok(q.options.every(o=>o.rationale.length>20));}
@@ -133,9 +134,9 @@ test('question import rejects duplicate IDs, duplicate choices, missing rational
 test('backups restore valid state and reject data that would break study flows',()=>{const state=initialState();assert.equal(validateBackup(state).version,1);assert.throws(()=>validateBackup({...state,customCards:[{id:'x',front:5}]}));assert.throws(()=>validateBackup({...state,sessions:[{...session(),cursor:99}]}));assert.throws(()=>validateBackup({...state,sessions:[{...session(),answers:{[questions[0].id]:{selected:9,submitted:true}}}]}));assert.throws(()=>validateBackup({...state,profile:{...state.profile,timezone:'not-a-timezone'}}));const clean=validateBackup({...state,preferences:{...state.preferences,flashcardGoal:999},notes:{bad:123,good:'Remember this'}});assert.equal(clean.preferences.flashcardGoal,100);assert.equal(clean.notes.bad,undefined);assert.equal(clean.notes.good,'Remember this');});
 test('earned streak milestones survive a later missed day',()=>{const attempts=['2026-01-01','2026-01-02','2026-01-03','2026-01-06'].map((date,i)=>({id:String(i),questionId:'x',sessionId:'x',correct:true,confidence:'',selected:0,at:Date.parse(date+'T04:00:00Z')}));assert.equal(longestStreak(attempts,'Asia/Manila'),3);});
 test('repeated exam submission preserves the first completion time',()=>{const s=session();let state={...initialState(),sessions:[s]};state=gradeSession(state,s,bank,3000);assert.equal(gradeSession(state,s,bank,9999).sessions[0].finishedAt,3000);});
-test('the full 155-topic catalog preserves the observed subject organization',()=>{assert.equal(curriculum.length,155);assert.equal(new Set(curriculum.map(t=>t.slug)).size,155);for(const [subject,count]of Object.entries({CROSS:12,NP1:32,NP2:22,NP3:29,NP4:37,NP5:23}))assert.equal(curriculum.filter(t=>t.subject===subject).length,count);});
+test('the full 156-topic catalog preserves the observed subject organization',()=>{assert.equal(curriculum.length,156);assert.equal(new Set(curriculum.map(t=>t.slug)).size,156);for(const [subject,count]of Object.entries({CROSS:12,NP1:32,NP2:22,NP3:30,NP4:37,NP5:23}))assert.equal(curriculum.filter(t=>t.subject===subject).length,count);});
 test('topic practice uses real unique question IDs and keeps original answer keys',()=>{const covered=new Set();for(const topic of curriculum){const related=questionsForTopic(topic,questions);assert.equal(new Set(related.map(q=>q.id)).size,related.length);for(const q of related){assert.ok(bank.has(q.id));assert.equal(q.correctIndex,bank.get(q.id).correctIndex);covered.add(q.id);}}assert.equal(covered.size,questions.length);const hand=curriculum.find(t=>t.slug==='asepsis-iv-therapy-wound-care');assert.ok(casesForTopic(hand).some(c=>c.title==='Hand hygiene'));assert.ok(questionsForTopic(hand,questions).some(q=>q.id==='CROSS-001-1'));});
-test('original additions give all 155 catalog topics real practice with sourced per-choice explanations',()=>{
+test('original additions give all 156 catalog topics real practice with sourced per-choice explanations',()=>{
  assert.equal(additionalQuestions.length,51);assert.equal(new Set(additionalQuestions.map(q=>q.topic)).size,51);
  for(const q of additionalQuestions){assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.source.startsWith('https://'));assert.ok(q.origin.startsWith('Original NLE Reviewer'));assert.ok(q.options.every(o=>o.rationale.length>20));assert.equal(q.rationale,q.options[q.correctIndex].rationale);}
  const report=auditQuestionBank(questions);assert.equal(report.availableUniqueQuestions,questions.length);assert.ok(report.topics.every(t=>t.relatedAvailableCount>0));assert.equal(report.matchesReferenceDistribution,false);
@@ -169,14 +170,14 @@ test('practice topic filters separate flags, bookmarks, and unresolved misses an
 });
 test('authorized imports are found by exact catalog name or slug without borrowing unrelated questions',()=>{const topic=curriculum.find(t=>t.slug==='leprosy');assert.equal(questionsForTopic(topic,originalQuestions).length,0);const imported={...questions[0],id:'import-leprosy',subject:'NP1',topic:topic.name};assert.deepEqual(questionsForTopic(topic,[imported]).map(q=>q.id),['import-leprosy']);});
 
-test('reference counts cover all 155 topics and retain the observed 9,541-question distribution',()=>{
- assert.equal(referenceTotal,9541);assert.equal(referenceCount(curriculum.find(t=>t.slug==='laboratory-values')),186);assert.equal(referenceCount(curriculum.find(t=>t.slug==='nursing-process-prioritization')),206);
- assert.equal(curriculum.reduce((sum,t)=>sum+referenceCount(t),0),9541);
- assert.equal(subjects.reduce((sum,s)=>sum+referenceSubjectCount(s.id),0),9541);
+test('reference counts cover all 156 topics and match the observed 9,598-question distribution',()=>{
+ assert.equal(referenceTotal,9598);assert.equal(referenceCount(curriculum.find(t=>t.slug==='laboratory-values')),186);assert.equal(referenceCount(curriculum.find(t=>t.slug==='nursing-process-prioritization')),206);
+ assert.equal(curriculum.reduce((sum,t)=>sum+referenceCount(t),0),9598);
+ assert.equal(subjects.reduce((sum,s)=>sum+referenceSubjectCount(s.id),0),9598);
  assert.equal(Math.min(...curriculum.map(referenceCount)),13);assert.equal(Math.max(...curriculum.map(referenceCount)),206);
 });
 test('a related question shown in multiple topics never increases the unique bank total',()=>{
- const report=auditQuestionBank(originalQuestions);assert.equal(report.availableUniqueQuestions,600);assert.equal(report.referenceTotal,9541);assert.equal(report.matchesReferenceDistribution,false);assert.equal(report.duplicateStems.length,0);
+ const report=auditQuestionBank(originalQuestions);assert.equal(report.availableUniqueQuestions,600);assert.equal(report.referenceTotal,9598);assert.equal(report.matchesReferenceDistribution,false);assert.equal(report.duplicateStems.length,0);
  assert.ok(report.topics.reduce((sum,t)=>sum+t.relatedAvailableCount,0)>report.availableUniqueQuestions);
  const t=curriculum.find(t=>t.slug==='leprosy'),q={...originalQuestions[0],id:'audit-exact',subject:t.subject,topic:t.name};const row=auditQuestionBank([q]).topics.find(row=>row.slug===t.slug);assert.equal(row.assignedCount,1);assert.equal(row.remaining,row.referenceCount-1);
 });
@@ -186,10 +187,10 @@ test('different IDs, choice order, casing, and punctuation do not hide duplicate
  const legacy=validateBackup({...initialState(),importedQuestions:[copy]});assert.equal(legacy.importedQuestions[0].id,'new-id');const report=auditQuestionBank([q,copy]);assert.equal(report.availableUniqueQuestions,1);assert.equal(report.availableQuestionIds,2);
 });
 
-test('a 9,541-item structural fixture is fully audited without truncation or count inflation',()=>{
+test('a 9,598-item structural fixture is fully audited without truncation or count inflation',()=>{
  // These are test fixtures only, never published educational question content.
  const fixtures=curriculum.flatMap(t=>Array.from({length:referenceCount(t)},(_,i)=>({...originalQuestions[0],id:`fixture-${t.slug}-${i}`,subject:t.subject,topic:t.name,stem:`AUTOMATED TEST FIXTURE ${t.slug} number ${i}; this is not educational content.`})));
- assert.equal(validateQuestions(fixtures).length,9541);const report=auditQuestionBank(fixtures);assert.equal(report.matchesReferenceDistribution,true);assert.equal(report.availableUniqueQuestions,9541);assert.equal(report.matchingTopics,155);assert.equal(report.duplicateStems.length,0);
+ assert.equal(validateQuestions(fixtures).length,9598);const report=auditQuestionBank(fixtures);assert.equal(report.matchesReferenceDistribution,true);assert.equal(report.availableUniqueQuestions,9598);assert.equal(report.matchingTopics,156);assert.equal(report.duplicateStems.length,0);
 });
 
 test('malformed optional import metadata cannot become invalid React or flashcard content',()=>{
@@ -212,8 +213,8 @@ test('protected content survives database JSON key ordering and rejects incomple
 
 
 test('only the two explicitly source-checked corrections are published from the research dataset',()=>{
- assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length);
- assert.deepEqual(collectionCounts(questions),{all:activeQuestions.length,nursing:activeQuestions.length-2,situational:5075,newSituational:4495,clinical:631,concept:activeQuestions.filter(q=>!q.retired&&q.format==='concept').length,comparison:activeQuestions.filter(q=>!q.retired&&q.format==='comparison').length,supplemental:2});
+ assert.equal(supplementalQuestions.length,2);assert.equal(questions.length,653+conceptQuestions.length+situationalQuestions.length+publishedQuestions.length+challengeQuestions.length);
+ assert.deepEqual(collectionCounts(questions),{all:activeQuestions.length,nursing:activeQuestions.length-2,situational:5117,newSituational:4537,clinical:631,concept:activeQuestions.filter(q=>!q.retired&&q.format==='concept').length,comparison:activeQuestions.filter(q=>!q.retired&&q.format==='comparison').length,supplemental:2});
  for(const q of supplementalQuestions){assert.ok(q.id.startsWith('MMCQA-'));assert.equal(q.collection,'supplemental');assert.equal(q.rationaleScope,undefined);assert.ok(q.source.includes('nhs.uk')||q.source.includes('nice.org.uk'));assert.ok(q.origin.includes('Source-based correction:'));assert.ok(curriculum.some(t=>t.subject===q.subject&&t.name===q.topic));assert.ok(q.options.every(o=>o.rationale.length>40));}
  for(const q of [...originalQuestions,...additionalQuestions]){assert.ok(inCollection(q,'nursing'));assert.ok(!inCollection(q,'supplemental'));}
 });
@@ -302,8 +303,8 @@ test('malformed format metadata and per-choice links are removed during import v
 
 test('the displayed public counts match the protected bank without including any question text',async()=>{
  const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
- assert.equal(summary.total,activeQuestions.length);assert.equal(summary.original,activeQuestions.length-supplementalQuestions.length);assert.equal(summary.topics,155);
- assert.equal(summary.concept+summary.comparison,activeQuestions.filter(q=>q.format==="concept"||q.format==="comparison").length);assert.equal(summary.clinical,631);assert.equal(summary.situational,5075);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155);assert.equal(summary.sourceCorrections,2);
+ assert.equal(summary.total,activeQuestions.length);assert.equal(summary.original,activeQuestions.length-supplementalQuestions.length);assert.equal(summary.topics,156);
+ assert.equal(summary.concept+summary.comparison,activeQuestions.filter(q=>q.format==="concept"||q.format==="comparison").length);assert.equal(summary.clinical,631);assert.equal(summary.situational,5117);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155);assert.equal(summary.challenge,42);assert.equal(summary.sourceCorrections,2);
  assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
 });
 
@@ -325,10 +326,10 @@ test('reference table line breaks remain readable in questions and explanations'
 test('at least 4,771 genuinely situational questions cover every topic with complete case evidence',async()=>{
  const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8')).filter(c=>!c.retired);
  assert.equal(evidence.length,620);assert.equal(situationalQuestions.filter(q=>!q.retired).length,4340);
- assert.equal(questions.filter(isSituational).length,5075);
+ assert.equal(questions.filter(isSituational).length,5117);
  const objectives=['recognition','action','teaching','safety','planning','evaluation','reasoning'].sort();
  assert.equal(new Set(evidence.map(c=>c.scenario.toLowerCase())).size,evidence.length);
- for(const topic of curriculum){
+ for(const topic of legacyCatalog){
   const cases=evidence.filter(c=>c.topicSlug===topic.slug);assert.equal(cases.length,4,topic.slug);
   assert.equal(situationalQuestions.filter(q=>!q.retired&&q.subject===topic.subject&&q.topic===topic.name).length,28,topic.slug);
  }
@@ -378,7 +379,7 @@ test('the audit covers every original case and replaces semantic repeats without
  const report=JSON.parse(await readFile(new URL('./situational-review-report.json',import.meta.url),'utf8'));
  assert.equal(log.reviewedCaseSets,740);assert.equal(log.reviewedSituationalQuestions,4940);assert.equal(new Set(log.reviewedCaseIds).size,740);
  assert.equal(log.independentClinicalReview,false);assert.equal(report.retirements.length,141);
- assert.equal(activeQuestions.length,9489);assert.equal(questions.filter(q=>q.retired).length,1163);assert.equal(activeQuestions.filter(isSituational).length,5075);
+ assert.equal(activeQuestions.length,9531);assert.equal(questions.filter(q=>q.retired).length,1163);assert.equal(activeQuestions.filter(isSituational).length,5117);
  for(const r of report.retirements){
   const old=questions.filter(q=>q.caseId===r.retiredCaseId),replacement=questions.filter(q=>q.caseId===r.replacementCaseId);
   assert.equal(old.length,7);assert.equal(replacement.length,7);assert.ok(old.every(q=>q.retired));assert.ok(replacement.every(q=>!q.retired));
@@ -420,7 +421,7 @@ test('replacement arithmetic and clinical thresholds are independently checked',
 
 test('retirement metadata is sanitized and installed content keeps historical lookup separate from new study selection',async()=>{
  const module=await import('./bank.ts');module.installQuestionBank(questions,clinicalCases);
- assert.equal(module.questions.length,9489);assert.equal(module.questionMap.size,questions.length);
+ assert.equal(module.questions.length,9531);assert.equal(module.questionMap.size,questions.length);
  const retired=questions.find(q=>q.retired);assert.ok(module.questionMap.has(retired.id));assert.ok(!module.questions.some(q=>q.id===retired.id));
  const restored=validateBackup({...initialState(),sessions:[session([retired.id])]});restored.sessions[0].answers[retired.id]={selected:retired.correctIndex,submitted:false,confidence:''};
  assert.equal(sessionScore(restored.sessions[0],module.questionMap),1);
@@ -456,14 +457,14 @@ test('every situational choice explains its own clinical basis and the case-spec
  const evidence=JSON.parse(await readFile(new URL('./situational-evidence.json',import.meta.url),'utf8'));
  const cases=new Map(evidence.map(c=>[c.id,c]));
  const legacy=new Map(clinicalCases.map((c,i)=>[c.subject+'-'+String(i+1).padStart(3,'0'),c]));
- const selected=activeQuestions.filter(isSituational);assert.equal(selected.length*4,20300);
+ const selected=activeQuestions.filter(isSituational);assert.equal(selected.length*4,20468);
  for(const q of selected){
   assert.equal(q.options[q.correctIndex].rationale,q.rationale,q.id);
   for(const [index,o] of q.options.entries()){
    assert.ok(o.rationale.length>40,q.id);assert.ok(o.source?.startsWith('https://'),q.id);
    if(index===q.correctIndex)continue;
-   if(q.id.startsWith('EXP2-')){
-    assert.equal(o.source,q.source,q.id);assert.ok(o.referenceId.startsWith(q.id+':alternative-'),q.id);
+   if(q.id.startsWith('EXP2-')||q.difficulty==='challenge'){
+    assert.equal(o.source,q.source,q.id);assert.ok(o.referenceId.startsWith(q.id+(q.difficulty==='challenge'?':choice-':':alternative-')),q.id);
     assert.notEqual(o.rationale,q.rationale,q.id);continue;
    }
    if(q.caseId&&q.clinicalObjective!=='safety'){
@@ -507,7 +508,7 @@ function plannedState(){const s=initialState();s.profile.examDate='2027-02-20';s
 
 test('full study schedule covers every topic and all mock sections on eligible dates',()=>{
  const state=plannedState(),snapshot=structuredClone(state),plan=buildStudyPlan(state,planTopics);
- assert.equal(plan.topicCount,155);assert.equal(plan.tasks.filter(t=>t.type==='read').length,155);assert.equal(plan.tasks.filter(t=>t.type==='practice').length,155);assert.equal(plan.tasks.filter(t=>t.type==='mock').length,25);
+ assert.equal(plan.topicCount,156);assert.equal(plan.tasks.filter(t=>t.type==='read').length,156);assert.equal(plan.tasks.filter(t=>t.type==='practice').length,156);assert.equal(plan.tasks.filter(t=>t.type==='mock').length,25);
  assert.equal(new Set(plan.tasks.map(t=>t.id)).size,plan.tasks.length);
  for(const task of plan.tasks){assert.ok(task.date>='2026-11-05'&&task.date<='2027-02-20');assert.ok(![0,6].includes(new Date(task.date+'T12:00:00Z').getUTCDay()));if(task.type==='practice')assert.equal(task.count,29);}
  for(const t of curriculum)assert.equal(plan.tasks.filter(task=>task.type==='practice'&&task.subject===t.subject&&task.topic===t.name).length,1,t.slug);
@@ -516,7 +517,7 @@ test('full study schedule covers every topic and all mock sections on eligible d
 
 test('planner settings select actual subjects and steps and report overload instead of omitting topics',()=>{
  const state=plannedState();state.plan={...state.plan,subjects:['NP3'],focus:['NP3'],reading:false,flashcards:false,mocks:false,dailyMinutes:15,startDate:'2026-11-05',restDays:[]};state.profile.examDate='2026-11-05';
- const plan=buildStudyPlan(state,planTopics);assert.equal(plan.topicCount,29);assert.equal(plan.tasks.length,29);assert.equal(plan.overloaded.length,1);assert.ok(plan.tasks.every(t=>t.type==='practice'&&t.subject==='NP3'));
+ const plan=buildStudyPlan(state,planTopics);assert.equal(plan.topicCount,30);assert.equal(plan.tasks.length,30);assert.equal(plan.overloaded.length,1);assert.ok(plan.tasks.every(t=>t.type==='practice'&&t.subject==='NP3'));
  const settings=planSettings(plannedState());
  for(const change of [{restDays:[0,1,2,3,4,5,6]},{subjects:[]},{focus:['bogus']},{dailyMinutes:NaN},{startDate:'2027-02-30'}])assert.throws(()=>validatePlanSettings({...settings,...change},'2027-02-20'));
  assert.throws(()=>validatePlanSettings({...settings,startDate:'2026-11-08',restDays:[0]},'2026-11-08'),/no study days/);

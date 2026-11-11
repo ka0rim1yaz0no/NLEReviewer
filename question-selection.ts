@@ -13,19 +13,29 @@ export function questionFamily(q:Question|string):string{
  const canonical=canonicalQuestionId(q.id);return canonical!==q.id?familyFromId(canonical):q.caseId||familyFromId(q.id);
 }
 type History=Pick<State,'attempts'|'sessions'|'vault'>&Partial<Pick<State,'importedQuestions'>>;
-export type SelectionOptions={filter?:string;allowRelated?:boolean;review?:boolean};
+export type PracticeDifficulty='challenge'|'mixed';
+export type SelectionOptions={filter?:string;allowRelated?:boolean;review?:boolean;difficulty?:PracticeDifficulty};
+const decisionObjectives=new Set(['action','planning','evaluation','reasoning','safety','decision']);
+export function isDecisionQuestion(q:Question){
+ return isSituational(q)&&(q.difficulty==='challenge'||decisionObjectives.has(q.clinicalObjective||'')||q.id.startsWith('EXP2-')||/^(CROSS|NP[1-5])-\d{3}-[24]$/.test(q.id));
+}
 export function practicePool(pool:Question[],state:History,options:SelectionOptions={}):Question[]{
  const review=options.review||options.filter==='missed',filter=review?'all':options.filter||'unanswered';
  const assigned=new Set([...state.attempts.map(a=>a.questionId),...state.sessions.flatMap(s=>s.questionIds)].map(canonicalQuestionId));
  const known=new Map([...(state.importedQuestions||[]),...pool].map(q=>[q.id,q]));
  const seenFamilies=new Set([...assigned].map(id=>questionFamily(known.get(id)||id)));
- const missed=new Set(state.vault.map(canonicalQuestionId)),ids=new Set<string>(),stems=new Set<string>();
+ const latest=new Map<string,State['attempts'][number]>();
+ if(options.filter==='missed')for(const attempt of state.attempts){
+  const id=canonicalQuestionId(attempt.questionId);
+  if((latest.get(id)?.at??-Infinity)<=attempt.at)latest.set(id,attempt);
+ }
+ const ids=new Set<string>(),stems=new Set<string>();
  return pool.filter(q=>{
-  if(q.retired)return false;
+  if(q.retired||!review&&options.difficulty==='challenge'&&!isDecisionQuestion(q))return false;
+  if(options.filter==='missed'&&latest.get(canonicalQuestionId(q.id))?.correct!==false)return false;
   const id=canonicalQuestionId(q.id),stem=normalizeQuestionStem(q.stem);
   if(ids.has(id)||stems.has(stem))return false;
   ids.add(id);stems.add(stem);
-  if(options.filter==='missed'&&!missed.has(id))return false;
   if(filter==='unanswered'&&(assigned.has(id)||!options.allowRelated&&seenFamilies.has(questionFamily(q))))return false;
   return true;
  });
@@ -36,6 +46,7 @@ export function availablePractice(pool:Question[],state:History,options:Selectio
 }
 export function selectPractice(pool:Question[],state:History,count:number,seed:number,options:SelectionOptions={}):string[]{
  const eligible=shuffled(practicePool(pool,state,options),seed);
+ if(options.difficulty==='challenge'&&!options.review&&options.filter!=='missed')eligible.sort((a,b)=>Number(b.difficulty==='challenge')-Number(a.difficulty==='challenge'));
  const selected=options.allowRelated||options.review||options.filter==='missed'?eligible:distinctSituations(eligible);
  return selected.slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
 }

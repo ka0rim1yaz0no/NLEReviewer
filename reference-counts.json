@@ -1,5 +1,5 @@
 {
-  "observedAt": "2026-11-02",
+  "observedAt": "2026-11-11",
   "source": "https://www.nleboardpal.com/practice",
   "counts": {
     "laboratory-values": 186,
@@ -92,6 +92,7 @@
     "infectious-disorders": 65,
     "inflammatory-bowel-neuro-inflammatory-disorders": 51,
     "immunologic-connective-tissue-disorders": 48,
+    "integumentary-disorders-burn-care": 57,
     "basic-concepts-in-cancer": 49,
     "cancer-treatment-modalities": 58,
     "oncologic-emergencies": 54,

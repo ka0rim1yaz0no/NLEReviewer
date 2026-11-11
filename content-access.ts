@@ -4,11 +4,14 @@ import type {ContentRow} from "./content-integrity";
 import {contentRelease} from "./content-release";
 import {processContentRelease} from "./content-processing";
 import type {ReleaseManifest} from "./content-release";
-export async function loadProtectedContent(){
+import {throwIfAborted,timedRequest} from './abort-utils';
+export async function loadProtectedContent(signal?:AbortSignal){
+ throwIfAborted(signal);
  if(!supabase)throw new Error("The study database is not configured.");
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
+ const request=timedRequest(signal,15000);
  try{
-  const {data,error}=await supabase.from("study_content_releases").select("data").eq("release",contentRelease).eq("id","manifest").abortSignal(controller.signal).maybeSingle();
+  const {data,error}=await supabase.from("study_content_releases").select("data").eq("release",contentRelease).eq("id","manifest").abortSignal(request.signal).maybeSingle();
+  throwIfAborted(signal);
   if(error&&!["PGRST205","42P01"].includes(error.code))throw new Error("The study release could not be checked. Try again when your connection is available.");
   if(data){
    const manifest=data.data as ReleaseManifest;
@@ -17,18 +20,18 @@ export async function loadProtectedContent(){
    // Small requests keep mobile transfers bounded. Manifest publication is last,
    // so a partially staged release can never replace the previous question bank.
    for(let offset=0;offset<manifest.pages;offset+=2){
-    const pageController=new AbortController(),pageTimer=setTimeout(()=>pageController.abort(),20000);
-    try{const result=await supabase.from("study_content_releases").select("id,kind,data").eq("release",contentRelease).eq("kind","page").order("id").range(offset,offset+1).abortSignal(pageController.signal);if(result.error)throw new Error("Study questions could not be loaded. Your progress has been kept. Please try again.");pages.push(...(result.data||[]));}finally{clearTimeout(pageTimer);}
+    throwIfAborted(signal);const pageRequest=timedRequest(signal,20000);
+    try{const result=await supabase.from("study_content_releases").select("id,kind,data").eq("release",contentRelease).eq("kind","page").order("id").range(offset,offset+1).abortSignal(pageRequest.signal);throwIfAborted(signal);if(result.error)throw new Error("Study questions could not be loaded. Your progress has been kept. Please try again.");pages.push(...(result.data||[]));}finally{pageRequest.dispose();}
    }
-   return await processContentRelease(manifest,pages);
+   return await processContentRelease(manifest,pages,signal);
   }
- }finally{clearTimeout(timer);}
+ }finally{request.dispose();}
  // Backward-compatible fallback while a new release is being staged.
  const rows:ContentRow[]=[];
  for(let offset=0;offset<1000;offset+=100){
-  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
-  try{const {data,error}=await supabase.from("study_content").select("id,kind,data").order("id").range(offset,offset+99).abortSignal(controller.signal);if(error)throw new Error("Study content could not be loaded. Check your connection and try again.");rows.push(...(data||[]));if((data||[]).length<100)return await validateProtectedContent(rows);}
-  finally{clearTimeout(timer);}
+  throwIfAborted(signal);const legacyRequest=timedRequest(signal,12000);
+  try{const {data,error}=await supabase.from("study_content").select("id,kind,data").order("id").range(offset,offset+99).abortSignal(legacyRequest.signal);throwIfAborted(signal);if(error)throw new Error("Study content could not be loaded. Check your connection and try again.");rows.push(...(data||[]));if((data||[]).length<100){const content=await validateProtectedContent(rows);throwIfAborted(signal);return content;}}
+  finally{legacyRequest.dispose();}
  }
  throw new Error("The question-bank page limit was exceeded.");
 }

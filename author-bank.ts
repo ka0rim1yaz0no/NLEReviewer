@@ -10,6 +10,7 @@ import supplemental from "./supplemental-questions.json" with { type: "json" };
 import retirements from "./editorial-retirements.json" with {type:"json"};
 import concepts from "./concept-questions.json" with { type: "json" };
 import situations from "./situational-questions.json" with { type: "json" };
+import challengeDraft from "./challenge-questions.json" with { type: "json" };
 import legacyReferences from "./legacy-case-references.json" with { type: "json" };
 import recheck from "./rationale-reference-corrections.json" with { type: "json" };
 import type { ClinicalCase, Question, Subject } from "./types.ts";
@@ -51,9 +52,10 @@ export const originalQuestions: Question[] = clinicalCases.flatMap((entry, index
 export const supplementalQuestions = validateQuestions(supplemental);
 export const conceptQuestions = validateQuestions(concepts).map(q=>retirements.some(r=>r.id===q.id)?{...q,retired:true}:q);
 export const situationalQuestions = validateQuestions(situations);
+export const challengeQuestions = validateQuestions(challengeDraft);
 // Earlier question IDs, positions, and keys stay stable. The audited context
 // clarifications and more specific reference links are documented separately.
-export const questions: Question[] = applyRepetitionReview(applyReferenceRepairs([...originalQuestions, ...additionalQuestions, ...supplementalQuestions, ...conceptQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : []), ...situationalQuestions]));
+export const questions: Question[] = [...applyRepetitionReview(applyReferenceRepairs([...originalQuestions, ...additionalQuestions, ...supplementalQuestions, ...conceptQuestions, ...(siteQuestions.length ? validateQuestions(siteQuestions) : []), ...situationalQuestions])), ...challengeQuestions];
 export const activeQuestions=questions.filter(q=>!q.retired);
 export const questionMap = new Map(questions.map(q => [q.id, q]));
 export const topics = subjects.flatMap(subject => [...new Set(activeQuestions.filter(q => q.subject === subject.id).map(q => q.topic))].map(name => ({ id: `${subject.id}:${name}`, name, subject: subject.id, count: activeQuestions.filter(q => q.subject === subject.id && q.topic === name).length })));

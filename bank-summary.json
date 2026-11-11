@@ -1,14 +1,15 @@
 {
-  "release": "2026-11-06-repetition-review-1",
-  "total": 9489,
-  "original": 9487,
-  "situational": 5075,
-  "newSituational": 4495,
+  "release": "2026-11-11-challenge-pink-2",
+  "total": 9531,
+  "original": 9529,
+  "situational": 5117,
+  "newSituational": 4537,
+  "challenge": 42,
   "newSituations": 620,
   "standaloneSituational": 155,
   "clinical": 631,
   "concept": 3714,
   "comparison": 647,
   "sourceCorrections": 2,
-  "topics": 155
+  "topics": 156
 }

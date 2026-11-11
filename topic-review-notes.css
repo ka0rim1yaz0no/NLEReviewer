@@ -1,2 +1,83 @@
-.topic-review-notes>h2{margin-bottom:10px}.topic-review-notes>details{border-top:1px solid var(--line);margin:22px 0;padding-top:12px}.topic-review-notes summary{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 0;min-height:44px}.topic-review-notes summary h3{font-size:17px}.topic-review-notes .key-point p{font-size:13px;overflow-wrap:anywhere;line-height:1.75}.topic-review-notes .key-point>a{display:inline-flex;gap:6px;align-items:center;font-size:11px;margin-top:10px;min-height:30px}.topic-review-notes .key-point.avoid-point{border-left:3px solid var(--red)}.topic-review-notes .case-scenario{white-space:pre-line}.topic-review-notes>p:last-child{margin-top:20px}.topic-review-notes details[open]>summary>svg:last-child{transform:rotate(180deg)}
-@media(max-width:480px){.topic-review-notes summary h3{font-size:16px}.topic-review-notes .key-point{padding:15px}.topic-review-notes .key-point>a{min-height:44px}}
+.topic-review-notes > h2 {
+  margin-bottom: 6px;
+}
+.topic-review-notes > details {
+  margin: 12px 0;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+}
+.topic-review-notes summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 50px;
+  padding: 10px 0;
+  color: var(--green);
+}
+.topic-review-notes summary h3 {
+  font-size: 16px;
+}
+.topic-review-notes details[open] > summary > svg:last-child {
+  transform: rotate(180deg);
+}
+.topic-review-notes .case-scenario {
+  white-space: pre-line;
+}
+.review-decisions {
+  margin: 10px 0 0;
+}
+.review-decisions > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 3fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+.review-decisions dt {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green);
+}
+.review-decisions dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.review-decisions .avoid-point {
+  padding-inline: 9px;
+  border-left: 3px solid var(--red);
+  background: var(--incorrect-surface);
+}
+.review-decisions .avoid-point dt {
+  color: var(--red);
+}
+.review-sources {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 16px;
+  padding-block: 3px;
+}
+.review-sources a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.review-sources a:hover {
+  text-decoration: underline;
+}
+@media (max-width: 650px) {
+  .review-decisions > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+}

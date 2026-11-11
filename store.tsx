@@ -58,15 +58,17 @@ export function Provider({children}:{children:ReactNode}){
  useEffect(()=>{const handler=()=>setPath(location.pathname+location.search);window.addEventListener("popstate",handler);return()=>window.removeEventListener("popstate",handler);},[]);
  useEffect(()=>{if(!message)return;const t=setTimeout(()=>setMessage(""),4500);return()=>clearTimeout(t);},[message]);
  useEffect(()=>{
-  if(!supabase)return;let active=true;
+  if(!supabase)return;let active=true,contentRequest:AbortController|undefined;
   async function load(nextUser:User|null){
+   if(!active)return;contentRequest?.abort();const request=new AbortController();contentRequest=request;
    const turn=++generation.current;setReady(false);setUser(null);setAccessError("");writable.current=false;authIdentity.current=nextUser?.id||"";
    function clear(){installQuestionBank([],[]);setBankVersion(v=>v+1);identity.current="";setProfileId("");setUsername("");setSharedProfile(false);cache.current={state:initialState(),base:null,pending:null};setState(cache.current.state);setSync("Choose your study profile");setReady(true);}
    if(!nextUser||profileLocked()){if(active&&turn===generation.current)clear();return;}
    let owner:StudyIdentity|null=null,offline=false;
    try{owner=await readStudyIdentity(nextUser);}catch{const remembered=rememberedProfiles().find(p=>p.id===nextUser.id);if(remembered)owner={profileId:remembered.profileId,username:remembered.username,shared:remembered.shared};offline=true;}
-   if(!owner){if(active&&turn===generation.current)clear();return;}
-   try{const content=await loadProtectedContent();if(!active||turn!==generation.current)return;installQuestionBank(content.questions,content.cases);setBankVersion(v=>v+1);}
+   if(!active||turn!==generation.current||request.signal.aborted)return;
+   if(!owner){clear();return;}
+   try{const content=await loadProtectedContent(request.signal);if(!active||turn!==generation.current)return;installQuestionBank(content.questions,content.cases);setBankVersion(v=>v+1);}
    catch(error){if(active&&turn===generation.current){installQuestionBank([],[]);setBankVersion(v=>v+1);identity.current=owner.profileId;setProfileId(owner.profileId);setUsername(owner.username);setSharedProfile(owner.shared);setUser(nextUser);setAccessError((error as Error).message);setSync("Study content unavailable · progress kept");setReady(true);}return;}
    const local=readProfileCache(owner.profileId,validateBackup),legacy=local?null:legacyCache(owner.profileId);
    let next:ProfileCache=local||{state:legacy||initialState(),base:null,pending:null};
@@ -85,7 +87,7 @@ export function Provider({children}:{children:ReactNode}){
   void supabase.auth.getSession().then(({data})=>load(data.session?.user||null)).catch(()=>{setReady(true);setSync("Connection unavailable · try reconnecting");});
   const {data:{subscription}}=supabase.auth.onAuthStateChange((event,session)=>{rememberSession(session);if(!identityChanging()&&(event==="SIGNED_OUT"||(event==="SIGNED_IN"&&session?.user.id!==authIdentity.current)))setTimeout(()=>void load(session?.user||null),0);});
   const change=()=>{if(profileLocked()){void load(null);return;}void supabase!.auth.getSession().then(({data})=>load(data.session?.user||null)).catch(()=>load(null));};window.addEventListener("nle-profile-change",change);
-  return()=>{active=false;subscription.unsubscribe();window.removeEventListener("nle-profile-change",change);};
+  return()=>{active=false;contentRequest?.abort();subscription.unsubscribe();window.removeEventListener("nle-profile-change",change);};
  },[put]);
  useEffect(()=>{if(!ready||!user||accessError||!writable.current)return;const task=setTimeout(()=>void flush(),900);return()=>clearTimeout(task);},[state,ready,user,accessError,flush]);
  useEffect(()=>{const focus=()=>{if(document.visibilityState==="visible")void pull();};window.addEventListener("focus",focus);window.addEventListener("online",focus);document.addEventListener("visibilitychange",focus);const interval=setInterval(focus,30000);return()=>{window.removeEventListener("focus",focus);window.removeEventListener("online",focus);document.removeEventListener("visibilitychange",focus);clearInterval(interval);};},[pull]);
@@ -106,4 +108,4 @@ export function Provider({children}:{children:ReactNode}){
  const bankMap=useMemo(()=>!user||accessError?new Map():new Map([...questionMap.values()].map(q=>{const display=formatQuestionForDisplay(q);return[display.id,display] as const;}).concat(bank.map(q=>[q.id,q] as const))),[bank,user,accessError]);
  return <AppContext.Provider value={{state,update,user,profileId,username,sharedProfile,creditStudy,switchProfile,ready,sync,accessError,retryContent,toast:setMessage,navigate,path,bank,bankMap}}>{children}{message&&<div role="status" className="toast">{message}</div>}</AppContext.Provider>;
 }
-export function download(name: string, text: string, type="application/json") { const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000); }
+export function download(name: string, text: string, type="application/json") { const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement("a");a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000); }

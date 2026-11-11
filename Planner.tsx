@@ -1,3 +1,4 @@
+import {findCurriculumTopic} from "./curriculum";
 import {useMemo,useState} from 'react';
 import {ArrowRight,CalendarDays,Check,ChevronLeft,ChevronRight,Download,MoreHorizontal,Plus,RotateCcw,Undo2} from 'lucide-react';
 import {subjects} from './bank';
@@ -19,7 +20,7 @@ export function TaskRow({task,onManage}:{task:Task;onManage?:(task:Task)=>void})
  function open(){
   if(task.skipped){onManage?.(task);return;}
   if(task.type==='read')navigate(`/resources/read?topic=${encodeURIComponent(task.subject+':'+task.topic)}`);
-  else if(task.type==='practice')start({topics:[task.subject+':'+task.topic],count:task.count||state.preferences.questionGoal,title:task.topic+' practice'});
+  else if(task.type==='practice'){const topic=findCurriculumTopic(task.subject+':'+task.topic);if(topic)navigate(`/practice/session?topic=${topic.slug}&count=${task.count||state.preferences.questionGoal}&related=1&difficulty=mixed`);else start({topics:[task.subject+':'+task.topic],count:task.count||state.preferences.questionGoal,title:task.topic+' practice'});}
   else if(task.type==='flashcards')navigate('/decks/review');
   else if(task.type==='vault')navigate('/vault');
   else if(task.type==='mock')navigate('/mock/'+task.mockBoard);
@@ -27,7 +28,7 @@ export function TaskRow({task,onManage}:{task:Task;onManage?:(task:Task)=>void})
  }
  return <div className={`task ${task.done?'done':''} ${task.skipped?'skipped':''}`}>
   <button className='task-check' aria-label={`Mark ${task.title} ${task.done?'not done':'done'}`} aria-pressed={task.done} onClick={toggle}>{task.done&&<Check size={14}/>}</button>
-  <button className='task-title' onClick={open}><span>{task.title}</span><small>{task.skipped?'Skipped':task.type==='practice'?`${task.count||state.preferences.questionGoal} questions · `:task.type==='flashcards'?`${state.preferences.flashcardGoal} cards · `:task.type==='mock'?'100 questions · ':''}{!task.skipped&&`~${duration(taskMinutes(task,state))}`}</small></button>
+  <button className='task-title' onClick={open}><span>{task.title}</span><small>{task.skipped?'Skipped':task.type==='practice'?`Up to ${task.count||state.preferences.questionGoal} questions · `:task.type==='flashcards'?`${state.preferences.flashcardGoal} cards · `:task.type==='mock'?'100 questions · ':''}{!task.skipped&&`~${duration(taskMinutes(task,state))}`}</small></button>
   {onManage?<button className='icon-btn task-manage' aria-label={`Manage ${task.title}`} onClick={()=>onManage(task)}><MoreHorizontal size={18}/></button>:!taskFinished(task)&&<ChevronRight size={15}/>}
  </div>;
 }

@@ -1,0 +1,166 @@
+.site-header {
+  background: linear-gradient(105deg, var(--tint), var(--paper));
+}
+.desktop-nav a {
+  opacity: 1;
+  color: var(--muted);
+}
+.desktop-nav a:hover, .desktop-nav a.active, .brand {
+  color: var(--green);
+}
+.desktop-nav a.active {
+  font-weight: 700;
+}
+.header-avatar {
+  background: var(--paper);
+  color: var(--green);
+}
+.btn, .btn.small {
+  min-height: 44px;
+}
+.btn.primary {
+  box-shadow: 0 3px 8px #61304416;
+}
+.card, .subject-group {
+  border-radius: 16px;
+}
+.page-heading h1 {
+  overflow-wrap: anywhere;
+}
+.practice-intro, .catalog-summary, .pdf-library-intro, .home-practice {
+  background: linear-gradient(120deg, var(--paper), var(--tint));
+  border-color: var(--line);
+}
+.practice-intro h2, .catalog-summary h2, .home-practice h2 {
+  font-family: Gloock, Georgia, serif;
+  font-weight: 400;
+  font-size: 23px;
+}
+.practice-intro p {
+  max-width: 64ch;
+}
+.stat, .diagnostic-banner {
+  background: var(--tint);
+  border-color: var(--line);
+}
+.stat small, .diagnostic-banner p, .diagnostic-banner small, .quiet-note {
+  color: var(--muted);
+}
+.stat.target-stat strong, .stat.target-stat small {
+  color: var(--on-accent);
+}
+.diagnostic-banner > .tile-icon, .feature-icon {
+  background: var(--soft);
+  color: var(--green);
+}
+[data-theme=dark] .stat:not(.target-stat):not(.streak-stat), [data-theme=dark] .diagnostic-banner {
+  background: var(--tint);
+  border-color: var(--line);
+}
+[data-theme=dark] .stat.target-stat {
+  background: var(--green);
+  border-color: var(--green);
+}
+[data-theme=dark] .diagnostic-banner p, [data-theme=dark] .diagnostic-banner small {
+  color: var(--muted);
+}
+.green-dot {
+  background: var(--correct);
+}
+.username-login {
+  background: radial-gradient(ellipse at 8% 42%, var(--tint), transparent 65%);
+}
+.login-introduction h1 {
+  max-width: 13ch;
+  font-size: clamp(32px, 4.6vw, 55px);
+}
+.login-benefits svg {
+  color: var(--green);
+}
+.username-card {
+  border-top: 4px solid var(--sage);
+  box-shadow: 0 12px 35px #6b284114;
+}
+.setup-resume {
+  max-width: 850px;
+  background: var(--tint);
+}
+.setup-resume h2 {
+  margin-bottom: 6px;
+}
+.setup-resume-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+}
+.setup-resume-row + .setup-resume-row {
+  border-top: 1px solid var(--line);
+}
+.setup-resume-row small {
+  display: block;
+  margin-top: 3px;
+}
+.setup-resume-row .btn {
+  flex: 0 0 auto;
+}
+.setup .select-cards > button {
+  min-height: 64px;
+}
+.setup .select-cards > button:hover, .option:not(.correct):not(.wrong):hover {
+  border-color: var(--sage);
+}
+.setup .topic-count {
+  display: block;
+}
+.quiz .question-card {
+  border-top: 4px solid var(--sage);
+}
+.option-letter {
+  font-weight: 700;
+}
+.rationale.correct > h3 {
+  color: var(--correct);
+}
+.clinical-takeaway {
+  margin: 12px 0;
+  padding: 11px 14px;
+  border-left: 3px solid var(--sage);
+  border-radius: 0 8px 8px 0;
+  background: var(--tint);
+  color: var(--text);
+}
+.clinical-takeaway > strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--green);
+  font-size: 12px;
+}
+.pdf-library-intro > .btn svg {
+  color: currentColor;
+}
+.pdf-export-job progress {
+  accent-color: var(--green);
+}
+@media (max-width: 650px) {
+  .username-login {
+    background: transparent;
+  }
+  .login-introduction h1 {
+    max-width: 17ch;
+  }
+  .setup > .button-row .btn {
+    min-height: 44px;
+  }
+}
+@media (max-width: 390px) {
+  .practice-intro .button-row .btn {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn, .progress > span {
+    transition: none;
+  }
+}

@@ -1,8 +1,8 @@
 import type { Question, ClinicalCase } from "./types.ts";
 import { validateQuestions, subjects } from "./bank.ts";
+import {canonicalBytes} from './canonical-json.ts';
 export type ContentRow={id:string;kind:string;data:unknown};
-function canonical(value:unknown):string{if(Array.isArray(value))return `[${value.map(canonical).join(",")}]`;if(value&&typeof value==="object")return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${canonical((value as Record<string,unknown>)[key])}`).join(",")}}`;return JSON.stringify(value);}
-export async function contentDigest(questions:Question[],cases:ClinicalCase[]){const result=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(canonical({questions,cases})));return [...new Uint8Array(result)].map(n=>n.toString(16).padStart(2,"0")).join("");}
+export async function contentDigest(questions:Question[],cases:ClinicalCase[]){const result=await crypto.subtle.digest("SHA-256",canonicalBytes({questions,cases}) as Uint8Array<ArrayBuffer>);return [...new Uint8Array(result)].map(n=>n.toString(16).padStart(2,"0")).join("");}
 export async function validateProtectedContent(rows:ContentRow[]){
  const ordered=[...rows].sort((a,b)=>a.id.localeCompare(b.id));
  const manifests=ordered.filter(r=>r.kind==="manifest");
