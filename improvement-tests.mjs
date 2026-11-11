@@ -36,7 +36,13 @@ test('all 156 guides summarize each active question’s keyed decision',()=>{
   assert.deepEqual(points.map(p=>p.questionId).sort(),expected.map(q=>q.id).sort(),topic.slug);
   for(const q of expected){const point=points.find(p=>p.questionId===q.id);assert.ok(guide.referenceLabels[point.reference-1],q.id);assert.ok(point.text.toLowerCase().includes(q.options[q.correctIndex].text.toLowerCase()),q.id);assert.ok(point.objective.length>3);}
   assert.ok(points.reduce((sum,p)=>sum+p.text.length,0)<expected.reduce((sum,q)=>sum+q.rationale.length,0),topic.slug);
-  for(const section of guide.sections){const group=expected.filter(q=>section.points.some(p=>p.questionId===q.id));if(group.length>1){assert.ok(group.every(q=>q.stem.startsWith(section.scenario)),topic.slug);assert.ok(group.every(q=>q.stem.length>section.scenario.length),topic.slug);}}
+  for(const section of guide.sections){
+   const group=expected.filter(q=>section.points.some(p=>p.questionId===q.id));
+   if(group.length>1){
+    assert.equal(section.scenario,group[0].stem.split('\n\n')[0],topic.slug);
+    assert.ok(group.every(q=>q.stem.startsWith(section.scenario+'\n\n')),topic.slug);
+   }
+  }
  }
  const preop=makeTopicGuide(curriculum.find(t=>t.slug==='pre-operative-phase'),questions,clinicalCases);
  assert.equal(preop.questionCount,29);assert.equal(preop.sections.length,5);assert.equal(preop.sections.flatMap(s=>s.points).length,29);

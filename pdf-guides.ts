@@ -11,7 +11,8 @@ export const pdfReferenceAliases:Record<string,string>={
 const objectives:Record<string,string>={recognition:'Focused assessment',action:'Priority nursing action',teaching:'Patient teaching',safety:'Unsafe proposal',planning:'Expected outcome',evaluation:'Evaluation',reasoning:'Clinical reasoning',decision:'Best decision'};
 function guideCaseId(q:Question){return q.caseId||q.id.match(/^(CROSS|NP[1-5])-\d{3}/)?.[0]||q.id;}
 function sharedScenario(group:Question[]){
- if(group.length===1)return group[0].stem.split('\n\n')[0];
+ const firstParagraph=group[0].stem.split('\n\n')[0];
+ if(group.length===1||group.every(q=>q.stem.startsWith(firstParagraph+'\n\n')))return firstParagraph;
  let prefix=group[0].stem;
  for(const q of group.slice(1)){let i=0;while(i<prefix.length&&prefix[i]===q.stem[i])i++;prefix=prefix.slice(0,i);}
  // Strip a partially matched prompt word while preserving the shared vignette.
