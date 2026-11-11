@@ -33,11 +33,14 @@ create table if not exists reviewer_play.players (
  primary key(room,profile)
 );
 alter table reviewer_play.rooms add column if not exists ranked_last_seen_at timestamptz;
+alter table reviewer_play.rooms add column if not exists duel_last_seen_at timestamptz;
 alter table reviewer_play.rooms add column if not exists ranked_opponent_points smallint[];
 alter table reviewer_play.players add column if not exists ranked_result jsonb;
 create index if not exists reviewer_play_players_history on reviewer_play.players(profile,joined_at desc);
 create index if not exists reviewer_play_ranked_queue on reviewer_play.rooms(created_at)
  where mode='ranked' and starts_at is null and finished_at is null;
+create index if not exists reviewer_play_duel_queue on reviewer_play.rooms(subject,topic,created_at)
+ where mode='duel' and discoverable and starts_at is null and finished_at is null;
 create table if not exists reviewer_play.answers (
  room text not null,
  profile uuid not null,
@@ -92,6 +95,46 @@ create or replace function reviewer_play.limit_for(mode text) returns integer
 language sql immutable set search_path='' as $$
  select case when mode='cup' then 40 when mode='quiz' then 10 when mode='code' then 6 else 2 end;
 $$;
+
+create or replace function reviewer_play.cup_start(moment timestamptz) returns timestamptz
+language sql stable set search_path='' as $$
+ select (((moment at time zone 'Asia/Manila')::date+time '21:00') at time zone 'Asia/Manila');
+$$;
+
+create or replace function reviewer_play.can_join(game reviewer_play.rooms, moment timestamptz) returns boolean
+language sql stable set search_path='' as $$
+ select game.finished_at is null and game.expires_at>moment and game.mode<>'ranked'
+  and (game.starts_at is null or (game.mode='cup' and moment<game.starts_at));
+$$;
+
+create or replace function reviewer_play.room_due(game reviewer_play.rooms, moment timestamptz) returns boolean
+language plpgsql stable set search_path='' as $$
+begin
+ if game.finished_at is not null then return false; end if;
+ if game.expires_at<=moment then return true; end if;
+ if game.mode='challenge' then
+  return (select count(*) from reviewer_play.players where room=game.code)>=2
+   and not exists(select 1 from reviewer_play.players p where p.room=game.code
+    and (p.starts_at is null or (p.left_at is null and p.starts_at+cardinality(game.question_ids)*interval '18 seconds'>moment)));
+ end if;
+ if game.starts_at is null then return false; end if;
+ return game.starts_at+cardinality(game.question_ids)*interval '18 seconds'<=moment
+  or (game.mode in ('duel','ranked') and exists(select 1 from reviewer_play.players p
+   where p.room=game.code and p.left_at>=game.starts_at-interval '4 seconds'));
+end $$;
+
+create or replace function reviewer_play.team_stability(room_code text, revealed integer) returns integer
+language plpgsql stable set search_path='' as $$
+declare recovered boolean; stability int:=100;
+begin
+ for recovered in
+  select exists(select 1 from reviewer_play.answers a where a.room=room_code and a.item=rounds.item and a.correct)
+  from generate_series(1,revealed) as rounds(item) order by rounds.item
+ loop
+  stability:=greatest(0,least(100,stability+case when recovered then 2 else -12 end));
+ end loop;
+ return stability;
+end $$;
 
 create or replace function reviewer_play.draw(subject_key text, topic_key text, quantity int) returns text[]
 language sql volatile set search_path='' as $$
@@ -174,21 +217,9 @@ declare game reviewer_play.rooms%rowtype; player record; rank reviewer_play.rank
  opponent_left boolean; rank_before int; star_change int; has_answers boolean; someone_left boolean;
 begin
  select * into game from reviewer_play.rooms where code=room_code for update;
- if not found or game.finished_at is not null then return; end if;
- if game.mode='challenge' then
-  if moment<game.expires_at and (
-    (select count(*) from reviewer_play.players where room=room_code)<2
-    or exists(select 1 from reviewer_play.players where room=room_code and left_at is null
-     and (starts_at is null or starts_at+interval '180 seconds'>moment))
-   ) then return; end if;
- elsif game.starts_at is null then
-  if moment<game.expires_at then return; end if;
- elsif moment<game.starts_at+cardinality(game.question_ids)*interval '18 seconds'
-  and not (game.mode in ('duel','ranked') and exists(select 1 from reviewer_play.players where room=room_code and left_at is not null))
- then return;
- end if;
- update reviewer_play.rooms set finished_at=case when game.mode='ranked' and game.starts_at is not null
-  then least(moment,game.starts_at+cardinality(game.question_ids)*interval '18 seconds') else moment end
+ if not found or not reviewer_play.room_due(game,moment) then return; end if;
+ update reviewer_play.rooms set finished_at=least(moment,game.expires_at,
+  game.starts_at+cardinality(game.question_ids)*interval '18 seconds')
  where code=room_code;
  if game.mode<>'ranked' or game.starts_at is null then return; end if;
  current_season:=reviewer_play.season(game.starts_at);
@@ -262,16 +293,15 @@ end $$;
 create or replace function public.play_open(p_mode text,p_subject text,p_topic text,p_public boolean) returns text
 language plpgsql security definer set search_path='' as $$
 declare actor uuid:=reviewer_play.viewer(); label_text text; code_text text; selected text[];
- moment timestamptz:=clock_timestamp(); today date:=(moment at time zone 'Asia/Manila')::date;
- cup_start timestamptz:=((today+time '21:00') at time zone 'Asia/Manila');
+ moment timestamptz; today date; cup_start timestamptz;
  actor_tier int; opponent uuid; season_key text;
 begin
  if p_mode not in ('duel','ranked','challenge','quiz','code','cup') or p_mode is null then raise exception 'Choose a game mode.'; end if;
  if p_subject not in ('all','CROSS','NP1','NP2','NP3','NP4','NP5') or p_subject is null or length(coalesce(p_topic,''))>100 then raise exception 'Choose a valid subject.'; end if;
  select username into strict label_text from public.study_profiles where user_id=actor;
  perform pg_advisory_xact_lock(hashtext('reviewer-play-lobby'));
+ moment:=clock_timestamp();
  if p_mode='ranked' then
-  moment:=clock_timestamp();
   perform reviewer_play.finish_due_ranked(actor,moment);
   select r.code into code_text
   from reviewer_play.players p join reviewer_play.rooms r on r.code=p.room
@@ -302,37 +332,55 @@ begin
   insert into reviewer_play.players(room,profile,label) values(code_text,actor,label_text);
   return code_text;
  elsif p_mode='cup' then
-  if moment<cup_start-interval '15 minutes' or moment>=cup_start then raise exception 'The nightly lobby is open from 8:45 to 9:00 PM Philippine time.'; end if;
+  cup_start:=reviewer_play.cup_start(moment);
+  today:=(cup_start at time zone 'Asia/Manila')::date;
   select code into code_text from reviewer_play.rooms where cup_day=today;
-  if code_text is not null then
-   if not exists(select 1 from reviewer_play.players where room=code_text and profile=actor)
-    and (select count(*) from reviewer_play.players where room=code_text)>=40 then raise exception 'The nightly lobby is full.'; end if;
-   insert into reviewer_play.players(room,profile,label) values(code_text,actor,label_text) on conflict do nothing;
-   return code_text;
+  if code_text is not null and exists(
+   select 1 from reviewer_play.players where room=code_text and profile=actor and left_at is null
+  ) then return code_text; end if;
+  if moment<cup_start-interval '15 minutes' or moment>=cup_start then
+   raise exception 'The nightly lobby is open from 8:45 to 9:00 PM Philippine time.';
   end if;
- elsif p_mode='duel' and p_public then
-  select code into code_text from reviewer_play.rooms r
-   where r.host=actor and r.mode=p_mode and r.discoverable and r.starts_at is null and r.finished_at is null and r.expires_at>moment
-   order by created_at desc limit 1;
+  if code_text is not null then
+   return public.play_join(code_text);
+  end if;
+  p_subject:='all'; p_topic:=''; p_public:=false;
+ elsif p_mode='duel' then
+  select r.code into code_text
+  from reviewer_play.players p join reviewer_play.rooms r on r.code=p.room
+  where p.profile=actor and p.left_at is null and r.mode='duel'
+   and r.finished_at is null and r.expires_at>moment
+   and (r.starts_at+cardinality(r.question_ids)*interval '18 seconds'>moment
+    or (r.starts_at is null and r.subject=p_subject and r.topic=coalesce(p_topic,'')
+     and r.discoverable=coalesce(p_public,false)))
+  order by r.starts_at is not null desc,p.joined_at desc limit 1;
   if code_text is not null then return code_text; end if;
-  select r.code into code_text from reviewer_play.rooms r
+  if p_public then
+   select r.code into code_text from reviewer_play.rooms r
    where r.host<>actor and r.mode=p_mode and r.discoverable and r.starts_at is null and r.finished_at is null
     and r.expires_at>moment and r.subject=p_subject and r.topic=coalesce(p_topic,'')
+    and r.duel_last_seen_at>moment-interval '12 seconds'
    order by r.created_at limit 1 for update of r;
-  if code_text is not null then
-   insert into reviewer_play.players(room,profile,label) values(code_text,actor,label_text);
-   update reviewer_play.rooms set starts_at=moment+interval '4 seconds',expires_at=moment+interval '10 minutes' where code=code_text;
-   return code_text;
+   if code_text is not null then return public.play_join(code_text); end if;
   end if;
+ else
+  select r.code into code_text
+  from reviewer_play.rooms r join reviewer_play.players p on p.room=r.code and p.profile=r.host
+  where r.host=actor and r.mode=p_mode and r.subject=p_subject and r.topic=coalesce(p_topic,'')
+   and r.discoverable=coalesce(p_public,false) and r.starts_at is null and r.finished_at is null
+   and r.expires_at>moment and p.starts_at is null and p.left_at is null
+  order by r.created_at desc limit 1;
+  if code_text is not null then return code_text; end if;
  end if;
- if (select count(*) from reviewer_play.rooms where host=actor and starts_at is null and finished_at is null and expires_at>moment)>=5
+ if p_mode<>'cup' and (select count(*) from reviewer_play.rooms where host=actor and starts_at is null and finished_at is null and expires_at>moment)>=5
  then raise exception 'Close an unused lobby before opening another.'; end if;
  selected:=reviewer_play.draw(p_subject,coalesce(p_topic,''),case when p_mode='cup' then 15 else 10 end);
  if cardinality(selected)<(case when p_mode='cup' then 15 else 10 end) then raise exception 'There are not enough game questions for that selection.'; end if;
- insert into reviewer_play.rooms(mode,host,subject,topic,discoverable,question_ids,expires_at,starts_at,cup_day)
+ insert into reviewer_play.rooms(mode,host,subject,topic,discoverable,question_ids,expires_at,starts_at,cup_day,duel_last_seen_at)
  values(p_mode,actor,p_subject,coalesce(p_topic,''),coalesce(p_public,false),selected,
-  moment+case when p_mode='duel' and p_public then interval '2 minutes' else interval '1 day' end,
-  case when p_mode='cup' then cup_start end,case when p_mode='cup' then today end)
+  case when p_mode='cup' then cup_start+interval '10 minutes'
+   when p_mode='duel' and p_public then moment+interval '2 minutes' else moment+interval '1 day' end,
+  cup_start,today,case when p_mode='duel' and p_public then moment end)
  returning code into code_text;
  insert into reviewer_play.players(room,profile,label) values(code_text,actor,label_text);
  return code_text;
@@ -340,19 +388,26 @@ end $$;
 
 create or replace function public.play_join(p_code text) returns text
 language plpgsql security definer set search_path='' as $$
-declare actor uuid:=reviewer_play.viewer(); game reviewer_play.rooms%rowtype; label_text text; moment timestamptz:=clock_timestamp();
+declare actor uuid:=reviewer_play.viewer(); game reviewer_play.rooms%rowtype; member reviewer_play.players%rowtype;
+ label_text text; moment timestamptz;
 begin
  select * into game from reviewer_play.rooms where code=upper(trim(p_code)) for update;
  if not found then raise exception 'That room code was not found.'; end if;
- if exists(select 1 from reviewer_play.players where room=game.code and profile=actor) then return game.code; end if;
- if game.mode='ranked' or game.finished_at is not null or game.expires_at<=moment
-  or game.mode not in ('challenge','cup') and game.starts_at is not null
-  or game.mode='cup' and moment>=game.starts_at
- then raise exception 'This room is closed to new players.'; end if;
- if (select count(*) from reviewer_play.players where room=game.code and left_at is null)>=reviewer_play.limit_for(game.mode)
+ moment:=clock_timestamp();
+ select * into member from reviewer_play.players where room=game.code and profile=actor;
+ if member.profile is not null and (member.left_at is null or member.starts_at is not null
+  or not reviewer_play.can_join(game,moment)) then return game.code; end if;
+ if not reviewer_play.can_join(game,moment) then raise exception 'This room is closed to new players.'; end if;
+ if (select count(*) from reviewer_play.players where room=game.code and profile<>actor
+  and (left_at is null or game.mode='challenge'))>=reviewer_play.limit_for(game.mode)
  then raise exception 'This room is full.'; end if;
  select username into strict label_text from public.study_profiles where user_id=actor;
- insert into reviewer_play.players(room,profile,label) values(game.code,actor,label_text);
+ insert into reviewer_play.players(room,profile,label) values(game.code,actor,label_text)
+ on conflict(room,profile) do update set left_at=null,label=excluded.label,joined_at=moment;
+ if game.mode='duel' and game.discoverable then
+  update reviewer_play.rooms set starts_at=moment+interval '4 seconds',expires_at=moment+interval '10 minutes'
+  where code=game.code;
+ end if;
  return game.code;
 end $$;
 
@@ -364,38 +419,44 @@ begin
  select * into game from reviewer_play.rooms where code=upper(trim(p_code)) for update;
  select * into member from reviewer_play.players where room=game.code and profile=actor;
  if member.profile is null then raise exception 'Join the room first.' using errcode='42501'; end if;
- if game.mode='ranked' then
-  moment:=clock_timestamp();
-  if p_action='cancel' then
-   if game.starts_at is not null then return false; end if;
-   if game.finished_at is null then
-    update reviewer_play.players set left_at=moment where room=game.code and profile=actor;
-    update reviewer_play.rooms set finished_at=moment where code=game.code;
-   end if;
+ moment:=clock_timestamp();
+ if p_action='cancel' then
+  if game.mode not in ('ranked','duel') or actor<>game.host or game.starts_at is not null then return false; end if;
+  if game.finished_at is null then
+   update reviewer_play.players set left_at=moment where room=game.code and profile=actor;
+   update reviewer_play.rooms set finished_at=moment where code=game.code;
+  end if;
+  return true;
+ end if;
+ if game.finished_at is not null or member.left_at is not null then return p_action='leave'; end if;
+ if reviewer_play.room_due(game,moment) then
+  perform reviewer_play.settle(game.code,moment);
+  return p_action='leave';
+ end if;
+ if p_action='leave' then
+  if game.mode='challenge' and member.starts_at+cardinality(game.question_ids)*interval '18 seconds'<=moment then
    return true;
   end if;
-  if game.finished_at is not null or member.left_at is not null then return p_action='leave'; end if;
-  if game.expires_at<=moment or game.starts_at+cardinality(game.question_ids)*interval '18 seconds'<=moment then
-   perform reviewer_play.settle(game.code,moment);
-   return p_action='leave';
-  end if;
- end if;
- if game.finished_at is not null or game.expires_at<=moment or member.left_at is not null then return false; end if;
- if p_action='leave' then
   update reviewer_play.players set left_at=moment where room=game.code and profile=actor;
-  if actor=game.host and game.starts_at is null and game.mode<>'challenge' then
+  if actor=game.host and game.starts_at is null and
+   (game.mode<>'challenge' or not exists(select 1 from reviewer_play.players where room=game.code and profile<>actor)) then
    update reviewer_play.rooms set finished_at=moment where code=game.code;
   end if;
   perform reviewer_play.settle(game.code,moment);
   return true;
  end if;
  if p_action<>'start' or p_action is null then return false; end if;
- if game.mode='challenge' and member.starts_at is null then
-  update reviewer_play.players set starts_at=moment+interval '4 seconds' where room=game.code and profile=actor;
+ if game.mode='challenge' then
+  if member.starts_at is null then
+   update reviewer_play.players set starts_at=moment+interval '4 seconds' where room=game.code and profile=actor;
+   update reviewer_play.rooms set expires_at=greatest(expires_at,moment+(cardinality(game.question_ids)*18+7)*interval '1 second')
+   where code=game.code;
+  end if;
   return true;
  end if;
- if game.mode in ('quiz','code','duel') and game.starts_at is null and actor=game.host
-  and (select count(*) from reviewer_play.players where room=game.code and left_at is null)>=2 then
+ if game.mode in ('quiz','code','duel') and actor=game.host then
+  if game.starts_at is not null then return true; end if;
+  if (select count(*) from reviewer_play.players where room=game.code and left_at is null)<2 then return false; end if;
   update reviewer_play.rooms set starts_at=moment+interval '4 seconds',expires_at=moment+interval '10 minutes' where code=game.code;
   return true;
  end if;
@@ -432,6 +493,7 @@ declare actor uuid:=reviewer_play.viewer(); game reviewer_play.rooms%rowtype; me
  simulated_limit int; simulated_points int; simulated_right int;
 begin
  select * into game from reviewer_play.rooms where code=upper(trim(p_code));
+ if not found then raise exception 'That room code was not found.'; end if;
  select * into member from reviewer_play.players where room=game.code and profile=actor;
  if member.profile is null then raise exception 'Join the room first.' using errcode='42501'; end if;
  if game.mode='ranked' and game.finished_at is null and member.left_at is null
@@ -439,18 +501,27 @@ begin
   (game.created_at+interval '8 seconds'<=moment or game.ranked_last_seen_at is null or
    game.ranked_last_seen_at<=moment-interval '3 seconds') then
   perform reviewer_play.advance_ranked_queue(game.code,actor,moment);
-  select * into game from reviewer_play.rooms where code=game.code;
  end if;
- moment:=clock_timestamp();
- if game.mode<>'ranked' or (game.finished_at is null and
-  (game.expires_at<=moment or game.starts_at+cardinality(game.question_ids)*interval '18 seconds'<=moment)) then
-  perform reviewer_play.settle(game.code,moment);
+ if game.mode='duel' and game.discoverable and game.host=actor and member.left_at is null
+  and (game.duel_last_seen_at is null or game.duel_last_seen_at<=moment-interval '3 seconds') then
+  update reviewer_play.rooms set duel_last_seen_at=moment
+  where code=game.code and starts_at is null and finished_at is null and expires_at>moment
+   and (duel_last_seen_at is null or duel_last_seen_at<=moment-interval '3 seconds');
  end if;
  select * into game from reviewer_play.rooms where code=game.code;
+ moment:=clock_timestamp();
+ if reviewer_play.room_due(game,moment) then
+  perform reviewer_play.settle(game.code,moment);
+  select * into game from reviewer_play.rooms where code=game.code;
+ end if;
  select * into member from reviewer_play.players where room=game.code and profile=actor;
  begin_at:=case when game.mode='challenge' then member.starts_at else game.starts_at end;
  score_limit:=0;
- if game.finished_at is not null or member.left_at is not null then phase:='finished'; score_limit:=cardinality(game.question_ids);
+ if game.finished_at is not null then phase:='finished'; score_limit:=cardinality(game.question_ids);
+ elsif member.left_at is not null then
+  phase:='finished';
+  score_limit:=least(cardinality(game.question_ids),
+   greatest(0,coalesce(floor((extract(epoch from (moment-begin_at))+3)/18)::int,0)));
  elsif begin_at is not null then
   elapsed:=extract(epoch from (moment-begin_at));
   if elapsed<0 then phase:='countdown'; closes_at:=begin_at;
@@ -465,9 +536,7 @@ begin
   end if;
  end if;
  if game.mode='code' then
-  select greatest(0,least(100,100+coalesce(sum(case when success then 2 else -12 end),0)))::int into stability
-  from (select exists(select 1 from reviewer_play.answers a where a.room=game.code and a.item=i and a.correct) success
-   from generate_series(1,score_limit) i) rounds;
+  stability:=reviewer_play.team_stability(game.code,score_limit);
  end if;
  if game.ranked_opponent_points is not null then
   simulated_limit:=score_limit;
@@ -481,9 +550,14 @@ begin
  end if;
  return jsonb_build_object(
   'code',game.code,'mode',game.mode,'subject',game.subject,'topic',game.topic,'phase',phase,'owner',game.host=actor,
+  'closed',game.finished_at is not null,'left',member.left_at is not null,
+  'searching',game.mode='duel' and game.discoverable and phase='lobby',
+  'rejoinable',member.left_at is not null and member.starts_at is null and reviewer_play.can_join(game,moment),
   'serverAt',extract(epoch from moment)*1000,'startsAt',extract(epoch from begin_at)*1000,
   'closesAt',extract(epoch from closes_at)*1000,'expiresAt',extract(epoch from game.expires_at)*1000,
-  'finishedAt',extract(epoch from game.finished_at)*1000,
+  'finishedAt',extract(epoch from case when phase='finished' and game.mode='challenge'
+   then least(moment,game.finished_at,member.left_at,begin_at+cardinality(game.question_ids)*interval '18 seconds')
+   else coalesce(game.finished_at,member.left_at) end)*1000,
   'item',current_item,'total',case when game.mode='ranked' then 10 else cardinality(game.question_ids) end,
   'questionId',game.question_ids[current_item],
   'selected',my_answer,'correctIndex',key_index,'stability',stability,
@@ -491,17 +565,28 @@ begin
   'rankedResult',member.ranked_result,
   'players',coalesce((select jsonb_agg(entry order by points desc,label) from (
    select p.label,p.profile=actor as me,p.profile=game.host as host,p.left_at is not null as left,
-    coalesce(sum(a.points),0)::int as points,count(*) filter(where a.correct)::int as right,false as simulated
-   from reviewer_play.players p left join reviewer_play.answers a on a.room=p.room and a.profile=p.profile and a.item<=score_limit
-   where p.room=game.code group by p.profile,p.label,p.left_at
+    coalesce(sum(a.points),0)::int as points,count(*) filter(where a.correct)::int as right,false as simulated,
+    case when game.mode='challenge' then case
+     when p.left_at is not null then 'left'
+     when p.starts_at+cardinality(game.question_ids)*interval '18 seconds'<=moment then 'finished'
+     when p.starts_at is not null then 'playing'
+     else 'waiting'
+    end end as status
+   from reviewer_play.players p left join reviewer_play.answers a on a.room=p.room and a.profile=p.profile
+    and a.item<=case when game.mode='challenge' and game.finished_at is null and p.left_at is null
+     then least(score_limit,coalesce(floor((extract(epoch from (moment-p.starts_at))+3)/18)::int,0))
+     else score_limit end
+   where p.room=game.code and (p.left_at is null or p.profile=actor or game.mode='challenge'
+    or p.left_at>=game.starts_at-case when game.mode='cup' then interval '0 seconds' else interval '4 seconds' end)
+   group by p.profile,p.label,p.left_at,p.starts_at
    union all
-   select 'Simulated opponent',false,false,false,simulated_points,simulated_right,true
+   select 'Simulated opponent',false,false,false,simulated_points,simulated_right,true,null
    where game.ranked_opponent_points is not null
   ) entry),'[]'::jsonb),
   'review',case when phase='finished' then coalesce((select jsonb_agg(jsonb_build_object(
    'id',game.question_ids[a.item],'choice',a.choice,'right',a.correct) order by a.item)
    from reviewer_play.answers a where a.room=game.code and a.profile=actor),'[]'::jsonb) else '[]'::jsonb end,
-  'messages',case when phase in ('lobby','finished') and game.mode in ('quiz','code','challenge') then
+  'messages',case when member.left_at is null and phase in ('lobby','finished') and game.mode in ('quiz','code','challenge') then
    coalesce((select jsonb_agg(entry order by id) from (
     select m.id,p.label,m.body,m.profile=actor as me from reviewer_play.messages m
     join reviewer_play.players p using(room,profile) where m.room=game.code order by m.id desc limit 40
@@ -515,6 +600,7 @@ declare actor uuid:=reviewer_play.viewer(); room_info jsonb;
 begin
  room_info:=public.play_room(p_code);
  if room_info->>'phase' not in ('lobby','finished') or room_info->>'mode' not in ('quiz','code','challenge')
+  or (room_info->>'left')::boolean
   or p_body is null or char_length(trim(p_body)) not between 1 and 160
   or p_body~*'(https?://|www\.|@|[0-9][0-9 ()+.-]{6,}[0-9])' then return false; end if;
  if exists(select 1 from reviewer_play.messages where room=room_info->>'code' and profile=actor
@@ -526,9 +612,13 @@ end $$;
 create or replace function public.play_overview() returns jsonb
 language plpgsql security definer set search_path='' as $$
 declare actor uuid:=reviewer_play.viewer(); moment timestamptz:=clock_timestamp(); season_key text:=reviewer_play.season(moment);
+ today_cup timestamptz:=reviewer_play.cup_start(moment);
+ next_cup timestamptz:=case when moment<today_cup then today_cup else reviewer_play.cup_start(moment+interval '1 day') end;
 begin
  perform reviewer_play.finish_due_ranked(actor,moment);
  return jsonb_build_object('season',season_key,
+  'cup',jsonb_build_object('opensAt',extract(epoch from (next_cup-interval '15 minutes'))*1000,
+   'startsAt',extract(epoch from next_cup)*1000,'canJoin',moment>=today_cup-interval '15 minutes' and moment<today_cup),
   'rank',coalesce((select to_jsonb(r)-'profile'-'label' from reviewer_play.ranks r where profile=actor and season=season_key),
    jsonb_build_object('tier',reviewer_play.ranked_tier(actor,season_key),'stars',0,'matches',0,'wins',0,'losses',0)),
   'leaders',coalesce((select jsonb_agg(entry) from (
@@ -537,10 +627,13 @@ begin
   'openRooms',coalesce((select jsonb_agg(entry) from (
    select r.code,r.mode,r.subject,p.label from reviewer_play.rooms r join reviewer_play.players p on p.room=r.code and p.profile=r.host
    where r.discoverable and r.mode in ('quiz','code') and r.starts_at is null and r.finished_at is null and r.expires_at>clock_timestamp()
+    and (select count(*) from reviewer_play.players members where members.room=r.code and members.left_at is null)<reviewer_play.limit_for(r.mode)
    order by r.created_at desc limit 12
   ) entry),'[]'::jsonb),
   'recent',coalesce((select jsonb_agg(entry) from (
-   select r.code,r.mode,r.subject,r.finished_at is not null or r.expires_at<=moment as ended
+   select r.code,r.mode,r.subject,(r.finished_at is not null or r.expires_at<=moment or
+    coalesce((case when r.mode='challenge' then p.starts_at else r.starts_at end)
+     +cardinality(r.question_ids)*interval '18 seconds'<=moment,false)) as ended
    from reviewer_play.players p join reviewer_play.rooms r on r.code=p.room
    where p.profile=actor and p.left_at is null order by p.joined_at desc limit 12
   ) entry),'[]'::jsonb)

@@ -67,9 +67,9 @@
 .game-result-banner .button-row {justify-content:center}
 .game-ranks .active {outline:2px solid var(--notebook-focus)}
 .ranked-queue-time {color:var(--muted);font-variant-numeric:tabular-nums}
-.ranked-question {scroll-margin-top:80px}
-.ranked-question h2:focus {outline:none}
-.ranked-question .game-score-bar [role=timer] {font-variant-numeric:tabular-nums}
+.online-game-question {scroll-margin-top:80px}
+.online-game-question h2:focus {outline:none}
+.online-game-question .game-score-bar [role=timer] {font-variant-numeric:tabular-nums}
 .game-standings li>strong {flex-shrink:0;text-align:right}
 .game-standings li>strong small {color:var(--muted);font-weight:500}
 .game-standings ol,.game-history,.game-chat ul {list-style:none;padding:0}
