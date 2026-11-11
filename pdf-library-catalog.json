@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-03",
+  "checkedAt": "2026-11-12",
   "references": [
     {
       "id": "ref-1",
@@ -459,6 +459,12 @@
       "title": "Therapeutic Communication & Crisis Intervention",
       "url": "https://www.nleboardpal.com/resources/cram/1734bc19-8d9a-4d98-9cfe-6c761ad8a244",
       "subject": "NP5"
+    },
+    {
+      "id": "boardpal-47",
+      "title": "Skin & Burns — Integumentary Disorders and Burn Care",
+      "url": "https://www.nleboardpal.com/pnle/cram-sheets/skin-and-burns-integumentary-disorders-and-burn-care",
+      "subject": "NP3"
     }
   ]
 }

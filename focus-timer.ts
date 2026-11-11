@@ -12,6 +12,9 @@ export function cleanFocusSettings(raw?:Partial<FocusSettings>):FocusSettings{
 export function freshFocusTimer(settings:FocusSettings,mode:FocusTimer['mode']='pomodoro',now=Date.now()):FocusTimer{
  return {mode,phase:'focus',completed:0,elapsed:0,length:settings.focus*60000,running:false,lastAt:now};
 }
+export function stopwatchGap(timer:FocusTimer,now:number):FocusSegment|null{
+ return timer.running&&timer.mode==='stopwatch'&&now-timer.lastAt>=120000?{start:timer.lastAt,end:now}:null;
+}
 export function nextFocusPhase(timer:FocusTimer,settings:FocusSettings,now:number):FocusTimer{
  const completed=timer.completed+(timer.phase==='focus'?1:0);
  const phase=timer.phase==='focus'?(completed%settings.rounds===0?'long':'short'):'focus';

@@ -100,7 +100,7 @@ function SessionContent({id,results=false}:{id:string;results?:boolean}){
   if(error)return <Empty title="Saved questions are temporarily unavailable" description={error} action={<button className="btn primary" onClick={()=>{setSaved(undefined);setRetry(n=>n+1);}}>Try again</button>}/>;
   return <div className="loading" role="status"><p>Opening your saved questions…</p></div>;
  }
- return results?<SessionResults id={id} bankMap={sessionBank}/>:<QuestionSession id={id} bankMap={sessionBank}/>;
+ return results?<SessionResults key={id} id={id} bankMap={sessionBank}/>:<QuestionSession id={id} bankMap={sessionBank}/>;
 }
 
 function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
@@ -241,7 +241,53 @@ export function QuestionProvenance({q}:{q:Question}){
 }
 export function QuestionExtras({q}:{q:Question}){const {state,update}=useApp();const saved=state.bookmarks.includes(q.id);return <><details className="question-attribution"><summary>Question source & attribution</summary><p>{q.origin}</p>{q.sourceTopic&&<p>Source topic: {q.sourceTopic}</p>}{(q.format==="concept"||q.format==="comparison")&&<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">Reference adaptation license: CC BY 4.0</a>}{q.collection==="supplemental"&&<a href={apacheLicense} target="_blank" rel="noreferrer">Apache 2.0 license</a>}</details><div className="question-extras">{q.source&&<a className="text-button question-source" href={q.source} target="_blank" rel="noreferrer">{referenceLabel(q.source,q.sourceTopic)}</a>}<button className={`text-button ${saved?"saved":""}`} onClick={()=>update(s=>({...s,bookmarks:saved?s.bookmarks.filter(id=>id!==q.id):[...s.bookmarks,q.id]}))}><Bookmark size={15} fill={saved?"currentColor":"none"}/>{saved?"Bookmarked":"Bookmark question"}</button><details><summary><NotebookPen size={15}/>Your note</summary><textarea aria-label={`Note for ${q.id}`} placeholder="What helped this click for you?" value={state.notes[q.id]||""} onChange={e=>update(s=>({...s,notes:{...s.notes,[q.id]:e.target.value}}))}/></details></div></>;}
 export function ReviewQuestion({q,selected}:{q:Question;selected?:number}){const [open,setOpen]=useState(selected!==undefined);return <article className="review-question"><div className="section-head"><span className="tag">{q.subject==="CROSS"?"F&F":q.subject} · {q.topic}</span>{selected!==undefined&&<span className={selected===q.correctIndex?"success":"danger"}>{selected===q.correctIndex?"Correct":selected<0?"Unanswered":"Incorrect"}</span>}</div><QuestionProvenance q={q}/><h3>{q.stem}</h3><button className="text-button" onClick={()=>setOpen(!open)}>{open?"Hide answer":"Show answer and rationale"}<ChevronDown size={15}/></button>{open&&<><div className="review-options">{q.options.map((option,i)=><div key={i} className={`${i===q.correctIndex?"correct":""} ${selected===i&&i!==q.correctIndex?"wrong":""}`}><strong>{letters[i]}. {option.text} {i===q.correctIndex&&<Check size={15}/>}</strong>{q.rationaleScope!=="shared"&&<ChoiceRationale q={q} index={i}/>}</div>)}</div>{(q.rationaleScope==="shared"||distinctStudyNote(q))&&<div className="key-point"><strong>{q.rationaleScope==="shared"?"Source answer explanation":"Study note"}</strong><p>{q.rationaleScope==="shared"?q.rationale:distinctStudyNote(q)}</p></div>}<QuestionExtras q={q}/></>}</article>;}
-function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){const {state}=useApp(),start=useStartSession();const session=state.sessions.find(s=>s.id===id);const [filter,setFilter]=useState("all"),[page,setPage]=useState(0);if(!session?.finishedAt)return <Empty title="Your session is still in progress" description="Finish the session to see all answers and rationales." action={<Link to={`/session/${id}`} className="btn primary">Resume session</Link>}/>;const correct=sessionScore(session,bankMap),percent=Math.round(correct/session.questionIds.length*100);const filtered=session.questionIds.filter(id=>filter==="all"||filter==="wrong"&&!isAnswerCorrect(session,id,bankMap)||filter==="flagged"&&session.flagged.includes(id));return <><Link to="/history" className="back"><ArrowLeft size={15}/> Your study history</Link><Heading title="One session closer." description={`${session.title} · ${session.questionIds.length} ${session.questionIds.length===1?"question":"questions"}`}/><Card className="results-summary"><div className="score-ring" style={{background:`conic-gradient(var(--green) ${percent}%, var(--line) 0)`}}><div><strong>{percent}%</strong><span>accuracy</span></div></div><div><h2>{percent>=75?"Keep building on this.":"Every rationale is a chance to improve."}</h2><p>{correct} correct · {session.questionIds.length-correct} incorrect or unanswered</p><p className="muted">{Math.floor((session.finishedAt-session.startedAt)/60000)} minutes · Projected rating {(40+percent*.6).toFixed(1)}*</p><div className="button-row"><button className="btn primary" onClick={()=>start({ids:session.questionIds.filter(id=>!isAnswerCorrect(session,id,bankMap)),count:session.questionIds.length,review:true,title:"Review missed questions"})} disabled={correct===session.questionIds.length}>Review missed questions</button><Link to="/practice" className="btn">Back to practice</Link></div></div></Card><p className="fine-print">*Study estimate: 40 + (raw accuracy × 0.6). This is not an official PRC rating or a prediction of passing.</p><div className="section-head"><h2>Your answer review</h2><small>{filtered.length} {filtered.length===1?"question":"questions"}</small></div><div className="tabs">{[["all","All questions"],["wrong","Incorrect"],["flagged","Flagged"]].map(([v,t])=><button key={v} className={filter===v?"active":""} onClick={()=>{setFilter(v);setPage(0);}}>{t}</button>)}</div><Card>{filtered.slice(page*10,page*10+10).map(id=>{const q=bankMap.get(id);return q?<ReviewQuestion key={id} q={q} selected={session.answers[id]?.selected??-1}/>:<p key={id} className="notice">This question is unavailable. It was not counted as a correct answer.</p>;})}{filtered.length===0&&<Empty title="Nothing in this view" description="Try viewing all questions."/>}<Pagination page={page} total={filtered.length} onChange={setPage}/></Card></>;}
+function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
+ const {state}=useApp(),start=useStartSession();
+ const session=state.sessions.find(s=>s.id===id);
+ const [filter,setFilter]=useState("all"),[page,setPage]=useState(0),[query,setQuery]=useState(""),[jumpItem,setJumpItem]=useState("");
+ const [target,setTarget]=useState<string>(),targetRef=useRef<HTMLDivElement>(null);
+ useEffect(()=>{
+  if(!target)return;
+  targetRef.current?.focus({preventScroll:true});targetRef.current?.scrollIntoView({block:"start"});
+ },[target,page,filter,query]);
+ if(!session?.finishedAt)return <Empty title="Your session is still in progress" description="Finish the session to see all answers and rationales." action={<Link to={"/session/"+id} className="btn primary">Resume session</Link>}/>;
+ const correct=sessionScore(session,bankMap),percent=Math.round(correct/session.questionIds.length*100);
+ const bookmarks=new Set(state.bookmarks),terms=query.toLocaleLowerCase("en").trim().split(/\s+/).filter(Boolean);
+ const filtered=session.questionIds.map((questionId,index)=>({questionId,index})).filter(({questionId})=>{
+  if(filter==="wrong"&&isAnswerCorrect(session,questionId,bankMap)||filter==="flagged"&&!session.flagged.includes(questionId)||filter==="saved"&&!bookmarks.has(questionId))return false;
+  if(!terms.length)return true;
+  const q=bankMap.get(questionId);
+  const searchable=q?[q.topic,q.stem,...q.options.map(option=>option.text)].join(" ").toLocaleLowerCase("en"):"";
+  return terms.every(term=>searchable.includes(term));
+ });
+ const activePage=Math.max(0,Math.min(page,Math.ceil(filtered.length/10)-1));
+ const jumpIndex=Number(jumpItem)-1;
+ return <><Link to="/history" className="back"><ArrowLeft size={15}/> Your study history</Link><Heading title="One session closer." description={`${session.title} · ${session.questionIds.length} ${session.questionIds.length===1?"question":"questions"}`}/><Card className="results-summary"><div className="score-ring" style={{background:`conic-gradient(var(--green) ${percent}%, var(--line) 0)`}}><div><strong>{percent}%</strong><span>accuracy</span></div></div><div><h2>{percent>=75?"Keep building on this.":"Every rationale is a chance to improve."}</h2><p>{correct} correct · {session.questionIds.length-correct} incorrect or unanswered</p><p className="muted">{Math.floor((session.finishedAt-session.startedAt)/60000)} minutes · Projected rating {(40+percent*.6).toFixed(1)}*</p><div className="button-row"><button className="btn primary" onClick={()=>start({ids:session.questionIds.filter(id=>!isAnswerCorrect(session,id,bankMap)),count:session.questionIds.length,review:true,title:"Review missed questions"})} disabled={correct===session.questionIds.length}>Review missed questions</button><Link to="/practice" className="btn">Back to practice</Link></div></div></Card><p className="fine-print">*Study estimate: 40 + (raw accuracy × 0.6). This is not an official PRC rating or a prediction of passing.</p>
+ <div className="section-head"><h2>Your answer review</h2><small>{filtered.length} {filtered.length===1?"question":"questions"}</small></div>
+ <div className="result-review-tools">
+  <SearchBox placeholder="Search this answer review" value={query} onChange={value=>{setQuery(value);setPage(0);setTarget(undefined);}}/>
+  <form className="button-row" onSubmit={event=>{
+   event.preventDefault();
+   const q=session.questionIds[jumpIndex];if(!Number.isInteger(jumpIndex)||!q)return;
+   if(target===q&&filter==="all"&&!query){targetRef.current?.focus({preventScroll:true});targetRef.current?.scrollIntoView({block:"start"});}
+   setTarget(q);setPage(Math.floor(jumpIndex/10));setFilter("all");setQuery("");
+  }}><label>Jump to item <input type="number" min={1} max={session.questionIds.length} required value={jumpItem} onChange={event=>setJumpItem(event.target.value)}/></label>
+  <button className="btn small" type="submit">Go</button></form>
+ </div>
+ <div className="tabs">{[["all","All questions"],["wrong","Incorrect"],["flagged","Flagged"],["saved","Bookmarked"]].map(([value,title])=>
+  <button key={value} aria-pressed={filter===value} className={filter===value?"active":""} onClick={()=>{setFilter(value);setPage(0);setTarget(undefined);}}>{title}</button>)}</div>
+ <Card>
+  {filtered.slice(activePage*10,activePage*10+10).map(({questionId,index})=>{
+   const q=bankMap.get(questionId);
+   return <div key={questionId} className="review-item" ref={target===questionId?targetRef:undefined} tabIndex={target===questionId?-1:undefined}>
+    <small className="tag">Item {index+1}</small>
+    {q?<ReviewQuestion q={q} selected={session.answers[questionId]?.selected??-1}/>:<p className="notice">This question is unavailable.</p>}
+   </div>;
+  })}
+  {!filtered.length&&<Empty title="Nothing in this view" description="Try another search or view all questions."/>}
+  <Pagination page={activePage} total={filtered.length} onChange={value=>{setTarget(undefined);setPage(value);}}/>
+ </Card></>;
+}
 export function Pagination({page,total,onChange}:{page:number;total:number;onChange:(n:number)=>void}){return <div className="pagination"><button className="btn small" disabled={page===0} onClick={()=>onChange(page-1)}><ChevronLeft size={15}/>Previous</button><small>{total?`${page*10+1}–${Math.min(total,page*10+10)} of ${total}`:"0 questions"}</small><button className="btn small" disabled={(page+1)*10>=total} onClick={()=>onChange(page+1)}>Next<ChevronRight size={15}/></button></div>;}
 export function BankBrowser({saved=false,notes=false}:{saved?:boolean;notes?:boolean}){
   const {state,bank,bankMap}=useApp();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all"),[collection,setCollection]=useState<Collection>("all"),[page,setPage]=useState(0);

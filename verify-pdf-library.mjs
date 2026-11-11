@@ -4,13 +4,15 @@ import {PDFDocument} from 'pdf-lib';
 import {zipSync,unzipSync,strToU8} from 'fflate';
 import assert from 'node:assert/strict';
 import {questions,clinicalCases} from './author-bank.ts';
+import {newStudyQuestions} from './authored-update.mjs';
 import {curriculum} from './curriculum.ts';
 import {makeTopicGuide} from './pdf-guides.ts';
 import {renderTopicPDF} from './pdf-renderer.ts';
+if(!newStudyQuestions.length)throw Error('Keep the private study additions in content-authoring/ before verifying the full PDF library.');
 await mkdir('outputs/pdf-library/generated',{recursive:true});
 const files={},results=[];
 for(const topic of curriculum){
- const guide=makeTopicGuide(topic,questions,clinicalCases),bytes=await renderTopicPDF(guide),doc=await PDFDocument.load(bytes);
+ const guide=makeTopicGuide(topic,[...questions,...newStudyQuestions],clinicalCases),bytes=await renderTopicPDF(guide),doc=await PDFDocument.load(bytes);
  assert.ok(doc.getPageCount()>0,topic.slug);assert.ok(doc.getTitle().startsWith(topic.name.replace(/[\u2010-\u2015\u2212]/g,'-')),topic.slug);
  assert.equal(doc.getAuthor(),'For Elaine Only Reviewer');
  const name=`${topic.subject}/${topic.slug}.pdf`;files[name]=bytes;

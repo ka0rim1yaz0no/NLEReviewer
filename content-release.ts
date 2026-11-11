@@ -1,9 +1,11 @@
 import { gunzipSync } from "fflate";
 import { validateProtectedContent } from "./content-integrity.ts";
 import type { ContentRow } from "./content-integrity.ts";
+import studyAdditions from "./study-additions-summary.json" with {type:"json"};
 // Immutable release: stage all pages before publishing its manifest. Older
 // deployments continue using study_content and never see half a release.
 export const contentRelease="2026-11-11-choice-reference-review-1";
+export const studyAdditionsRelease=studyAdditions.release;
 export const priorQuestionRelease="2026-11-11-challenge-pink-2";
 export const firstJudgmentRelease="2026-11-11-situational-judgment-1";
 export const clinicalAuditRelease="2026-11-11-clinical-audit-1";

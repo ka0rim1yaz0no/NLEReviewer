@@ -69,6 +69,7 @@ export function mergeStudyStates(base:State,local:State,remote:State,now=Date.no
   bookmarks:setChanges(base.bookmarks,local.bookmarks,remote.bookmarks),read:setChanges(base.read,local.read,remote.read),
   notes:dictionary(base.notes,local.notes,remote.notes),cards,
   tasks:records(base.tasks,local.tasks,remote.tasks),customCards:records(base.customCards,local.customCards,remote.customCards),
+  gameRuns:records(base.gameRuns||[],local.gameRuns||[],remote.gameRuns||[]),
   importedQuestions:records(base.importedQuestions,local.importedQuestions,remote.importedQuestions),
   studySeconds:Math.max(0,remote.studySeconds+local.studySeconds-base.studySeconds),studyLog,updatedAt:now};
  const baselineIds=new Set(base.attempts.map(a=>a.id)),newAttempts=attempts.filter(a=>!baselineIds.has(a.id));

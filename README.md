@@ -4,7 +4,7 @@ A BoardPal-inspired nursing study app with username profiles, separate progress,
 
 ## Published content
 
-**5,117 situational nursing questions across 156 topics**, in a bank of **9,531 active questions** (10,694 stored including 1,163 retired historical records):
+**5,177 situational nursing questions across 156 topics**, in a bank of **9,591 active questions** (10,754 stored including 1,163 retired historical records):
 
 | Question format | Count |
 | --- | ---: |
@@ -12,12 +12,13 @@ A BoardPal-inspired nursing study app with username profiles, separate progress,
 | New questions in 620 seven-part situations | 4,340 |
 | Standalone situational scenarios from the November 3 expansion | 155 |
 | New original clinical judgment cases | 42 |
+| New skin and burn care cases, and rotavirus immunization cases | 60 |
 | Other earlier standalone originals | 51 |
 | Source-based concept checks | 3,714 |
 | Reference-comparison questions | 647 |
 | Corrected supplemental source items | 2 |
 
-The situational bank has 933 distinct vignettes. It includes 620 linked cases with seven nursing-process decisions each, 116 earlier five-part cases, and 197 standalone cases. The November 11 update adds 42 original judgment cases, including six for the new NP3 topic Integumentary Disorders & Burn Care.
+The situational bank has 993 distinct vignettes. It includes 620 linked cases with seven nursing-process decisions each, 116 earlier five-part cases, and 257 standalone cases. The November 12 supplement adds 57 skin and burn care decisions and three rotavirus immunization decisions, with a rationale and source for each choice.
 
 Every question has four distinct choices, one keyed answer, an answer explanation, and explanations for all alternatives. `situational-evidence.json` records the clinical findings, care need, safe response, teaching, desired outcome, unsafe proposal, clinical reasoning, and reference for each new situation. The answer key is checked against this authored evidence. References include Open RN nursing chapters, WHO, CDC, NIH/NEI, NHS, NICE, AHA, and Philippine statutes. Checks include all-topic coverage, complete per-choice explanations, unique situations and questions, balanced answer positions, ABG arithmetic, scoring, and preservation of every earlier record. The November 3 audit reviewed the evidence behind all 740 original case sets and checked all 4,940 question records. Reference and structural checking is **not independent professional clinical approval**; independent clinician review remains pending.
 
@@ -61,7 +62,9 @@ Vite serves local development on port 5173; `npm run preview -- --port 4173` pre
 4. The browser checks the expanded question/case counts and a canonical SHA-256 digest before installing the bank. A module worker performs decompression and verification away from the UI thread, with the same verified fallback for browsers without workers. Missing, damaged, or incomplete content keeps saved progress intact and offers a retry. Students cannot modify shared content. Visitors and anonymous-auth identities without a claimed username cannot retrieve answers or notes.
 5. Deploy the matching client release. Older deployments continue using the original `study_content` table, which remains intact. `seed-content.mjs` and `protected-content.sql` remain available for that legacy format. New compressed releases stage separately; publishing a manifest never exposes a half-loaded bank.
 
-The public JavaScript contains no question stems, keys, case payloads, or bank exports. The repository's authoring source contains answers and is outside the app's username gate; making the repository private is a separate account setting. Copies already downloaded are likewise outside this gate.
+The public JavaScript contains no question stems, keys, case payloads, or bank exports. Earlier authoring sources are outside the app's username gate. The November 12 authoring file lives in the local, ignored `content-authoring/` directory; the published supplement is available through the protected database. Copies already downloaded are outside the app's gate.
+
+Play includes solo Rapid Fire, Match Up, and Type It; live and ranked matches; friend challenges; Quiz Show; Code Blue; and a daily 9 PM Manila cup. Room codes, scoring, the ladder, and lobby chat are kept in the private Supabase game schema. Game results do not write practice answers or change exam grades. To set up Play in another database, apply `play-schema.sql`, generate and apply the base pool with `node --experimental-strip-types seed-play.mjs`, then apply the supplemental release from `seed-study-update.mjs` using the local authoring file. On production, the game schema and supplemental release must be present before deploying the client.
 
 Username access is pseudonymous. `isabel` is the shared priority username. It opens the original priority profile, with the same progress and PDFs, from any device. The prior private Isabel profile keeps its progress as `Isabel (previous)` on its remembered browsers. Other profiles remain browser-remembered and separate; export a backup before clearing their browser storage or moving them. Active Supabase device identity is separate per tab, while cloud reads/writes resolve the canonical study profile. Switching profiles saves and hides the prior workspace first. Backups contain study data, not authentication tokens. Revision-checked saves merge concurrent edits; a failed cloud read cannot overwrite cloud data with a stale local snapshot.
 

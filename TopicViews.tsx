@@ -4,7 +4,7 @@ import {TopicReviewNotes} from "./TopicReviewNotes";
 import { CollectionPicker } from "./CollectionPicker";
 import { inCollection, collectionCounts, isSituational, parseCollection } from "./collections";
 import type { Collection } from "./collections";
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, ChevronRight, Layers3 } from "lucide-react";
 import { subjects } from "./bank";
 import { referenceCount, referenceSubjectCount, referenceTotal, referenceObservedAt, auditQuestionBank, uniqueQuestionCount } from "./catalog-metrics";
@@ -19,8 +19,18 @@ import { TopicKeyPoints } from "./TopicKeyPoints";
 export function Practice(){
   const {state,bank}=useApp(),start=useStartSession();
   const [search,setSearch]=useState(""),[filter,setFilter]=useState("all");
+  const [keyword,setKeyword]=useState("");
   const [collection,setCollection]=useState<Collection>("situational");
   const selectedBank=useMemo(()=>bank.filter(q=>inCollection(q,collection)),[bank,collection]);
+  const query=useDeferredValue(keyword.trim().toLocaleLowerCase("en"));
+  const keywordQuestions=useMemo(()=>{
+    if(query.length<2)return [];
+    const terms=query.split(/\s+/);
+    return selectedBank.filter(q=>{
+      const text=(q.topic+" "+q.stem).toLocaleLowerCase("en");
+      return terms.every(term=>text.includes(term));
+    });
+  },[query,selectedBank]);
   const selectedIds=new Set(selectedBank.map(q=>q.id));
   const first=firstAttempts(state.attempts).filter(a=>selectedIds.has(a.questionId)),rows=practiceTopicRows(state,selectedBank);
   const unfinished=state.sessions.filter(s=>!s.finishedAt&&s.kind!=="mock").at(-1);
@@ -39,6 +49,13 @@ export function Practice(){
     <div className="legend"><span className="green-dot"/>{first.filter(a=>a.correct).length} correct <span className="red-dot"/>{first.filter(a=>!a.correct).length} wrong<TextLink to="/vault">Vault</TextLink></div>
     <p className="fine-print">{uniqueQuestionCount(bank).toLocaleString()} unique questions available in this workspace. The reference lists {referenceTotal.toLocaleString()} questions across {curriculum.length} topics.</p>
     <CollectionPicker bank={bank} value={collection} onChange={setCollection}/>
+    <Card className="keyword-practice"><h2>Practice by keyword</h2>
+      <p>Find cases that mention a symptom, medication, or nursing concept in this collection.</p>
+      <SearchBox placeholder="Enter a practice keyword" value={keyword} onChange={setKeyword}/>
+      <div className="button-row"><button className="btn primary" disabled={!keywordQuestions.length||query!==keyword.trim().toLocaleLowerCase("en")}
+        onClick={()=>start({collection,ids:keywordQuestions.map(q=>q.id),difficulty:"mixed",quick:true,title:"Practice: "+keyword.trim()})}>Start keyword set<ArrowRight size={16}/></button>
+        <small role="status">{query.length>=2?keywordQuestions.length.toLocaleString()+" matching "+(keywordQuestions.length===1?"question":"questions"):"Enter at least two characters"}</small></div>
+    </Card>
     <SearchBox value={search} onChange={setSearch}/>
     <div className="tabs">{[["all",`All topics ${curriculum.length}`],["needs",`Needs work ${counts.needs}`],["new",`Not started ${counts.new}`],["flagged",`Flagged ${counts.flagged}`],["saved",`Saved ${counts.saved}`]].map(([id,label])=><button key={id} aria-pressed={filter===id} className={filter===id?"active":""} onClick={()=>setFilter(id)}>{label}</button>)}</div>
     <div className="subject-list">{subjects.map(subject=>{

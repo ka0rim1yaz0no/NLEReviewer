@@ -1,14 +1,14 @@
 import {supabase} from "./auth";
 import {validateProtectedContent} from "./content-integrity";
 import type {ContentRow} from "./content-integrity";
-import {contentRelease,releaseForArchive} from "./content-release";
+import {contentRelease,releaseForArchive,studyAdditionsRelease} from "./content-release";
 import {processContentRelease} from "./content-processing";
 import type {ArchivedQuestionRevision,ReleaseManifest} from "./content-release";
 import {throwIfAborted,timedRequest} from './abort-utils';
-export async function loadProtectedContent(signal?:AbortSignal,archive?:{ids:readonly string[];revision:ArchivedQuestionRevision}){
+import studyAdditions from "./study-additions-summary.json";
+async function readRelease(release:string,signal?:AbortSignal,ids?:readonly string[]){
  throwIfAborted(signal);
  if(!supabase)throw new Error("The study database is not configured.");
- const release=archive?releaseForArchive(archive.revision):contentRelease;
  const request=timedRequest(signal,15000);
  try{
   const {data,error}=await supabase.from("study_content_releases").select("data").eq("release",release).eq("id","manifest").abortSignal(request.signal).maybeSingle();
@@ -17,6 +17,8 @@ export async function loadProtectedContent(signal?:AbortSignal,archive?:{ids:rea
   if(data){
    const manifest=data.data as ReleaseManifest;
    if(!Number.isInteger(manifest.pages)||manifest.pages<1||manifest.pages>64)throw new Error("The study release manifest is invalid.");
+   if(release===studyAdditionsRelease&&(manifest.questionCount!==studyAdditions.questionCount||manifest.digest!==studyAdditions.digest))
+    throw new Error("The latest study update does not match this app release. Reload and try again.");
    const pages:ContentRow[]=[];
    // Small requests keep mobile transfers bounded. Manifest publication is last,
    // so a partially staged release can never replace the previous question bank.
@@ -24,10 +26,24 @@ export async function loadProtectedContent(signal?:AbortSignal,archive?:{ids:rea
     throwIfAborted(signal);const pageRequest=timedRequest(signal,20000);
     try{const result=await supabase.from("study_content_releases").select("id,kind,data").eq("release",release).eq("kind","page").order("id").range(offset,offset+1).abortSignal(pageRequest.signal);throwIfAborted(signal);if(result.error)throw new Error("Study questions could not be loaded. Your progress has been kept. Please try again.");pages.push(...(result.data||[]));}finally{pageRequest.dispose();}
    }
-   return await processContentRelease(manifest,pages,signal,archive?.ids);
+   return await processContentRelease(manifest,pages,signal,ids);
   }
  }finally{request.dispose();}
- if(archive)throw new Error("Saved questions could not be loaded. Please try again.");
+}
+export async function loadProtectedContent(signal?:AbortSignal,archive?:{ids:readonly string[];revision:ArchivedQuestionRevision}){
+ if(!supabase)throw new Error("The study database is not configured.");
+ if(archive){
+  const saved=await readRelease(releaseForArchive(archive.revision),signal,archive.ids);
+  if(!saved)throw new Error("Saved questions could not be loaded. Please try again.");
+  return saved;
+ }
+ const [core,additions]=await Promise.all([readRelease(contentRelease,signal),readRelease(studyAdditionsRelease,signal)]);
+ if(core){
+  if(!additions)throw new Error("The latest study update is unavailable. Your progress has been kept. Please try again.");
+  const coreIds=new Set(core.questions.map(question=>question.id));
+  if(additions.questions.some(question=>coreIds.has(question.id)))throw new Error("A study update contains a repeated question ID.");
+  return {questions:[...core.questions,...additions.questions],cases:[...core.cases,...additions.cases]};
+ }
  // Backward-compatible fallback while a new release is being staged.
  const rows:ContentRow[]=[];
  for(let offset=0;offset<1000;offset+=100){

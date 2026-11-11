@@ -6,6 +6,7 @@ dist/
 .vercel/
 *.tsbuildinfo
 outputs/
+/content-authoring/
 question-coverage.json
 __pycache__/
 *.pyc

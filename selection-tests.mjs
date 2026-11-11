@@ -9,11 +9,69 @@ import {isSituational} from './collections.ts';
 import {mockQuestionIds} from './mock-papers.ts';
 import {selectPractice,selectQuickPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
 import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review.ts';
+import {newStudyQuestions} from './authored-update.mjs';
+import {checkTypedAnswer,matchTiles,prepareSoloRound,rapidResult,recordGameRun} from './play-engine.ts';
+import {freshFocusTimer,cleanFocusSettings,stopwatchGap} from './focus-timer.ts';
 import retirements from './repetition-retirements.json' with {type:'json'};
 import corrections from './repetition-corrections.json' with {type:'json'};
 const bank=new Map(questions.map(q=>[q.id,q]));
 const session=ids=>({id:'selection-check',title:'Selection check',kind:'practice',mode:'tutor',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:1,scratch:'',highlights:{},strokes:{}});
 const situationBank=activeQuestions.filter(isSituational);
+test('the new cases cover 57 skin and burn decisions and three immunization decisions without repeated stems',{skip:!newStudyQuestions.length},()=>{
+ const all=[...activeQuestions,...newStudyQuestions];
+ assert.equal(new Set(all.map(q=>normalizeQuestionStem(q.stem))).size,all.length);
+ assert.equal(newStudyQuestions.filter(q=>q.subject==='NP3'&&q.topic==='Integumentary Disorders & Burn Care').length,57);
+ assert.equal(newStudyQuestions.filter(q=>q.subject==='NP1'&&q.topic==='Expanded Program on Immunization (EPI)').length,3);
+ const positions=[0,0,0,0];
+ for(const q of newStudyQuestions){
+  positions[q.correctIndex]++;
+  assert.equal(q.options.length,4,q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+  assert.equal(new Set(q.options.map(o=>o.rationale)).size,4,q.id);
+  assert.ok(q.options.every(o=>o.rationale.length>20&&o.source?.startsWith('https://')),q.id);
+ }
+ assert.deepEqual(positions,[15,15,15,15]);
+});
+test('solo games choose a full round without repeating a case or recall term',()=>{
+ const all=[...activeQuestions,...newStudyQuestions];
+ for(const subject of ['all','CROSS','NP1','NP2','NP3','NP4','NP5']){
+  const rapid=prepareSoloRound(all,'rapid',subject,'',142,[]).questions;
+  assert.equal(rapid.length,48,subject);
+  assert.equal(new Set(rapid.map(questionFamily)).size,48,subject);
+  const typed=prepareSoloRound(all,'type',subject,'',71,[]).questions;
+  assert.equal(typed.length,10,subject);
+  assert.equal(new Set(typed.map(q=>q.options[q.correctIndex].text.toLowerCase().trim())).size,10,subject);
+  const match=prepareSoloRound(all,'match',subject,'',118,[]).questions;
+  assert.equal(match.length,12,subject);
+  for(let at=0;at<12;at+=4){
+   const tiles=matchTiles(match.slice(at,at+4),95+at);
+   assert.equal(tiles.length,8,subject);
+   assert.equal(new Set(tiles.map(tile=>tile.label)).size,8,subject);
+   assert.equal(tiles.filter(tile=>tile.questionId).length,4,subject);
+  }
+ }
+});
+test('Play updates its own history without writing attempts or duplicating runs',()=>{
+ const state=initialState(),questionId=activeQuestions[0].id;
+ const run={id:'test-rapid',mode:'rapid',startedAt:100,finishedAt:1000,score:0,right:0,answered:1,questionIds:[questionId]};
+ const finished=recordGameRun(state,run,[questionId],true);
+ assert.deepEqual(finished.attempts,state.attempts);assert.equal(finished.sessions,state.sessions);
+ assert.deepEqual(finished.gameRuns,[run]);assert.ok(finished.vault.includes(questionId));
+ assert.equal(recordGameRun(finished,run,[questionId],true),finished);
+ assert.equal(rapidResult(true,2,35000,10000).score,200);
+ assert.equal(rapidResult(false,3,35000,10000).deadline,25000);
+ assert.equal(rapidResult(false,3,15000,10000).deadline,10000);
+ assert.equal(checkTypedAnswer('  cpr  ','Cardiopulmonary resuscitation (CPR)'),true);
+ assert.equal(checkTypedAnswer('respiration','Cardiopulmonary resuscitation (CPR)'),false);
+});
+test('a suspended stopwatch offers long gaps for confirmation and leaves Pomodoro unaffected',()=>{
+ const settings=cleanFocusSettings();
+ const stopwatch={...freshFocusTimer(settings,'stopwatch',5000),running:true};
+ assert.equal(stopwatchGap(stopwatch,124999),null);
+ assert.deepEqual(stopwatchGap(stopwatch,125000),{start:5000,end:125000});
+ assert.equal(stopwatchGap({...stopwatch,running:false},125000),null);
+ assert.equal(stopwatchGap({...stopwatch,mode:'pomodoro'},125000),null);
+});
 test('two fresh sets reserve different situations before any question is answered',()=>{
  const state=initialState(),a=selectPractice(situationBank,state,50,10);
  assert.equal(a.length,50);assert.equal(new Set(a.map(questionFamily)).size,50);

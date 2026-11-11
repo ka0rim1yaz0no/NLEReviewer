@@ -16,6 +16,7 @@ import {mkdir,readFile,writeFile,unlink} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import {questions as revisedQuestions,previousQuestions as questions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,challengeQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import {inCollection,collectionCounts,parseCollection,isSituational} from './collections.ts';
+import studyAdditions from './study-additions-summary.json' with {type:'json'};
 import {decodeContentRelease} from './content-release.ts';
 import {processContentRelease} from './content-processing.ts';
 import {gzipSync} from 'node:zlib';
@@ -61,10 +62,10 @@ test('all 156 PDF guides include sourced active situational points and exclude a
  assert.ok(potassium.points.some(p=>!p.avoid&&p.text.includes('Start urgent cardiac monitoring')));
 });
 test('PDF resources preserve all BoardPal reader links and distinguish files from publisher pages',()=>{
- assert.equal(pdfCatalog.boardpalReaders.length,46);assert.equal(new Set(pdfCatalog.boardpalReaders.map(r=>r.url)).size,46);
- assert.deepEqual(['CROSS','NP1','NP2','NP3','NP4','NP5'].map(s=>pdfCatalog.boardpalReaders.filter(r=>r.subject===s).length),[9,9,7,7,8,6]);
+ assert.equal(pdfCatalog.boardpalReaders.length,47);assert.equal(new Set(pdfCatalog.boardpalReaders.map(r=>r.url)).size,47);
+ assert.deepEqual(['CROSS','NP1','NP2','NP3','NP4','NP5'].map(s=>pdfCatalog.boardpalReaders.filter(r=>r.subject===s).length),[9,9,7,8,8,6]);
  assert.equal(pdfCatalog.references.filter(r=>r.kind==='pdf').length,12);
- for(const r of pdfCatalog.boardpalReaders)assert.match(r.url,/^https:\/\/www\.nleboardpal\.com\/resources\/cram\/[a-f0-9-]+$/);
+ for(const r of pdfCatalog.boardpalReaders)assert.match(r.url,/^https:\/\/www\.nleboardpal\.com\/(resources\/cram\/[a-f0-9-]+|pnle\/cram-sheets\/[a-z0-9-]+)$/);
  for(const r of pdfCatalog.references){assert.equal(new URL(r.url).protocol,'https:');if(r.kind==='pdf'){assert.match(r.url,/\.pdf(?:[?#]|$)/i);assert.ok(Number.isInteger(r.pages)&&r.pages>0);}}
  assert.ok(needsUsername('/resources/pdfs'));assert.ok(needsUsername('/resources/pdfs?topic=NP4:neuroanatomy-assessment-basics'));
 });
@@ -306,8 +307,8 @@ test('malformed format metadata and per-choice links are removed during import v
 
 test('the displayed public counts match the protected bank without including any question text',async()=>{
  const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
- assert.equal(summary.total,activeQuestions.length);assert.equal(summary.original,activeQuestions.length-supplementalQuestions.length);assert.equal(summary.topics,156);
- assert.equal(summary.concept+summary.comparison,activeQuestions.filter(q=>q.format==="concept"||q.format==="comparison").length);assert.equal(summary.clinical,631);assert.equal(summary.situational,5117);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155);assert.equal(summary.challenge,42);assert.equal(summary.sourceCorrections,2);
+ assert.equal(summary.total,activeQuestions.length+studyAdditions.questionCount);assert.equal(summary.original,summary.total-supplementalQuestions.length);assert.equal(summary.topics,156);
+ assert.equal(summary.concept+summary.comparison,activeQuestions.filter(q=>q.format==="concept"||q.format==="comparison").length);assert.equal(summary.clinical,631);assert.equal(summary.situational,5177);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,215);assert.equal(summary.challenge,102);assert.equal(summary.sourceCorrections,2);
  assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
 });
 

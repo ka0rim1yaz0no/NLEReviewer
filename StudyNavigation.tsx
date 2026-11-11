@@ -1,5 +1,5 @@
 import {useSyncExternalStore} from "react";
-import {Award,BarChart3,BookOpen,CalendarDays,Files,GraduationCap,HeartPulse,HelpCircle,History,House,Layers3,LogOut,Menu,Moon,Settings,ShieldCheck,Sparkles,Stethoscope,Sun,User,Vault} from "lucide-react";
+import {Award,BarChart3,BookOpen,CalendarDays,Files,Gamepad2,GraduationCap,HeartPulse,HelpCircle,History,House,Layers3,LogOut,Menu,Moon,Pin,Settings,ShieldCheck,Sparkles,Stethoscope,Sun,User,Vault} from "lucide-react";
 import {canAccessPDFs} from "./access";
 import {useApp} from "./store";
 import {Link,Modal} from "./ui";
@@ -20,12 +20,13 @@ const publicLinks=[
 const menuGroups=[
  {label:"Study",links:[
   home,topics,planner,
+  {to:"/wall",label:"My Wall",icon:Pin},
   {to:"/decks",label:"Flashcards",icon:Layers3},
   {to:"/resources",label:"Resources",icon:BookOpen},
   {to:"/resources/pdfs",label:"PDF library",icon:Files},
  ]},
  {label:"Practice",links:[
-  practice,{...mocks,label:"Mock Boards"},
+  practice,{...mocks,label:"Mock Boards"},{to:"/play",label:"Play",icon:Gamepad2},
   {to:"/questions",label:"Question library",icon:BookOpen},
   {to:"/vault",label:"Vault",icon:Vault},
  ]},
