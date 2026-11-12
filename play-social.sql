@@ -292,14 +292,27 @@ begin
  update reviewer_play.push_config set vapid_public=p_public_key where singleton and vapid_public is null;
  if not exists(select 1 from reviewer_play.push_config where singleton and vapid_public=p_public_key) then raise exception 'The worker key does not match the registered key.'; end if;
  perform reviewer_play.queue_cup_reminders(moment);
- with available as (
-  select q.id from reviewer_play.push_queue q join reviewer_play.push_subscriptions s on s.id=q.subscription
+ with next_for_device as (
+  select distinct on (q.subscription) q.id,q.subscription,q.ready_at
+  from reviewer_play.push_queue q join reviewer_play.push_subscriptions s on s.id=q.subscription
   left join reviewer_play.friend_invites i on i.id=q.invite
   where not q.done and q.tries<4 and q.ready_at<=moment and q.expires_at>moment
    and (q.kind='test' or q.kind='cup' and s.cup_reminders or q.kind='friend' and s.friend_reminders
     and i.status='pending' and i.expires_at>moment and s.profile=i.recipient and reviewer_play.are_friends(i.sender,i.recipient)
     and exists(select 1 from reviewer_play.rooms r where r.code=i.room and r.finished_at is null and r.starts_at is null))
-  order by q.ready_at,q.id limit 24 for update of q skip locked
+   and not exists(
+    select 1 from reviewer_play.push_queue prior where prior.subscription=q.subscription
+     and (not prior.done and prior.lease is not null and prior.ready_at>moment
+      or prior.provider_accepted_at>moment-interval '10 seconds')
+   )
+  order by q.subscription,q.ready_at,q.id
+ ), available as (
+  -- Lock the device as well as the job so overlapping workers cannot send to it at once.
+  select q.id from next_for_device n
+  join reviewer_play.push_subscriptions s on s.id=n.subscription
+  join reviewer_play.push_queue q on q.id=n.id
+  where not q.done and q.ready_at<=moment
+  order by n.ready_at,n.id limit 24 for update of s,q skip locked
  ), claimed as (
   update reviewer_play.push_queue q set tries=q.tries+1,ready_at=moment+interval '1 minute',lease=gen_random_uuid()
   from available where q.id=available.id returning q.*

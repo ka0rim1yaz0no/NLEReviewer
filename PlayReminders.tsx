@@ -139,7 +139,7 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
       if (!subscription || !await callPlay<boolean>("play_push_test", { p_endpoint: subscription.endpoint })) {
         throw new Error("Turn on a reminder on this device first.");
       }
-      setMessage("Test reminders queued. Close the reviewer now and check your notifications within a minute.");
+      setMessage("Test reminders queued. Close the reviewer now and check your notifications over the next 90 seconds.");
     } catch (failure) { setMessage(playErrorMessage(failure)); }
     finally { setPending(false); }
   }

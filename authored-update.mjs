@@ -17,6 +17,16 @@ const sources={
  scar:"https://msktc.org/burn/factsheets/scar-management-after-burn-injury",
  exercise:"https://msktc.org/burn/factsheets/exercise-after-burn-injury",
  rv:"https://www.who.int/publications/i/item/WHO-WER9628",
+ melanoma:"https://www.aad.org/public/diseases/skin-cancer/types/common/melanoma/symptoms",
+ nail:"https://www.aad.org/public/diseases/skin-cancer/types/common/melanoma/nail-melanoma",
+ basal:"https://www.aad.org/public/diseases/skin-cancer/basal-cell-carcinoma",
+ pressure:"https://npiap.com/resource/resmgr/online_store/npiap_pressure_injury_stages.pdf",
+ healing:"https://npiap.com/resource/resmgr/npuap-position-statement-on-.pdf",
+ isolation:"https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html",
+ scabies:"https://www.cdc.gov/scabies/php/public-health-strategy-crusted/index.html",
+ necrotizing:"https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/necrotizing-fasciitis.html",
+ cooling:"https://www.nhs.uk/conditions/Burns-and-scalds/",
+ electrical:"https://www.salisbury.nhs.uk/media/kgklfbxt/british-burn-association-first-aid-clinical-practice-guidelines.pdf",
 };
 const specificSources={
  3:sources.pst,
@@ -27,10 +37,18 @@ const specificSources={
  36:"https://www.aad.org/public/diseases/a-z/keloids-treatment",
  37:"https://www.aad.org/public/diseases/a-z/keloids-treatment",
 };
-const input=new URL("./content-authoring/skin-burns-items.txt",import.meta.url);
-const rows=existsSync(input)?readFileSync(input,"utf8").trim().split(/\r?\n/).filter(Boolean):[];
-if(existsSync(input)&&(rows.length!==60||rows.filter(row=>row.startsWith("rv|")).length!==3))throw Error("Expected 57 Skin & Burns and three rotavirus items");
+function readCases(name,expected){
+ const file=new URL("./content-authoring/"+name,import.meta.url);
+ if(!existsSync(file))return [];
+ const rows=readFileSync(file,"utf8").trim().split(/\r?\n/).filter(Boolean);
+ if(rows.length!==expected)throw Error("Unexpected case count in "+name);
+ return rows;
+}
+const firstCases=readCases("skin-burns-items.txt",60);
+const additionalCases=readCases("practice-expansion-items.txt",17);
+if(firstCases.length&&firstCases.filter(row=>row.startsWith("rv|")).length!==3)throw Error("Expected three rotavirus items");
 
+const rows=[...firstCases,...additionalCases];
 export const newStudyQuestions=rows.length?validateQuestions(rows.map((line,index)=>{
  const fields=line.split("|").map(field=>field.trim());
  if(fields.length!==11||fields.some(field=>!field))throw Error("Incomplete question "+(index+1));
@@ -41,7 +59,8 @@ export const newStudyQuestions=rows.length?validateQuestions(rows.map((line,inde
  const correctIndex=(index*3+1)%4;
  const correct=options.shift();
  options.splice(correctIndex,0,correct);
- const suffix=String(key==="rv"?index-56:index+1).padStart(3,"0");
+ const number=key==="rv"?index-56:index<firstCases.length?index+1:58+index-firstCases.length;
+ const suffix=String(number).padStart(3,"0");
  const id=(key==="rv"?"EXP2-ROTAVIRUS-":"EXP2-SKIN-")+suffix;
  return {
   id,subject:key==="rv"?"NP1":"NP3",

@@ -15,6 +15,7 @@ import { answeredQuestionIds, dailyAnswerCounts, dateKey, daysBetween, rating } 
 import { Provider, useApp, supabase } from "./store";
 import { Card, Empty, Heading, Link, Modal, Progress, RowLink, TextLink } from "./ui";
 import { BankBrowser, Diagnostic, Mocks, Results, SessionView, useStartSession, VaultView } from "./Quiz";
+import { diagnosticMinutes, minimumStudyQuestions } from "./question-selection";
 import { ChooseDeck, CreateDeck, FlashcardReview, Flashcards, planTasks, Planner, ResourceReader, Resources, useTopicList } from "./Study";
 import { Achievements, HistoryView, Login, Performance, Profile, Settings, useBadges, useStats } from "./Progress";
 import { Practice, Setup, Topics, TopicDetail } from "./TopicViews";
@@ -84,7 +85,7 @@ function Dashboard(){
    <div className="home-main">
     {!state.sessions.some(session=>session.kind==="diagnostic"&&session.finishedAt)&&<Link to="/diagnostic" className="diagnostic-banner">
      <span className="tile-icon"><Sparkles size={22}/></span>
-     <div><h2>Find your starting point.</h2><p>30 questions across all five NPs.</p><strong>Take the 25-minute diagnostic <ArrowRight size={15}/></strong></div><ChevronRight size={19}/>
+     <div><h2>Find your starting point.</h2><p>{minimumStudyQuestions} questions across all five NPs.</p><strong>Take the {diagnosticMinutes}-minute diagnostic <ArrowRight size={15}/></strong></div><ChevronRight size={19}/>
     </Link>}
     <Card>
      <div className="section-head"><h2>Study by subject</h2><TextLink to="/performance/topics">Topic Mastery</TextLink></div>
@@ -92,7 +93,7 @@ function Dashboard(){
      <div className="subject-tiles">{stats.bySubject.map(subject=>{
       const pool=bank.filter(question=>question.subject===subject.id);
       const answered=pool.filter(question=>answeredIds.has(question.id)).length,score=rating(subject.attempts,10);
-      return <button className="subject-tile" key={subject.id} onClick={()=>start({subject:subject.id,count:20,quick:true})}>
+      return <button className="subject-tile" key={subject.id} onClick={()=>start({subject:subject.id,quick:true})}>
        <span className="subject-code" style={{color:subject.color,background:subject.color+"16"}}>{subject.short}</span>
        <div><strong>{subject.name}</strong><small>{answered} of {pool.length} answered {score!==null&&"· "+score.toFixed(1)+" rating"}</small>
         <Progress value={answered} max={pool.length}/></div><ChevronRight size={15}/>

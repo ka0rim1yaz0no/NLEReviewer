@@ -1,8 +1,9 @@
-import { normalizeQuestionStem } from "./bank.ts";
+import { normalizeQuestionStem, shuffled } from "./bank.ts";
 import { inCollection } from "./collections.ts";
 import type { Collection } from "./collections.ts";
-import { questionsForSelection } from "./curriculum.ts";
-import type { PracticeDifficulty } from "./question-selection.ts";
+import { findCurriculumTopic, questionsForSelection } from "./curriculum.ts";
+import { distinctQuestionSet, minimumStudyQuestions, practicePool } from "./question-selection.ts";
+import type { PracticeDifficulty, QuestionHistory, SelectionOptions } from "./question-selection.ts";
 import type { Question, Subject } from "./types.ts";
 
 type PracticeScope = {
@@ -33,9 +34,62 @@ export function practiceQuestionPool(bank: readonly Question[], scope: PracticeS
   });
 }
 
+type PracticeSessionScope = PracticeScope & Omit<SelectionOptions, "bank"> & {
+  count?: number;
+  ids?: string[];
+  quick?: boolean;
+  supplement?: boolean;
+};
+
+export function practiceSessionQuestions(
+  bank: readonly Question[], history: QuestionHistory, scope: PracticeSessionScope, seed: number,
+) {
+  const count = Math.max(minimumStudyQuestions, Math.floor(scope.count || 0));
+  const pool = practiceQuestionPool(bank, scope);
+  const options = {...scope, bank};
+  const review = scope.review || scope.filter === "missed" || scope.filter === "vault";
+  const onePerCase = !scope.allowRelated && !review;
+  let focused = distinctQuestionSet(shuffled(practicePool(pool, history, options), seed), onePerCase).slice(0, count);
+  let followUp = false;
+  if (!focused.length && scope.quick && !review && (!scope.filter || scope.filter === "unanswered")) {
+    focused = distinctQuestionSet(shuffled(practicePool(pool, history, {...options, allowRelated: true}), seed), true).slice(0, count);
+    followUp = focused.length > 0;
+  }
+  if (!focused.length || focused.length >= count || scope.supplement === false) {
+    return {questions: focused, focusedCount: focused.length, followUp};
+  }
+
+  const preferredSubjects = new Set<Subject>(focused.map(q => q.subject));
+  if (scope.subject) preferredSubjects.add(scope.subject);
+  for (const key of scope.topics || []) {
+    const topic = findCurriculumTopic(key);
+    if (topic) preferredSubjects.add(topic.subject);
+  }
+  const preferredTopics = new Set(focused.map(q => `${q.subject}:${q.topic}`));
+  const scopedIds = new Set((review ? focused : pool).map(q => q.id));
+  const remaining = bank.filter(q => !scopedIds.has(q.id) && (inCollection(q, scope.collection) || inCollection(q, "nursing")));
+  const fallback = practicePool(remaining, history, {
+    bank,
+    filter: !review && scope.filter === "all" ? "all" : "unanswered",
+    difficulty: scope.difficulty,
+    allowRelated: scope.allowRelated || followUp,
+  });
+  const sameCollection: [Question[], Question[], Question[]] = [[], [], []];
+  const otherCollections: [Question[], Question[], Question[]] = [[], [], []];
+  for (const q of shuffled(fallback, seed + 1)) {
+    const [byTopic, bySubject, integrated] = inCollection(q, scope.collection) ? sameCollection : otherCollections;
+    if (preferredTopics.has(`${q.subject}:${q.topic}`)) byTopic.push(q);
+    else if (preferredSubjects.has(q.subject)) bySubject.push(q);
+    else if (q.subject === "CROSS" || preferredSubjects.has("CROSS")) integrated.push(q);
+  }
+  const ordered = [...sameCollection.flat(), ...otherCollections.flat()];
+  const added = distinctQuestionSet(ordered, !scope.allowRelated, focused).slice(0, count - focused.length);
+  return {questions: [...focused, ...added], focusedCount: focused.length, followUp};
+}
+
 export function practiceSetupPath(scope: PracticeScope & {
   difficulty?: PracticeDifficulty; exhausted?: boolean; count?: number; mode?: "tutor" | "exam";
-  filter?: string; allowRelated?: boolean; perQuestion?: number; planTaskId?: string;
+  filter?: string; allowRelated?: boolean; supplement?: boolean; perQuestion?: number; planTaskId?: string;
 }) {
   const params = new URLSearchParams({ collection: scope.collection });
   if (scope.subject) params.set("np", scope.subject);
@@ -47,6 +101,7 @@ export function practiceSetupPath(scope: PracticeScope & {
   if (scope.mode === "exam") params.set("mode", "exam");
   if (scope.filter && scope.filter !== "unanswered") params.set("filter", scope.filter);
   if (scope.allowRelated) params.set("related", "1");
+  if (scope.supplement === false) params.set("supplement", "0");
   if (scope.perQuestion) params.set("timer", String(scope.perQuestion));
   if (scope.planTaskId) params.set("task", scope.planTaskId);
   return `/practice/session?${params}`;

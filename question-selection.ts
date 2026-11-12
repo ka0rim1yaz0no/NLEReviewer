@@ -1,5 +1,5 @@
 import redirects from './question-redirects.json' with {type:'json'};
-import {normalizeQuestionStem,shuffled} from './bank.ts';
+import {normalizeChoice,normalizeQuestionStem,shuffled} from './bank.ts';
 import {isSituational} from './collections.ts';
 import {vaultIsDue} from './vault-schedule.ts';
 import type {Question,Subject} from './types.ts';
@@ -16,6 +16,10 @@ export function questionFamily(q:Question|string):string{
 export type QuestionHistory=Pick<State,'attempts'|'sessions'|'vault'>&Partial<Pick<State,'importedQuestions'|'preferences'|'vaultReviews'>>;
 export type PracticeDifficulty='challenge'|'mixed';
 export type SelectionOptions={filter?:string;allowRelated?:boolean;review?:boolean;difficulty?:PracticeDifficulty;bank?:readonly Question[]};
+export const minimumStudyQuestions=80;
+export const diagnosticSubjects=['NP1','NP2','NP3','NP4','NP5'] as const satisfies readonly Subject[];
+export const diagnosticPerSubject=minimumStudyQuestions/diagnosticSubjects.length;
+export const diagnosticMinutes=67;
 const decisionObjectives=new Set(['action','planning','evaluation','reasoning','safety','decision']);
 export function isDecisionQuestion(q:Question){
  return isSituational(q)&&(q.difficulty==='challenge'||decisionObjectives.has(q.clinicalObjective||'')||q.id.startsWith('EXP2-')||/^(CROSS|NP[1-5])-\d{3}-[24]$/.test(q.id));
@@ -52,12 +56,35 @@ export function practicePool(pool:readonly Question[],state:QuestionHistory,opti
  });
 }
 export function distinctSituations(pool:Question[]):Question[]{const families=new Set<string>();return pool.filter(q=>{const family=questionFamily(q);if(families.has(family))return false;families.add(family);return true;});}
+const choiceKeys=new WeakMap<Question,string>();
+export function questionChoiceKey(question:Question):string{
+ const cached=choiceKeys.get(question);
+ if(cached!==undefined)return cached;
+ const choices=question.options.map(option=>normalizeChoice(option.text));
+ const key=choices.length===4&&choices.every(Boolean)&&new Set(choices).size===4?choices.sort().join('\n'):'';
+ choiceKeys.set(question,key);
+ return key;
+}
+export function distinctQuestionSet(pool:readonly Question[],onePerCase=false,prior:readonly Question[]=[]):Question[]{
+ const ids=new Set(prior.map(q=>canonicalQuestionId(q.id)));
+ const stems=new Set(prior.map(q=>normalizeQuestionStem(q.stem)));
+ const choices=new Set(prior.map(questionChoiceKey));
+ const families=new Set(onePerCase?prior.map(questionFamily):[]);
+ return pool.filter(q=>{
+  const id=canonicalQuestionId(q.id),stem=normalizeQuestionStem(q.stem),choice=questionChoiceKey(q);
+  const family=onePerCase?questionFamily(q):'';
+  if(!choice||ids.has(id)||stems.has(stem)||choices.has(choice)||families.has(family))return false;
+  ids.add(id);stems.add(stem);choices.add(choice);
+  if(onePerCase)families.add(family);
+  return true;
+ });
+}
 export function availablePractice(pool:Question[],state:QuestionHistory,options:SelectionOptions={}):number{
- const eligible=practicePool(pool,state,options);return options.allowRelated||options.review||options.filter==='missed'||options.filter==='vault'?eligible.length:distinctSituations(eligible).length;
+ return distinctQuestionSet(practicePool(pool,state,options),!(options.allowRelated||options.review||options.filter==='missed'||options.filter==='vault')).length;
 }
 export function selectPractice(pool:Question[],state:QuestionHistory,count:number,seed:number,options:SelectionOptions={}):string[]{
  const eligible=shuffled(practicePool(pool,state,options),seed);
- const selected=options.allowRelated||options.review||options.filter==='missed'||options.filter==='vault'?eligible:distinctSituations(eligible);
+ const selected=distinctQuestionSet(eligible,!(options.allowRelated||options.review||options.filter==='missed'||options.filter==='vault'));
  return selected.slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
 }
 export function selectQuickPractice(pool:Question[],state:QuestionHistory,count:number,seed:number,options:Pick<SelectionOptions,'difficulty'|'bank'>={}){
@@ -65,13 +92,18 @@ export function selectQuickPractice(pool:Question[],state:QuestionHistory,count:
  if(fresh.length)return {ids:fresh,followUp:false};
  // A new decision can share a case, but never reuse an assigned question or stem.
  const unused=shuffled(practicePool(pool,state,{...options,allowRelated:true}),seed);
- const ids=distinctSituations(unused).slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
+ const ids=distinctQuestionSet(unused,true).slice(0,Math.max(0,Math.floor(count))).map(q=>q.id);
  return {ids,followUp:ids.length>0};
 }
 export function diagnosticQuestionIds(bank:Question[],state:QuestionHistory,seed:number):string[]{
  const eligible=practicePool(bank.filter(isSituational),state,{bank});
- const parts=(['NP1','NP2','NP3','NP4','NP5'] as Subject[]).map((subject,i)=>distinctSituations(shuffled(eligible.filter(q=>q.subject===subject),seed+i)).slice(0,6).map(q=>q.id));
- return parts.every(p=>p.length===6)?parts.flat():[];
+ const selected:Question[]=[];
+ for(const [i,subject] of diagnosticSubjects.entries()){
+  const part=distinctQuestionSet(shuffled(eligible.filter(q=>q.subject===subject),seed+i),true,selected).slice(0,diagnosticPerSubject);
+  if(part.length!==diagnosticPerSubject)return [];
+  selected.push(...part);
+ }
+ return selected.map(q=>q.id);
 }
 export function flashcardQueue(pool:CustomCard[],state:Pick<State,'cards'>,bank:Question[],misses:Set<string>,count:number,now=Date.now()):CustomCard[]{
  const map=new Map(bank.map(q=>[q.id,q])),seenFamilies=new Set(Object.keys(state.cards).map(id=>questionFamily(map.get(id)||id)));

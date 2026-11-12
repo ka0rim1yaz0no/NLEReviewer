@@ -35,7 +35,8 @@ export function validateQuestions(value: unknown, options:{allowDuplicateStems?:
     if (stems.has(stem)&&!options.allowDuplicateStems) throw new Error(`Question ${q.id} repeats another question stem. Rewording punctuation or changing IDs does not create a new question.`);
     stems.add(stem);
     if (!Array.isArray(q.options) || q.options.length !== 4 || q.options.some((o: unknown) => !o || typeof o !== "object" || !("text" in o) || !("rationale" in o) || typeof o.text !== "string" || !o.text.trim() || typeof o.rationale !== "string" || !o.rationale.trim())) throw new Error(`Question ${q.id} needs four choices with explanations.`);
-    if (new Set(q.options.map((o: { text: string }) => o.text.toLowerCase().trim())).size !== 4 || !Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) throw new Error(`Question ${q.id} has duplicate choices or an invalid answer.`);
+    const choices = q.options.map((o: { text: string }) => normalizeChoice(o.text));
+    if (choices.includes("") || new Set(choices).size !== 4 || !Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) throw new Error(`Question ${q.id} has duplicate choices or an invalid answer.`);
   }
   return value.map(q => {
     const {collection,rationaleScope,sourceId,sourceTopic,format,conceptId,caseId,clinicalObjective,difficulty,questionRevision,retired,...rest}=q;
@@ -44,3 +45,6 @@ export function validateQuestions(value: unknown, options:{allowDuplicateStems?:
   });
 }
 export function normalizeQuestionStem(text:string){return text.normalize("NFKC").toLowerCase().replace(/[\p{P}\p{S}]/gu," ").replace(/\s+/g," ").trim();}
+export function normalizeChoice(text:string){
+  return text.normalize("NFKC").toLowerCase().replace(/[‘’]/g,"'").replace(/−/g,"-").replace(/\s+/g," ").trim().replace(/[.!?]+$/,"").trimEnd();
+}

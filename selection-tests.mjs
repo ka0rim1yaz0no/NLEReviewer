@@ -2,14 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {questions,previousQuestions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
 import {contentDigest} from './content-integrity.ts';
-import {normalizeQuestionStem} from './bank.ts';
+import {normalizeQuestionStem,validateQuestions} from './bank.ts';
 import {initialState,recordAnswer,gradeSession,sessionScore,dailyAnswerCounts,sessionDeadline,linkedPracticeComplete} from './engine.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
-import {practiceQuestionPool,practiceSetupPath} from './practice-setup.ts';
+import {practiceQuestionPool,practiceSessionQuestions,practiceSetupPath} from './practice-setup.ts';
 import {completedMockSubjects,mergeMockClock,mockAttempts,mockRemaining,pauseMockClock,startMockClock} from './mock-progress.ts';
 import {mockQuestionIds} from './mock-papers.ts';
-import {selectPractice,selectQuickPractice,availablePractice,questionFamily,diagnosticQuestionIds,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
+import {selectPractice,selectQuickPractice,availablePractice,questionFamily,diagnosticQuestionIds,distinctQuestionSet,questionChoiceKey,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
 import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {checkTypedAnswer,matchTiles,prepareSoloRound,rapidResult,recordGameRun} from './play-engine.ts';
@@ -19,10 +19,13 @@ import corrections from './repetition-corrections.json' with {type:'json'};
 const bank=new Map(questions.map(q=>[q.id,q]));
 const session=ids=>({id:'selection-check',title:'Selection check',kind:'practice',mode:'tutor',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:1,scratch:'',highlights:{},strokes:{}});
 const situationBank=activeQuestions.filter(isSituational);
-test('the new cases cover 57 skin and burn decisions and three immunization decisions without repeated stems',{skip:!newStudyQuestions.length},()=>{
+test('the supplemental release preserves prior cases and adds 17 original skin and wound cases',{skip:!newStudyQuestions.length},async()=>{
  const all=[...activeQuestions,...newStudyQuestions];
  assert.equal(new Set(all.map(q=>normalizeQuestionStem(q.stem))).size,all.length);
- assert.equal(newStudyQuestions.filter(q=>q.subject==='NP3'&&q.topic==='Integumentary Disorders & Burn Care').length,57);
+ assert.equal(await contentDigest(newStudyQuestions.slice(0,60),[]),'eb2f42f9186d8ccbb85ee7712fce992362b8a7d5fd19bfb8ba4ca9f2f78d8460');
+ assert.equal(newStudyQuestions.filter(q=>q.subject==='NP3'&&q.topic==='Integumentary Disorders & Burn Care').length,74);
+ const skin=curriculum.find(t=>t.slug==='integumentary-disorders-burn-care');
+ assert.equal(distinctQuestionSet(questionsForTopic(skin,all),true).length,80);
  assert.equal(newStudyQuestions.filter(q=>q.subject==='NP1'&&q.topic==='Expanded Program on Immunization (EPI)').length,3);
  const positions=[0,0,0,0];
  for(const q of newStudyQuestions){
@@ -32,7 +35,7 @@ test('the new cases cover 57 skin and burn decisions and three immunization deci
   assert.equal(new Set(q.options.map(o=>o.rationale)).size,4,q.id);
   assert.ok(q.options.every(o=>o.rationale.length>20&&o.source?.startsWith('https://')),q.id);
  }
- assert.deepEqual(positions,[15,15,15,15]);
+ assert.deepEqual(positions,[19,20,19,19]);
 });
 test('solo games choose a full round without repeating a case or recall term',()=>{
  const all=[...activeQuestions,...newStudyQuestions];
@@ -86,7 +89,9 @@ test('all 156 topic quick sets use each situation once and never backfill earlie
   const ids=selectPractice(pool,state,100,30);assert.equal(ids.length,count,t.slug);assert.ok(count>=5,t.slug);
   assert.equal(new Set(ids.map(questionFamily)).size,ids.length,t.slug);
   state.sessions.push(session(ids));assert.deepEqual(selectPractice(pool,state,20,31),[],t.slug);
-  const followups=selectPractice(pool,state,100,31,{allowRelated:true});assert.equal(followups.length,pool.length-ids.length,t.slug);assert.ok(followups.every(id=>!ids.includes(id)));
+  const followups=selectPractice(pool,state,100,31,{allowRelated:true});
+  assert.ok(followups.every(id=>!ids.includes(id)),t.slug);
+  assert.equal(new Set(followups.map(id=>questionChoiceKey(bank.get(id)))).size,followups.length,t.slug);
   assert.ok(selectPractice(pool,state,20,31,{filter:'all'}).length>0,t.slug);
  }
 });
@@ -224,14 +229,22 @@ test('explicit review keeps all selected missed follow-ups while excluding archi
  assert.deepEqual(new Set(selectPractice(linked,state,20,5,{filter:'missed',difficulty:'challenge'})),new Set(ids.slice(0,2)));
  assert.equal(selectPractice([...linked,...linked,questions.find(q=>q.retired)],state,100,5,{review:true}).length,4);
 });
-test('diagnostics have six fresh distinct situations per NP and fail closed if one NP is exhausted',()=>{
- const state=initialState(),ids=diagnosticQuestionIds(activeQuestions,state,12);assert.equal(ids.length,30);assert.equal(new Set(ids.map(questionFamily)).size,30);
- for(const np of ['NP1','NP2','NP3','NP4','NP5'])assert.equal(ids.filter(id=>bank.get(id).subject===np).length,6);
- state.sessions.push(session(ids));const second=diagnosticQuestionIds(activeQuestions,state,13);assert.equal(second.length,30);assert.ok(second.every(id=>!new Set(ids.map(questionFamily)).has(questionFamily(id))));
+test('diagnostics have 16 fresh distinct situations per NP and fail closed if one NP is exhausted',()=>{
+ const state=initialState(),ids=diagnosticQuestionIds(activeQuestions,state,12);assert.equal(ids.length,80);assert.equal(new Set(ids.map(questionFamily)).size,80);
+ assert.equal(new Set(ids.map(id=>questionChoiceKey(bank.get(id)))).size,80);
+ for(const np of ['NP1','NP2','NP3','NP4','NP5'])assert.equal(ids.filter(id=>bank.get(id).subject===np).length,16);
+ state.sessions.push(session(ids));const second=diagnosticQuestionIds(activeQuestions,state,13);assert.equal(second.length,80);assert.ok(second.every(id=>!new Set(ids.map(questionFamily)).has(questionFamily(id))));
  state.sessions.push(session(situationBank.filter(q=>q.subject==='NP1').map(q=>q.id)));assert.deepEqual(diagnosticQuestionIds(activeQuestions,state,14),[]);
 });
-test('mock papers intentionally retain linked follow-ups and fixed disjoint selections',()=>{
- for(const np of ['NP1','NP2','NP3','NP4','NP5']){const seen=new Set();for(let board=1;board<=5;board++){const ids=mockQuestionIds(activeQuestions,np,board,[]);assert.equal(ids.length,100);assert.equal(new Set(ids.map(questionFamily)).size,16);for(const id of ids){assert.ok(!seen.has(id));seen.add(id);}}}
+test('mock papers preserve linked cases, use disjoint boards, and exclude repeated sets of choices',()=>{
+ for(const np of ['NP1','NP2','NP3','NP4','NP5']){const seen=new Set();for(let board=1;board<=5;board++){
+  const ids=mockQuestionIds(activeQuestions,np,board,[]);
+  assert.equal(ids.length,100);
+  const families=ids.map(questionFamily);
+  assert.ok(new Set(families).size>=16&&new Set(families).size<100);
+  assert.equal(new Set(ids.map(id=>questionChoiceKey(bank.get(id)))).size,100);
+  for(const id of ids){assert.ok(!seen.has(id));seen.add(id);}
+ }}
 });
 test('fresh practice, diagnostics and all 25 mock sections share the same assignment history',()=>{
  const state=initialState(),seen=new Set(),stems=new Set();
@@ -244,7 +257,7 @@ test('fresh practice, diagnostics and all 25 mock sections share the same assign
   }
   state.sessions.push({...session(ids),id:`selection-${state.sessions.length}`});
  };
- reserve(diagnosticQuestionIds(activeQuestions,state,53),30);
+ reserve(diagnosticQuestionIds(activeQuestions,state,53),80);
  for(const np of ['NP1','NP2','NP3','NP4','NP5']){
   const preferred=mockQuestionIds(activeQuestions,np,3);
   const known=new Set(preferred.slice(0,5));
@@ -263,13 +276,53 @@ test('an equivalent stem under a different ID is excluded from a fresh set, even
 });
 test('mock sections use only unused items and refuse to start below 100',()=>{
  const pool=situationBank.filter(q=>q.subject==='NP3'),state=initialState();
- const remaining=pool.slice(-100);
- state.sessions.push(session(pool.slice(0,-100).map(q=>q.id)));
+ const remaining=distinctQuestionSet(pool).slice(-100),remainingIds=new Set(remaining.map(q=>q.id));
+ state.sessions.push(session(pool.filter(q=>!remainingIds.has(q.id)).map(q=>q.id)));
  const section=mockQuestionIds(activeQuestions,'NP3',1,[],state);
  assert.equal(section.length,100);
  assert.deepEqual(new Set(section),new Set(remaining.map(q=>q.id)));
  state.sessions.push(session(section.slice(0,1)));
  assert.deepEqual(mockQuestionIds(activeQuestions,'NP3',1,[],state),[]);
+});
+test('every topic can start a fresh 80-question set with distinct stems, cases, and choices',()=>{
+ const fullBank=[...activeQuestions,...newStudyQuestions],state=initialState();
+ for(const topic of curriculum){
+  const plan=practiceSessionQuestions(fullBank,state,{topics:[topic.slug],collection:'situational',difficulty:'challenge',quick:true},23);
+  assert.equal(plan.questions.length,80,topic.slug);
+  assert.equal(distinctQuestionSet(plan.questions,true).length,80,topic.slug);
+  assert.ok(plan.focusedCount>0,topic.slug);
+  const scopedIds=new Set(questionsForTopic(topic,fullBank).map(q=>q.id));
+  assert.ok(plan.questions.slice(0,plan.focusedCount).every(q=>scopedIds.has(q.id)),topic.slug);
+ }
+});
+test('short focused review sets keep the selected items first and can be kept strictly scoped',()=>{
+ const state=initialState(),original=situationBank.find(q=>q.subject==='NP4');
+ const reordered={...original,id:'reordered-options',stem:original.stem+' What will the nurse do?',options:[...original.options].reverse(),correctIndex:3-original.correctIndex};
+ const fullBank=[...activeQuestions,reordered],scope={ids:[original.id,reordered.id],collection:'situational',review:true,count:6};
+ const full=practiceSessionQuestions(fullBank,state,scope,17);
+ assert.equal(full.focusedCount,1);
+ assert.equal(full.questions.length,80);
+ assert.equal(distinctQuestionSet(full.questions).length,80);
+ assert.ok(full.questions.every(q=>q.subject===original.subject));
+ assert.equal(practiceSessionQuestions(fullBank,state,{...scope,supplement:false},17).questions.length,1);
+ state.vault=[original.id];
+ const vault=practiceSessionQuestions(fullBank,state,{collection:'situational',filter:'vault'},17);
+ assert.equal(vault.focusedCount,1);
+ assert.equal(vault.questions.length,80);
+ assert.equal(vault.questions[0].id,original.id);
+ const malformed={...original,options:original.options.map((o,i)=>i===1?{...o,text:'  '+original.options[0].text+'!'}:o)};
+ assert.throws(()=>validateQuestions([malformed]),/duplicate choices/);
+});
+test('small clinical and corrected-source collections can start complete sets with relevant nursing questions',()=>{
+ const state=initialState();
+ for(const scope of [{collection:'clinical',subject:'NP5'},{collection:'supplemental'}]){
+  const plan=practiceSessionQuestions(activeQuestions,state,scope,17);
+  const matchIds=new Set(practiceQuestionPool(activeQuestions,scope).map(q=>q.id));
+  assert.equal(plan.questions.length,80);
+  assert.equal(distinctQuestionSet(plan.questions,true).length,80);
+  assert.ok(plan.focusedCount>0&&plan.focusedCount<80);
+  assert.ok(plan.questions.slice(0,plan.focusedCount).every(q=>matchIds.has(q.id)));
+ }
 });
 test('flashcards prioritize due items then fresh situations, one card per case',()=>{
  const pool=situationBank.map(q=>({id:q.id,deck:q.topic,front:q.stem,back:q.rationale})),state=initialState(),now=100000;

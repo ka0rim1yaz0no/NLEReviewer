@@ -9,7 +9,7 @@ import {findCurriculumTopic} from "./curriculum.ts";
 import {questionFamily} from "./question-selection.ts";
 import studyAdditions from "./study-additions-summary.json" with {type:"json"};
 
-if(!newStudyQuestions.length)throw Error("Keep the original cases in content-authoring/skin-burns-items.txt before building a release.");
+if(newStudyQuestions.length!==studyAdditions.questionCount)throw Error("The private case files must match the release question count.");
 validateQuestions([...baseQuestions,...newStudyQuestions]);
 const cases=[];
 const payload=Buffer.from(JSON.stringify({questions:newStudyQuestions,cases}));

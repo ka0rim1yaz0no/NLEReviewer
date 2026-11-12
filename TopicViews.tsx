@@ -1,5 +1,5 @@
 import type {PracticeDifficulty} from "./question-selection";
-import {availablePractice,isDecisionQuestion} from "./question-selection";
+import {availablePractice,isDecisionQuestion,minimumStudyQuestions} from "./question-selection";
 import {TopicReviewNotes} from "./TopicReviewNotes";
 import { CollectionPicker } from "./CollectionPicker";
 import { inCollection, collectionCounts, isSituational, parseCollection } from "./collections";
@@ -15,7 +15,7 @@ import { useApp } from "./store";
 import { Card, Empty, Heading, Link, Progress, SearchBox, TextLink } from "./ui";
 import { ReviewQuestion, useStartSession } from "./Quiz";
 import { practiceTopicRows } from "./practice-metrics";
-import { practiceQuestionPool, practiceSetupPath } from "./practice-setup";
+import { practiceQuestionPool, practiceSessionQuestions, practiceSetupPath } from "./practice-setup";
 import { TopicKeyPoints } from "./TopicKeyPoints";
 export function Practice(){
   const {state,bank}=useApp(),start=useStartSession();
@@ -73,10 +73,10 @@ export function Practice(){
           {topics.map(({topic:t,questions:qs,tried,missedIds,flaggedIds,savedIds})=>{
             const reviewIds=filter==="flagged"?flaggedIds:filter==="saved"?savedIds:filter==="needs"?missedIds:undefined;
             return <div className="topic-row practice-topic-row" key={t.slug}>
-              <div className="topic-info"><Link to={`/topics/${t.slug}`} className="topic-name"><strong>{t.name}</strong></Link><small>{qs.length?`${qs.length} related ${qs.length===1?"question":"questions"} · ${tried} tried`:"No questions in this collection"}{missedIds.length>0&&` · ${missedIds.length} to redo`}{flaggedIds.length>0&&` · ${flaggedIds.length} flagged`}</small>{qs.length>0&&<Progress value={tried} max={qs.length}/>}</div>
+              <div className="topic-info"><Link to={`/topics/${t.slug}`} className="topic-name"><strong>{t.name}</strong></Link><small>{qs.length?`${qs.length} in this topic · ${tried} tried`:"No questions in this collection"}{missedIds.length>0&&` · ${missedIds.length} to redo`}{flaggedIds.length>0&&` · ${flaggedIds.length} flagged`}</small>{qs.length>0&&<Progress value={tried} max={qs.length}/>}</div>
               <div className="topic-actions">
                 {missedIds.length>0&&<button className="btn small redo-misses" aria-label={`Redo ${missedIds.length} ${t.name} misses`} onClick={()=>start({collection,ids:missedIds,count:missedIds.length,review:true,title:t.name+" · redo misses"})}>Redo {missedIds.length} {missedIds.length===1?"miss":"misses"}</button>}
-                {qs.length?<button aria-label={`Practice ${t.name}`} className="btn small" onClick={()=>start({collection,topics:[t.slug],ids:reviewIds,count:20,review:!!reviewIds,quick:true,title:t.name})}>Practice<ArrowRight size={14}/></button>:<Link to={practiceSetupPath({collection:"situational",topics:[t.slug]})} className="btn small">Practice situations<ChevronRight size={14}/></Link>}
+                {qs.length?<button aria-label={`Practice ${t.name}`} className="btn small" onClick={()=>start({collection,topics:[t.slug],ids:reviewIds,review:!!reviewIds,quick:true,title:t.name})}>Practice<ArrowRight size={14}/></button>:<Link to={practiceSetupPath({collection:"situational",topics:[t.slug]})} className="btn small">Practice situations<ChevronRight size={14}/></Link>}
               </div>
             </div>;
           })}
@@ -95,25 +95,31 @@ export function Setup(){
   const [keyword,setKeyword]=useState(params.get("keyword")||"");
   const taskId=params.get("task"),taskTopic=params.get("topic");
   const query=useDeferredValue(keyword.trim());
-  const [count,setCount]=useState(Math.min(bank.length,Math.max(1,Math.floor(Number(params.get("count")))||10)));
+  const maxCount=Math.max(minimumStudyQuestions,bank.length);
+  const [count,setCount]=useState(()=>Math.min(maxCount,Math.max(minimumStudyQuestions,Math.floor(Number(params.get("count")))||0)));
+  const [seed]=useState(()=>Date.now());
   const [mode,setMode]=useState<"tutor"|"exam">(params.get("mode")==="exam"?"exam":"tutor");
   const [filter,setFilter]=useState<"unanswered"|"vault"|"all">(params.get("filter")==="missed"||params.get("filter")==="vault"?"vault":params.get("filter")==="all"?"all":"unanswered");
   const [timer,setTimer]=useState(()=>{const value=Number(params.get("timer"));return [60,90,120].includes(value)?value:0;});
   const [collection,setCollection]=useState<Collection>(parseCollection(params.get("collection")));
   const [difficulty,setDifficulty]=useState<PracticeDifficulty>(params.get("difficulty")==="mixed"?"mixed":"challenge");
   const [allowRelated,setAllowRelated]=useState(params.get("related")==="1");
+  const [supplement,setSupplement]=useState(params.get("supplement")!=="0");
   const supportsDifficulty=collection==="situational"||collection==="all"||collection==="nursing";
   const baseLevel=supportsDifficulty?difficulty:"mixed";
   const level=filter==="vault"?"mixed":baseLevel;
   const scopedBank=useMemo(()=>practiceQuestionPool(bank,{collection,subject,keyword:query}),[bank,collection,subject,query]);
   const pool=useMemo(()=>questionsForSelection(selected,scopedBank),[selected,scopedBank]);
-  const selection={filter,allowRelated,difficulty:level,bank};
+  const selection={filter,allowRelated,supplement,difficulty:level};
   const counts=useMemo(()=>({
     unanswered:availablePractice(pool,state,{allowRelated,difficulty:baseLevel,bank}),
     vault:availablePractice(pool,state,{filter:"vault"}),
     all:availablePractice(pool,state,{filter:"all",allowRelated,difficulty:baseLevel}),
   }),[pool,state,allowRelated,baseLevel,bank]);
-  const available=counts[filter],setCountAvailable=Math.min(count,available);
+  const plan=useMemo(()=>practiceSessionQuestions(bank,state,{
+    collection,subject,topics:selected,keyword:query,count,filter,allowRelated,supplement,difficulty:level,
+  },seed),[bank,state,collection,subject,selected,query,count,filter,allowRelated,supplement,level,seed]);
+  const setCountAvailable=plan.questions.length,additionalCount=setCountAvailable-plan.focusedCount;
   const unfinished=state.sessions.filter(session=>!session.finishedAt&&(session.kind==="practice"||session.kind==="exam")).slice(-3).reverse();
   const changeTopics=(slugs:string[],checked:boolean)=>setSelected(values=>checked?[...new Set([...values,...slugs])]:values.filter(slug=>!slugs.includes(slug)));
   const filters=[
@@ -124,7 +130,7 @@ export function Setup(){
   return <>
     <Link to="/practice" className="back"><ArrowLeft size={15}/>Back to practice</Link>
     <Heading title="Custom set" description="Choose a subject, topic, or keyword and build a practice or exam set."/>
-    {params.get("exhausted")==="1"&&filter==="unanswered"&&!available&&<Card className="practice-intro"><h2>No unused questions in this selection</h2><p>Choose All questions to review within this selection, or adjust the settings for a different set.</p></Card>}
+    {params.get("exhausted")==="1"&&filter==="unanswered"&&!plan.focusedCount&&<Card className="practice-intro"><h2>No unused questions in this selection</h2><p>Choose All questions to review within this selection, or adjust the settings for a different set.</p></Card>}
     {unfinished.length>0&&<Card className="setup-resume">
       <h2>Pick up again</h2>
       {unfinished.map(session=><div className="setup-resume-row" key={session.id}>
@@ -169,10 +175,12 @@ export function Setup(){
         </div>
       </>}
       {filter!=="vault"&&<label className="followup-choice"><input type="checkbox" checked={allowRelated} onChange={e=>setAllowRelated(e.target.checked)}/>Include follow-up questions from the same situation</label>}
+      <label className="followup-choice"><input type="checkbox" checked={supplement} onChange={e=>setSupplement(e.target.checked)}/>Fill short sets with related questions</label>
       <h2>Question count</h2>
-      <div className="button-row">{[10,20,30,50,100].map(n=><button key={n} aria-pressed={count===n} className={`btn ${count===n?"chosen":""}`} onClick={()=>setCount(n)}>{n}</button>)}<input aria-label="Custom number of questions" className="count-input" type="number" min="1" max={bank.length} value={count||""} onChange={e=>setCount(Math.min(bank.length,Math.max(0,Math.floor(Number(e.target.value)))))}/></div>
-      <p className="fine-print" aria-live="polite">{available.toLocaleString()} available for these settings</p>
-      {!available&&<p className="notice">{!pool.length?"No questions match this subject, topic, collection, and keyword.":filter==="vault"?"No questions in this selection are due in your Vault.":"Try Mixed difficulty, include follow-ups, or choose a different question filter."}</p>}
+      <div className="button-row">{[minimumStudyQuestions,100,120].map(n=><button key={n} aria-pressed={count===n} className={`btn ${count===n?"chosen":""}`} onClick={()=>setCount(n)}>{n}</button>)}<input aria-label="Custom number of questions" className="count-input" type="number" min={minimumStudyQuestions} max={maxCount} value={count||""} onChange={e=>setCount(Math.min(maxCount,Math.max(0,Math.floor(Number(e.target.value)))))}/></div>
+      <p className="fine-print" aria-live="polite">{minimumStudyQuestions} questions minimum{additionalCount>0?` · ${plan.focusedCount} match your selection, plus ${additionalCount} additional`:` · ${plan.focusedCount.toLocaleString()} selected`}{plan.questions.slice(plan.focusedCount).some(q=>!inCollection(q,collection))&&", including questions from related collections"}</p>
+      {!plan.focusedCount&&<p className="notice">{!pool.length?"No questions match this subject, topic, collection, and keyword.":filter==="vault"?"No questions in this selection are due in your Vault.":"Try Mixed difficulty, include follow-ups, or choose a different question filter."}</p>}
+      {plan.focusedCount>0&&setCountAvailable<minimumStudyQuestions&&<p className="notice">{supplement?"This collection is short on eligible questions. Broaden your selection or choose All questions.":"Enable additional questions or choose more topics to reach 80."}</p>}
       <h2>Mode</h2>
       <div className="select-cards two">
         <button aria-pressed={mode==="tutor"} className={mode==="tutor"?"selected":""} onClick={()=>setMode("tutor")}><strong>Practice</strong><small>Rationale after each answer</small></button>
@@ -181,7 +189,7 @@ export function Setup(){
       <h2>Per-question timer</h2>
       <div className="button-row">{[[0,"Off"],[60,"1:00"],[90,"1:30"],[120,"2:00"]].map(([n,label])=><button key={n} aria-pressed={timer===n} className={`btn ${timer===n?"chosen":""}`} onClick={()=>setTimer(Number(n))}>{label}</button>)}</div>
       <p className="fine-print">The timer pauses during rationales and shows overtime when time runs out.</p>
-      <button className="btn primary full" disabled={!available||count<1||query!==keyword.trim()} onClick={()=>start({...selection,subject,topics:selected,keyword:query,count,mode,collection,perQuestion:timer,planTaskId:taskId&&selected.length===1&&selected[0]===taskTopic&&!query?taskId:undefined,title:!query&&selected.length===1?findCurriculumTopic(selected[0])?.name:undefined})}>Start {level==="challenge"?"challenge":"session"} · {setCountAvailable} {setCountAvailable===1?"question":"questions"}<ArrowRight size={16}/></button>
+      <button className="btn primary full" disabled={setCountAvailable<minimumStudyQuestions||count<minimumStudyQuestions||query!==keyword.trim()} onClick={()=>start({...selection,subject,topics:selected,keyword:query,count,seed,mode,collection,perQuestion:timer,planTaskId:taskId&&selected.length===1&&selected[0]===taskTopic&&!query?taskId:undefined,title:!query&&selected.length===1?findCurriculumTopic(selected[0])?.name:undefined})}>Start {level==="challenge"?"challenge":"session"}{setCountAvailable>=minimumStudyQuestions?` · ${setCountAvailable} questions`:""}<ArrowRight size={16}/></button>
     </Card>
   </>;
 }
@@ -189,4 +197,4 @@ export function Topics(){const {bank}=useApp();const [search,setSearch]=useState
 export function TopicDetail({slug}:{slug:string}){const {state,bank,update}=useApp(),start=useStartSession();const topic=findCurriculumTopic(slug);const [showQuestions,setShowQuestions]=useState(false),[questionPage,setQuestionPage]=useState(0);if(!topic)return <Empty title="Topic not found" description="Choose a topic from the full catalog." action={<Link to="/topics" className="btn">All topics</Link>}/>;const qs=questionsForTopic(topic,bank),situational=qs.filter(isSituational),cases=casesForTopic(topic),noteKey="catalog:"+topic.slug,newSituations=availablePractice(situational,state,{difficulty:"challenge",bank});
  const hasFollowups=!newSituations&&availablePractice(situational,state,{difficulty:"challenge",allowRelated:true,bank})>0;
  const setupPath=practiceSetupPath({collection:"situational",topics:[topic.slug]});
- return <><Link to="/topics" className="back"><ArrowLeft size={15}/>All topics</Link><Heading title={topic.name} description={`${topic.subject==="CROSS"?"Foundations & Fundamentals":topic.subject} · ${situational.length} situational questions · ${qs.length} total questions · reference: ${referenceCount(topic)} questions`}/>{qs.length?<Card className="catalog-summary"><div><h2>Practice clinical judgment</h2><p>Use one question per new situation. Open Custom set to study follow-up decisions, concepts, or familiar cases.{qs.some(q=>q.subject!==topic.subject)&&" Some related cases come from another nursing practice area."}</p></div>{newSituations?<button className="btn primary" onClick={()=>start({collection:"situational",topics:[topic.slug],count:20,title:topic.name})}>Start challenge · {Math.min(20,newSituations)} {newSituations===1?"question":"questions"}<ArrowRight size={16}/></button>:<Link className="btn primary" to={setupPath+(hasFollowups?"&related=1":"&filter=all&difficulty=mixed")}>{hasFollowups?"Choose follow-up questions":"Review this topic"}<ArrowRight size={16}/></Link>}<Link className="text-button" to={setupPath}>Build a custom set</Link></Card>:<Card><Empty icon={<Layers3/>} title="This topic is in your catalog." description="Its exact question content has not been imported into this workspace. Import an authorized export to add its questions, answers, and rationales." action={<Link to="/settings" className="btn">Import question content<ArrowRight size={16}/></Link>}/></Card>}{situational.length>0?<Card className="reader"><TopicReviewNotes topic={topic}/></Card>:qs.length>0&&<Card className="reader"><TopicKeyPoints questions={qs}/></Card>}<Card className="form-card"><h2>Your topic note</h2><textarea aria-label="Your topic note" value={state.notes[noteKey]||""} onChange={e=>update(s=>({...s,notes:{...s.notes,[noteKey]:e.target.value}}))} placeholder="Add your own key points, source references, and reminders…"/><button className="btn" onClick={()=>update(s=>({...s,read:s.read.includes(noteKey)?s.read.filter(id=>id!==noteKey):[...s.read,noteKey]}))}><Check size={15}/>{state.read.includes(noteKey)?"Marked reviewed":"Mark topic reviewed"}</button></Card>{qs.length>0&&<Card><div className="section-head"><h2>Questions & complete rationales</h2><button className="text-button" onClick={()=>setShowQuestions(!showQuestions)}>{showQuestions?"Hide questions":"Browse questions"}<ChevronDown size={15}/></button></div>{showQuestions?<>{qs.slice(questionPage*10,(questionPage+1)*10).map(q=><ReviewQuestion key={q.id} q={q}/>)}<div className="button-row"><button className="btn" disabled={!questionPage} onClick={()=>setQuestionPage(p=>p-1)}>Previous</button><small>Questions {questionPage*10+1}–{Math.min(qs.length,(questionPage+1)*10)} of {qs.length}</small><button className="btn" disabled={(questionPage+1)*10>=qs.length} onClick={()=>setQuestionPage(p=>p+1)}>Next</button></div></>:<p className="muted">Choose “Browse questions” to reveal this topic’s questions and answer review, or start a practice session to try them first.</p>}</Card>}</>;}
+ return <><Link to="/topics" className="back"><ArrowLeft size={15}/>All topics</Link><Heading title={topic.name} description={`${topic.subject==="CROSS"?"Foundations & Fundamentals":topic.subject} · ${situational.length} situational questions · ${qs.length} total questions · reference: ${referenceCount(topic)} questions`}/>{qs.length?<Card className="catalog-summary"><div><h2>Practice clinical judgment</h2><p>Start with one question per new situation. Related questions fill the set to 80 when needed.{qs.some(q=>q.subject!==topic.subject)&&" Some related cases come from another nursing practice area."}</p></div>{newSituations?<button className="btn primary" onClick={()=>start({collection:"situational",topics:[topic.slug],quick:true,title:topic.name})}>Start challenge · {minimumStudyQuestions} questions<ArrowRight size={16}/></button>:<Link className="btn primary" to={setupPath+(hasFollowups?"&related=1":"&filter=all&difficulty=mixed")}>{hasFollowups?"Choose follow-up questions":"Review this topic"}<ArrowRight size={16}/></Link>}<Link className="text-button" to={setupPath}>Build a custom set</Link></Card>:<Card><Empty icon={<Layers3/>} title="This topic is in your catalog." description="Its exact question content has not been imported into this workspace. Import an authorized export to add its questions, answers, and rationales." action={<Link to="/settings" className="btn">Import question content<ArrowRight size={16}/></Link>}/></Card>}{situational.length>0?<Card className="reader"><TopicReviewNotes topic={topic}/></Card>:qs.length>0&&<Card className="reader"><TopicKeyPoints questions={qs}/></Card>}<Card className="form-card"><h2>Your topic note</h2><textarea aria-label="Your topic note" value={state.notes[noteKey]||""} onChange={e=>update(s=>({...s,notes:{...s.notes,[noteKey]:e.target.value}}))} placeholder="Add your own key points, source references, and reminders…"/><button className="btn" onClick={()=>update(s=>({...s,read:s.read.includes(noteKey)?s.read.filter(id=>id!==noteKey):[...s.read,noteKey]}))}><Check size={15}/>{state.read.includes(noteKey)?"Marked reviewed":"Mark topic reviewed"}</button></Card>{qs.length>0&&<Card><div className="section-head"><h2>Questions & complete rationales</h2><button className="text-button" onClick={()=>setShowQuestions(!showQuestions)}>{showQuestions?"Hide questions":"Browse questions"}<ChevronDown size={15}/></button></div>{showQuestions?<>{qs.slice(questionPage*10,(questionPage+1)*10).map(q=><ReviewQuestion key={q.id} q={q}/>)}<div className="button-row"><button className="btn" disabled={!questionPage} onClick={()=>setQuestionPage(p=>p-1)}>Previous</button><small>Questions {questionPage*10+1}–{Math.min(qs.length,(questionPage+1)*10)} of {qs.length}</small><button className="btn" disabled={(questionPage+1)*10>=qs.length} onClick={()=>setQuestionPage(p=>p+1)}>Next</button></div></>:<p className="muted">Choose “Browse questions” to reveal this topic’s questions and answer review, or start a practice session to try them first.</p>}</Card>}</>;}
