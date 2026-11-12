@@ -1,8 +1,7 @@
 import {readFile,readdir} from 'node:fs/promises';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {questions,clinicalCases} from './author-bank.ts';
-import {newStudyQuestions} from './authored-update.mjs';
+import {questions,clinicalCases,revisedStudyQuestions as newStudyQuestions} from './author-bank.ts';
 async function files(dir){return(await Promise.all((await readdir(dir,{withFileTypes:true})).map(entry=>entry.isDirectory()?files(join(dir,entry.name)):[join(dir,entry.name)]))).flat();}
 const assets=await files(fileURLToPath(new URL('./dist',import.meta.url)));
 const text=(await Promise.all(assets.filter(path=>path.endsWith('.js')).map(path=>readFile(path,'utf8')))).join('\n');

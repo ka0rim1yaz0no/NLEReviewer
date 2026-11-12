@@ -57,12 +57,12 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
  }
  for(const q of questions){
   const avoid=unsafeDecision(q);
-  const answer=sentence(q.options[q.correctIndex].text.trim());
+  const answer=sentence((q.decisionSummary||q.options[q.correctIndex].text).trim());
   const objective=guideObjective(q);
   const caseId=guideCaseId(q);
   const context=legacy.get(caseId),group=groups.get(caseId)!;
   const priority=avoid?group.find(item=>item.clinicalObjective==='action')||bank.find(item=>item.id===caseId+'-2'):undefined;
-  const safeAction=priority?.options[priority.correctIndex].text.trim()||context?.facts[1]?.text;
+  const safeAction=priority?.decisionSummary||priority?.options[priority.correctIndex].text.trim()||context?.facts[1]?.text;
   const actionAlreadyListed=priority&&group.some(item=>item.id===priority.id);
   const shortReason=q.clinicalObjective==='reasoning'&&q.caseId?reasoningSummaries[q.caseId.replace(/^SIT-/,'')]:undefined;
   const point=avoid?`Avoid: ${answer}${!actionAlreadyListed&&safeAction?` The appropriate response: ${sentence(safeAction)}`:''}`:shortReason||answer;
@@ -80,7 +80,7 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
   id:q.id,stem:q.stem,correctIndex:q.correctIndex,objective:guideObjective(q),
   options:q.options.map(option=>({
    text:option.text,rationale:displayRationale(option.rationale),
-   references:[...new Set([cite(option.source||q.source),...(option.contextSource?[cite(option.contextSource)]:[])])],
+   references:[...new Set([cite(option.source||q.source),...(option.contextSource?[cite(option.contextSource)]:[]),...(option.additionalSources||[]).map(url=>cite(url))])],
   })),
  }));
  const blueprintReference=cite(prcBlueprint,'PRC Enhanced Tables of Specifications for the Nurses Licensure Examination');

@@ -18,7 +18,7 @@ import {fileURLToPath} from 'node:url';
 import {questions as revisedQuestions,previousQuestions as questions,originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,challengeQuestions,subjects,validateQuestions,shuffled,clinicalCases} from './author-bank.ts';
 import {inCollection,collectionCounts,parseCollection,isSituational} from './collections.ts';
 import studyAdditions from './study-additions-summary.json' with {type:'json'};
-import {decodeContentRelease} from './content-release.ts';
+import {decodeContentRelease,maximumReleaseBytes} from './content-release.ts';
 import {processContentRelease} from './content-processing.ts';
 import {gzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
@@ -288,7 +288,7 @@ test('all 653 previously deployed questions retain their complete published payl
 test('the full expanded bank survives the actual compressed multi-page release format',async()=>{
  const questions=revisedQuestions;
  const raw=Buffer.from(JSON.stringify({questions,cases:clinicalCases})),base64=gzipSync(raw,{level:9}).toString('base64');
- assert.ok(raw.length<40000000,'Active and historical payload must fit the bounded release limit');
+ assert.ok(raw.length<maximumReleaseBytes,'Active and historical payload must fit the bounded release limit');
  const pages=[];for(let offset=0;offset<base64.length;offset+=440000)pages.push({id:`page-${String(pages.length).padStart(4,'0')}`,kind:'page',data:base64.slice(offset,offset+440000)});
  assert.ok(pages.length>1);const manifest={version:2,encoding:'gzip-base64',pages:pages.length,questionCount:questions.length,caseCount:clinicalCases.length,bytes:raw.length,digest:await contentDigest(questions,clinicalCases)};
  const loaded=await decodeContentRelease(manifest,[...pages].reverse());assert.deepEqual(loaded.questions,questions);assert.deepEqual(loaded.cases,clinicalCases);

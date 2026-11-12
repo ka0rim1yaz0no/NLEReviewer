@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {questions,previousQuestions,activeQuestions,clinicalCases,challengeQuestions} from './author-bank.ts';
+import {questions,previousQuestions,activeQuestions,clinicalCases,challengeQuestions,applicationReviewedQuestions,revisedStudyQuestions} from './author-bank.ts';
 import {contentDigest} from './content-integrity.ts';
 import {normalizeQuestionStem,validateQuestions} from './bank.ts';
 import {initialState,recordAnswer,gradeSession,sessionScore,dailyAnswerCounts,sessionDeadline,linkedPracticeComplete} from './engine.ts';
@@ -14,7 +14,7 @@ import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review
 import {newStudyQuestions} from './authored-update.mjs';
 import {makeTopicGuide} from './pdf-guides.ts';
 import {unsafeDecision} from './rationale-display.ts';
-import {checkTypedAnswer,matchTiles,prepareSoloRound,rapidResult,recordGameRun} from './play-engine.ts';
+import {checkTypedAnswer,matchTiles,prepareSoloRound,rapidResult,recallAnswer,recordGameRun} from './play-engine.ts';
 import {freshFocusTimer,cleanFocusSettings,stopwatchGap} from './focus-timer.ts';
 import retirements from './repetition-retirements.json' with {type:'json'};
 import corrections from './repetition-corrections.json' with {type:'json'};
@@ -22,7 +22,7 @@ const bank=new Map(questions.map(q=>[q.id,q]));
 const session=ids=>({id:'selection-check',title:'Selection check',kind:'practice',mode:'tutor',questionIds:ids,answers:{},flagged:[],eliminated:{},cursor:0,startedAt:1,scratch:'',highlights:{},strokes:{}});
 const situationBank=activeQuestions.filter(isSituational);
 test('the supplemental release preserves prior cases and adds 17 original skin and wound cases',{skip:!newStudyQuestions.length},async()=>{
- const all=[...activeQuestions,...newStudyQuestions];
+ const all=[...applicationReviewedQuestions.filter(q=>!q.retired),...newStudyQuestions];
  assert.equal(new Set(all.map(q=>normalizeQuestionStem(q.stem))).size,all.length);
  assert.equal(await contentDigest(newStudyQuestions.slice(0,60),[]),'eb2f42f9186d8ccbb85ee7712fce992362b8a7d5fd19bfb8ba4ca9f2f78d8460');
  assert.equal(newStudyQuestions.filter(q=>q.subject==='NP3'&&q.topic==='Integumentary Disorders & Burn Care').length,74);
@@ -56,7 +56,7 @@ test('positive safety decisions use the correct answer label',()=>{
  assert.equal(unsafeDecision(safe),false);
 });
 test('solo games choose a full round without repeating a case or recall term',()=>{
- const all=[...activeQuestions,...newStudyQuestions];
+ const all=[...activeQuestions,...revisedStudyQuestions];
  for(const subject of ['all','CROSS','NP1','NP2','NP3','NP4','NP5']){
   const rapid=prepareSoloRound(all,'rapid',subject,'',142,[]).questions;
   assert.equal(rapid.length,48,subject);
@@ -64,7 +64,7 @@ test('solo games choose a full round without repeating a case or recall term',()
   assert.equal(new Set(rapid.map(questionChoiceKey)).size,48,subject);
   const typed=prepareSoloRound(all,'type',subject,'',71,[]).questions;
   assert.equal(typed.length,10,subject);
-  assert.equal(new Set(typed.map(q=>q.options[q.correctIndex].text.toLowerCase().trim())).size,10,subject);
+  assert.equal(new Set(typed.map(q=>recallAnswer(q).toLowerCase().trim())).size,10,subject);
   const match=prepareSoloRound(all,'match',subject,'',118,[]).questions;
   assert.equal(match.length,12,subject);
   for(let at=0;at<12;at+=4){
@@ -115,7 +115,7 @@ test('all 156 topic quick sets use each situation once and never backfill earlie
  }
 });
 test('subject shortcuts include their entire collection while topics can include related subjects',()=>{
- const full=[...activeQuestions,...newStudyQuestions];
+ const full=[...activeQuestions,...revisedStudyQuestions];
  const scope={collection:'situational',subject:'NP3'};
  const subjectPool=practiceQuestionPool(full,scope);
  assert.deepEqual(subjectPool,full.filter(q=>q.subject==='NP3'&&isSituational(q)));
@@ -304,7 +304,7 @@ test('mock sections use only unused items and refuse to start below 100',()=>{
  assert.deepEqual(mockQuestionIds(activeQuestions,'NP3',1,[],state),[]);
 });
 test('every topic can start a fresh 80-question set with distinct stems, cases, and choices',()=>{
- const fullBank=[...activeQuestions,...newStudyQuestions],state=initialState();
+ const fullBank=[...activeQuestions,...revisedStudyQuestions],state=initialState();
  for(const topic of curriculum){
   const plan=practiceSessionQuestions(fullBank,state,{topics:[topic.slug],collection:'situational',difficulty:'challenge',quick:true},23);
   assert.equal(plan.questions.length,80,topic.slug);

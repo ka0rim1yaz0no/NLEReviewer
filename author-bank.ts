@@ -8,6 +8,8 @@ import {applyBankReview} from './bank-review.ts';
 import {applyClinicalDifficultyReview} from './clinical-difficulty-review.ts';
 import {applicationReviews} from './application-review-data.ts';
 import {reviewReferenceDifficulty} from './difficulty-review.mjs';
+import {reviewRemainingQuestions} from './decision-review.mjs';
+import {newStudyQuestions} from './authored-update.mjs';
 import type {Question} from './types.ts';
 
 export {originalQuestions,supplementalQuestions,conceptQuestions,situationalQuestions,challengeQuestions,clinicalCases,subjects,shuffled,validateQuestions} from './previous-authoring-bank.ts';
@@ -27,7 +29,12 @@ const clinicalDifficultyQuestions=applyClinicalDifficultyReview(fullBankReviewed
 const applicationQuestions=applyBankReview(clinicalDifficultyQuestions,applicationReviews,5);
 const referenceReview=reviewReferenceDifficulty(applicationQuestions);
 export const referenceDifficultyCounts=referenceReview.counts;
-export const questions=validateQuestions(referenceReview.questions);
+export const applicationReviewedQuestions=validateQuestions(referenceReview.questions);
+const decisionReview=reviewRemainingQuestions(applicationReviewedQuestions);
+const additionsReview=reviewRemainingQuestions(newStudyQuestions,[...applicationReviewedQuestions,...newStudyQuestions],decisionReview.questions);
+export const decisionReviewCounts=decisionReview.counts;
+export const questions=validateQuestions(decisionReview.questions);
+export const revisedStudyQuestions=additionsReview.questions.length?validateQuestions(additionsReview.questions):[];
 export const activeQuestions=questions.filter(q=>!q.retired);
 export const revisedSituationalCount=activeQuestions.filter(isSituational).length;
 export const questionMap=new Map(questions.map(q=>[q.id,q]));

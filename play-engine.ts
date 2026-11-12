@@ -46,13 +46,15 @@ export function checkTypedAnswer(value:string,answer:string){
  return !!typed&&(typed===expected||typed===withoutAcronym||!!acronym&&typed===normalizeGameAnswer(acronym[1]));
 }
 
+function recallChoices(question:Question){return question.recall?.choices??question.options.map(option=>option.text);}
+export function recallAnswer(question:Question){return question.recall?.choices[question.correctIndex]??question.options[question.correctIndex].text;}
 export function isRecallCard(question:Question){
- return question.format==="concept"&&question.options.every(option=>option.text.trim().length<=64)
-  &&question.options[question.correctIndex].text.trim().split(/\s+/).length<=5;
+ return question.format==="concept"&&recallChoices(question).every(text=>text.trim().length<=64)
+  &&recallAnswer(question).trim().split(/\s+/).length<=5;
 }
 
 export function gamePrompt(question:Question){
- return isRecallCard(question)?question.stem.split("\n\n").at(-1)||question.stem:question.stem;
+ return question.recall?.prompt??(isRecallCard(question)?question.stem.split("\n\n").at(-1)||question.stem:question.stem);
 }
 
 export function prepareSoloRound(
@@ -71,7 +73,7 @@ export function prepareSoloRound(
   const options=shuffled(items.filter(eligible),seed+offset).sort((a,b)=>Number(recent.has(a.id))-Number(recent.has(b.id)));
   for(const q of options){
    if(chosen.length===target)break;
-   const stem=normalizeQuestionStem(q.stem),family=questionFamily(q),answer=normalizeGameAnswer(q.options[q.correctIndex].text);
+   const stem=normalizeQuestionStem(mode==="rapid"?q.stem:gamePrompt(q)),family=questionFamily(q),answer=normalizeGameAnswer(recallAnswer(q));
    if(usedIds.has(q.id)||usedStems.has(stem)||(mode==="rapid"?usedFamilies.has(family):usedAnswers.has(answer)))continue;
    const choices=mode==="rapid"?questionChoiceKey(q):"";
    if(mode==="rapid"&&(!choices||usedChoices.has(choices)))continue;
@@ -88,11 +90,11 @@ export function prepareSoloRound(
 }
 
 function matchDistractors(board:Question[]){
- const used=new Set(board.map(q=>normalizeGameAnswer(q.options[q.correctIndex].text)));
+ const used=new Set(board.map(q=>normalizeGameAnswer(recallAnswer(q))));
  const labels:string[]=[];
  function find(index:number):boolean{
   if(index===board.length)return true;
-  for(const {text} of board[index].options){
+  for(const text of recallChoices(board[index])){
    const key=normalizeGameAnswer(text);
    if(used.has(key))continue;
    used.add(key);labels.push(text);
@@ -105,7 +107,7 @@ function matchDistractors(board:Question[]){
 }
 
 export function matchTiles(board:Question[],seed:number){
- const correct=board.map(q=>({id:q.id+":key",label:q.options[q.correctIndex].text,questionId:q.id}));
+ const correct=board.map(q=>({id:q.id+":key",label:recallAnswer(q),questionId:q.id}));
  const distractors=(matchDistractors(board)??[]).map((label,index)=>({id:board[index].id+":extra",label,questionId:""}));
  return shuffled([...correct,...distractors],seed);
 }

@@ -1,7 +1,7 @@
 import {supabase} from "./auth";
 import {validateProtectedContent} from "./content-integrity";
 import type {ContentRow} from "./content-integrity";
-import {contentRelease,releaseForArchive,studyAdditionsRelease} from "./content-release";
+import {contentRelease,isStudyAddition,priorStudyAdditionsRelease,releaseForArchive,studyAdditionsRelease} from "./content-release";
 import {processContentRelease} from "./content-processing";
 import type {ArchivedQuestionRevision,ReleaseManifest} from "./content-release";
 import {throwIfAborted,timedRequest} from './abort-utils';
@@ -33,9 +33,11 @@ async function readRelease(release:string,signal?:AbortSignal,ids?:readonly stri
 export async function loadProtectedContent(signal?:AbortSignal,archive?:{ids:readonly string[];revision:ArchivedQuestionRevision}){
  if(!supabase)throw new Error("The study database is not configured.");
  if(archive){
-  const saved=await readRelease(releaseForArchive(archive.revision),signal,archive.ids);
-  if(!saved)throw new Error("Saved questions could not be loaded. Please try again.");
-  return saved;
+  const coreIds=archive.ids.filter(id=>!isStudyAddition(id)),additionIds=archive.ids.filter(isStudyAddition);
+  const parts=[{release:releaseForArchive(archive.revision),ids:coreIds},{release:priorStudyAdditionsRelease,ids:additionIds}];
+  const saved=await Promise.all(parts.filter(part=>part.ids.length).map(({release,ids})=>readRelease(release,signal,ids)));
+  if(saved.some(part=>!part))throw new Error("Saved questions could not be loaded. Please try again.");
+  return {questions:saved.flatMap(part=>part?.questions||[]),cases:[]};
  }
  const [core,additions]=await Promise.all([readRelease(contentRelease,signal),readRelease(studyAdditionsRelease,signal)]);
  if(core){

@@ -2,7 +2,7 @@ import {useEffect,useMemo,useRef,useState} from "react";
 import {ArrowLeft,ArrowRight,Check,Clock,RotateCcw,Trophy,Volume2,VolumeX,Zap} from "lucide-react";
 import {subjects} from "./bank";
 import {curriculum} from "./curriculum";
-import {checkTypedAnswer,gamePrompt,gameTitles,matchBoardSize,matchTiles,prepareSoloRound,rapidResult,rapidSeconds,recordGameRun} from "./play-engine";
+import {checkTypedAnswer,gamePrompt,gameTitles,matchBoardSize,matchTiles,prepareSoloRound,rapidResult,rapidSeconds,recallAnswer,recordGameRun} from "./play-engine";
 import type {GameRun,SoloMode} from "./play-engine";
 import {ReviewQuestion} from "./Quiz";
 import {useApp} from "./store";
@@ -144,7 +144,7 @@ export function SoloPlay({mode}:{mode:SoloMode}){
       {current.options.map((option,index)=><button key={index} className="game-answer" onClick={()=>answer(current,index===current.correctIndex,index)}>
        <span>{letters[index]}</span>{option.text}
       </button>)}
-     </div>:<form onSubmit={event=>{event.preventDefault();if(typed.trim())answer(current,checkTypedAnswer(typed,current.options[current.correctIndex].text));}}>
+     </div>:<form onSubmit={event=>{event.preventDefault();if(typed.trim())answer(current,checkTypedAnswer(typed,recallAnswer(current)));}}>
       <label>Your answer<input ref={nextInput} value={typed} onChange={event=>setTyped(event.target.value)} autoComplete="off" maxLength={100}/></label>
       <div className="button-row"><button className="btn primary" disabled={!typed.trim()}>Check answer</button>
        <button type="button" className="btn" onClick={()=>answer(current,false)}>Skip card</button></div>
@@ -184,7 +184,7 @@ function MatchBoard({board,index,seed,onNext}:{board:Question[];index:number;see
     {tiles.find(tile=>tile.id===pairs[question.id])?.label||"Place tile"}
    </button>
    {checked&&<small className={marks[i].correct?"game-correct":"game-incorrect"}>
-    {marks[i].correct?"Correct":`Answer: ${question.options[question.correctIndex].text}`}
+    {marks[i].correct?"Correct":`Answer: ${recallAnswer(question)}`}
    </small>}
   </div>)}</div>
   <div className="button-row">{checked?<button className="btn primary" onClick={()=>onNext(marks,score)}>{index===2?"See results":"Next board"}<ArrowRight size={16}/></button>

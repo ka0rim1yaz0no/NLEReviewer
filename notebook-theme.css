@@ -43,6 +43,7 @@
 [data-theme=dark] .reviewer-shell { background: color-mix(in srgb,var(--bg) 25%,var(--paper)); }
 .main-shell:focus { outline: none; }
 .main-shell { scroll-margin-top: 76px; }
+.option-main > span:nth-child(2), .review-options strong, .rationale > strong, .game-answer { white-space: pre-line; overflow-wrap: anywhere; }
 .notebook-header {
   padding-top: env(safe-area-inset-top);
   background: var(--paper);

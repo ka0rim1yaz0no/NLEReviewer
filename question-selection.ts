@@ -13,6 +13,10 @@ export function questionFamily(q:Question|string):string{
  if(typeof q==='string')return familyFromId(canonicalQuestionId(q));
  const canonical=canonicalQuestionId(q.id);return canonical!==q.id?familyFromId(canonical):q.caseId||familyFromId(q.id);
 }
+function reviewFamilies(q:Question|string):string[]{
+ const family=questionFamily(q);
+ return typeof q!=="string"&&q.reviewCaseId&&q.reviewCaseId!==family?[family,q.reviewCaseId]:[family];
+}
 export type QuestionHistory=Pick<State,'attempts'|'sessions'|'vault'>&Partial<Pick<State,'importedQuestions'|'preferences'|'vaultReviews'>>;
 export type PracticeDifficulty='challenge'|'mixed';
 export type SelectionOptions={filter?:string;allowRelated?:boolean;review?:boolean;difficulty?:PracticeDifficulty;bank?:readonly Question[]};
@@ -34,7 +38,7 @@ export function practicePool(pool:readonly Question[],state:QuestionHistory,opti
   for(const prior of [...state.attempts.map(a=>a.questionId),...state.sessions.flatMap(s=>s.questionIds)]){
    const id=canonicalQuestionId(prior),q=known.get(id);
    assigned.add(id);
-   seenFamilies.add(questionFamily(q||id));
+   for(const family of reviewFamilies(q||id))seenFamilies.add(family);
    for(const version of new Set([q,known.get(prior)]))if(version)assignedStems.add(normalizeQuestionStem(version.stem));
   }
  }
@@ -49,7 +53,7 @@ export function practicePool(pool:readonly Question[],state:QuestionHistory,opti
   if(options.filter==='missed'&&latest.get(canonicalQuestionId(q.id))?.correct!==false)return false;
   const id=canonicalQuestionId(q.id),stem=normalizeQuestionStem(q.stem);
   if(due&&!due.has(id))return false;
-  if(filter==='unanswered'&&(assigned.has(id)||assignedStems.has(stem)||!options.allowRelated&&seenFamilies.has(questionFamily(q))))return false;
+  if(filter==='unanswered'&&(assigned.has(id)||assignedStems.has(stem)||!options.allowRelated&&reviewFamilies(q).some(family=>seenFamilies.has(family))))return false;
   if(ids.has(id)||stems.has(stem))return false;
   ids.add(id);stems.add(stem);
   return true;
@@ -69,13 +73,13 @@ export function distinctQuestionSet(pool:readonly Question[],onePerCase=false,pr
  const ids=new Set(prior.map(q=>canonicalQuestionId(q.id)));
  const stems=new Set(prior.map(q=>normalizeQuestionStem(q.stem)));
  const choices=new Set(prior.map(questionChoiceKey));
- const families=new Set(onePerCase?prior.map(questionFamily):[]);
+ const families=new Set(onePerCase?prior.flatMap(reviewFamilies):[]);
  return pool.filter(q=>{
   const id=canonicalQuestionId(q.id),stem=normalizeQuestionStem(q.stem),choice=questionChoiceKey(q);
-  const family=onePerCase?questionFamily(q):'';
-  if(!choice||ids.has(id)||stems.has(stem)||choices.has(choice)||families.has(family))return false;
+  const related=onePerCase?reviewFamilies(q):[];
+  if(!choice||ids.has(id)||stems.has(stem)||choices.has(choice)||related.some(family=>families.has(family)))return false;
   ids.add(id);stems.add(stem);choices.add(choice);
-  if(onePerCase)families.add(family);
+  for(const family of related)families.add(family);
   return true;
  });
 }

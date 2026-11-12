@@ -1,8 +1,7 @@
 import {mkdir,writeFile} from "node:fs/promises";
 import {gzipSync} from "node:zlib";
 import {createHash} from "node:crypto";
-import {questions as baseQuestions} from "./author-bank.ts";
-import {newStudyQuestions} from "./authored-update.mjs";
+import {questions as baseQuestions,revisedStudyQuestions as newStudyQuestions} from "./author-bank.ts";
 import {validateQuestions} from "./bank.ts";
 import {contentDigest} from "./content-integrity.ts";
 import {decodeContentRelease,studyAdditionsRelease} from "./content-release.ts";

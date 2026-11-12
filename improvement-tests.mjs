@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {questions as currentQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,challengeQuestions} from './author-bank.ts';
+import {applicationReviewedQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,revisedStudyQuestions,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -12,7 +12,7 @@ import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,currentQuestionRevision,questionNeedsArchive} from './content-release.ts';
+import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -265,7 +265,7 @@ test('new clinical choice edits preserve the complete published audit release an
 });
 
 test('the current bank has distinct stems, four distinct explained choices, and immutable saved answers',async()=>{
- const bank=[...currentActive,...newStudyQuestions];
+ const bank=[...currentActive,...revisedStudyQuestions];
  assert.equal(bank.length,9531+newStudyQuestions.length);
  assert.equal(new Set(bank.map(q=>normalizeQuestionStem(q.stem))).size,bank.length);
  assert.equal(new Set(bank.map(q=>q.id)).size,bank.length);
@@ -277,7 +277,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,5);
+ assert.equal(currentQuestionRevision,6);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -299,7 +299,7 @@ test('the PNLE application release preserves archived answers and scores shuffle
  const positionCounts=[0,0,0,0];
  const session={id:'application-check',questionRevision:5,questionIds:[],answers:{}};
  const bank=new Map();
- for(const q of [...currentActive,...newStudyQuestions]){
+ for(const q of [...applicationReviewedQuestions.filter(q=>!q.retired),...newStudyQuestions]){
   const original=prior.get(q.id);
   if(original){
    assert.equal(q.correctIndex,original.correctIndex,q.id);
@@ -323,7 +323,7 @@ test('every reference-based option traces to its Open RN fact or its documented 
  const facts=new Map(referenceFacts.map(fact=>[fact.id,fact]));
  const original=new Map(restoreRepetitionReview(fullBankReviewedQuestions.filter(q=>q.conceptId)).map(q=>[q.id,q]));
  const normalized=text=>normalizeQuestionStem(text).replaceAll('sodium glucose cotransporter 2 sglt2 inhibitors','sodium glucose co transporter 2 slt 2 inhibitors');
- for(const q of currentActive.filter(q=>q.conceptId)){
+ for(const q of applicationReviewedQuestions.filter(q=>!q.retired&&q.conceptId)){
   const key=facts.get(q.conceptId);
   assert.equal(q.options[q.correctIndex].referenceId,key.id,q.id);
   const usesTwoCues=q.format==='comparison'&&normalized(q.options[q.correctIndex].text)===normalized(key.definition);
@@ -347,6 +347,22 @@ test('every reference-based option traces to its Open RN fact or its documented 
    assert.ok(normalized(matching.rationale).includes(normalized(fact.definition)),q.id);
   }
  }
+});
+
+test('all remaining decisions are revised and saved core and expansion answers retain their original slots',async()=>{
+ assert.equal(releaseForArchive(5),applicationReviewRelease);
+ assert.equal(await contentDigest(applicationReviewedQuestions,clinicalCases),'bfe99d8bc5ef9c85e43075128afd8c915c89d79f0fc6b089b9b17b17a17d4118');
+ const prior=new Map([...applicationReviewedQuestions,...newStudyQuestions].map(q=>[q.id,q]));
+ const revised=[...currentActive,...revisedStudyQuestions].filter(q=>q.questionRevision===6);
+ assert.equal(revised.length,7090+newStudyQuestions.length);
+ assert.equal(new Set(revised.map(questionChoiceKey)).size,revised.length);
+ for(const q of revised){
+  assert.equal(q.correctIndex,prior.get(q.id).correctIndex,q.id);
+  assert.notEqual(q.stem,prior.get(q.id).stem,q.id);
+  assert.ok(questionNeedsArchive(q,5),q.id);
+ }
+ assert.ok(revisedStudyQuestions.every(q=>isStudyAddition(q.id)));
+ assert.ok(applicationReviewedQuestions.every(q=>!isStudyAddition(q.id)));
 });
 
 test('study sounds respect saved preferences and use different feedback in the same audio context',async()=>{
