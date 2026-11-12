@@ -1,5 +1,5 @@
 import {useEffect,useRef,useState} from "react";
-import {ArrowLeft,ArrowRight,Award,Clock,Copy,Gamepad2,HeartPulse,Keyboard,Layers3,Radio,ShieldCheck,Swords,Trophy,Users,Zap} from "lucide-react";
+import {ArrowLeft,ArrowRight,Award,Bell,Clock,Copy,Gamepad2,HeartPulse,Keyboard,Layers3,Radio,ShieldCheck,Swords,Trophy,Users,Zap} from "lucide-react";
 import {callPlay,PlayRequestError,playErrorMessage as humanError} from "./play-api";
 import {curriculum} from "./curriculum";
 import {gameTitles,recordGameRun,roomModes,soloModes} from "./play-engine";
@@ -98,11 +98,42 @@ function usePlayOverview(refreshMs=0){
  return {overview,error,retry:()=>setRetry(value=>value+1)};
 }
 
-function CupResultsButton(){
+function CupResultsButton({className="btn"}:{className?:string}){
  const [open,setOpen]=useState(false);
- return <><button className="btn" onClick={()=>setOpen(true)}>Cup results</button>
+ return <><button className={className} onClick={()=>setOpen(true)}>Cup results</button>
   {open&&<Modal title="Nightly Cup results" onClose={()=>setOpen(false)}><CupResultsContent/></Modal>}
  </>;
+}
+
+function CupBanner({cup}:{cup:Overview["cup"]}){
+ const [now,setNow]=useState(Date.now);
+ useEffect(()=>{
+  const tick=()=>setNow(Date.now());
+  const timer=setInterval(tick,1000);
+  document.addEventListener("visibilitychange",tick);
+  return ()=>{clearInterval(timer);document.removeEventListener("visibilitychange",tick);};
+ },[]);
+ const open=!!cup?.canJoin;
+ const seconds=cup?Math.max(0,Math.ceil(((open?cup.startsAt:cup.opensAt)-now)/1000)):null;
+ const units=seconds===null?[]:[[Math.floor(seconds/3600),"hr"],[Math.floor(seconds/60)%60,"min"],[seconds%60,"sec"]] as const;
+ return <Card className="game-cup">
+  <div className="cup-heading">
+   <span className="cup-emblem"><Trophy size={24} aria-hidden="true"/></span>
+   <div><p>Every night · 9:00 PM Philippine time</p><h2>Nightly Cup</h2></div>
+  </div>
+  <CupResultsButton className="btn cup-results-button"/>
+  {seconds!==null&&<div className="cup-time">
+   <div className="cup-countdown" role="timer" aria-label={open?"Time until the Cup starts":"Time until the Cup lobby opens"}>
+    {units.map(([value,label])=><span key={label}><strong>{String(value).padStart(2,"0")}</strong><small>{label}</small></span>)}
+   </div>
+   <p>{open?"Lobby open · round starts at 9:00 PM":"Until the lobby opens at 8:45 PM"}</p>
+  </div>}
+  <div className="cup-footer">
+   <span>15 questions · everyone at once</span>
+   <div className="button-row"><a className="btn" href="#play-reminders"><Bell size={16} aria-hidden="true"/>Remind me</a>
+    <Link to="/play/cup" className={open?"btn primary":"btn"}>{open?"Enter lobby":"View the Cup"}<ArrowRight size={16} aria-hidden="true"/></Link></div>
+  </div>
+ </Card>;
 }
 
 function CupResultsContent(){
@@ -152,6 +183,7 @@ function PlayHome(){
  const level=Math.floor(xp/125)+1;
  const lastSolo=[...runs].reverse().find(run=>soloModes.includes(run.mode as SoloMode));
  const resume=overview?.recent.find(room=>!room.ended);
+ const label=state.profile.name||"Player";
  const earned=[
   ["First round",runs.length>0],["Five rounds",runs.length>=5],["Twenty rounds",runs.length>=20],
   ["Quick thinking",runs.some(run=>run.mode==="rapid"&&run.right>=10)],
@@ -169,19 +201,25 @@ function PlayHome(){
   catch(failure){setJoinError(humanError(failure));}
   finally{setJoining(false);}
  }
- return <>
-  <Heading title="Play" description="A quick way to recall what you’ve studied, on your own or with classmates." action={<Link className="btn" to="/play/history"><Clock size={17}/>Game history</Link>}/>
+ return <div className="play-home">
+  <Heading title="Play"/>
+  <CupBanner cup={overview?.cup}/>
   <Card className="play-hero">
-   <span className="game-emblem"><Gamepad2 size={36}/></span>
-   <div><h2>Level {level}</h2><p>{xp.toLocaleString()} XP from your rounds</p>
-    <Progress value={xp%125} max={125} label="XP to the next level"/></div>
+   <div className="play-identity">
+    <span className="game-emblem" aria-hidden="true">{label.slice(0,2).toUpperCase()}</span>
+    <div><h2>{label}</h2><p>Level {level} · {xp.toLocaleString()} XP</p></div>
+   </div>
+   <div className="play-xp">
+    <div><strong>Level {level+1}</strong><small>{125-xp%125} XP to go</small></div>
+    <Progress value={xp%125} max={125} label="XP to the next level"/>
+   </div>
    <div className="button-row">
     <Link className="btn primary" to={resume?roomRoute(resume.code):"/play/"+(lastSolo?.mode||"rapid")}>{resume?"Resume "+gameTitles[resume.mode]:lastSolo?"Play again: "+gameTitles[lastSolo.mode]:"Play Rapid Fire"}<ArrowRight size={16}/></Link>
-    <button type="button" className="btn" onClick={()=>setBadges(true)}><Award size={16}/>Badges {earned.filter(([,done])=>done).length}/{earned.length}</button>
    </div>
   </Card>
   {error&&<Card className="game-notice"><p role="status">{error} You can still play solo.</p><button className="btn" onClick={retry}>Retry online rooms</button></Card>}
-  <Card className="game-cup"><div><h2><Trophy size={20}/>Nightly Cup</h2><p>15 questions together. Lobby opens at 8:45 PM Philippine time.</p></div><div className="button-row"><Link to="/play/cup" className="btn">View the Cup</Link><CupResultsButton/><a className="btn" href="#play-reminders">Remind me</a></div></Card>
+  <div className="play-layout">
+  <div className="play-games">
   <GameGroup title="1 v 1" modes={["ranked","duel"]}/>
   <GameGroup title="With friends" modes={["quiz","code","challenge"]}/>
   <Card className="game-join">
@@ -200,16 +238,25 @@ function PlayHome(){
   <PlayFriends/>
   <PlayReminders/>
   <GameGroup title="Solo" modes={[...soloModes]}/>
+  </div>
+  <aside className="play-personal" aria-label="Your games">
+  <h2>Your games</h2>
   <Card className="game-setup">
+   <div className="button-row">
+    <Link className="btn" to="/play/history"><Clock size={17}/>Game history</Link>
+    <button type="button" className="btn" onClick={()=>setBadges(true)}><Award size={16}/>Badges {earned.filter(([,done])=>done).length}/{earned.length}</button>
+   </div>
    <label className="game-check"><input type="checkbox" checked={state.preferences.playVault===true}
     onChange={event=>{const checked=event.target.checked;update(value=>({...value,preferences:{...value.preferences,playVault:checked}}));}}/>
     Save game misses to my Vault</label>
    <p className="fine-print">Finished games count toward your study streak. Your exam readiness score uses your practice answers.</p>
   </Card>
+  </aside>
+  </div>
   {badges&&<Modal title="Game badges" onClose={()=>setBadges(false)}>
    <div className="game-badges">{earned.map(([name,done])=><span className={done?"earned":""} key={name}><Award size={17}/>{name}<small>{done?"Earned":"Locked"}</small></span>)}</div>
   </Modal>}
- </>;
+ </div>;
 }
 
 function GameGroup({title,modes}:{title:string;modes:GameMode[]}){
