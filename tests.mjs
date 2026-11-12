@@ -308,7 +308,8 @@ test('malformed format metadata and per-choice links are removed during import v
 test('the displayed public counts match the protected bank without including any question text',async()=>{
  const summary=JSON.parse(await readFile(new URL('./bank-summary.json',import.meta.url),'utf8'));
  assert.equal(summary.total,activeQuestions.length+studyAdditions.questionCount);assert.equal(summary.original,summary.total-supplementalQuestions.length);assert.equal(summary.topics,156);
- assert.equal(summary.concept+summary.comparison,activeQuestions.filter(q=>q.format==="concept"||q.format==="comparison").length);assert.equal(summary.clinical,631);assert.equal(summary.situational,5117+studyAdditions.questionCount);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155+studyAdditions.questionCount);assert.equal(summary.challenge,42+studyAdditions.questionCount);assert.equal(summary.sourceCorrections,2);
+ const current=collectionCounts(revisedQuestions);
+ assert.equal(summary.concept,current.concept);assert.equal(summary.comparison,current.comparison);assert.equal(summary.clinical,current.clinical);assert.equal(summary.situational,current.situational+studyAdditions.questionCount);assert.equal(summary.newSituations,620);assert.equal(summary.standaloneSituational,155+studyAdditions.questionCount);assert.equal(summary.challenge,revisedQuestions.filter(q=>!q.retired&&q.difficulty==="challenge").length+studyAdditions.questionCount);assert.equal(summary.sourceCorrections,2);
  assert.ok(!JSON.stringify(summary).includes(questions[0].stem));
 });
 

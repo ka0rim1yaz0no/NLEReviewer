@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions,challengeQuestions} from './author-bank.ts';
+import {questions as currentQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -11,9 +11,12 @@ import {makeTopicGuide} from './pdf-guides.ts';
 import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
-import {normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,currentQuestionRevision} from './content-release.ts';
-import {questionFamily} from './question-selection.ts';
+import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
+import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,currentQuestionRevision,questionNeedsArchive} from './content-release.ts';
+import {questionChoiceKey,questionFamily} from './question-selection.ts';
+import {bankReviews} from './bank-review-data.ts';
+import {newStudyQuestions} from './authored-update.mjs';
+import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -22,6 +25,7 @@ import {reasoningSummaries} from './reference-guide-summaries.ts';
 import {displayRationale,choiceExplanationLabel,unsafeDecision} from './rationale-display.ts';
 import edits from './judgment-edits.json' with {type:'json'};
 import evidence from './situational-evidence.json' with {type:'json'};
+const activeQuestions=questions.filter(q=>!q.retired);
 
 test('canonical UTF-8 preserves published checksums, Unicode, escaping and key ordering',async()=>{
  const text='Café – Filipino 😊 / "quote"\n\t\\ \ud800';
@@ -241,7 +245,6 @@ test('corrected cases preserve prior revision content for saved quiz review',asy
 });
 
 test('new clinical choice edits preserve the complete published audit release and grading positions',async()=>{
- assert.equal(currentQuestionRevision,3);
  assert.equal(releaseForArchive(2),clinicalAuditRelease);
  assert.equal(await contentDigest(clinicalAuditQuestions,clinicalCases),'94992879e35b98e3ca9c7138edc1b4c685a2fd2e597e591d3ee6ebb69abf9042');
  const previous=new Map(clinicalAuditQuestions.map(q=>[q.id,q]));
@@ -255,4 +258,63 @@ test('new clinical choice edits preserve the complete published audit release an
  const magnesium=questions.find(q=>q.id==='NP2-043-2');
  assert.match(magnesium.stem,/respiratory rate is 8\/min/);
  assert.match(magnesium.options[magnesium.correctIndex].text,/Stop magnesium/);
+});
+
+test('the current bank has distinct stems, four distinct explained choices, and immutable saved answers',async()=>{
+ const bank=[...currentActive,...newStudyQuestions];
+ assert.equal(bank.length,9531+newStudyQuestions.length);
+ assert.equal(new Set(bank.map(q=>normalizeQuestionStem(q.stem))).size,bank.length);
+ assert.equal(new Set(bank.map(q=>q.id)).size,bank.length);
+ for(const q of bank){
+  assert.ok(questionChoiceKey(q),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+  assert.ok(q.options.every(o=>o.rationale.length>=20&&new URL(o.source||q.source).protocol==='https:'),q.id);
+ }
+ const previous=new Map(questions.map(q=>[q.id,q]));
+ const edits=new Map(bankReviews.map(e=>[e.id,e]));
+ assert.equal(currentQuestionRevision,4);
+ assert.equal(releaseForArchive(3),choiceReviewRelease);
+ assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
+ for(const q of currentQuestions){
+  const prior=previous.get(q.id),edit=edits.get(q.id);
+  if(!edit){assert.deepEqual(q,prior,q.id);continue;}
+  assert.equal(q.correctIndex,prior.correctIndex,q.id);
+  assert.equal(q.options[q.correctIndex].text,edit.choices[0][0],q.id);
+  assert.equal(q.source,edit.source,q.id);
+  assert.equal(q.questionRevision,4,q.id);
+  assert.equal(questionNeedsArchive(q,3),true,q.id);
+ }
+ for(const topic of curriculum)assert.ok(questionsForTopic(topic,bank).some(isSituational),topic.slug);
+});
+
+test('study sounds respect saved preferences and use different feedback in the same audio context',async()=>{
+ const originalWindow=globalThis.window,notes=[];
+ let created=0;
+ class AudioTestContext{
+  currentTime=0;state='suspended';destination={};
+  constructor(){created++;}
+  async resume(){this.state='running';}
+  createGain(){return {gain:{setValueAtTime(){},exponentialRampToValueAtTime(){}},connect(){},disconnect(){}};}
+  createOscillator(){
+   return {frequency:{value:0},connect(){},disconnect(){},start(){notes.push(this.frequency.value);},stop(){}};
+  }
+ }
+ try{
+  globalThis.window={AudioContext:AudioTestContext};
+  assert.equal(studySoundsEnabled({}),false);
+  assert.equal(studySoundsEnabled({flashcardSound:true}),true);
+  assert.equal(studySoundsEnabled({studySound:false,flashcardSound:true}),false);
+  playStudyCue('correct');
+  await Promise.resolve();
+  playStudyCue('incorrect');
+  playStudyTone(500);
+  assert.equal(created,1);
+  assert.equal(notes.length,5);
+  assert.ok(notes[0]<notes[1]&&notes[2]>notes[3]);
+  assert.equal(notes[4],500);
+ }finally{
+  if(originalWindow===undefined)delete globalThis.window;
+  else globalThis.window=originalWindow;
+ }
 });

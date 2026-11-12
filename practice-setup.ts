@@ -41,6 +41,13 @@ type PracticeSessionScope = PracticeScope & Omit<SelectionOptions, "bank"> & {
   supplement?: boolean;
 };
 
+function practiceOrder(questions:Question[],seed:number,difficulty?:PracticeDifficulty){
+  const mixed=shuffled(questions,seed);
+  if(difficulty!=="challenge")return mixed;
+  const rank=(q:Question)=>q.difficulty==="challenge"?2:q.clinicalObjective==="action"||q.clinicalObjective==="reasoning"?1:0;
+  return mixed.sort((a,b)=>rank(b)-rank(a));
+}
+
 export function practiceSessionQuestions(
   bank: readonly Question[], history: QuestionHistory, scope: PracticeSessionScope, seed: number,
 ) {
@@ -49,10 +56,10 @@ export function practiceSessionQuestions(
   const options = {...scope, bank};
   const review = scope.review || scope.filter === "missed" || scope.filter === "vault";
   const onePerCase = !scope.allowRelated && !review;
-  let focused = distinctQuestionSet(shuffled(practicePool(pool, history, options), seed), onePerCase).slice(0, count);
+  let focused = distinctQuestionSet(practiceOrder(practicePool(pool, history, options), seed, scope.difficulty), onePerCase).slice(0, count);
   let followUp = false;
   if (!focused.length && scope.quick && !review && (!scope.filter || scope.filter === "unanswered")) {
-    focused = distinctQuestionSet(shuffled(practicePool(pool, history, {...options, allowRelated: true}), seed), true).slice(0, count);
+    focused = distinctQuestionSet(practiceOrder(practicePool(pool, history, {...options, allowRelated: true}), seed, scope.difficulty), true).slice(0, count);
     followUp = focused.length > 0;
   }
   if (!focused.length || focused.length >= count || scope.supplement === false) {
@@ -76,7 +83,7 @@ export function practiceSessionQuestions(
   });
   const sameCollection: [Question[], Question[], Question[]] = [[], [], []];
   const otherCollections: [Question[], Question[], Question[]] = [[], [], []];
-  for (const q of shuffled(fallback, seed + 1)) {
+  for (const q of practiceOrder(fallback, seed + 1, scope.difficulty)) {
     const [byTopic, bySubject, integrated] = inCollection(q, scope.collection) ? sameCollection : otherCollections;
     if (preferredTopics.has(`${q.subject}:${q.topic}`)) byTopic.push(q);
     else if (preferredSubjects.has(q.subject)) bySubject.push(q);

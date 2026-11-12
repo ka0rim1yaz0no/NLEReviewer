@@ -35,7 +35,8 @@ export function mockQuestionIds(bank:readonly Question[],subject:Subject,board:n
  for(const q of pool)if(q.caseId)groups.set(q.caseId,[...(groups.get(q.caseId)||[]),q]);
  const order=(a:string,b:string)=>hash(subject+':'+a)-hash(subject+':'+b)||a.localeCompare(b);
  const cases=[...groups].filter(([,qs])=>qs.length===7).sort(([a],[b])=>order(a,b)).map(([,qs])=>qs);
- const singles=pool.filter(q=>q.id.startsWith('EXP2-')).sort((a,b)=>order(a.id,b.id));
+ const singles=pool.filter(q=>q.id.startsWith('EXP2-')||q.difficulty==='challenge'&&q.caseId===q.id)
+  .sort((a,b)=>Number(b.difficulty==='challenge')-Number(a.difficulty==='challenge')||order(a.id,b.id));
  const eligible=practicePool(pool,history,{allowRelated:true,bank});
  if(eligible.length<sectionSize)return [];
  const available=new Set(eligible.map(q=>q.id));

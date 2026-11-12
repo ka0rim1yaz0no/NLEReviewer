@@ -4,7 +4,7 @@ A BoardPal-inspired nursing study app with username profiles, separate progress,
 
 ## Published content
 
-The bank has **9,608 active questions**, including **5,194 situational nursing questions across 156 topics**. The 10,771 stored questions include 1,163 retired historical records.
+The bank has **9,608 active questions**, including **5,217 situational nursing questions across 156 topics**. The 10,771 stored questions include 1,163 retired historical records.
 
 | Question format | Count |
 | --- | ---: |
@@ -13,16 +13,17 @@ The bank has **9,608 active questions**, including **5,194 situational nursing q
 | Standalone situational scenarios from the November 3 expansion | 155 |
 | New original clinical judgment cases | 42 |
 | Skin, wound, burn care, and rotavirus immunization cases | 77 |
+| Applied cases revised from concept and comparison questions | 23 |
 | Other earlier standalone originals | 51 |
-| Source-based concept checks | 3,714 |
-| Reference-comparison questions | 647 |
+| Source-based concept checks | 3,699 |
+| Reference-comparison questions | 639 |
 | Corrected supplemental source items | 2 |
 
-The situational bank has 1,010 vignettes across 620 seven-part cases, 116 five-part cases, and 274 standalone cases. The November 13 supplement adds 17 skin and wound care cases with a sourced explanation for each of the four choices.
+The situational bank has 1,033 vignettes across 620 seven-part cases, 116 five-part cases, and 297 standalone cases. The November 13 review revises 33 questions with clinical decisions, plausible alternatives, and sourced explanations.
 
 Every question has four distinct choices, one keyed answer, an answer explanation, and explanations for all alternatives. `situational-evidence.json` records the clinical findings, care need, safe response, teaching, desired outcome, unsafe proposal, clinical reasoning, and reference for each new situation. The answer key is checked against this authored evidence. References include Open RN nursing chapters, WHO, CDC, NIH/NEI, NHS, NICE, AHA, and Philippine statutes. Checks include all-topic coverage, complete per-choice explanations, unique situations and questions, balanced answer positions, ABG arithmetic, scoring, and preservation of every earlier record. The November 3 audit reviewed the evidence behind all 740 original case sets and checked all 4,940 question records. Reference and structural checking is **not independent professional clinical approval**; independent clinician review remains pending.
 
-There are 4,361 active concept and comparison items for focused review, with all 4,515 source records still available to existing saved sessions. Their reference evidence and corrections are preserved. The repetition review archives 138 redundant items and withholds 31 ambiguous items; 14 bounded reference corrections update 65 records, including affected alternative explanations. Saved IDs, choice wording, order and key positions are preserved. See `repetition-review-report.json`. They are not counted as situational questions. Earlier IDs, option positions, and answer keys remain stable. The two documented legacy context clarifications and more specific reference links are explicitly rolled back when checking the original release checksums; all other earlier content must still match.
+There are 4,338 active concept and comparison items for focused review, with all 4,515 source records still available to existing saved sessions. Their reference evidence and corrections are preserved. The repetition review archives 138 redundant items and withholds 31 ambiguous items; 14 bounded reference corrections update 65 records, including affected alternative explanations. Saved IDs, choice wording, order and key positions are preserved. See `repetition-review-report.json`. They are not counted as situational questions. Earlier IDs, option positions, and answer keys remain stable. The two documented legacy context clarifications and more specific reference links are explicitly rolled back when checking the original release checksums; all other earlier content must still match.
 
 The [BoardPal practice catalog](https://www.nleboardpal.com/practice) listed 156 topics and 9,598 reference questions on November 11, 2026. The reviewer uses the observed topic names and organization with its own original practice content.
 
@@ -37,6 +38,7 @@ A proposed 4,120-item MedMCQA research candidate remains withheld after spot-che
 - Counted Needs work, Not started, Flagged, and Saved topic filters; per-topic redo-miss sets; preserved first-try scores and a Vault for unresolved misses.
 - Five mock variants, each with five 100-item, two-hour sections. Each section prioritizes complete linked cases and uses distinct stems and choice sets. The 80-item diagnostic covers 16 questions per NP in 67 minutes.
 - New practice and custom exams start with at least 80 distinct questions. Related questions fill a short selection when enabled. The setup shows how many questions match the selection before starting.
+- The Sound effects preference enables soft feedback in practice and flashcard review. Exams stay silent.
 - All 156 topics connect to flashcards, spaced review, short clinical notes, the full planner, and calendar export. Shared topic/resource notes, gathered My Notes, Anki text/TSV/CSV import, and legacy deck/resource links.
 - History, performance, milestones, profile/settings, theme and text-size preferences, JSON backups, and authorized personal question imports.
 - Username profiles backed by separate Supabase identities, isolated progress, cloud sync, retry controls, and a responsive mobile layout.

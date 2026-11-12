@@ -1,6 +1,6 @@
 import {normalizeQuestionStem,shuffled} from "./bank.ts";
 import {curriculum,questionsForTopic} from "./curriculum.ts";
-import {isDecisionQuestion,questionFamily} from "./question-selection.ts";
+import {isDecisionQuestion,questionChoiceKey,questionFamily} from "./question-selection.ts";
 import {updateVaultReview} from "./vault-schedule.ts";
 import type {State} from "./engine.ts";
 import type {Question,Subject} from "./types.ts";
@@ -61,7 +61,7 @@ export function prepareSoloRound(
  const topic=curriculum.find(item=>item.slug===topicSlug);
  const target=mode==="rapid"?rapidQuestionLimit:mode==="match"?matchBoardSize*matchBoards:typeQuestionCount;
  const chosen:Question[]=[];
- const usedIds=new Set<string>(),usedStems=new Set<string>(),usedFamilies=new Set<string>(),usedAnswers=new Set<string>();
+ const usedIds=new Set<string>(),usedStems=new Set<string>(),usedFamilies=new Set<string>(),usedAnswers=new Set<string>(),usedChoices=new Set<string>();
  const recent=new Set(history.filter(run=>run.mode===mode).slice(-8).flatMap(run=>run.questionIds));
  const eligible=(q:Question)=>!q.retired&&(mode==="rapid"?isDecisionQuestion(q):isRecallCard(q));
  const topics=topic?questionsForTopic(topic,bank):[];
@@ -73,9 +73,12 @@ export function prepareSoloRound(
    if(chosen.length===target)break;
    const stem=normalizeQuestionStem(q.stem),family=questionFamily(q),answer=normalizeGameAnswer(q.options[q.correctIndex].text);
    if(usedIds.has(q.id)||usedStems.has(stem)||(mode==="rapid"?usedFamilies.has(family):usedAnswers.has(answer)))continue;
+   const choices=mode==="rapid"?questionChoiceKey(q):"";
+   if(mode==="rapid"&&(!choices||usedChoices.has(choices)))continue;
    if(mode==="match"&&!matchDistractors([...chosen.slice(chosen.length-chosen.length%matchBoardSize),q]))continue;
    chosen.push(q);
    usedIds.add(q.id);usedStems.add(stem);usedFamilies.add(family);usedAnswers.add(answer);
+   if(choices)usedChoices.add(choices);
   }
  }
  add(topics,0);

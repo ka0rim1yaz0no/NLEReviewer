@@ -61,6 +61,7 @@ test('solo games choose a full round without repeating a case or recall term',()
   const rapid=prepareSoloRound(all,'rapid',subject,'',142,[]).questions;
   assert.equal(rapid.length,48,subject);
   assert.equal(new Set(rapid.map(questionFamily)).size,48,subject);
+  assert.equal(new Set(rapid.map(questionChoiceKey)).size,48,subject);
   const typed=prepareSoloRound(all,'type',subject,'',71,[]).questions;
   assert.equal(typed.length,10,subject);
   assert.equal(new Set(typed.map(q=>q.options[q.correctIndex].text.toLowerCase().trim())).size,10,subject);

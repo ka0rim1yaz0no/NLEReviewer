@@ -1,16 +1,16 @@
 {
-  "release": "2026-11-11-choice-reference-review-1",
+  "release": "2026-11-13-full-bank-review-1",
   "total": 9608,
   "original": 9606,
-  "situational": 5194,
-  "revisedSituational": 5194,
-  "newSituational": 4614,
-  "challenge": 119,
+  "situational": 5217,
+  "revisedSituational": 5217,
+  "newSituational": 4637,
+  "challenge": 147,
   "newSituations": 620,
   "standaloneSituational": 232,
   "clinical": 631,
-  "concept": 3714,
-  "comparison": 647,
+  "concept": 3699,
+  "comparison": 639,
   "sourceCorrections": 2,
   "topics": 156
 }

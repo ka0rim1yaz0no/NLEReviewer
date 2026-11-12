@@ -1,11 +1,12 @@
 import {mkdir,writeFile} from "node:fs/promises";
+import {createHash} from "node:crypto";
 import {activeQuestions} from "./author-bank.ts";
 import {findCurriculumTopic} from "./curriculum.ts";
-import {isDecisionQuestion,questionFamily} from "./question-selection.ts";
+import {isDecisionQuestion,questionChoiceKey,questionFamily} from "./question-selection.ts";
 
 const rows=activeQuestions.filter(isDecisionQuestion).map(q=>({
  id:q.id,subject:q.subject,topic:findCurriculumTopic(q.subject+":"+q.topic)?.slug||"",
- family:questionFamily(q),answer:q.correctIndex,
+ family:questionFamily(q),answer:q.correctIndex,choice_set:createHash("sha256").update(questionChoiceKey(q)).digest("hex"),
 }));
 const byTopic=new Map();
 for(const row of rows){
@@ -22,10 +23,10 @@ const batchSize=240;
 for(let index=0;index<items.length;index+=batchSize){
  const batch=items.slice(index,index+batchSize);
  const json=JSON.stringify(batch).replaceAll("'","''");
- const statement=`insert into reviewer_play.question_pool (id,subject,topic,family,answer)
- select id,subject,topic,family,answer from jsonb_to_recordset('${json}'::jsonb)
- as q(id text,subject text,topic text,family text,answer smallint)
- on conflict(id) do update set subject=excluded.subject,topic=excluded.topic,family=excluded.family,answer=excluded.answer;
+ const statement=`insert into reviewer_play.question_pool (id,subject,topic,family,answer,choice_set)
+ select id,subject,topic,family,answer,choice_set from jsonb_to_recordset('${json}'::jsonb)
+ as q(id text,subject text,topic text,family text,answer smallint,choice_set text)
+ on conflict(id) do update set subject=excluded.subject,topic=excluded.topic,family=excluded.family,answer=excluded.answer,choice_set=excluded.choice_set;
  select count(*) as playable_questions from reviewer_play.question_pool;
 `;
  await writeFile(new URL(`pool-${String(Math.floor(index/batchSize)+1).padStart(2,"0")}.sql`,dir),statement);

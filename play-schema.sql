@@ -9,6 +9,7 @@ create table if not exists reviewer_play.question_pool (
  family text not null,
  answer smallint not null check(answer between 0 and 3)
 );
+alter table reviewer_play.question_pool add column if not exists choice_set text;
 create table if not exists reviewer_play.rooms (
  code text primary key default upper(left(replace(gen_random_uuid()::text,'-',''),10)),
  mode text not null check(mode in ('duel','ranked','challenge','quiz','code','cup')),
@@ -162,13 +163,16 @@ end $$;
 create or replace function reviewer_play.draw(subject_key text, topic_key text, quantity int) returns text[]
 language sql volatile set search_path='' as $$
  with per_case as (
-  select distinct on (family) id, topic=topic_key as preferred
+  select distinct on (family) id,choice_set,topic=topic_key as preferred
   from reviewer_play.question_pool
   where subject_key='all' or subject=subject_key
   order by family,(topic=topic_key) desc,random()
+ ), per_choices as (
+  select distinct on (coalesce(choice_set,id)) id,preferred from per_case
+  order by coalesce(choice_set,id),preferred desc,random()
  )
  select coalesce(array_agg(id order by position),'{}') from (
-  select id,row_number() over(order by preferred desc,random()) as position from per_case limit quantity
+  select id,row_number() over(order by preferred desc,random()) as position from per_choices limit quantity
  ) picks;
 $$;
 
@@ -194,12 +198,15 @@ language sql volatile set search_path='' as $$
   from recent_rooms r cross join lateral unnest(r.question_ids) as item(id)
   join reviewer_play.question_pool q on q.id=item.id
  ), distinct_cases as (
-  select distinct on (q.family) q.id,q.family
+  select distinct on (q.family) q.id,q.family,q.choice_set
   from reviewer_play.question_pool q
   order by q.family,random()
- ), picks as (
-  select q.id,row_number() over(order by recent.family is not null,random()) as position
+ ), distinct_choices as (
+  select distinct on (coalesce(q.choice_set,q.id)) q.id,recent.family is not null as seen
   from distinct_cases q left join recent_cases recent using(family)
+  order by coalesce(q.choice_set,q.id),seen,random()
+ ), picks as (
+  select id,row_number() over(order by seen,random()) as position from distinct_choices
   limit 10
  )
  select coalesce(array_agg(id order by position),'{}') from picks;
