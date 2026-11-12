@@ -7,6 +7,7 @@ function playPath(value) {
 }
 
 self.addEventListener("push", event => {
+  if (event.notification) return; // WebKit can display the declarative notification itself.
   let message = {};
   try { message = event.data?.json() ?? {}; } catch { /* Use the default message. */ }
   event.waitUntil(self.registration.showNotification(message.title || "NLEReviewer Play", {
