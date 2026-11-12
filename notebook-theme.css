@@ -38,8 +38,9 @@
   --study-header-height: calc(60px + env(safe-area-inset-top, 0px));
   --study-sidebar-width: 232px;
   min-height: 100vh;
-  background: color-mix(in srgb,var(--bg) 25%,var(--paper));
+  background: var(--bg);
 }
+[data-theme=dark] .reviewer-shell { background: color-mix(in srgb,var(--bg) 25%,var(--paper)); }
 .main-shell:focus { outline: none; }
 .main-shell { scroll-margin-top: 76px; }
 .notebook-header {
