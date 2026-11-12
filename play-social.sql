@@ -216,7 +216,11 @@ declare actor uuid:=reviewer_play.viewer(); device reviewer_play.push_subscripti
 begin
  select * into device from reviewer_play.push_subscriptions where endpoint=p_endpoint and profile=actor;
  return jsonb_build_object('publicKey',(select vapid_public from reviewer_play.push_config where singleton),
-  'friend',coalesce(device.friend_reminders,false),'cup',coalesce(device.cup_reminders,false));
+  'friend',coalesce(device.friend_reminders,false),'cup',coalesce(device.cup_reminders,false),
+  'lastSent',(select jsonb_build_object(
+   'friend',max(provider_accepted_at) filter (where kind='friend'),
+   'cup',max(provider_accepted_at) filter (where kind='cup'))
+   from reviewer_play.push_queue where subscription=device.id and kind in ('friend','cup')));
 end $$;
 
 create or replace function public.play_push_save(p_endpoint text,p_p256dh text,p_auth text,p_friend boolean,p_cup boolean) returns boolean

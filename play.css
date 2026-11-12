@@ -75,6 +75,7 @@
 .play-reminder-row .btn {flex-shrink:0}
 .play-reminder-test {display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap}
 .play-reminder-test small {flex:1 1 170px;color:var(--muted)}
+.play-reminder-receipt {color:var(--muted);line-height:1.45}
 @media (max-width:540px) {
  .play-people li {align-items:flex-start;flex-wrap:wrap}
  .friend-request input {font-size:16px}

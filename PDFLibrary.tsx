@@ -1,5 +1,5 @@
 import {useEffect,useMemo,useRef,useState} from 'react';
-import {ArrowLeft,BookOpen,Download,ExternalLink,FileText,X} from 'lucide-react';
+import {ArrowLeft,BookOpen,Download,ExternalLink,X} from 'lucide-react';
 import {strToU8,zip as packZip} from 'fflate';
 import {useApp} from './store';
 import {canAccessPDFs,priorityUsername} from './access';
@@ -7,7 +7,7 @@ import {clinicalCases,subjects} from './bank';
 import {curriculum,findCurriculumTopic} from './curriculum';
 import {makeTopicGuide} from './pdf-guides';
 import type {CurriculumTopic} from './curriculum';
-import {Card,Empty,Heading,Link,SearchBox} from './ui';
+import {Card,Empty,Link,SearchBox} from './ui';
 import catalog from './pdf-library-catalog.json';
 import './pdf-library.css';
 
@@ -79,9 +79,12 @@ function PriorityPDFLibrary(){
   finally{controller.current=null;if(mounted.current)setJob(null);}
  }
  return <>
-  <Link to='/resources' className='back'><ArrowLeft size={15}/>All resources</Link>
-  <Heading title='PDF library' description='Download original topic reviews and open the reference publications behind your study material.'/>
-  <Card className='pdf-library-intro'><div><FileText size={26}/><h2>Keep your review close.</h2><p>{curriculum.length} original topic PDFs, {catalog.references.filter(r=>r.kind==='pdf').length} official PDF references, and links to {catalog.boardpalReaders.length} BoardPal readers.</p><p className='muted'>Topic PDFs summarize case clues and key nursing decisions, with links to the clinical sources. Publisher files and BoardPal readers open on their own sites.</p></div><button className='btn primary' disabled={!!job} onClick={()=>void exportTopics(curriculum,true)}><Download size={17}/>Download all {curriculum.length} topic PDFs</button></Card>
+  <Link to='/resources' className='back'><ArrowLeft size={15}/>Cram Sheets</Link>
+  <Card className='study-banner library-overview'>
+   <div><h1>PDF library</h1><p>Download original topic reviews with concise nursing points and links to clinical sources.</p></div>
+   <small>{curriculum.length} topic PDFs · {catalog.references.filter(r=>r.kind==='pdf').length} official PDF references · {catalog.boardpalReaders.length} BoardPal reader links</small>
+   <button className='btn primary' disabled={!!job} onClick={()=>void exportTopics(curriculum,true)}><Download size={17}/>Download all {curriculum.length} topic PDFs</button>
+  </Card>
   {job&&<Card className='pdf-export-job' aria-live='polite'><div><strong>Preparing {job.done} of {job.total}</strong><p>{job.label}</p><progress aria-label='PDF export progress' value={job.done} max={job.total}/></div><button className='btn' onClick={()=>controller.current?.abort()}><X size={16}/>Cancel export</button></Card>}
   {error&&<p role='alert' className='form-error'>{error}</p>}
   <div className='tabs pdf-library-tabs' aria-label='Resource type'>{[['topics','Topic PDFs'],['references','Official references'],['boardpal','BoardPal readers']].map(([value,label])=><button key={value} aria-pressed={tab===value} className={tab===value?'active':''} onClick={()=>{setTab(value);setPage(0);}}>{label}</button>)}</div>

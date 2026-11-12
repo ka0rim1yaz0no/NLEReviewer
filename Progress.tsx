@@ -1,7 +1,7 @@
 import {StudyTargets} from "./StudyTargets";
-import {StudyInsights} from "./StudyInsights";
+import {StudyHabits,StudyInsights} from "./StudyInsights";
 import { useState } from "react";
-import { ArrowRight, Award, BarChart3, BookOpen, Check, Clock, Download, Flame, History, Layers3, Target, Trophy, Upload, User } from "lucide-react";
+import { ArrowRight, Award, BarChart3, BookOpen, Check, ChevronDown, Clock, Download, Flame, History, Layers3, Target, Trophy, Upload, User } from "lucide-react";
 import { subjects, validateQuestions, normalizeQuestionStem } from "./bank";
 import { curriculum, questionsForTopic } from "./curriculum";
 import { addDays, dailyAnswerCounts, dateKey, firstAttempts, initialState, rating, sessionScore, streak, longestStreak } from "./engine";
@@ -10,8 +10,166 @@ import { completedMockSubjects, mockAttempts } from "./mock-progress";
 import { download, supabase, useApp, validateBackup } from "./store";
 import { Card, Empty, Heading, Link, Modal, Progress, RowLink, SearchBox, TextLink } from "./ui";
 export function useStats(){const {state,bankMap}=useApp();const first=firstAttempts(state.attempts);const completedBoards=[1,2,3,4,5].filter(board=>mockAttempts(state.sessions,board).some(([,sections])=>completedMockSubjects(sections).length===5)).length;return {first,correct:first.filter(a=>a.correct).length,projected:rating(first,40),streak:streak(state.attempts,state.profile.timezone,state.gameRuns),longestStreak:longestStreak(state.attempts,state.profile.timezone,state.gameRuns),completedBoards,bySubject:subjects.map(s=>({...s,attempts:first.filter(a=>bankMap.get(a.questionId)?.subject===s.id)}))};}
-export function Performance({topicsOnly=false}:{topicsOnly?:boolean}){const {state,bank,bankMap}=useApp();const stats=useStats();const [subject,setSubject]=useState("all"),[search,setSearch]=useState("");const today=dateKey(Date.now(),state.profile.timezone);const days=Array.from({length:14},(_,i)=>addDays(today,i-13));const daily=dailyAnswerCounts(state.attempts,state.profile.timezone),counts=days.map(date=>daily.get(date)??0),max=Math.max(5,...counts);const completed=state.sessions.filter(s=>s.finishedAt&&(subject==="all"||s.subject===subject));const topicList=curriculum.filter(t=>(subject==="all"||t.subject===subject)&&t.name.toLowerCase().includes(search.toLowerCase()));return <><Heading title={topicsOnly?"Topic Mastery":"Performance"} description="Built from your first try on each question. Retries help you learn; your baseline stays honest."/>{!topicsOnly&&<><div className="performance-top"><Card className="rating-card"><small>Projected rating</small><strong>{stats.projected?.toFixed(1)||"—"}</strong><p>{stats.projected===null?`${Math.max(0,40-stats.first.length)} more first-try answers unlock your estimate.`:"A study estimate based on first-try accuracy."}</p><Progress value={stats.first.length} max={40}/></Card><Card><h2>Your study, at a glance</h2><div className="stat-pairs"><div><strong>{stats.first.length}</strong><small>unique questions</small></div><div><strong>{stats.first.length?Math.round(stats.correct/stats.first.length*100)+"%":"—"}</strong><small>first-try accuracy</small></div><div><strong>{stats.streak}</strong><small>day streak</small></div><div><strong>{stats.completedBoards}/5</strong><small>full mocks</small></div></div></Card></div><p className="fine-print">Projected rating = 40 + (raw accuracy × 0.6). This is an illustrative study estimate, not an official PRC calculation or guarantee.</p><Card><div className="section-head"><h2>Study habits</h2><span className="tag">Last 14 days</span></div><div className="bar-chart" role="img" aria-label={`Daily question counts: ${days.map((d,i)=>d+": "+counts[i]).join(", ")}`}>{days.map((date,i)=><div className="bar-column" key={date} title={`${date}: ${counts[i]} questions`}><span className="bar-value">{counts[i]||""}</span><div className="bar-track"><span style={{height:`${counts[i]/max*100}%`}}/></div><small>{Number(date.slice(-2))}</small></div>)}</div><div className="chart-legend"><span>{counts.reduce((a,b)=>a+b,0)} answers in 14 days</span><span>{stats.streak} day streak</span></div></Card><Card><div className="section-head"><h2>Practice accuracy over time</h2><select aria-label="Chart subject" value={subject} onChange={e=>setSubject(e.target.value)}><option value="all">All subjects</option>{subjects.map(s=><option key={s.id} value={s.id}>{s.short}</option>)}</select></div>{completed.length?<div className="accuracy-chart"><svg viewBox="0 0 800 180" role="img" aria-label="Accuracy across completed sessions"><path d="M30 15 H780 M30 85 H780 M30 155 H780" stroke="var(--line)" fill="none"/><polyline fill="none" stroke="var(--sage)" strokeWidth="3" points={completed.slice(-15).map((s,i,arr)=>`${30+i*(750/Math.max(1,arr.length-1))},${155-sessionScore(s,bankMap)/s.questionIds.length*140}`).join(" ")}/>{completed.slice(-15).map((s,i,arr)=><circle key={s.id} cx={30+i*(750/Math.max(1,arr.length-1))} cy={155-sessionScore(s,bankMap)/s.questionIds.length*140} r="5" fill="var(--green)"><title>{s.title}: {Math.round(sessionScore(s,bankMap)/s.questionIds.length*100)}%</title></circle>)}</svg><small>Each point is one completed session, ordered from oldest to newest.</small></div>:<Empty icon={<BarChart3/>} title="Your progress starts with a session" description="Complete a practice set to see how your accuracy changes over time." action={<Link to="/practice" className="btn small">Start practicing</Link>}/>}</Card><StudyTargets/><StudyInsights/><div className="section-head"><h2>Subjects</h2><TextLink to="/performance/topics">All topics</TextLink></div><div className="subject-stats">{stats.bySubject.map(s=>{const score=rating(s.attempts,10);return <Card key={s.id}><span className="subject-code" style={{color:s.color,background:s.color+"16"}}>{s.short}</span><h3>{s.name}</h3><strong className="subject-rating">{score?.toFixed(1)||"—"}</strong><small>{s.attempts.length} / {bank.filter(q=>q.subject===s.id).length} tried</small><Progress value={s.attempts.length} max={bank.filter(q=>q.subject===s.id).length}/><TextLink to={`/practice/session?np=${s.id}`}>Practice</TextLink></Card>;})}</div></>}<div className="section-head spaced-title"><h2>Every topic, a little clearer</h2>{topicsOnly&&<select aria-label="Filter subject" value={subject} onChange={e=>setSubject(e.target.value)}><option value="all">All subjects</option>{subjects.map(s=><option key={s.id} value={s.id}>{s.short}</option>)}</select>}</div><SearchBox value={search} onChange={setSearch}/><Card><div className="topic-table"><div className="table-head"><span>Topic</span><span>Tried</span><span>First-try accuracy</span></div>{topicList.map(t=>{const qs=questionsForTopic(t,bank),attempts=stats.first.filter(a=>qs.some(q=>q.id===a.questionId)),percent=attempts.length?Math.round(attempts.filter(a=>a.correct).length/attempts.length*100):null;return <Link className="table-row" key={t.slug} to={`/topics/${t.slug}`}><div><strong>{t.name}</strong><small>{t.subject==="CROSS"?"F&F":t.subject}</small></div><span>{attempts.length}/{qs.length}</span><span className={percent!==null&&percent<60?"danger":""}>{percent===null?"Not started":`${percent}%`}</span></Link>;})}</div></Card></>;}
-export function HistoryView(){const {state,bankMap}=useApp();const [filter,setFilter]=useState("all");const sessions=[...state.sessions].reverse().filter(s=>filter==="all"||filter==="practice"&&["practice","exam"].includes(s.kind)||s.kind===filter);return <><Heading title="History" description="Every session is a record of showing up. Reopen one to see your answers and explanations."/><div className="tabs">{[["all","All"],["practice","Practice"],["mock","Mock boards"],["diagnostic","Diagnostics"]].map(([id,label])=><button key={id} className={filter===id?"active":""} onClick={()=>setFilter(id)}>{label}</button>)}<Link to="/play/history" className="btn small">Games</Link></div><Card>{sessions.map(s=><RowLink key={s.id} to={s.finishedAt?`/results/${s.id}`:`/session/${s.id}`} title={s.title} description={`${new Date(s.startedAt).toLocaleDateString("en-PH",{month:"short",day:"numeric"})} · ${s.questionIds.length} ${s.questionIds.length===1?"question":"questions"} · ${s.finishedAt?`${Math.round(sessionScore(s,bankMap)/s.questionIds.length*100)}% accuracy`:`${Object.values(s.answers).filter(a=>a.selected>=0).length} answered · in progress`}`} icon={s.finishedAt?<Check size={20}/>:<Clock size={20}/>}/>)}{!sessions.length&&<Empty icon={<History/>} title="Your story starts here" description="Complete a practice set, diagnostic, or mock section to see it here." action={<Link to="/practice" className="btn primary">Start practicing<ArrowRight size={16}/></Link>}/>}</Card></>;}
+const performanceViews = ["Subjects", "Trend", "Habits", "Mocks"] as const;
+
+export function Performance({topicsOnly=false}:{topicsOnly?:boolean}){
+ const {state,bank,bankMap}=useApp();
+ const stats=useStats();
+ const [view,setView]=useState<typeof performanceViews[number]>("Subjects");
+ const [subject,setSubject]=useState("all");
+ const [search,setSearch]=useState("");
+ const today=dateKey(Date.now(),state.profile.timezone);
+ const showTopics=topicsOnly||view==="Subjects";
+ const topicList=showTopics?curriculum.filter(topic=>(subject==="all"||topic.subject===subject)&&topic.name.toLowerCase().includes(search.trim().toLowerCase())):[];
+ const subjectsOptions=<><option value="all">All subjects</option>{subjects.map(item=><option key={item.id} value={item.id}>{item.short}</option>)}</>;
+ const trend=state.sessions.filter(session=>session.finishedAt&&(subject==="all"||session.subject===subject)).slice(-15).map((session,index,series)=>{
+  const accuracy=sessionScore(session,bankMap)/Math.max(1,session.questionIds.length);
+  return {id:session.id,title:session.title,accuracy,x:30+index*750/Math.max(1,series.length-1),y:155-accuracy*140};
+ });
+ const days=Array.from({length:14},(_,index)=>addDays(today,index-13));
+ const daily=dailyAnswerCounts(state.attempts,state.profile.timezone);
+ const counts=days.map(day=>daily.get(day)??0);
+ const max=Math.max(5,...counts);
+ const firstById=new Map(stats.first.map(answer=>[answer.questionId,answer]));
+ const tries=stats.first.length;
+ const accuracy=tries?Math.round(stats.correct/tries*100)+"%":"—";
+
+ return <>
+  {topicsOnly?<Heading title="Topic Mastery" description="See first-try accuracy for every topic."/>:<>
+   <Card className="study-banner performance-overview">
+    <div className="performance-rating">
+     <h1>Performance</h1>
+     <small>Projected rating</small>
+     <strong className="study-metric">{stats.projected?.toFixed(1)||"—"}</strong>
+     {stats.projected===null
+      ? <><Progress value={tries} max={40} label="First tries needed for a rating"/><small>{40-tries} more first-try answers unlock your estimate.</small></>
+      : <><Progress value={Math.max(0,stats.projected-40)} max={35} label="Progress toward a 75 rating"/><small>Target 75 · estimated from {tries.toLocaleString()} first tries</small></>}
+     <p className="fine-print">The projected rating uses 40 + (first-try accuracy × 60) as a study estimate. Official results come from the PRC.</p>
+    </div>
+    <dl className="study-summary-grid">
+     <div><dt>Questions tried</dt><dd>{tries.toLocaleString()}</dd></div>
+     <div><dt>First-try accuracy</dt><dd>{accuracy}</dd></div>
+     <div><dt>Day streak</dt><dd>{stats.streak}</dd></div>
+     <div><dt>Mock boards</dt><dd>{stats.completedBoards}/5</dd></div>
+    </dl>
+   </Card>
+   <StudyTargets inPerformance/>
+   <StudyInsights/>
+   <div className="tabs study-view-tabs" aria-label="Performance details">
+    {performanceViews.map(label=><button key={label} type="button" aria-pressed={view===label} className={view===label?"active":""} onClick={()=>setView(label)}>{label}</button>)}
+   </div>
+   {view==="Subjects"&&<Card className="performance-subjects">
+    <div className="section-head"><h2>Subjects</h2><TextLink to="/performance/topics">All topics</TextLink></div>
+    {stats.bySubject.map(item=>{
+     const score=rating(item.attempts,10);
+     const total=bank.filter(question=>question.subject===item.id).length;
+     return <details key={item.id} className="performance-subject">
+      <summary><span className="subject-code">{item.short}</span><strong>{item.name}</strong><span>{score?.toFixed(1)||"—"}</span><ChevronDown size={17} aria-hidden="true"/></summary>
+      <div className="performance-subject-body">
+       <small>{item.attempts.length.toLocaleString()} of {total.toLocaleString()} tried</small>
+       <Progress value={item.attempts.length} max={total} label={item.name+" progress"}/>
+       <TextLink to={"/practice/session?np="+item.id}>Practice {item.short}</TextLink>
+      </div>
+     </details>;
+    })}
+   </Card>}
+   {view==="Trend"&&<Card>
+    <div className="section-head"><h2>Practice accuracy over time</h2><select aria-label="Chart subject" value={subject} onChange={event=>setSubject(event.target.value)}>{subjectsOptions}</select></div>
+    {trend.length?<div className="accuracy-chart">
+     <svg viewBox="0 0 800 180" role="img" aria-label="Accuracy across completed sessions">
+      <path d="M30 15 H780 M30 85 H780 M30 155 H780" stroke="var(--line)" fill="none"/>
+      <polyline fill="none" stroke="var(--sage)" strokeWidth="3" points={trend.map(point=>point.x+","+point.y).join(" ")}/>
+      {trend.map(point=><circle key={point.id} cx={point.x} cy={point.y} r="5" fill="var(--green)"><title>{point.title} · {Math.round(point.accuracy*100)}%</title></circle>)}
+     </svg>
+     <small>Each point is one completed session, ordered from oldest to newest.</small>
+    </div>:<Empty icon={<BarChart3/>} title="Complete a practice set to see your trend" description="Your completed sessions will appear here." action={<Link to="/practice" className="btn small">Start practicing</Link>}/>}
+   </Card>}
+   {view==="Habits"&&<>
+    <Card>
+     <div className="section-head"><h2>Study habits</h2><span className="tag">Last 14 days</span></div>
+     <div className="bar-chart" role="img" aria-label={"Daily question counts: "+days.map((day,index)=>day+" "+counts[index]).join(", ")}>
+      {days.map((day,index)=><div className="bar-column" key={day} title={day+" · "+counts[index]+" answers"}>
+       <span className="bar-value">{counts[index]||""}</span><div className="bar-track"><span style={{height:counts[index]/max*100+"%"}}/></div><small>{Number(day.slice(-2))}</small>
+      </div>)}
+     </div>
+     <div className="chart-legend"><span>{counts.reduce((total,count)=>total+count,0)} answers in 14 days</span><span>{stats.streak} day streak</span></div>
+    </Card>
+    <StudyHabits/>
+   </>}
+   {view==="Mocks"&&<Card>
+    <div className="section-head"><h2>Mock Board progress</h2><TextLink to="/mock">All mock boards</TextLink></div>
+    {[1,2,3,4,5].map(board=>{
+     const attempts=mockAttempts(state.sessions,board);
+     const counts=attempts.map(([,sections])=>completedMockSubjects(sections).length);
+     return <RowLink key={board} to={"/mock/"+board} title={"Mock Board #"+board}
+      description={counts.includes(5)?"Completed":counts.length?counts[0]+" of 5 sections submitted":"Ready to start"} icon={<Trophy size={19}/>}/>;
+    })}
+   </Card>}
+  </>}
+  {showTopics&&<>
+   <div className="section-head spaced-title"><h2>Topic accuracy</h2>
+    <select aria-label="Filter subject" value={subject} onChange={event=>setSubject(event.target.value)}>{subjectsOptions}</select>
+   </div>
+   <SearchBox value={search} onChange={setSearch}/>
+   <Card><div className="topic-table">
+    <div className="table-head"><span>Topic</span><span>Tried</span><span>First-try accuracy</span></div>
+    {topicList.map(topic=>{
+     const questions=questionsForTopic(topic,bank);
+     const attempts=questions.flatMap(question=>{
+      const answer=firstById.get(question.id);
+      return answer?[answer]:[];
+     });
+     const percent=attempts.length?Math.round(attempts.filter(answer=>answer.correct).length/attempts.length*100):null;
+     return <Link className="table-row" key={topic.slug} to={"/topics/"+topic.slug}>
+      <div><strong>{topic.name}</strong><small>{topic.subject==="CROSS"?"F&F":topic.subject}</small></div>
+      <span>{attempts.length}/{questions.length}</span><span className={percent!==null&&percent<60?"danger":""}>{percent===null?"Not started":percent+"%"}</span>
+     </Link>;
+    })}
+   </div>{!topicList.length&&<Empty title="No matching topics" description="Try another subject or search term."/>}</Card>
+  </>}
+ </>;
+}
+export function HistoryView(){
+ const {state,bankMap}=useApp();
+ const [filter,setFilter]=useState("all");
+ const timezone=state.profile.timezone;
+ const today=dateKey(Date.now(),timezone),yesterday=addDays(today,-1);
+ const groups=new Map<string,typeof state.sessions>();
+ for(const session of [...state.sessions].reverse()){
+  const practice=filter==="practice"&&["practice","exam"].includes(session.kind);
+  if(filter!=="all"&&!practice&&session.kind!==filter)continue;
+  const day=dateKey(session.startedAt,timezone);
+  const group=groups.get(day)||[];
+  group.push(session);
+  groups.set(day,group);
+ }
+ return <>
+  <Card className="study-banner history-overview">
+   <div><h1>History</h1><p>Open a saved set to resume it or review its answers.</p></div>
+   <div className="vault-count"><strong className="study-metric">{state.sessions.length.toLocaleString()}</strong><span>sets saved</span></div>
+  </Card>
+  <div className="tabs study-view-tabs history-filters" aria-label="Filter saved sets">
+   {[["all","All"],["practice","Practice"],["mock","Mock boards"],["diagnostic","Diagnostics"]].map(([id,label])=><button key={id}
+    type="button" aria-pressed={filter===id} className={filter===id?"active":""} onClick={()=>setFilter(id)}>{label}</button>)}
+   <Link to="/play/history" className="btn">Games</Link>
+  </div>
+  {[...groups].sort(([a],[b])=>b.localeCompare(a)).map(([day,sessions])=><section key={day} className="history-day">
+   <div className="section-head">
+    <h2>{day===today?"Today":day===yesterday?"Yesterday":new Date(day+"T12:00:00Z").toLocaleDateString("en-PH",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"})}</h2>
+    <small>{sessions.length} {sessions.length===1?"set":"sets"}</small>
+   </div>
+   <Card>{sessions.map(session=>{
+    const detail=session.finishedAt?Math.round(sessionScore(session,bankMap)/Math.max(1,session.questionIds.length)*100)+"% accuracy"
+     :Object.values(session.answers).filter(answer=>answer.selected>=0).length+" answered · in progress";
+    return <RowLink key={session.id} to={(session.finishedAt?"/results/":"/session/")+session.id} title={session.title}
+     description={session.questionIds.length+" "+(session.questionIds.length===1?"question":"questions")+" · "+detail}
+     icon={session.finishedAt?<Check size={20}/>:<Clock size={20}/>}/>;
+   })}</Card>
+  </section>)}
+  {!groups.size&&<Empty icon={<History/>} title="No saved sets here" description="Complete a practice set, diagnostic, or mock section to see it here."
+   action={<Link to="/practice" className="btn primary">Start practicing<ArrowRight size={16}/></Link>}/>}
+ </>;
+}
 export function useBadges(){const {state}=useApp(),stats=useStats();return [
   {name:"First Step",description:"Try 10 different questions.",value:stats.first.length,target:10,icon:BookOpen},
   {name:"Plan in Motion",description:"Complete a task on your study plan.",value:state.tasks.filter(t=>t.done).length,target:1,icon:Target},
@@ -22,8 +180,64 @@ export function useBadges(){const {state}=useApp(),stats=useStats();return [
   {name:"500 Questions",description:"Try 500 different questions.",value:stats.first.length,target:500,icon:Award},
   {name:"Seven Days",description:"Answer questions 7 days in a row.",value:stats.longestStreak,target:7,icon:Flame},
 ];}
-export function Achievements(){const badges=useBadges();return <><Heading title="Achievements" description="Quiet milestones. Real progress. Proof that you’re putting in the work."/><Card className="achievement-overview"><Award size={28}/><div><h2>Your progress</h2><p>{badges.filter(b=>b.value>=b.target).length} of {badges.length} earned</p></div></Card><div className="badge-grid">{badges.map(b=><Card key={b.name} className={b.value>=b.target?"badge earned":"badge"}><span className="badge-icon"><b.icon size={31}/></span><h2>{b.name}</h2><p>{b.description}</p>{b.value>=b.target?<span className="tag"><Check size={13}/>Earned</span>:<><Progress value={b.value} max={b.target}/><small>{Math.min(b.value,b.target)} / {b.target}</small></>}</Card>)}</div></>;}
-export function Profile(){const {state,user,username,sync}=useApp(),stats=useStats(),badges=useBadges();return <><Heading title="Profile"/><Card className="profile-card"><span className="avatar large" style={{background:state.profile.color}}>{state.profile.photo?<img src={state.profile.photo} alt="Profile"/>:state.profile.name.slice(0,2).toUpperCase()}</span><h2>{state.profile.name}</h2><p>{user?"Username: "+username:"Your personal study workspace"}</p><Link to="/settings" className="btn small">Edit profile</Link><div className="stat-pairs"><div><strong>{stats.projected?.toFixed(1)||"—"}</strong><small>rating</small></div><div><strong>{stats.streak}</strong><small>day streak</small></div><div><strong>{stats.first.length}</strong><small>questions</small></div><div><strong>{stats.completedBoards}/5</strong><small>mocks</small></div></div></Card><Card><div className="section-head"><h2>Badges</h2><TextLink to="/achievements">See all</TextLink></div><div className="mini-badges">{badges.map(b=><span key={b.name} title={`${b.name}: ${b.value>=b.target?"earned":"not earned yet"}`} className={b.value>=b.target?"earned":""}><b.icon size={25}/></span>)}</div></Card><Card><RowLink to="/settings" title="Settings" description="Your name, appearance, preferences, and backups"/><RowLink to="/schedule" title="Your target date" description={state.profile.examDate}/><RowLink to="/help" title="Help & study guide" description="How to get the most from your reviewer"/><RowLink to="/about" title="About this reviewer" description="Content, sources, and what’s included"/></Card><p className="fine-print center">{sync}</p></>;}
+export function Achievements(){
+ const badges=useBadges();
+ const earned=badges.filter(badge=>badge.value>=badge.target).length;
+ const next=badges.filter(badge=>badge.value<badge.target).sort((a,b)=>b.value/b.target-a.value/a.target)[0];
+ return <>
+  <Card className="study-banner achievement-summary">
+   <h1>Achievements</h1>
+   <div className="vault-count"><strong className="study-metric">{earned}</strong><span>of {badges.length} badges earned</span></div>
+   <Progress value={earned} max={badges.length} label="Badges earned"/>
+   {next&&<div className="achievement-next">
+    <next.icon size={26} aria-hidden="true"/>
+    <div><small>Closest next</small><h2>{next.name}</h2><p>{next.description}</p>
+     <Progress value={next.value} max={next.target} label={next.name+" progress"}/><small>{next.value} of {next.target}</small>
+    </div>
+   </div>}
+  </Card>
+  <div className="badge-grid">{badges.map(badge=><Card key={badge.name} className={badge.value>=badge.target?"badge earned":"badge"}>
+   <span className="badge-icon"><badge.icon size={31} aria-hidden="true"/></span><h2>{badge.name}</h2><p>{badge.description}</p>
+   {badge.value>=badge.target?<span className="tag"><Check size={13}/>Earned</span>:<>
+    <Progress value={badge.value} max={badge.target} label={badge.name+" progress"}/><small>{badge.value} / {badge.target}</small>
+   </>}
+  </Card>)}</div>
+ </>;
+}
+export function Profile(){
+ const {state,user,username,sync}=useApp();
+ const stats=useStats(),badges=useBadges();
+ const name=state.profile.name||username||"Study profile";
+ const target=new Date(state.profile.examDate+"T12:00:00Z").toLocaleDateString("en-PH",{month:"short",day:"numeric",year:"numeric",timeZone:"UTC"});
+ return <>
+  <Card className="study-banner profile-overview">
+   <div className="profile-identity">
+    <div><h1>{name}</h1>{user&&<p>Username {username}</p>}
+     <Link to="/schedule" className="text-link">Study target {target}<ArrowRight size={15}/></Link></div>
+    <span className="avatar large" style={{background:state.profile.color}} aria-hidden="true">{state.profile.photo?<img src={state.profile.photo} alt=""/>:name.slice(0,2).toUpperCase()}</span>
+   </div>
+   <dl className="study-summary-grid">
+    <div><dt>Projected rating</dt><dd>{stats.projected?.toFixed(1)||"—"}</dd></div>
+    <div><dt>Day streak</dt><dd>{stats.streak}</dd></div>
+    <div><dt>Questions tried</dt><dd>{stats.first.length.toLocaleString()}</dd></div>
+    <div><dt>Mock boards</dt><dd>{stats.completedBoards}/5</dd></div>
+   </dl>
+   <Link to="/settings" className="btn">Edit profile</Link>
+  </Card>
+  <Card>
+   <div className="section-head"><h2>Badges</h2><TextLink to="/achievements">See all</TextLink></div>
+   <div className="mini-badges">{badges.map(badge=><span key={badge.name} title={badge.name+(badge.value>=badge.target?" · Earned":"")}
+    className={badge.value>=badge.target?"earned":""}><badge.icon size={25}/></span>)}</div>
+  </Card>
+  <Card>
+   <RowLink to="/settings" title="Settings" description="Profile, appearance, preferences, and backups"/>
+   <RowLink to="/schedule" title="Study Plan" description={"Target "+target}/>
+   <RowLink to="/help" title="Help & study guide" description="Practice, mock boards, and saved progress"/>
+   <RowLink to="/about" title="About this reviewer" description="Study content and sources"/>
+  </Card>
+  <p className="fine-print center">{sync}</p>
+ </>;
+}
 export function Settings(){
  const {state,update,bank,bankMap,user,username,sharedProfile,switchProfile,sync,toast,retryContent}=useApp();
  const [pending,setPending]=useState<State|null>(null);

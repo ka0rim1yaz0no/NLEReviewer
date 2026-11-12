@@ -59,13 +59,23 @@ export function Resources(){
   const reviewed=curriculum.filter(t=>state.read.includes("catalog:"+t.slug)).length;
   const imported=[...new Map(state.importedQuestions.filter(q=>!findCurriculumTopic(q.subject+":"+q.topic)&&(subject==="all"||q.subject===subject)&&q.topic.toLowerCase().includes(search.toLowerCase())).map(q=>[q.subject+":"+q.topic,q])).values()];
   return <>
-    <Heading title="Cram Sheets" description={`Review notes and key points across ${curriculum.length} topics.`} action={canAccessPDFs(username,!!user,sharedProfile)?<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>:undefined}/>
-    <div className="section-head"><h2>Library</h2><TextLink to="/topics">Full {curriculum.length}-topic catalog</TextLink></div>
-    <div className="resource-shortcuts"><Card><RowLink to="/resources/notes" title="My Notes" description="Your own explanations, all together" icon={<BookOpen size={21}/>}/></Card><Card><RowLink to="/resources/bookmarks" title="Bookmarks" description="Questions worth coming back to" icon={<Layers3 size={21}/>}/></Card></div>
-    <Card className="soft-card"><RowLink to="/resources/guide" title="Start here — make the most of your review" description="A practical guide to active recall, rationales, and spaced repetition" icon={<BookOpen size={21}/>}/></Card>
+    <Card className="study-banner library-overview">
+     <div><h1>Cram Sheets</h1><p>Review key nursing decisions and mark each topic when you finish.</p></div>
+     <div className="library-progress">
+      <strong>{reviewed} of {curriculum.length} topic notes completed</strong>
+      <Progress value={reviewed} max={curriculum.length} label="Topic notes completed"/>
+     </div>
+     {canAccessPDFs(username,!!user,sharedProfile)&&<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>}
+    </Card>
+    <nav className="library-shortcuts" aria-label="Cram Sheet tools">
+     <Link to="/resources/notes"><BookOpen size={22} aria-hidden="true"/><strong>My Notes</strong></Link>
+     <Link to="/resources/bookmarks"><Layers3 size={22} aria-hidden="true"/><strong>Bookmarks</strong></Link>
+     <Link to="/resources/guide"><BookOpen size={22} aria-hidden="true"/><strong>Study guide</strong></Link>
+    </nav>
+    <div className="section-head"><h2 className="study-section-title">Library</h2><TextLink to="/topics">All {curriculum.length} topics</TextLink></div>
     <SearchBox value={search} onChange={setSearch} placeholder="Search resources"/>
     <div className="tabs"><button className={subject==="all"?"active":""} onClick={()=>setSubject("all")}>All</button>{subjects.map(s=><button key={s.id} className={subject===s.id?"active":""} onClick={()=>setSubject(s.id)}>{s.short}</button>)}</div>
-    <div className="section-head"><h2>Topic notes</h2><small>{reviewed} completed · {curriculum.length} topics</small></div>
+    <div className="section-head"><h2>Topic notes</h2><small>{filtered.length} matching topics</small></div>
     <div className="resource-grid">{filtered.map(t=>{const questions=questionsForTopic(t,bank).filter(isSituational),situations=new Set(questions.map(q=>q.caseId||q.id.match(/^(CROSS|NP[1-5])-\d{3}/)?.[0]||q.id)).size;return <Link key={t.slug} to={`/resources/read?topic=${encodeURIComponent(t.subject+":"+t.slug)}`} className="resource-card"><div className="resource-book"><BookOpen size={28}/>{state.read.includes("catalog:"+t.slug)&&<span className="read-check"><Check size={13}/></span>}</div><span className="tag">{t.subject==="CROSS"?"Foundations":t.subject}</span><h3>{t.name}</h3><small>{`${situations} situation ${situations===1?"review":"reviews"}`} <ArrowRight size={15}/></small></Link>;})}{imported.map(q=><Link key={q.subject+q.topic} to={`/resources/read?topic=${encodeURIComponent(q.subject+":"+q.topic)}`} className="resource-card"><div className="resource-book"><BookOpen size={28}/></div><span className="tag">{q.subject}</span><h3>{q.topic}</h3><small>Your imported questions <ArrowRight size={15}/></small></Link>)}</div>
     {!filtered.length&&!imported.length&&<Empty title="No matching resources" description="Try a broader search or choose another subject."/>}
   </>;

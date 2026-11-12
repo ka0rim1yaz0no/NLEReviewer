@@ -4,10 +4,18 @@ import { callPlay, playErrorMessage } from "./play-api";
 import { Card } from "./ui";
 
 type Reminder = "friend" | "cup";
-type ReminderSettings = { publicKey: string | null; friend: boolean; cup: boolean };
+type ReminderSettings = {
+  publicKey: string | null;
+  friend: boolean;
+  cup: boolean;
+  lastSent?: Record<Reminder, string | null>;
+};
 type ReminderDevice = { manager: PushManager; settings: ReminderSettings };
 
 const deniedMessage = "Allow notifications in your browser or device settings to turn on reminders.";
+const receiptTime = new Intl.DateTimeFormat("en-PH", {
+  month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "Asia/Manila",
+});
 
 function nativePushManager() {
   return (window as Window & { pushManager?: PushManager }).pushManager;
@@ -50,6 +58,12 @@ function pushKey(value: string) {
   return Uint8Array.from(atob(base64), character => character.charCodeAt(0));
 }
 
+function subscriptionKey(subscription: PushSubscription, name: PushEncryptionKeyName) {
+  const key = subscription.getKey(name);
+  if (!key) throw new Error("This device did not provide the keys needed for notifications. Try turning reminders on again.");
+  return btoa(String.fromCharCode(...new Uint8Array(key))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
 export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
   const unsupported = unsupportedMessage();
   const [device, setDevice] = useState<ReminderDevice>();
@@ -67,7 +81,7 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
         const manager = await reminderManager();
         const subscription = await deviceSubscription(manager);
         let values = await callPlay<ReminderSettings>("play_push_settings", { p_endpoint: subscription?.endpoint ?? null }, controller.signal);
-        const registered = subscription?.options.applicationServerKey;
+        const registered = subscription?.options?.applicationServerKey;
         if (subscription && registered && values.publicKey && !controller.signal.aborted) {
           const key = pushKey(values.publicKey);
           const currentKey = new Uint8Array(registered);
@@ -103,10 +117,8 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
         return;
       }
       const next = { ...settings, [kind]: enabling };
-      const data = subscription.toJSON();
-      if (!data?.endpoint || !data.keys?.p256dh || !data.keys.auth) throw new Error("The browser did not return a valid push subscription.");
       await callPlay<boolean>("play_push_save", {
-        p_endpoint: data.endpoint, p_p256dh: data.keys.p256dh.replace(/=+$/, ""), p_auth: data.keys.auth.replace(/=+$/, ""),
+        p_endpoint: subscription.endpoint, p_p256dh: subscriptionKey(subscription, "p256dh"), p_auth: subscriptionKey(subscription, "auth"),
         p_friend: next.friend, p_cup: next.cup,
       });
       setDevice({ ...device, settings: next });
@@ -132,24 +144,38 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
     finally { setPending(false); }
   }
 
+  function refreshDelivery() {
+    setDevice(undefined);
+    setLoadError(false);
+    setMessage("");
+    setRefresh(value => value + 1);
+  }
+
   const reminders: Reminder[] = cupOnly ? ["cup"] : ["friend", "cup"];
+  const enabled = settings?.friend || settings?.cup;
+  const hasReceipt = reminders.some(kind => settings?.[kind] && settings.lastSent?.[kind]);
   return <section id="play-reminders" className="play-reminders-anchor">
     <Card className="play-reminders">
       <h2><Bell size={20} aria-hidden="true"/> Push reminders</h2>
       {unsupported ? <p>{unsupported}</p> : loadError || settings && !settings.publicKey ? <>
         <p role="status">Push reminders are temporarily unavailable.</p>
-        <button className="btn small" onClick={() => { setLoadError(false); setRefresh(value => value + 1); }}>Retry</button>
+        <button className="btn small" onClick={refreshDelivery}>Retry</button>
       </> : !settings ? <p role="status">Checking this device…</p> : <>
         {reminders.map(kind => <div className="play-reminder-row" key={kind}>
           <span><strong>{kind === "friend" ? "Friend invites" : "Nightly Cup"}</strong>
-            <small>{kind === "friend" ? "When a friend invites you to a Live Match" : "When the lobby opens at 8:45 PM Philippine time"}</small></span>
+            <small>{kind === "friend" ? "When a friend invites you to a Live Match" : "When the lobby opens at 8:45 PM Philippine time"}</small>
+            {settings[kind] && settings.lastSent?.[kind] && <small className="play-reminder-receipt">
+              Last sent <time dateTime={settings.lastSent[kind]!}>{receiptTime.format(new Date(settings.lastSent[kind]!))} PHT</time>
+            </small>}</span>
           <button className="btn small" type="button" role="switch" aria-label={kind === "friend" ? "Friend invite reminders" : "Nightly Cup reminders"}
             aria-checked={settings[kind]} disabled={pending} onClick={() => void toggle(kind)}>{settings[kind] ? "On" : "Turn on"}</button>
         </div>)}
-        {(settings.friend || settings.cup) && <div className="play-reminder-test">
+        {enabled && <div className="play-reminder-test">
           <button className="btn small" disabled={pending} onClick={() => void test()}>Send test reminders</button>
+          <button className="btn small" disabled={pending} onClick={refreshDelivery}>Refresh delivery status</button>
           <small>Tests your enabled reminders after 30 seconds, even if you close the reviewer.</small>
         </div>}
+        {hasReceipt && <small className="play-reminder-receipt">Sent records when your notification service accepted a live alert.</small>}
       </>}
       {(message || pending) && <p role="status">{message || "Waiting for this device…"}</p>}
     </Card>
