@@ -84,6 +84,25 @@
 .notebook-header .brand-mark svg { transform: rotate(4deg); }
 .notebook-header .brand-name { line-height: 1.12; }
 .notebook-header .header-actions { margin-left: auto; gap: 5px; }
+.notebook-header .install-app-button {
+  min-height: 44px;
+  gap: 6px;
+  padding-inline: 12px;
+  border-color: #ffffff65;
+  border-radius: 12px;
+  background: #ffffff16;
+  color: inherit;
+  white-space: nowrap;
+}
+.notebook-header .install-app-button:hover { background: #ffffff23; }
+.notebook-header .install-app-button:focus-visible { outline-color: #ffd7e5; }
+.install-app-steps {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding-inline-start: 24px;
+  line-height: 1.6;
+}
 .notebook-header .icon-btn, .notebook-header .header-avatar {
   min-width: 44px;
   min-height: 44px;
@@ -478,6 +497,8 @@
   }
   .notebook-header .desktop-tour { display: none; }
   .notebook-header .header-actions { gap: 2px; }
+  .notebook-header .install-app-button { padding-inline: 8px; }
+  .notebook-header .install-app-button svg { display: none; }
   .notebook-header .brand-name { white-space: normal; font-size: clamp(13px,3.7vw,17px); }
   .notebook-header .brand-mark { display: grid; width: 33px; height: 33px; }
   .notebook-header .brand-mark svg { width: 18px; height: 18px; }
@@ -539,6 +560,7 @@
 
 @media (max-width: 360px) {
   .notebook-header .brand-mark { width: 29px; height: 29px; }
+  .notebook-header .install-app-button { max-width: 56px; padding-inline: 5px; white-space: normal; }
   .login-notebook { width: 88px; }
 }
 

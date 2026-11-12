@@ -1,6 +1,7 @@
 import {useSyncExternalStore} from "react";
 import {Award,BarChart3,BookOpen,CalendarDays,ChevronDown,Files,Gamepad2,GraduationCap,HeartPulse,HelpCircle,History,House,Layers3,LogOut,Menu,Moon,Pin,Settings,ShieldCheck,Sparkles,SquareCheckBig,Sun,User,Vault} from "lucide-react";
 import {canAccessPDFs} from "./access";
+import {InstallAppButton} from "./InstallApp";
 import {useApp} from "./store";
 import {Link,Modal} from "./ui";
 
@@ -83,6 +84,7 @@ export function ReviewerHeader({menuOpen,onMenu,onTour,hasSidebar,sidebarOpen,on
     <span className="brand-name">For Elaine Only <b>Reviewer</b></span>
    </Link>
    <div className="header-actions">
+    <InstallAppButton/>
     <button type="button" className="icon-btn theme-toggle" aria-label={dark?"Switch to light mode":"Switch to dark mode"} onClick={toggleTheme}>{dark?<Sun size={19}/>:<Moon size={19}/>}</button>
     {user&&<button type="button" className="icon-btn desktop-tour" aria-label="Take the tour" onClick={onTour}><Sparkles size={19}/></button>}
     {user&&<Link to="/profile" className="header-avatar" label="Your profile">{state.profile.name.slice(0,2).toUpperCase()||"RN"}</Link>}
