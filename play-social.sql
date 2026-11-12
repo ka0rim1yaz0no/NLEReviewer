@@ -284,6 +284,7 @@ begin
  if p_public_key is null or p_public_key!~'^[A-Za-z0-9_-]{87}$' then raise exception 'Invalid worker key.'; end if;
  update reviewer_play.push_config set vapid_public=p_public_key where singleton and vapid_public is null;
  if not exists(select 1 from reviewer_play.push_config where singleton and vapid_public=p_public_key) then raise exception 'The worker key does not match the registered key.'; end if;
+ perform reviewer_play.queue_cup_reminders(moment);
  with available as (
   select q.id from reviewer_play.push_queue q join reviewer_play.push_subscriptions s on s.id=q.subscription
   left join reviewer_play.friend_invites i on i.id=q.invite
