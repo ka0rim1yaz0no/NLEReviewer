@@ -5,7 +5,9 @@ import {StudyTimer} from "./StudyTimer";
 import { PDFLibrary } from "./PDFLibrary";
 import bankSummary from "./bank-summary.json";
 import apacheLicense from "./apache-2.0.txt?url";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { Component, lazy, Suspense, useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { TodayTaskList } from "./Planner";
 import { ArrowRight, Award, BookOpen, CalendarDays, Check, ChevronRight, Flame, GraduationCap, Gamepad2, HeartPulse, Layers3, Play, ShieldCheck, Sparkles, Target, Vault } from "lucide-react";
 import { subjects } from "./bank";
 import { canAccessPDFs, needsUsername, priorityUsername } from "./access";
@@ -13,7 +15,7 @@ import { answeredQuestionIds, dailyAnswerCounts, dateKey, daysBetween, rating } 
 import { Provider, useApp, supabase } from "./store";
 import { Card, Empty, Heading, Link, Modal, Progress, RowLink, TextLink } from "./ui";
 import { BankBrowser, Diagnostic, Mocks, Results, SessionView, useStartSession, VaultView } from "./Quiz";
-import { ChooseDeck, CreateDeck, FlashcardReview, Flashcards, planTasks, Planner, ResourceReader, Resources, TaskRow, useTopicList } from "./Study";
+import { ChooseDeck, CreateDeck, FlashcardReview, Flashcards, planTasks, Planner, ResourceReader, Resources, useTopicList } from "./Study";
 import { Achievements, HistoryView, Login, Performance, Profile, Settings, useBadges, useStats } from "./Progress";
 import { Practice, Setup, Topics, TopicDetail } from "./TopicViews";
 import {StudyWall,WallPreview} from "./StudyWall";
@@ -21,8 +23,101 @@ import {usePlayPresence} from "./play-presence";
 const StudyMotion=lazy(()=>import("./StudyMotion"));
 const PlayArea=lazy(()=>import("./Play"));
 const motionRoutes=new Set(["/login","/dashboard","/topics","/resources","/practice"]);
+
+class StudyPageBoundary extends Component<{children:ReactNode},{unavailable:boolean}> {
+ state={unavailable:false};
+ static getDerivedStateFromError(){return {unavailable:true};}
+ render(){
+  if(this.state.unavailable)return <Empty title="This page could not load" description="Reload to open the current version of the reviewer."
+   action={<button className="btn primary" onClick={()=>window.location.reload()}>Reload page</button>}/>;
+  return this.props.children;
+ }
+}
 function StudyCount({value}:{value:number}){return <><span className="study-count-readable">{value}</span><span aria-hidden="true" className="study-count" data-study-count={value}>{value}</span></>;}
-function Dashboard(){const {state,bank}=useApp(),stats=useStats(),badges=useBadges(),topics=useTopicList(),start=useStartSession();const today=dateKey(Date.now(),state.profile.timezone),tasks=planTasks(today,state,topics),done=tasks.filter(t=>t.done).length;const hour=Number(new Intl.DateTimeFormat("en-GB",{hour:"numeric",hourCycle:"h23",timeZone:state.profile.timezone}).format(new Date()));const greeting=hour<12?"Good morning":hour<18?"Good afternoon":"Good evening";const last=state.sessions.filter(s=>!s.finishedAt).at(-1);const todayCount=dailyAnswerCounts(state.attempts,state.profile.timezone).get(today)??0,answeredIds=answeredQuestionIds(state.attempts);const nextBadge=badges.find(b=>b.value<b.target);return <><div className="welcome"><StudyNotebook className="welcome-notebook"/><Link to="/profile" className="avatar" title="Your profile" ><span style={{background:state.profile.color}}>{state.profile.name.slice(0,2).toUpperCase()}</span></Link><div><p className="welcome-kicker">Your nursing study space</p><h1>{greeting}, {state.profile.name||"Future RN"}!</h1><p className="welcome-summary">Choose a topic and build confidence with each case.</p><Link to="/practice" className="btn primary welcome-action">Practice questions<ArrowRight size={15}/></Link></div><span className="welcome-date">{new Date().toLocaleDateString("en-PH",{weekday:"long",month:"short",day:"numeric",timeZone:state.profile.timezone})}</span></div><div className="home-stats"><Link to="/achievements" className="stat streak-stat"><small><Flame size={14}/>Streak</small><strong><StudyCount value={stats.streak}/> {stats.streak===1?"day":"days"}<Check size={14}/></strong></Link><Link to="/schedule" className="stat target-stat"><small><CalendarDays size={14}/>Your target</small><strong><StudyCount value={Math.max(0,daysBetween(today,state.profile.examDate))}/> days <span>· {new Date(state.profile.examDate+"T12:00:00Z").toLocaleDateString("en-PH",{month:"short",day:"numeric"})}</span></strong></Link><Link to="/performance" className="stat"><small><Target size={14}/>Today’s practice</small><strong><StudyCount value={todayCount}/><span> / {state.preferences.questionGoal} questions</span></strong></Link><Link to="/mock" className="stat"><small><GraduationCap size={15}/>Mock boards</small><strong><StudyCount value={stats.completedBoards}/><span> / 5 completed</span></strong></Link></div><Link to="/play" className="home-play-link"><span className="tile-icon"><Gamepad2 size={21}/></span><div><strong>Play a quick round</strong><p>Solo recall, live matches, and group games</p></div><ArrowRight size={17}/></Link>{last&&<Link to={`/session/${last.id}`} className="resume-banner"><span className="tile-icon"><Play size={18}/></span><div><small>{Object.values(last.answers).filter(a=>a.selected>=0).length} of {last.questionIds.length} answered</small><strong>Continue {last.title.toLowerCase()}</strong></div><ArrowRight size={18}/></Link>}<WallPreview/><div className="home-grid"><div className="home-main"><Card className="today-card"><div className="section-head"><h2><CalendarDays size={18}/>Today’s Plan</h2><span className="tag">{done} / {tasks.length} done</span></div><Progress value={done} max={tasks.length}/><small className="muted">{tasks.length?Math.round(done/tasks.length*100):0}% of today complete. One step at a time.</small><div className="task-list">{tasks.map(t=><TaskRow key={t.id} task={t}/>)}</div><TextLink to="/schedule">Open your Study Plan</TextLink></Card>{!state.sessions.some(s=>s.kind==="diagnostic"&&s.finishedAt)&&<Link to="/diagnostic" className="diagnostic-banner"><span className="tile-icon"><Sparkles size={22}/></span><div><small>A good place to begin</small><h2>Find your starting point.</h2><p>30 questions across all five NPs. A clearer picture of what to study next.</p><strong>Take the 25-minute diagnostic <ArrowRight size={15}/></strong></div><ChevronRight size={19}/></Link>}<Card><div className="section-head"><h2>Study by subject</h2><TextLink to="/performance/topics">Topic Mastery</TextLink></div><p className="muted">Quick sets use situational nursing questions. Custom practice also offers concepts and comparisons.</p><div className="subject-tiles">{stats.bySubject.map(s=>{const pool=bank.filter(q=>q.subject===s.id),size=pool.length,answered=pool.filter(q=>answeredIds.has(q.id)).length,score=rating(s.attempts,10);return <button className="subject-tile" key={s.id} onClick={()=>start({subject:s.id,count:20,quick:true})}><span className="subject-code" style={{color:s.color,background:s.color+"16"}}>{s.short}</span><div><strong>{s.name}</strong><small>{answered} of {size} answered {score!==null&&`· ${score.toFixed(1)} rating`}</small><Progress value={answered} max={size}/></div><ChevronRight size={15}/></button>;})}</div></Card><Card className="daily-practice"><div><h2>A little practice goes a long way.</h2><p>Work through priorities, safety decisions, and clinical reasoning.</p></div><button className="btn primary" onClick={()=>start({quick:true})}>Start a challenge set<ArrowRight size={16}/></button></Card></div><aside className="home-aside"><StudyTargets/>{nextBadge&&<Link to="/achievements" className="next-badge"><Award size={24}/><div><small>Your next milestone</small><strong>{nextBadge.name}</strong><Progress value={nextBadge.value} max={nextBadge.target}/><small>{nextBadge.target-nextBadge.value} to go</small></div><ChevronRight size={16}/></Link>}<Card className="explore"><h2>Explore</h2><RowLink to="/questions" title="Question library" description="Read questions & rationales" icon={<BookOpen size={18}/>}/><RowLink to="/decks" title="Flashcards" description="Keep the important facts" icon={<Layers3 size={18}/>}/><RowLink to="/resources" title="Resources" description="Topic notes & quick references" icon={<BookOpen size={18}/>}/><RowLink to="/achievements" title="Achievements" description="Your progress, recognized" icon={<Award size={18}/>}/></Card><div className="quiet-note"><ShieldCheck size={19}/><p>Built for your study rhythm.<br/>Your progress stays yours.</p></div></aside></div></>;}
+function Dashboard(){
+ const {state,bank}=useApp();
+ const stats=useStats(),badges=useBadges(),topics=useTopicList(),start=useStartSession();
+ const now=Date.now(),timezone=state.profile.timezone;
+ const today=dateKey(now,timezone),tasks=planTasks(today,state,topics);
+ const done=tasks.filter(task=>task.done).length,planned=tasks.filter(task=>!task.skipped).length;
+ const date=new Intl.DateTimeFormat("en-PH",{weekday:"long",month:"long",day:"numeric",timeZone:timezone}).format(now);
+ const hour=Number(new Intl.DateTimeFormat("en-GB",{hour:"numeric",hourCycle:"h23",timeZone:timezone}).format(now));
+ const greeting=hour<12?"Good morning":hour<18?"Good afternoon":"Good evening";
+ const name=state.profile.name||"Future RN";
+ const last=state.sessions.filter(session=>!session.finishedAt).at(-1);
+ const todayCount=dailyAnswerCounts(state.attempts,timezone).get(today)??0;
+ const answeredIds=answeredQuestionIds(state.attempts);
+ const nextBadge=badges.find(badge=>badge.value<badge.target);
+ return <>
+  <Card className="welcome study-banner dashboard-overview">
+   <div className="dashboard-greeting">
+    <StudyNotebook className="welcome-notebook"/>
+    <div>
+     <p>{date}</p>
+     <h1>{greeting}, {name}!</h1>
+     <Link to="/practice" className="btn primary">Practice questions<ArrowRight size={15}/></Link>
+    </div>
+   </div>
+   <div className="today-overview dashboard-plan">
+    <div className="section-head"><h2>Today’s plan</h2><small>{done} of {planned} done</small></div>
+    <Progress value={done} max={planned} label="Today’s plan completion"/>
+    <TodayTaskList tasks={tasks}/>
+    <TextLink to="/schedule">Open your Study Plan</TextLink>
+   </div>
+  </Card>
+  {last&&<Link to={"/session/"+last.id} className="resume-banner">
+   <span className="tile-icon"><Play size={18}/></span>
+   <div><small>{Object.values(last.answers).filter(answer=>answer.selected>=0).length} of {last.questionIds.length} answered</small><strong>Continue {last.title.toLowerCase()}</strong></div><ArrowRight size={18}/>
+  </Link>}
+  <div className="home-stats">
+   <Link to="/achievements" className="stat streak-stat"><small><Flame size={14}/>Streak</small><strong><StudyCount value={stats.streak}/> {stats.streak===1?"day":"days"}<Check size={14}/></strong></Link>
+   <Link to="/schedule" className="stat target-stat"><small><CalendarDays size={14}/>Your target</small><strong><StudyCount value={Math.max(0,daysBetween(today,state.profile.examDate))}/> days <span>· {new Date(state.profile.examDate+"T12:00:00Z").toLocaleDateString("en-PH",{month:"short",day:"numeric",timeZone:"UTC"})}</span></strong></Link>
+   <Link to="/performance" className="stat"><small><Target size={14}/>Today’s practice</small><strong><StudyCount value={todayCount}/><span> / {state.preferences.questionGoal} questions</span></strong></Link>
+   <Link to="/mock" className="stat"><small><GraduationCap size={14}/>Mock boards</small><strong><StudyCount value={stats.completedBoards}/><span> / 5 completed</span></strong></Link>
+  </div>
+  <Link to="/play" className="home-play-link">
+   <span className="tile-icon"><Gamepad2 size={21}/></span>
+   <div><strong>Play a quick round</strong><p>Solo recall, live matches, and group games</p></div><ArrowRight size={17}/>
+  </Link>
+  <WallPreview/>
+  <div className="home-grid">
+   <div className="home-main">
+    {!state.sessions.some(session=>session.kind==="diagnostic"&&session.finishedAt)&&<Link to="/diagnostic" className="diagnostic-banner">
+     <span className="tile-icon"><Sparkles size={22}/></span>
+     <div><h2>Find your starting point.</h2><p>30 questions across all five NPs.</p><strong>Take the 25-minute diagnostic <ArrowRight size={15}/></strong></div><ChevronRight size={19}/>
+    </Link>}
+    <Card>
+     <div className="section-head"><h2>Study by subject</h2><TextLink to="/performance/topics">Topic Mastery</TextLink></div>
+     <p className="muted">Quick sets use situational questions. Custom practice also offers concepts and comparisons.</p>
+     <div className="subject-tiles">{stats.bySubject.map(subject=>{
+      const pool=bank.filter(question=>question.subject===subject.id);
+      const answered=pool.filter(question=>answeredIds.has(question.id)).length,score=rating(subject.attempts,10);
+      return <button className="subject-tile" key={subject.id} onClick={()=>start({subject:subject.id,count:20,quick:true})}>
+       <span className="subject-code" style={{color:subject.color,background:subject.color+"16"}}>{subject.short}</span>
+       <div><strong>{subject.name}</strong><small>{answered} of {pool.length} answered {score!==null&&"· "+score.toFixed(1)+" rating"}</small>
+        <Progress value={answered} max={pool.length}/></div><ChevronRight size={15}/>
+      </button>;
+     })}</div>
+    </Card>
+    <Card className="daily-practice">
+     <div><h2>Practice priorities and safety</h2><p>Work through nursing decisions and review their rationales.</p></div>
+     <button className="btn primary" onClick={()=>start({quick:true})}>Start a challenge set<ArrowRight size={16}/></button>
+    </Card>
+   </div>
+   <aside className="home-aside">
+    <StudyTargets/>
+    {nextBadge&&<Link to="/achievements" className="next-badge"><Award size={24}/><div><small>Your next milestone</small><strong>{nextBadge.name}</strong><Progress value={nextBadge.value} max={nextBadge.target}/><small>{nextBadge.target-nextBadge.value} to go</small></div><ChevronRight size={16}/></Link>}
+    <Card className="explore">
+     <h2>Explore</h2>
+     <RowLink to="/questions" title="Question library" description="Read questions and rationales" icon={<BookOpen size={18}/>}/>
+     <RowLink to="/decks" title="Flashcards" description="Review due cards" icon={<Layers3 size={18}/>}/>
+     <RowLink to="/resources" title="Cram Sheets" description="Topic notes and quick references" icon={<BookOpen size={18}/>}/>
+     <RowLink to="/achievements" title="Achievements" description="See your milestones" icon={<Award size={18}/>}/>
+    </Card>
+   </aside>
+  </div>
+ </>;
+}
 function Help({about=false}:{about?:boolean}){
  const {user,username,sharedProfile}=useApp();
  const faq=[
@@ -139,8 +234,10 @@ function Shell(){
     :accessError?<Empty title="Study workspace unavailable" description={accessError} action={<div className="button-row">
      <button className="btn primary" onClick={retryContent}>Try again</button>
      <button className="btn" onClick={()=>void switchProfile()}>Switch profile</button>
-    </div>}/>:allowed?studyPage(route,path):<Login/>}
-   {ready&&!accessError&&allowed&&motionRoutes.has(route)&&<Suspense fallback={null}><StudyMotion scope={mainRef} route={route} paused={menu||!!step}/></Suspense>}
+    </div>}/>:<StudyPageBoundary key={route}>
+     {allowed?studyPage(route,path):<Login/>}
+     {allowed&&motionRoutes.has(route)&&<Suspense fallback={null}><StudyMotion scope={mainRef} route={route} paused={menu||!!step}/></Suspense>}
+    </StudyPageBoundary>}
   </main>
   <ReviewerFooter/>
   </div>

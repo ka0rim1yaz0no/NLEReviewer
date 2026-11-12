@@ -37,7 +37,7 @@ export function Practice(){
   const answeredInCollection=selectedBank.filter(q=>answered.has(q.id)).length;
   const filtered=rows.filter(r=>`${r.topic.name} ${subjects.find(s=>s.id===r.topic.subject)?.name}`.toLowerCase().includes(searchQuery)&&(filter==="all"&&(r.questions.length>0||searchQuery)||filter==="needs"&&r.missedIds.length>0||filter==="new"&&r.questions.length>0&&!r.tried||filter==="flagged"&&r.flaggedIds.length>0||filter==="saved"&&r.savedIds.length>0));
   return <>
-    <Card className="practice-intro practice-overview">
+    <Card className="practice-intro practice-overview study-banner">
       <h1>Practice</h1>
       <p>Make a nursing decision from the case clues, then review each choice and its rationale.</p>
       <div className="button-row"><button className="btn primary" onClick={()=>start({collection,quick:true})}>{collection==="situational"?"Start challenge set":"Start mixed set"}<ArrowRight size={16}/></button><Link className="btn" to={practiceSetupPath({collection})}>Build a custom set</Link></div>

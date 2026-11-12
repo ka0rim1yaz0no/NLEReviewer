@@ -21,9 +21,15 @@ export function Flashcards(){
   const today=dateKey(Date.now(),state.profile.timezone),count=Object.values(state.cards).filter(c=>dateKey(c.lastAt,state.profile.timezone)===today).length;
   const imported=[...new Map(state.importedQuestions.filter(q=>!findCurriculumTopic(q.subject+":"+q.topic)).map(q=>[q.subject+":"+q.topic,q])).values()];
   return <>
-    <Heading title="Flashcards" description="A little recall today. A little more confidence tomorrow."/>
-    <Card className="flash-intro"><div><span className="feature-icon"><Layers3 size={24}/></span><h2>Today’s flashcards</h2><p>Due cards first, then new situations from your weak spots. Each session uses one card per situation. Take your time and say the answer before you turn the card.</p><Progress value={count} max={state.preferences.flashcardGoal} label="Flashcard daily goal"/><small>{count} / {state.preferences.flashcardGoal} reviewed today</small><div className="button-row"><Link className="btn primary" to="/decks/review">Start today’s session<ArrowRight size={16}/></Link><Link className="btn" to="/decks/custom">Choose topics</Link></div></div><div className="card-stack" aria-hidden="true"><div/><div/><div><Layers3 size={32}/><span>Know it.<br/>Keep it.</span></div></div></Card>
-    <div className="section-head"><h2>Explore all {curriculum.length} topic decks</h2><TextLink to="/decks/new">Create a deck</TextLink></div>
+    <Card className="flash-intro study-banner">
+     <div><h1>Flashcards</h1><p>Review due cards first, then recall new situations from your weak spots.</p>
+      <Progress value={count} max={state.preferences.flashcardGoal} label="Flashcard daily goal"/>
+      <small>{count} of {state.preferences.flashcardGoal} reviewed today</small>
+      <div className="button-row"><Link className="btn primary" to="/decks/review">Start today’s session<ArrowRight size={16}/></Link>
+       <Link className="btn" to="/decks/custom">Choose topics</Link></div></div>
+     <div className="card-stack" aria-hidden="true"><div/><div/><div><Layers3 size={32}/></div></div>
+    </Card>
+    <div className="section-head"><h2>Decks</h2><small>{curriculum.length} topic decks</small></div>
     <SearchBox value={search} onChange={setSearch} placeholder="Search decks"/>
     <div className="subject-list">{subjects.map(s=>{
       const list=curriculum.filter(t=>t.subject===s.id&&`${t.name} ${s.name}`.toLowerCase().includes(search.toLowerCase()));
@@ -31,7 +37,7 @@ export function Flashcards(){
       return list.length>0&&<details className="subject-group" key={s.id} open={search?true:undefined}><summary><span className="subject-code" style={{color:s.color,background:s.color+"16"}}>{s.short}</span><div><h3>{s.name}</h3><small>{list.length} topic {list.length===1?"deck":"decks"} · {available} related cards</small></div><ChevronRight size={17}/></summary><div className="topic-rows">{list.map(t=>{const size=questionsForTopic(t,originalBank).length;return <RowLink key={t.slug} to={`/decks/review?topic=${encodeURIComponent(t.subject+":"+t.slug)}`} title={t.name} description={`${size} related ${size===1?"card":"cards"}`}/>;})}</div></details>;
     })}{imported.filter(q=>q.topic.toLowerCase().includes(search.toLowerCase())).map(q=><Card key={q.subject+q.topic}><RowLink to={`/decks/review?topic=${encodeURIComponent(q.subject+":"+q.topic)}`} title={q.topic} description="Your imported questions"/></Card>)}{[...new Set(state.customCards.map(c=>c.deck))].filter(d=>d.toLowerCase().includes(search.toLowerCase())).map(deck=><Card key={deck}><RowLink to={`/decks/review?deck=${encodeURIComponent(deck)}`} title={deck} description={`${state.customCards.filter(c=>c.deck===deck).length} of your own cards`}/></Card>)}</div>
     <p className="fine-print">Topic decks and the daily queue use situational nursing questions. Choose topics to select a different question format. Related topics can share a card. Reviewing it updates the same review schedule wherever it appears.</p>
-    <Card className="soft-card"><div className="section-head"><div><h3>Make room for the facts you keep missing.</h3><p>Create your own cards or import an Anki text export.</p></div><Upload size={24}/></div><div className="button-row"><Link to="/decks/import" className="btn">Import cards</Link><Link to="/decks/new" className="btn">Create a deck<Plus size={16}/></Link></div></Card>
+    <Card className="soft-card"><div className="section-head"><div><h2>My decks</h2><p>Create your own cards or import an Anki text export.</p></div><Upload size={24} aria-hidden="true"/></div><div className="button-row"><Link to="/decks/import" className="btn">Import cards</Link><Link to="/decks/new" className="btn">Create a deck<Plus size={16}/></Link></div></Card>
   </>;
 }
 export function ChooseDeck(){
@@ -53,8 +59,8 @@ export function Resources(){
   const reviewed=curriculum.filter(t=>state.read.includes("catalog:"+t.slug)).length;
   const imported=[...new Map(state.importedQuestions.filter(q=>!findCurriculumTopic(q.subject+":"+q.topic)&&(subject==="all"||q.subject===subject)&&q.topic.toLowerCase().includes(search.toLowerCase())).map(q=>[q.subject+":"+q.topic,q])).values()];
   return <>
-    <Heading title="Resources" description={`Review notes and key points across ${curriculum.length} topics.`} action={canAccessPDFs(username,!!user,sharedProfile)?<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>:undefined}/>
-    <div className="section-head"><h2>Your study library</h2><TextLink to="/topics">Full {curriculum.length}-topic catalog</TextLink></div>
+    <Heading title="Cram Sheets" description={`Review notes and key points across ${curriculum.length} topics.`} action={canAccessPDFs(username,!!user,sharedProfile)?<Link to="/resources/pdfs" className="btn"><Download size={16}/>PDF library</Link>:undefined}/>
+    <div className="section-head"><h2>Library</h2><TextLink to="/topics">Full {curriculum.length}-topic catalog</TextLink></div>
     <div className="resource-shortcuts"><Card><RowLink to="/resources/notes" title="My Notes" description="Your own explanations, all together" icon={<BookOpen size={21}/>}/></Card><Card><RowLink to="/resources/bookmarks" title="Bookmarks" description="Questions worth coming back to" icon={<Layers3 size={21}/>}/></Card></div>
     <Card className="soft-card"><RowLink to="/resources/guide" title="Start here — make the most of your review" description="A practical guide to active recall, rationales, and spaced repetition" icon={<BookOpen size={21}/>}/></Card>
     <SearchBox value={search} onChange={setSearch} placeholder="Search resources"/>

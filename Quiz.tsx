@@ -429,9 +429,24 @@ export function Mocks({board}:{board?:number}){
  });
  if(!board){
   const inProgress=activeBoards.flatMap(entry=>entry.sections).filter(s=>!s.finishedAt).sort((a,b)=>b.startedAt-a.startedAt)[0];
+  const finished=activeBoards.filter(entry=>entry.done===5).length;
+  const nextBoard=activeBoards.find(entry=>entry.done<5);
   return <>
-   <Heading title="Mock Boards" description="Five boards with five 100-question sections. Each section has a two-hour clock that pauses when you leave."/>
-   {inProgress&&<Card className="resume-card"><div><strong>Continue your mock board</strong><p>{inProgress.title}</p></div><Link to={`/session/${inProgress.id}`} className="btn primary">Resume section<ArrowRight size={16}/></Link></Card>}
+   <Card className="study-banner mock-overview">
+    <div><h1>Mock Boards</h1><p>100 questions per section. The two-hour clock pauses when you leave.</p></div>
+    {inProgress?<div className="resume-card"><div><strong>Continue your mock board</strong><p>{inProgress.title}</p></div>
+     <Link to={`/session/${inProgress.id}`} className="btn primary">Resume section<ArrowRight size={16}/></Link></div>
+     :nextBoard&&<div className="button-row"><Link to={`/mock/${nextBoard.number}`} className="btn primary">Open Mock Board #{nextBoard.number}<ArrowRight size={16}/></Link></div>}
+    <div className="mock-progress">
+     <div className="section-head"><strong>Boards finished</strong><small>{finished} of 5</small></div>
+     <ol aria-label={`${finished} of 5 mock boards finished`}>{activeBoards.map(entry=>{
+      const status=entry.done===5?"complete":entry.sections.length?"in progress":"not started";
+      return <li key={entry.number} className={status==="complete"?"complete":status==="in progress"?"in-progress":""}
+       aria-label={`Mock ${entry.number}, ${status}`}>M{entry.number}</li>;
+     })}</ol>
+    </div>
+   </Card>
+   <h2 className="study-section-title">All mock boards</h2>
    <div className="mock-list">{activeBoards.map(entry=>{
     const pending=entry.sections.some(s=>!s.finishedAt);
     return <Card key={entry.number}>

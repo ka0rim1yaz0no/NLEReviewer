@@ -116,7 +116,7 @@ function CupBanner({cup}:{cup:Overview["cup"]}){
  const open=!!cup?.canJoin;
  const seconds=cup?Math.max(0,Math.ceil(((open?cup.startsAt:cup.opensAt)-now)/1000)):null;
  const units=seconds===null?[]:[[Math.floor(seconds/3600),"hr"],[Math.floor(seconds/60)%60,"min"],[seconds%60,"sec"]] as const;
- return <Card className="game-cup">
+ return <Card className="game-cup study-banner">
   <div className="cup-heading">
    <span className="cup-emblem"><Trophy size={24} aria-hidden="true"/></span>
    <div><p>Every night · 9:00 PM Philippine time</p><h2>Nightly Cup</h2></div>
@@ -204,7 +204,7 @@ function PlayHome(){
  return <div className="play-home">
   <Heading title="Play"/>
   <CupBanner cup={overview?.cup}/>
-  <Card className="play-hero">
+  <Card className="play-hero study-banner">
    <div className="play-identity">
     <span className="game-emblem" aria-hidden="true">{label.slice(0,2).toUpperCase()}</span>
     <div><h2>{label}</h2><p>Level {level} · {xp.toLocaleString()} XP</p></div>

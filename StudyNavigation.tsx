@@ -74,7 +74,7 @@ export function ReviewerHeader({menuOpen,onMenu,onTour,hasSidebar,sidebarOpen,on
  const theme=state.preferences.theme;
  const dark=theme==="dark"||(theme==="system"&&prefersDark);
  const toggleTheme=()=>update(current=>({...current,preferences:{...current.preferences,theme:dark?"light":"dark"}}));
- return <header className={hasSidebar?"site-header notebook-header study-navigation-header":"site-header notebook-header"}>
+ return <header className="site-header notebook-header study-navigation-header">
   <div className="header-inner">
    <button type="button" className="icon-btn menu-button" aria-label="Open menu" aria-haspopup="dialog" aria-expanded={menuOpen} onClick={onMenu}><Menu size={22}/></button>
    {hasSidebar&&<button type="button" className="icon-btn study-sidebar-toggle" aria-label={sidebarOpen?"Hide side menu":"Show side menu"} aria-controls="study-sidebar" aria-expanded={sidebarOpen} onClick={onSidebar}><Menu size={22}/></button>}

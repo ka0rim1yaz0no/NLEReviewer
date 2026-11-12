@@ -21,7 +21,7 @@ export default function UsernameLogin(){
   }catch(e){setError((e as Error).message);}finally{setBusy(false);}
  }
  return <div className="username-login">
-  <div className="login-introduction">
+  <div className="login-introduction study-banner">
    <p className="login-kicker"><BookOpen size={15}/>PNLE study space</p>
    <StudyNotebook className="login-notebook"/>
    <h1>Study for the PNLE</h1>
