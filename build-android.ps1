@@ -2,7 +2,7 @@ param(
   [Parameter(Mandatory)][string]$Gradle,
   [Parameter(Mandatory)][string]$Java,
   [Parameter(Mandatory)][string]$Sdk,
-  [int]$Version = 1
+  [int]$Version = 2
 )
 
 $ErrorActionPreference = 'Stop'
@@ -46,6 +46,7 @@ dependencies { implementation 'com.google.androidbrowserhelper:androidbrowserhel
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application android:label="NLEReviewer" android:icon="@drawable/launcher"
         android:allowBackup="false" android:usesCleartextTraffic="false"
+        android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
         android:theme="@android:style/Theme.Translucent.NoTitleBar">
         <meta-data android:name="asset_statements" android:resource="@string/asset_statements" />
         <activity android:name=".ReviewerActivity"
@@ -64,6 +65,15 @@ dependencies { implementation 'com.google.androidbrowserhelper:androidbrowserhel
                 <data android:scheme="https" android:host="$site" />
             </intent-filter>
         </activity>
+        <!-- LauncherActivity enables this component when the browser supports site settings. -->
+        <activity android:name="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
+            android:exported="false" android:excludeFromRecents="true">
+            <meta-data android:name="android.support.customtabs.trusted.MANAGE_SPACE_URL" android:value="https://$site/" />
+        </activity>
+        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" android:exported="false" />
+        <!-- Chrome opens this private activity to request the app's Android 13+ notification permission. -->
+        <activity android:name="com.google.androidbrowserhelper.trusted.NotificationPermissionRequestActivity"
+            android:exported="false" />
         <service android:name="com.google.androidbrowserhelper.trusted.DelegationService" android:exported="true">
             <intent-filter>
                 <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
