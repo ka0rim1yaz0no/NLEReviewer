@@ -2,6 +2,8 @@ import { createECDH, createHash, createHmac } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import webPush from "web-push";
 
+const reviewerOrigin = "https://nlereviewer.vercel.app";
+
 export function playVapidDetails(token) {
   const curve = createECDH("prime256v1");
   // Domain separation keeps the VAPID key distinct from the database worker token.
@@ -10,7 +12,7 @@ export function playVapidDetails(token) {
       .update(`nlereviewer:web-push:v1:${attempt}`).digest();
     try { curve.setPrivateKey(scalar); } catch { continue; }
     return {
-      subject: "https://nlereviewer.vercel.app",
+      subject: reviewerOrigin,
       publicKey: curve.getPublicKey().toString("base64url"),
       privateKey: scalar.toString("base64url"),
     };
@@ -30,9 +32,20 @@ export function isWebPushProvider(endpoint) {
 
 export function pushMessage(job) {
   const tag = createHash("sha256").update(job.event).digest("base64url").slice(0, 24);
-  if (job.kind === "cup") return { title: "Nightly Cup lobby is open", body: "Join before 9:00 PM Philippine time.", path: "/play/cup", tag };
-  if (job.kind === "friend") return { title: "Live Match invitation", body: "A friend invited you to play. Open NLEReviewer to join.", path: `/play?invite=${job.invite}`, tag };
-  return { title: "NLEReviewer reminders are on", body: "This device can receive Play notifications.", path: "/play", tag };
+  const test = job.kind === "test" && job.event.split(":")[1];
+  const cup = job.kind === "cup" || test === "cup";
+  const friend = job.kind === "friend" || test === "friend";
+  const title = cup ? "Nightly Cup lobby is open" : friend ? "Live Match invitation" : "NLEReviewer reminders are on";
+  const body = job.kind === "test" ? "This device can receive Play notifications." :
+    cup ? "Join before 9:00 PM Philippine time." : "A friend invited you to play. Open NLEReviewer to join.";
+  const path = cup ? "/play/cup" : job.kind === "friend" ? `/play?invite=${job.invite}` : "/play";
+  const displayTitle = test === "cup" || test === "friend" ? `Test: ${title}` : title;
+  // Retain the original fields for devices that still have the previous worker installed.
+  return {
+    title: displayTitle, body, path, tag,
+    web_push: 8030,
+    notification: { title: displayTitle, body, tag, navigate: reviewerOrigin + path, icon: reviewerOrigin + "/play-icon-192.png" },
+  };
 }
 
 async function deliver(job, vapidDetails) {

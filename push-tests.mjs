@@ -25,6 +25,21 @@ test("the worker produces a stable VAPID key and encrypted Web Push requests", (
   assert.ok(!request.body.includes("Nightly Cup"));
 });
 
+test("Apple's background fallback describes both reminders and opens their destinations", () => {
+  const origin = "https://nlereviewer.vercel.app";
+  const invite = "15000000-0000-0000-0000-000000000001";
+  const friend = pushMessage({ kind: "friend", invite, event: "friend:" + invite });
+  const cup = pushMessage({ kind: "cup", event: "cup:2026-11-12" });
+  assert.equal(friend.web_push, 8030);
+  assert.equal(friend.notification.navigate, `${origin}/play?invite=${invite}`);
+  assert.equal(cup.notification.navigate, `${origin}/play/cup`);
+  assert.equal(friend.notification.title, "Live Match invitation");
+  assert.equal(cup.notification.title, "Nightly Cup lobby is open");
+  assert.notEqual(friend.notification.tag, cup.notification.tag);
+  assert.equal(pushMessage({ kind: "test", event: "test:cup:fixture" }).notification.title, "Test: Nightly Cup lobby is open");
+  assert.equal(pushMessage({ kind: "test", event: "test:friend:fixture" }).notification.title, "Test: Live Match invitation");
+});
+
 test("device deliveries are restricted to recognized HTTPS push providers", () => {
   assert.ok(isWebPushProvider("https://fcm.googleapis.com/fcm/send/device"));
   assert.ok(isWebPushProvider("https://updates.push.services.mozilla.com/wpush/v2/device"));
@@ -66,4 +81,6 @@ test("the service worker shows friend and Cup notifications and opens safe app r
   assert.deepEqual(destinations, [`${origin}/play?invite=${invite}`, `${origin}/play/cup`, `${origin}/play`]);
   assert.match(shown[0].options.body, /^A friend invited you/);
   assert.match(shown[1].title, /Nightly Cup/);
+  handlers.get("push")({ notification: { title: friendMessage.title }, waitUntil: () => assert.fail("WebKit already has a notification to show") });
+  assert.equal(shown.length, 3);
 });

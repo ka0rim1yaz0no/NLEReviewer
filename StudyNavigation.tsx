@@ -1,5 +1,5 @@
 import {useSyncExternalStore} from "react";
-import {Award,BarChart3,BookOpen,CalendarDays,Files,Gamepad2,GraduationCap,HeartPulse,HelpCircle,History,House,Layers3,LogOut,Menu,Moon,Pin,Settings,ShieldCheck,Sparkles,Stethoscope,Sun,User,Vault} from "lucide-react";
+import {Award,BarChart3,BookOpen,CalendarDays,ChevronDown,Files,Gamepad2,GraduationCap,HeartPulse,HelpCircle,History,House,Layers3,LogOut,Menu,Moon,Pin,Settings,ShieldCheck,Sparkles,SquareCheckBig,Sun,User,Vault} from "lucide-react";
 import {canAccessPDFs} from "./access";
 import {useApp} from "./store";
 import {Link,Modal} from "./ui";
@@ -7,11 +7,13 @@ import {Link,Modal} from "./ui";
 const home={to:"/dashboard",label:"Home",icon:House};
 const topics={to:"/topics",label:"Topics",icon:BookOpen};
 const planner={to:"/schedule",label:"Study Plan",icon:CalendarDays};
-const practice={to:"/practice",label:"Practice",icon:Stethoscope};
-const mocks={to:"/mock",label:"Mocks",icon:GraduationCap};
-const progress={to:"/performance",label:"Progress",icon:BarChart3};
-const primaryLinks=[home,topics,practice,mocks,progress];
-const desktopLinks=[home,planner,topics,practice,{...mocks,label:"Mock Boards"},progress];
+const practice={to:"/practice",label:"Practice",icon:SquareCheckBig};
+const mocks={to:"/mock",label:"Mock Boards",icon:GraduationCap};
+const progress={to:"/performance",label:"Performance",icon:BarChart3};
+const play={to:"/play",label:"Play",icon:Gamepad2};
+const flashcards={to:"/decks",label:"Flashcards",icon:Layers3};
+const cramSheets={to:"/resources",label:"Cram Sheets",icon:Files};
+const primaryLinks=[play,cramSheets,practice,flashcards,planner];
 const publicLinks=[
  {to:"/login",label:"Sign in",icon:User},
  {to:"/help",label:"Help & Support",icon:HelpCircle},
@@ -19,30 +21,27 @@ const publicLinks=[
 ];
 const menuGroups=[
  {label:"Study",links:[
-  home,topics,planner,
-  {to:"/wall",label:"My Wall",icon:Pin},
-  {to:"/decks",label:"Flashcards",icon:Layers3},
-  {to:"/resources",label:"Resources",icon:BookOpen},
+  planner,flashcards,cramSheets,topics,
   {to:"/resources/pdfs",label:"PDF library",icon:Files},
+  {to:"/wall",label:"My Wall",icon:Pin},
  ]},
- {label:"Practice",links:[
-  practice,{...mocks,label:"Mock Boards"},{to:"/play",label:"Play",icon:Gamepad2},
+ {label:"More practice",links:[
+  mocks,{to:"/vault",label:"Vault",icon:Vault},play,
   {to:"/questions",label:"Question library",icon:BookOpen},
-  {to:"/vault",label:"Vault",icon:Vault},
  ]},
  {label:"Progress",links:[
-  {...progress,label:"Performance"},
+  progress,
   {to:"/history",label:"History",icon:History},
   {to:"/achievements",label:"Achievements",icon:Award},
  ]},
- {label:"Account",links:[
-  {to:"/profile",label:"Profile",icon:User},
-  {to:"/settings",label:"Settings",icon:Settings},
-  ...publicLinks.slice(1),
- ]},
+];
+const accountLinks=[
+ {to:"/profile",label:"Profile",icon:User},
+ {to:"/settings",label:"Settings",icon:Settings},
+ ...publicLinks.slice(1),
 ];
 type NavItem=typeof home;
-const allLinks=[...menuGroups.flatMap(group=>group.links),...publicLinks];
+const allLinks=[home,practice,...menuGroups.flatMap(group=>group.links),...accountLinks,...publicLinks];
 const colorScheme="(prefers-color-scheme: dark)";
 function subscribeToColorScheme(callback:()=>void){
  const media=matchMedia(colorScheme);
@@ -67,43 +66,64 @@ function NavLink({item,route,active,close}:{item:NavItem;route:string;active:str
  </Link>;
 }
 
-export function ReviewerHeader({route,active,menuOpen,onMenu,onTour}:{route:string;active:string;menuOpen:boolean;onMenu:()=>void;onTour:()=>void}){
+export function ReviewerHeader({menuOpen,onMenu,onTour,hasSidebar,sidebarOpen,onSidebar}:{
+ menuOpen:boolean;onMenu:()=>void;onTour:()=>void;hasSidebar:boolean;sidebarOpen:boolean;onSidebar:()=>void;
+}){
  const {user,state,update}=useApp();
  const prefersDark=useSyncExternalStore(subscribeToColorScheme,systemDark);
  const theme=state.preferences.theme;
  const dark=theme==="dark"||(theme==="system"&&prefersDark);
  const toggleTheme=()=>update(current=>({...current,preferences:{...current.preferences,theme:dark?"light":"dark"}}));
- return <header className="site-header notebook-header">
+ return <header className={hasSidebar?"site-header notebook-header study-navigation-header":"site-header notebook-header"}>
   <div className="header-inner">
    <button type="button" className="icon-btn menu-button" aria-label="Open menu" aria-haspopup="dialog" aria-expanded={menuOpen} onClick={onMenu}><Menu size={22}/></button>
+   {hasSidebar&&<button type="button" className="icon-btn study-sidebar-toggle" aria-label={sidebarOpen?"Hide side menu":"Show side menu"} aria-controls="study-sidebar" aria-expanded={sidebarOpen} onClick={onSidebar}><Menu size={22}/></button>}
    <Link to={user?"/dashboard":"/login"} className="brand">
     <span className="brand-mark" aria-hidden="true"><HeartPulse size={22}/></span>
     <span className="brand-name">For Elaine Only <b>Reviewer</b></span>
    </Link>
-   {user&&<nav className="desktop-nav notebook-nav" aria-label="Main navigation">
-    {desktopLinks.map(item=><NavLink key={item.to} item={item} route={route} active={active}/>)}
-   </nav>}
    <div className="header-actions">
     <button type="button" className="icon-btn theme-toggle" aria-label={dark?"Switch to light mode":"Switch to dark mode"} onClick={toggleTheme}>{dark?<Sun size={19}/>:<Moon size={19}/>}</button>
     {user&&<button type="button" className="icon-btn desktop-tour" aria-label="Take the tour" onClick={onTour}><Sparkles size={19}/></button>}
     {user&&<Link to="/profile" className="header-avatar" label="Your profile">{state.profile.name.slice(0,2).toUpperCase()||"RN"}</Link>}
-    <button type="button" className="icon-btn desktop-more" aria-label="Open all pages" aria-haspopup="dialog" aria-expanded={menuOpen} onClick={onMenu}><Menu size={20}/></button>
    </div>
   </div>
  </header>;
 }
 
-export function StudyMenu({route,active,onClose,onTour}:{route:string;active:string;onClose:()=>void;onTour:()=>void}){
- const {user,username,sharedProfile,sync,switchProfile}=useApp();
- const groups=user?menuGroups:[{label:"Reviewer",links:publicLinks}];
+function StudyLinks({route,active,close}:{route:string;active:string;close?:()=>void}){
+ const {user,username,sharedProfile}=useApp();
  const pdfAccess=canAccessPDFs(username,!!user,sharedProfile);
- const menuActive=groups.some(group=>group.links.some(item=>item.to===route))?route:active;
- return <Modal title="Study notebook" onClose={onClose} drawer>
+ const menuActive=allLinks.some(item=>item.to===route)?route:active;
+ return <>
+  <Link to={practice.to} className="btn primary study-nav-start" current={route===practice.to?"page":undefined} onNavigate={close}><practice.icon size={18} aria-hidden="true"/>Start practicing</Link>
+  <div className="nav-group"><NavLink item={home} route={route} active={menuActive} close={close}/></div>
+  {menuGroups.map(group=><div key={group.label} className="nav-group">
+   <h3>{group.label}</h3>
+   {group.links.filter(item=>item.to!=="/resources/pdfs"||pdfAccess).map(item=><NavLink key={item.to} item={item} route={route} active={menuActive} close={close}/>)}
+  </div>)}
+ </>;
+}
+
+export function StudySidebar({route,active,open}:{route:string;active:string;open:boolean}){
+ const {switchProfile}=useApp();
+ return <aside className="study-sidebar" id="study-sidebar" hidden={!open}>
+  <nav aria-label="Main navigation"><StudyLinks route={route} active={active}/></nav>
+  <details className="study-account nav-group">
+   <summary><User size={18} aria-hidden="true"/>Account<ChevronDown size={15} aria-hidden="true"/></summary>
+   {accountLinks.map(item=><NavLink key={item.to} item={item} route={route} active={active}/>)}
+   <button type="button" className="btn" onClick={()=>void switchProfile()}><LogOut size={17}/>Switch profile</button>
+  </details>
+ </aside>;
+}
+
+export function StudyMenu({route,active,onClose,onTour}:{route:string;active:string;onClose:()=>void;onTour:()=>void}){
+ const {user,sync,switchProfile}=useApp();
+ return <Modal title="Menu" onClose={onClose} drawer>
   <nav aria-label="All pages">
-   {groups.map(group=><div key={group.label} className="nav-group">
-    <h3>{group.label}</h3>
-    {group.links.filter(item=>item.to!=="/resources/pdfs"||pdfAccess).map(item=><NavLink key={item.to} item={item} route={route} active={menuActive} close={onClose}/>)}
-   </div>)}
+   {user?<><StudyLinks route={route} active={active} close={onClose}/>
+    <div className="nav-group"><h3>Account</h3>{accountLinks.map(item=><NavLink key={item.to} item={item} route={route} active={active} close={onClose}/>)}</div>
+   </>:<div className="nav-group">{publicLinks.map(item=><NavLink key={item.to} item={item} route={route} active={active} close={onClose}/>)}</div>}
   </nav>
   <div className="drawer-actions">
    <button type="button" className="btn" onClick={()=>{onClose();onTour();}}><Sparkles size={17}/>Take the tour</button>

@@ -61,6 +61,7 @@ create table if not exists reviewer_play.push_queue (
  done boolean not null default false,
  unique(subscription,event_key)
 );
+alter table reviewer_play.push_queue add column if not exists provider_accepted_at timestamptz;
 create index if not exists reviewer_play_push_ready on reviewer_play.push_queue(ready_at) where not done;
 
 revoke all on all tables in schema reviewer_play from public,anon,authenticated;
@@ -248,13 +249,15 @@ end $$;
 
 create or replace function public.play_push_test(p_endpoint text) returns boolean
 language plpgsql security definer set search_path='' as $$
-declare actor uuid:=reviewer_play.viewer(); moment timestamptz:=clock_timestamp(); target uuid;
+declare actor uuid:=reviewer_play.viewer(); moment timestamptz:=clock_timestamp(); device reviewer_play.push_subscriptions%rowtype;
 begin
- select id into target from reviewer_play.push_subscriptions where profile=actor and endpoint=p_endpoint;
- if target is null then return false; end if;
+ select * into device from reviewer_play.push_subscriptions where profile=actor and endpoint=p_endpoint;
+ if device.id is null then return false; end if;
  perform reviewer_play.use_social_limit(actor,'push-test',3,interval '10 minutes');
  insert into reviewer_play.push_queue(subscription,event_key,kind,ready_at,expires_at)
- values(target,'test:'||gen_random_uuid(),'test',moment,moment+interval '2 minutes');
+ select device.id,'test:'||mode||':'||gen_random_uuid(),'test',moment+interval '30 seconds',moment+interval '3 minutes'
+ from (values ('friend',device.friend_reminders),('cup',device.cup_reminders)) as reminder(mode,enabled)
+ where enabled;
  return true;
 end $$;
 
@@ -314,7 +317,9 @@ begin
    delete from reviewer_play.push_subscriptions where id in (select subscription from reviewer_play.push_queue
     where id=result.id and lease=result.lease and not done);
   elsif result.status in ('sent','failed','retry') then
-   update reviewer_play.push_queue set done=result.status<>'retry',lease=null where id=result.id and lease=result.lease and not done;
+   update reviewer_play.push_queue set done=result.status<>'retry',lease=null,
+    provider_accepted_at=case when result.status='sent' then clock_timestamp() end
+   where id=result.id and lease=result.lease and not done;
   end if;
  end loop;
 end $$;

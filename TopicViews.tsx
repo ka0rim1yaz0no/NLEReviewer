@@ -34,18 +34,23 @@ export function Practice(){
   const today=dateKey(Date.now(),state.profile.timezone),todayCount=dailyAnswerCounts(state.attempts,state.profile.timezone).get(today)??0;
   const searchQuery=search.trim().toLowerCase();
   const counts={all:rows.filter(r=>r.questions.length).length,needs:rows.filter(r=>r.missedIds.length).length,new:rows.filter(r=>r.questions.length&&!r.tried).length,flagged:rows.filter(r=>r.flaggedIds.length).length,saved:rows.filter(r=>r.savedIds.length).length};
+  const answeredInCollection=selectedBank.filter(q=>answered.has(q.id)).length;
   const filtered=rows.filter(r=>`${r.topic.name} ${subjects.find(s=>s.id===r.topic.subject)?.name}`.toLowerCase().includes(searchQuery)&&(filter==="all"&&(r.questions.length>0||searchQuery)||filter==="needs"&&r.missedIds.length>0||filter==="new"&&r.questions.length>0&&!r.tried||filter==="flagged"&&r.flaggedIds.length>0||filter==="saved"&&r.savedIds.length>0));
   return <>
-    <Heading title="Practice Questions" description="Every answer comes with its rationale. That’s where the learning happens."/>
-    <Card className="practice-intro">
-      <div className="section-head"><h2>Today’s practice</h2><span className="tag">{todayCount} answered</span></div>
-      <p>Make a nursing decision from the case clues, then review each choice. Quick sets start with new situations and use unanswered follow-ups once you’ve seen those cases.</p>
+    <Card className="practice-intro practice-overview">
+      <h1>Practice</h1>
+      <p>Make a nursing decision from the case clues, then review each choice and its rationale.</p>
       <div className="button-row"><button className="btn primary" onClick={()=>start({collection,quick:true})}>{collection==="situational"?"Start challenge set":"Start mixed set"}<ArrowRight size={16}/></button><Link className="btn" to={practiceSetupPath({collection})}>Build a custom set</Link></div>
+      <div className="practice-bank-progress">
+        <div><strong>Your question bank</strong><small>{answeredInCollection.toLocaleString()} of {selectedBank.length.toLocaleString()} answered in this collection</small></div>
+        <Progress value={answeredInCollection} max={selectedBank.length} label="Questions answered in this collection"/>
+        <div><small>{todayCount} answered today</small><Link to="/vault">Redo questions in the Vault<ArrowRight size={14} aria-hidden="true"/></Link></div>
+      </div>
     </Card>
     {unfinished&&<Card className="resume-card"><div><strong>Pick up where you left off</strong><p>{unfinished.title} · {Object.values(unfinished.answers).filter(a=>a.selected>=0).length} of {unfinished.questionIds.length} answered</p></div><div className="button-row"><Link to={`/session/${unfinished.id}`} className="btn primary">Resume<ArrowRight size={15}/></Link>{unfinished.practiceSetup&&<Link to={unfinished.practiceSetup} className="btn">Build a fresh set</Link>}</div></Card>}
-    <div className="section-head bank-head"><h2>Your question bank</h2><TextLink to="/topics">All {curriculum.length} topics</TextLink></div>
-    <div className="legend"><span className="green-dot"/>{first.filter(a=>a.correct).length} correct <span className="red-dot"/>{first.filter(a=>!a.correct).length} wrong or skipped<TextLink to="/vault">Vault</TextLink></div>
-    <p className="fine-print">{selectedBank.filter(q=>answered.has(q.id)).length.toLocaleString()} of {selectedBank.length.toLocaleString()} answered in this collection · {uniqueQuestionCount(bank).toLocaleString()} questions across {curriculum.length} topics.</p>
+    <div className="section-head bank-head"><h2>Topics</h2><TextLink to="/topics">All {curriculum.length} topics</TextLink></div>
+    <div className="legend"><span className="green-dot"/>{first.filter(a=>a.correct).length} correct <span className="red-dot"/>{first.filter(a=>!a.correct).length} wrong or skipped</div>
+    <p className="fine-print">{uniqueQuestionCount(bank).toLocaleString()} questions across {curriculum.length} topics.</p>
     <CollectionPicker bank={bank} value={collection} onChange={setCollection}/>
     <Card className="keyword-practice"><h2>Practice by keyword</h2>
       <p>Search topics, question text, and answer choices in this collection.</p>

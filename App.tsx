@@ -1,5 +1,5 @@
 import {StudyNotebook} from "./StudyNotebook";
-import {isStudySession,MobileStudyDock,ReviewerFooter,ReviewerHeader,StudyMenu,studyPageTitle} from "./StudyNavigation";
+import {isStudySession,MobileStudyDock,ReviewerFooter,ReviewerHeader,StudyMenu,StudySidebar,studyPageTitle} from "./StudyNavigation";
 import {StudyTargets} from "./StudyTargets";
 import {StudyTimer} from "./StudyTimer";
 import { PDFLibrary } from "./PDFLibrary";
@@ -99,6 +99,7 @@ function Shell(){
  const mainRef=useRef<HTMLElement>(null);
  const focusedPath=useRef(path);
  const [menu,setMenu]=useState(false);
+ const [sidebarOpen,setSidebarOpen]=useState(true);
  const [tour,setTour]=useState(-1);
  const route=path.split("?")[0].replace(/\/+$/,"")||"/";
  usePlayPresence(ready&&user&&!accessError?profileId:"",route);
@@ -127,9 +128,12 @@ function Shell(){
   }
  },[path,ready,allowed]);
 
- return <div className={showDock?"reviewer-shell has-study-dock":"reviewer-shell"}>
+ return <div className={"reviewer-shell"+(showDock?" has-study-dock"+(sidebarOpen?" has-study-sidebar":""):"")}>
   <a className="skip-link" href="#main">Skip to content</a>
-  <ReviewerHeader route={route} active={primaryRoute} menuOpen={menu} onMenu={()=>setMenu(true)} onTour={()=>setTour(0)}/>
+  <ReviewerHeader menuOpen={menu} onMenu={()=>setMenu(true)} onTour={()=>setTour(0)} hasSidebar={showDock}
+   sidebarOpen={sidebarOpen} onSidebar={()=>setSidebarOpen(open=>!open)}/>
+  {showDock&&<StudySidebar route={route} active={primaryRoute} open={sidebarOpen}/>}
+  <div className="study-workspace">
   <main id="main" tabIndex={-1} ref={mainRef} className={route.startsWith("/session/")?"main-shell session-shell":"main-shell"}>
    {!ready?<div className="loading" role="status"><span className="brand-mark" aria-hidden="true"><HeartPulse size={23}/></span><p>{sync==="Saving your profile…"?"Saving your study progress…":"Opening your study workspace…"}</p></div>
     :accessError?<Empty title="Study workspace unavailable" description={accessError} action={<div className="button-row">
@@ -139,6 +143,7 @@ function Shell(){
    {ready&&!accessError&&allowed&&motionRoutes.has(route)&&<Suspense fallback={null}><StudyMotion scope={mainRef} route={route} paused={menu||!!step}/></Suspense>}
   </main>
   <ReviewerFooter/>
+  </div>
   {showDock&&<MobileStudyDock route={route} active={primaryRoute}/>}
   {user&&!accessError&&ready&&<StudyTimer key={user.id}/>}
   {menu&&<StudyMenu route={route} active={primaryRoute} onClose={()=>setMenu(false)} onTour={()=>setTour(0)}/>}
