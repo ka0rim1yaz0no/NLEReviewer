@@ -18,8 +18,13 @@ for result in expected['results']:
     doc=PdfReader(path)
     links=set()
     assert len(doc.pages)==result['pages'],path.name
+    page_text=[page.extract_text() or '' for page in doc.pages]
+    answers=next(i for i,text in enumerate(page_text) if '\nAnswer review\n' in text)
+    assert answers>0 and 'Question 3' in ''.join(page_text[:answers]),path.name
+    assert 'Best answer.' not in ''.join(page_text[:answers]),path.name
+    assert ''.join(page_text[answers:]).count('Best answer.')==3,path.name
     for i,page in enumerate(doc.pages,1):
-        assert f'{i} / {len(doc.pages)}' in (page.extract_text() or ''),(path.name,i)
+        assert f'{i} / {len(doc.pages)}' in page_text[i-1],(path.name,i)
         for annotation in page.get('/Annots',[]):
             action=annotation.get_object().get('/A',{})
             uri=action.get('/URI')

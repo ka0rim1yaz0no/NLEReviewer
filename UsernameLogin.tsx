@@ -27,7 +27,7 @@ export default function UsernameLogin(){
    <h1>Study for the PNLE</h1>
    <p className="login-description">Practice nursing decisions, learn why each choice works, and pick up where you left off.</p>
    <div className="login-benefits">
-    <span><BookOpen size={17}/>{bankSummary.situational.toLocaleString()} situational questions · {bankSummary.topics} topics</span>
+    <span><BookOpen size={17}/>{bankSummary.total.toLocaleString()} questions · {bankSummary.topics} topics</span>
     <span><User size={17}/>A separate profile for every student</span>
    </div>
   </div>

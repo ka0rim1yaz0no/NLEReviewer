@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {questions as currentQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,challengeQuestions} from './author-bank.ts';
+import {questions as currentQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -12,7 +12,7 @@ import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,currentQuestionRevision,questionNeedsArchive} from './content-release.ts';
+import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,currentQuestionRevision,questionNeedsArchive} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -23,8 +23,12 @@ import {choiceReviewCases} from './choice-review-data.ts';
 import {choiceReferenceUpdates} from './choice-review.ts';
 import {reasoningSummaries} from './reference-guide-summaries.ts';
 import {displayRationale,choiceExplanationLabel,unsafeDecision} from './rationale-display.ts';
+import {sessionChoiceOrder} from './choice-order.ts';
+import {restoreRepetitionReview} from './repetition-review.ts';
+import {sessionScore} from './engine.ts';
 import edits from './judgment-edits.json' with {type:'json'};
 import evidence from './situational-evidence.json' with {type:'json'};
+import referenceFacts from './concept-evidence.json' with {type:'json'};
 const activeQuestions=questions.filter(q=>!q.retired);
 
 test('canonical UTF-8 preserves published checksums, Unicode, escaping and key ordering',async()=>{
@@ -273,10 +277,10 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,4);
+ assert.equal(currentQuestionRevision,5);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
- for(const q of currentQuestions){
+ for(const q of fullBankReviewedQuestions){
   const prior=previous.get(q.id),edit=edits.get(q.id);
   if(!edit){assert.deepEqual(q,prior,q.id);continue;}
   assert.equal(q.correctIndex,prior.correctIndex,q.id);
@@ -286,6 +290,63 @@ test('the current bank has distinct stems, four distinct explained choices, and 
   assert.equal(questionNeedsArchive(q,3),true,q.id);
  }
  for(const topic of curriculum)assert.ok(questionsForTopic(topic,bank).some(isSituational),topic.slug);
+});
+
+test('the PNLE application release preserves archived answers and scores shuffled choices by their original index',async()=>{
+ assert.equal(releaseForArchive(4),fullBankReviewRelease);
+ assert.equal(await contentDigest(fullBankReviewedQuestions,clinicalCases),'f1fa62b8cb7333d7b1ca6b3b3505eb2c20230ab035385b29de1a554eeaecadb0');
+ const prior=new Map(fullBankReviewedQuestions.map(q=>[q.id,q]));
+ const positionCounts=[0,0,0,0];
+ const session={id:'application-check',questionRevision:5,questionIds:[],answers:{}};
+ const bank=new Map();
+ for(const q of [...currentActive,...newStudyQuestions]){
+  const original=prior.get(q.id);
+  if(original){
+   assert.equal(q.correctIndex,original.correctIndex,q.id);
+   if(q.questionRevision===5)assert.ok(questionNeedsArchive(q,4),q.id);
+   else assert.deepEqual(q,original,q.id);
+  }
+  const order=sessionChoiceOrder(session,q.id);
+  assert.deepEqual([...order].sort(),[0,1,2,3],q.id);
+  assert.deepEqual(sessionChoiceOrder({...session},q.id),order,q.id);
+  assert.deepEqual(sessionChoiceOrder({...session,questionRevision:4},q.id),[0,1,2,3]);
+  const displayPosition=order.indexOf(q.correctIndex);
+  positionCounts[displayPosition]++;
+  session.questionIds.push(q.id);bank.set(q.id,q);
+  session.answers[q.id]={selected:order[displayPosition],submitted:true};
+ }
+ assert.ok(positionCounts.every(count=>count>2100&&count<2700),JSON.stringify(positionCounts));
+ assert.equal(sessionScore(session,bank),session.questionIds.length);
+});
+
+test('every reference-based option traces to its Open RN fact or its documented correction',()=>{
+ const facts=new Map(referenceFacts.map(fact=>[fact.id,fact]));
+ const original=new Map(restoreRepetitionReview(fullBankReviewedQuestions.filter(q=>q.conceptId)).map(q=>[q.id,q]));
+ const normalized=text=>normalizeQuestionStem(text).replaceAll('sodium glucose cotransporter 2 sglt2 inhibitors','sodium glucose co transporter 2 slt 2 inhibitors');
+ for(const q of currentActive.filter(q=>q.conceptId)){
+  const key=facts.get(q.conceptId);
+  assert.equal(q.options[q.correctIndex].referenceId,key.id,q.id);
+  const usesTwoCues=q.format==='comparison'&&normalized(q.options[q.correctIndex].text)===normalized(key.definition);
+  if(usesTwoCues){
+   assert.ok(referenceFacts.some(fact=>fact.poolId!==key.poolId&&fact.sourceId===key.sourceId&&fact.entryId===key.entryId&&fact.row===key.row&&normalized(q.stem).includes(normalized(fact.definition))),q.id);
+  }
+  for(const [index,option] of q.options.entries()){
+   const fact=facts.get(option.referenceId);
+   assert.ok(fact,q.id);
+   if(usesTwoCues){
+    assert.equal(fact.poolId,key.poolId,q.id);
+    assert.equal(option.text,fact.definition,q.id);
+    assert.equal(option.source,fact.source,q.id);
+    assert.ok(option.rationale.includes(fact.term)&&option.rationale.includes(key.term),q.id);
+    continue;
+   }
+   const previous=original.get(q.id).options[index];
+   const matching=option.referenceId===previous.referenceId&&normalized(option.text)===normalized(previous.text)?previous:option;
+   assert.equal(normalized(matching.text),normalized(fact.term),q.id);
+   assert.equal(matching.source,fact.source,q.id);
+   assert.ok(normalized(matching.rationale).includes(normalized(fact.definition)),q.id);
+  }
+ }
 });
 
 test('study sounds respect saved preferences and use different feedback in the same audio context',async()=>{

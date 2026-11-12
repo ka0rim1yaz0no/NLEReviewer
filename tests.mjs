@@ -9,6 +9,7 @@ const beforeReferenceRepair=qs=>restoreReferenceRepairs(restoreRepetitionReview(
 const beforeEditorial=qs=>beforeReferenceRepair(qs).map(q=>{if(!retiredIds.has(q.id))return q;const copy={...q};delete copy.retired;return copy;});
 import {vaultInterval,vaultIsDue,updateVaultReview} from "./vault-schedule.ts";
 import {mockQuestionIds} from "./mock-papers.ts";
+import {questionFamily} from "./question-selection.ts";
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
@@ -605,16 +606,13 @@ test('study targets require independent subject baselines and distinct completed
 });
 
 
-test('all five new mocks contain fixed disjoint 100-item sections with complete linked situations',()=>{
- const order=['recognition','action','teaching','safety','planning','evaluation','reasoning'];
+test('all five mock boards contain fixed, disjoint 100-item sections with distinct situations',()=>{
  for(const subject of ['NP1','NP2','NP3','NP4','NP5']){
   const all=[];
   for(let boardNumber=1;boardNumber<=5;boardNumber++){
    const ids=mockQuestionIds(activeQuestions,subject,boardNumber);assert.equal(ids.length,100);assert.deepEqual(ids,mockQuestionIds([...activeQuestions].reverse(),subject,boardNumber));
-   for(let group=0;group<14;group++){
-    const qs=ids.slice(group*7,group*7+7).map(id=>bank.get(id));assert.equal(new Set(qs.map(q=>q.caseId)).size,1);assert.deepEqual(qs.map(q=>q.clinicalObjective),order);
-   }
-   assert.ok(ids.slice(98).every(id=>id.startsWith('EXP2-')));assert.ok(ids.every(id=>bank.get(id).subject===subject));all.push(...ids);
+   assert.equal(new Set(ids.map(id=>questionFamily(bank.get(id)))).size,100);
+   assert.ok(ids.every(id=>bank.get(id).subject===subject));all.push(...ids);
   }
   assert.equal(new Set(all).size,500);
  }

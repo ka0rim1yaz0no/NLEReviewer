@@ -255,12 +255,12 @@ test('diagnostics have 16 fresh distinct situations per NP and fail closed if on
  state.sessions.push(session(ids));const second=diagnosticQuestionIds(activeQuestions,state,13);assert.equal(second.length,80);assert.ok(second.every(id=>!new Set(ids.map(questionFamily)).has(questionFamily(id))));
  state.sessions.push(session(situationBank.filter(q=>q.subject==='NP1').map(q=>q.id)));assert.deepEqual(diagnosticQuestionIds(activeQuestions,state,14),[]);
 });
-test('mock papers preserve linked cases, use disjoint boards, and exclude repeated sets of choices',()=>{
+test('mock papers use distinct cases and choice sets across each section and disjoint boards',()=>{
  for(const np of ['NP1','NP2','NP3','NP4','NP5']){const seen=new Set();for(let board=1;board<=5;board++){
   const ids=mockQuestionIds(activeQuestions,np,board,[]);
   assert.equal(ids.length,100);
   const families=ids.map(questionFamily);
-  assert.ok(new Set(families).size>=16&&new Set(families).size<100);
+  assert.equal(new Set(families).size,100);
   assert.equal(new Set(ids.map(id=>questionChoiceKey(bank.get(id)))).size,100);
   for(const id of ids){assert.ok(!seen.has(id));seen.add(id);}
  }}
@@ -295,7 +295,7 @@ test('an equivalent stem under a different ID is excluded from a fresh set, even
 });
 test('mock sections use only unused items and refuse to start below 100',()=>{
  const pool=situationBank.filter(q=>q.subject==='NP3'),state=initialState();
- const remaining=distinctQuestionSet(pool).slice(-100),remainingIds=new Set(remaining.map(q=>q.id));
+ const remaining=distinctQuestionSet(pool,true).slice(-100),remainingIds=new Set(remaining.map(q=>q.id));
  state.sessions.push(session(pool.filter(q=>!remainingIds.has(q.id)).map(q=>q.id)));
  const section=mockQuestionIds(activeQuestions,'NP3',1,[],state);
  assert.equal(section.length,100);

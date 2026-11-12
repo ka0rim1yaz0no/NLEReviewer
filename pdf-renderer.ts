@@ -6,7 +6,7 @@ import type { TopicGuide } from './pdf-guides.ts';
 const brand='For Elaine Only Reviewer',W=595.28,H=841.89,M=48,BOTTOM=60;
 export async function renderTopicPDF(guide:TopicGuide):Promise<Uint8Array>{
  const doc=await PDFDocument.create(),regular=await doc.embedFont(StandardFonts.Helvetica),bold=await doc.embedFont(StandardFonts.HelveticaBold),serif=await doc.embedFont(StandardFonts.TimesRomanBold);
- doc.setTitle(pdfText(`${guide.title} - ${brand}`));doc.setAuthor(brand);doc.setSubject('Original scenario-linked nursing review notes');doc.setLanguage('en-PH');
+ doc.setTitle(pdfText(`${guide.title} - ${brand}`));doc.setAuthor(brand);doc.setSubject('PNLE practice questions, choice rationales, and clinical case notes');doc.setLanguage('en-PH');
  const berry=rgb(.51,.19,.34),ink=rgb(.22,.15,.19),muted=rgb(.43,.31,.38),pale=rgb(254/255,181/255,192/255);
  // Standard-font text is emitted without pair kerning. Measure the glyph
  // advances that readers actually use, so long lines stay inside the margins.
@@ -46,10 +46,36 @@ export async function renderTopicPDF(guide:TopicGuide):Promise<Uint8Array>{
   y-=5;
  }
  newPage();
- paragraph(`${guide.subject} | ORIGINAL TOPIC REVIEW`,{font:bold,size:10,color:muted,after:12});
- paragraph(guide.title,{font:serif,size:25,color:berry,after:14});
- paragraph(`${guide.questionCount} situational questions | ${guide.sections.length} scenarios | ${guide.references.length} references`,{size:10,color:muted,after:12});
- paragraph('Review the case clues and key decisions. Open the numbered references for full clinical guidance.',{size:10,color:muted,after:16});
+ paragraph(`${guide.subject} | PNLE TOPIC REVIEW`,{font:bold,size:10,color:muted,after:12});
+ paragraph(guide.title,{font:serif,size:24,color:berry,after:6});
+ paragraph(`${guide.practice.length} practice questions | ${guide.sections.length} case summaries | ${guide.references.length} references`,{size:10,color:muted,after:6});
+ paragraph(`Study framework from the PRC exam blueprint [${guide.blueprintReference}].`,{size:10,color:muted,after:10});
+ heading('Practice check');
+ paragraph('Choose one answer per case. Check the answer review after completing the set.',{size:10,color:muted,after:8});
+ for(const [index,question] of guide.practice.entries()){
+  const stem=question.stem.replace(/\n{2,}/g,'\n');
+  const bodyHeight=lines(stem,regular,10.5).length*15.225;
+  const optionsHeight=question.options.reduce((sum,option)=>sum+lines(option.text,regular,10.5,W-2*M-12).length*15.225+4,0);
+  ensure(Math.min(bodyHeight+optionsHeight+38,H-70-BOTTOM));
+  heading(`Question ${index+1}`,12);
+  paragraph(stem,{after:6});
+  for(const [choice,option] of question.options.entries())paragraph(`${'ABCD'[choice]}. ${option.text}`,{indent:12,after:4});
+  y-=5;
+ }
+ newPage();
+ heading('Answer review');
+ for(const [index,question] of guide.practice.entries()){
+  const key=question.options[question.correctIndex];
+  heading(`${index+1}. ${'ABCD'[question.correctIndex]} - ${question.objective}`,12);
+  paragraph(key.text,{font:bold,after:7});
+  for(const [choice,option] of question.options.entries()){
+   const label=choice===question.correctIndex?'Best answer':'Alternative';
+   paragraph(`${'ABCD'[choice]} - ${label}. ${option.rationale} ${option.references.map(reference=>`[${reference}]`).join(' ')}`,{indent:8,after:6});
+  }
+  y-=8;
+ }
+ heading('Clinical case notes');
+ paragraph('Review the case cues, the expected response, and the safety checks. Use the numbered links for the clinical references.',{size:10,color:muted,after:12});
  for(const section of guide.sections){
   heading(section.title);paragraph(section.scenario,{size:10.5,color:muted,after:8});
   if(section.summary)paragraph(section.summary,{font:bold,size:10,after:8});

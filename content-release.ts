@@ -6,16 +6,17 @@ import type { Question } from "./types.ts";
 import studyAdditions from "./study-additions-summary.json" with {type:"json"};
 // Immutable release: stage all pages before publishing its manifest. Older
 // deployments continue using study_content and never see half a release.
-export const contentRelease="2026-11-13-full-bank-review-1";
+export const contentRelease="2026-11-13-pnle-application-2";
 export const studyAdditionsRelease=studyAdditions.release;
 export const priorQuestionRelease="2026-11-11-challenge-pink-2";
 export const firstJudgmentRelease="2026-11-11-situational-judgment-1";
 export const clinicalAuditRelease="2026-11-11-clinical-audit-1";
 export const choiceReviewRelease="2026-11-11-choice-reference-review-1";
-export const currentQuestionRevision=4;
-export type ArchivedQuestionRevision=0|1|2|3;
+export const fullBankReviewRelease="2026-11-13-full-bank-review-1";
+export const currentQuestionRevision=5;
+export type ArchivedQuestionRevision=0|1|2|3|4;
 export function releaseForArchive(revision:ArchivedQuestionRevision){
- return revision===3?choiceReviewRelease:revision===2?clinicalAuditRelease:revision===1?firstJudgmentRelease:priorQuestionRelease;
+ return [priorQuestionRelease,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease][revision];
 }
 export function questionNeedsArchive(question:Question,revision:ArchivedQuestionRevision){
  return (question.questionRevision??(isSituational(question)?1:0))>revision;

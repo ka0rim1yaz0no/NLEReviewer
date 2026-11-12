@@ -51,7 +51,7 @@ function PriorityPDFLibrary(){
  const visibleTopics=useMemo(()=>tab==='topics'?topics.slice(start,start+20):[],[tab,topics,start]);
  const totals=useMemo(()=>new Map(visibleTopics.map(topic=>{
   const guide=makeTopicGuide(topic,originalBank,clinicalCases);
-  return [topic.slug,{points:guide.questionCount,references:guide.references.length}];
+  return [topic.slug,{practice:guide.practice.length,points:guide.questionCount,references:guide.references.length}];
  })),[visibleTopics,originalBank]);
  async function exportTopics(selection:CurriculumTopic[],zip=false){
   if(controller.current||!selection.length)return;
@@ -81,7 +81,7 @@ function PriorityPDFLibrary(){
  return <>
   <Link to='/resources' className='back'><ArrowLeft size={15}/>Cram Sheets</Link>
   <Card className='study-banner library-overview'>
-   <div><h1>PDF library</h1><p>Download original topic reviews with concise nursing points and links to clinical sources.</p></div>
+   <div><h1>PDF library</h1><p>Download PNLE-style practice cases, a separate answer review, and concise case notes with clinical references.</p></div>
    <small>{curriculum.length} topic PDFs · {catalog.references.filter(r=>r.kind==='pdf').length} official PDF references · {catalog.boardpalReaders.length} BoardPal reader links</small>
    <button className='btn primary' disabled={!!job} onClick={()=>void exportTopics(curriculum,true)}><Download size={17}/>Download all {curriculum.length} topic PDFs</button>
   </Card>
@@ -95,7 +95,7 @@ function PriorityPDFLibrary(){
   {tab==='boardpal'&&<p className='pdf-library-note'>These are {catalog.boardpalReaders.length} online readers in BoardPal's catalog. BoardPal may require a subscription to open them.</p>}
   {tab==='references'&&<p className='pdf-library-note'>Open the publisher's PDF or download page. Editions are named where available; local clinical guidance may differ.</p>}
   <div className='pdf-library-grid'>
-   {visibleTopics.map(t=><Card key={t.slug} className='pdf-library-card'><span className='tag'>{t.subject==='CROSS'?'Foundations':t.subject}</span><h3>{t.name}</h3><p>{totals.get(t.slug)?.points} review points · {totals.get(t.slug)?.references} references</p><div className='pdf-card-actions'><button className='btn' disabled={!!job} onClick={()=>void exportTopics([t])}><Download size={16}/>Download PDF</button><Link to={`/resources/read?topic=${t.subject}:${t.slug}`} className='text-button'><BookOpen size={15}/>Read topic</Link></div></Card>)}
+   {visibleTopics.map(t=><Card key={t.slug} className='pdf-library-card'><span className='tag'>{t.subject==='CROSS'?'Foundations':t.subject}</span><h3>{t.name}</h3><p>{totals.get(t.slug)?.practice} practice questions · {totals.get(t.slug)?.points} review points · {totals.get(t.slug)?.references} references</p><div className='pdf-card-actions'><button className='btn' disabled={!!job} onClick={()=>void exportTopics([t])}><Download size={16}/>Download PDF</button><Link to={`/resources/read?topic=${t.subject}:${t.slug}`} className='text-button'><BookOpen size={15}/>Read topic</Link></div></Card>)}
    {tab==='references'&&references.slice(start,start+20).map(r=><Card key={r.id} className='pdf-library-card'><span className='tag'>{r.kind==='pdf'?'PDF':'Publisher download page'}</span><h3>{r.title}</h3><p>{r.publisher}{'pages'in r?` · ${r.pages} ${r.pages===1?'page':'pages'}`:''}</p><a className='btn' href={r.url} target='_blank' rel='noreferrer'><ExternalLink size={16}/>{r.kind==='pdf'?'Open publisher PDF':'Open publisher page'}</a></Card>)}
    {tab==='boardpal'&&readers.slice(start,start+20).map(r=><Card key={r.id} className='pdf-library-card'><span className='tag'>{r.subject==='CROSS'?'Foundations':r.subject}</span><h3>{r.title}</h3><p>BoardPal online reader</p><a className='btn' href={r.url} target='_blank' rel='noreferrer'><ExternalLink size={16}/>Open in BoardPal</a></Card>)}
   </div>
