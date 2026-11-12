@@ -16,13 +16,22 @@ function unsupportedMessage() {
   return "";
 }
 
+function withDeviceTimeout<T>(response: Promise<T>, milliseconds: number, message: string) {
+  let timer: number | undefined;
+  const deadline = new Promise<never>((_, reject) => {
+    timer = window.setTimeout(() => reject(new Error(message)), milliseconds);
+  });
+  return Promise.race([response, deadline]).finally(() => window.clearTimeout(timer));
+}
+
 async function reminderWorker() {
-  const registration = await navigator.serviceWorker.register("/play-push-sw.js", { scope: "/" });
-  if (registration.active) return registration;
-  const timeout = AbortSignal.timeout(8000);
-  return Promise.race([navigator.serviceWorker.ready, new Promise<never>((_, reject) => {
-    timeout.addEventListener("abort", () => reject(new Error("The reminder service could not start. Try again.")), { once: true });
-  })]);
+  const message = "The reminder service could not start. Try again.";
+  const registration = await withDeviceTimeout(navigator.serviceWorker.register("/play-push-sw.js", { scope: "/" }), 8000, message);
+  return registration.active ? registration : withDeviceTimeout(navigator.serviceWorker.ready, 8000, message);
+}
+
+function deviceSubscription(worker: ServiceWorkerRegistration) {
+  return withDeviceTimeout(worker.pushManager.getSubscription(), 8000, "The device did not return its reminder settings. Try again.");
 }
 
 function pushKey(value: string) {
@@ -44,7 +53,7 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
     async function load() {
       try {
         const worker = await reminderWorker();
-        const subscription = await worker.pushManager.getSubscription();
+        const subscription = await deviceSubscription(worker);
         const values = await callPlay<ReminderSettings>("play_push_settings", { p_endpoint: subscription?.endpoint ?? null }, controller.signal);
         if (!controller.signal.aborted) { setSettings(values); setLoadError(false); }
       } catch {
@@ -62,29 +71,40 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
     setMessage("");
     try {
       // Request permission during the button gesture, before asynchronous registration.
-      const permission = enabling && Notification.permission === "default"
-        ? Notification.requestPermission() : Promise.resolve(Notification.permission);
-      if (enabling && await permission !== "granted") throw new Error("Allow notifications in your browser or device settings to turn on reminders.");
+      if (enabling) {
+        const permission = Notification.permission === "default"
+          ? await withDeviceTimeout(Notification.requestPermission(), 30000, "If your device showed a permission prompt, answer it and try again.")
+          : Notification.permission;
+        if (permission !== "granted") throw new Error("Allow notifications in your browser or device settings to turn on reminders.");
+      }
       const worker = await reminderWorker();
       const next = { ...settings, [kind]: enabling };
       const key = pushKey(settings.publicKey);
-      let subscription = await worker.pushManager.getSubscription();
+      let subscription = await deviceSubscription(worker);
       if (enabling && subscription) {
         const registered = subscription.options.applicationServerKey;
         const currentKey = registered ? new Uint8Array(registered) : undefined;
         if (currentKey && (currentKey.length !== key.length || !key.every((value, index) => value === currentKey[index]))) {
-          await subscription.unsubscribe();
+          await withDeviceTimeout(subscription.unsubscribe(), 8000, "The device could not update its push registration. Try again.");
           subscription = null;
         }
       }
-      if (enabling && !subscription) subscription = await worker.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key });
+      if (enabling && !subscription) {
+        subscription = await withDeviceTimeout(
+          worker.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: key }),
+          12000,
+          "This device did not finish registering. Try again from your browser or Home Screen app.",
+        );
+      }
       const data = subscription?.toJSON();
       if (!data?.endpoint || !data.keys?.p256dh || !data.keys.auth) throw new Error("The browser did not return a valid push subscription.");
       await callPlay<boolean>("play_push_save", {
         p_endpoint: data.endpoint, p_p256dh: data.keys.p256dh, p_auth: data.keys.auth, p_friend: next.friend, p_cup: next.cup,
       });
       setSettings(next);
-      if (!next.friend && !next.cup) await subscription?.unsubscribe().catch(() => false);
+      if (!next.friend && !next.cup && subscription) {
+        await withDeviceTimeout(subscription.unsubscribe(), 8000, "").catch(() => false);
+      }
     } catch (failure) {
       setMessage(playErrorMessage(failure));
     } finally { setPending(false); }
@@ -94,7 +114,7 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
     setPending(true);
     setMessage("");
     try {
-      const subscription = await (await reminderWorker()).pushManager.getSubscription();
+      const subscription = await deviceSubscription(await reminderWorker());
       if (!subscription || !await callPlay<boolean>("play_push_test", { p_endpoint: subscription.endpoint })) {
         throw new Error("Turn on a reminder on this device first.");
       }
@@ -119,7 +139,7 @@ export function PlayReminders({ cupOnly = false }: { cupOnly?: boolean }) {
         </div>)}
         {(settings.friend || settings.cup) && <button className="btn small" disabled={pending} onClick={() => void test()}>Send a test notification</button>}
       </>}
-      {message && <p role="status">{message}</p>}
+      {(message || pending) && <p role="status">{message || "Waiting for this device…"}</p>}
     </Card>
   </section>;
 }
