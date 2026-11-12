@@ -12,6 +12,8 @@ import {mockQuestionIds} from './mock-papers.ts';
 import {selectPractice,selectQuickPractice,availablePractice,questionFamily,diagnosticQuestionIds,distinctQuestionSet,questionChoiceKey,flashcardQueue,canonicalQuestionId,isDecisionQuestion} from './question-selection.ts';
 import {applyRepetitionReview,restoreRepetitionReview} from './repetition-review.ts';
 import {newStudyQuestions} from './authored-update.mjs';
+import {makeTopicGuide} from './pdf-guides.ts';
+import {unsafeDecision} from './rationale-display.ts';
 import {checkTypedAnswer,matchTiles,prepareSoloRound,rapidResult,recordGameRun} from './play-engine.ts';
 import {freshFocusTimer,cleanFocusSettings,stopwatchGap} from './focus-timer.ts';
 import retirements from './repetition-retirements.json' with {type:'json'};
@@ -26,6 +28,17 @@ test('the supplemental release preserves prior cases and adds 17 original skin a
  assert.equal(newStudyQuestions.filter(q=>q.subject==='NP3'&&q.topic==='Integumentary Disorders & Burn Care').length,74);
  const skin=curriculum.find(t=>t.slug==='integumentary-disorders-burn-care');
  assert.equal(distinctQuestionSet(questionsForTopic(skin,all),true).length,80);
+ const eschar=newStudyQuestions.find(q=>q.unsafeAnswer);
+ assert.ok(unsafeDecision(eschar));
+ const section=makeTopicGuide(skin,all,clinicalCases).sections.find(s=>s.points.some(p=>p.questionId===eschar.id));
+ assert.equal(section.summary,eschar.keyPoint);
+ assert.ok(section.points.some(p=>p.avoid&&p.text.startsWith('Avoid: ')));
+ const prior=newStudyQuestions.map(q=>{
+  if(q.id!==eschar.id)return q;
+  const {unsafeAnswer,...original}=q;
+  return {...original,clinicalObjective:'decision',keyPoint:q.options[q.correctIndex].text};
+ });
+ assert.equal(await contentDigest(prior,[]),'63ed72de52f8a7caa6ecc463500e6caacb0c6e7623583efb5b4df5a8b726992a');
  assert.equal(newStudyQuestions.filter(q=>q.subject==='NP1'&&q.topic==='Expanded Program on Immunization (EPI)').length,3);
  const positions=[0,0,0,0];
  for(const q of newStudyQuestions){
@@ -36,6 +49,11 @@ test('the supplemental release preserves prior cases and adds 17 original skin a
   assert.ok(q.options.every(o=>o.rationale.length>20&&o.source?.startsWith('https://')),q.id);
  }
  assert.deepEqual(positions,[19,20,19,19]);
+});
+test('positive safety decisions use the correct answer label',()=>{
+ const safe=activeQuestions.find(q=>q.id==='EXP2-CROSS-pharmacology-core-principles');
+ assert.equal(safe.clinicalObjective,'safety');
+ assert.equal(unsafeDecision(safe),false);
 });
 test('solo games choose a full round without repeating a case or recall term',()=>{
  const all=[...activeQuestions,...newStudyQuestions];

@@ -158,7 +158,7 @@ export function Setup(){
           })}</div>
         </details>;
       })}
-      <div className="section-head"><small>{selected.length===1?findCurriculumTopic(selected[0])?.name||selected[0]:selected.length?`${selected.length} topics selected`:"All topics selected"}</small>{selected.length>0&&<button className="text-button" onClick={()=>setSelected([])}>Clear selection</button>}</div>
+      <div className="section-head setup-selection"><small>{selected.length===1?findCurriculumTopic(selected[0])?.name||selected[0]:selected.length?`${selected.length} topics selected`:"All topics selected"}</small>{selected.length>0&&<button className="text-button" onClick={()=>setSelected([])}>Clear selection</button>}</div>
       <h2>Question keyword</h2>
       <SearchBox value={keyword} onChange={setKeyword} placeholder="Filter questions by keyword"/>
       <h2>Question collection</h2>

@@ -4,13 +4,14 @@ import { questionsForTopic } from './curriculum.ts';
 import { isSituational } from './collections.ts';
 import { reasoningSummaries } from './reference-guide-summaries.ts';
 import { referenceLabel } from './study-references.ts';
+import { unsafeDecision } from './rationale-display.ts';
 
 export type GuideSection={title:string;scenario:string;summary?:string;points:{text:string;reference:number;avoid:boolean;questionId:string;objective:string}[]};
 export type TopicGuide={title:string;subject:string;slug:string;questionCount:number;sections:GuideSection[];references:string[];referenceLabels:string[]};
 export const pdfReferenceAliases:Record<string,string>={
  'https://www.glasgowcomascale.org/downloads/GCS-Assessment-Aid.pdf':'https://glasgowcomascale.org/downloads/GCS-Assessment-Aid-English.pdf?v=3'
 };
-const objectives:Record<string,string>={recognition:'Focused assessment',action:'Priority nursing action',teaching:'Patient teaching',safety:'Unsafe proposal',planning:'Expected outcome',evaluation:'Evaluation',reasoning:'Clinical reasoning',decision:'Best decision'};
+const objectives:Record<string,string>={recognition:'Focused assessment',action:'Priority nursing action',teaching:'Patient teaching',safety:'Safe nursing action',planning:'Expected outcome',evaluation:'Evaluation',reasoning:'Clinical reasoning',decision:'Best decision'};
 function guideCaseId(q:Question){return q.caseId||q.id.match(/^(CROSS|NP[1-5])-\d{3}/)?.[0]||q.id;}
 function sharedScenario(group:Question[]){
  const firstParagraph=group[0].stem.split('\n\n')[0];
@@ -27,10 +28,10 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
  for(const q of questions){const id=guideCaseId(q);groups.set(id,[...(groups.get(id)||[]),q]);}
  const legacy=new Map(cases.map((c,i)=>[`${c.subject}-${String(i+1).padStart(3,'0')}`,c]));
  for(const q of questions){
-  const avoid=/^(CROSS|NP[1-5])-\d{3}-5$/.test(q.id)||(q.id.startsWith('SIT-')&&q.clinicalObjective==='safety');
+  const avoid=unsafeDecision(q);
   const answer=sentence(q.options[q.correctIndex].text.trim());
   const legacyKind=q.id.match(/^(?:CROSS|NP[1-5])-\d{3}-([1-5])$/)?.[1];
-  const objective=objectives[q.clinicalObjective||'']||(legacyKind?['Focused assessment','Priority nursing action','Patient teaching','Expected outcome','Unsafe proposal'][Number(legacyKind)-1]:'Question review');
+  const objective=avoid?'Unsafe proposal':objectives[q.clinicalObjective||'']||(legacyKind?['Focused assessment','Priority nursing action','Patient teaching','Expected outcome'][Number(legacyKind)-1]:'Question review');
   const caseId=guideCaseId(q);
   const context=legacy.get(caseId),group=groups.get(caseId)!;
   const priority=avoid?group.find(item=>item.clinicalObjective==='action')||bank.find(item=>item.id===caseId+'-2'):undefined;

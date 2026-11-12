@@ -51,8 +51,11 @@ if(firstCases.length&&firstCases.filter(row=>row.startsWith("rv|")).length!==3)t
 const rows=[...firstCases,...additionalCases];
 export const newStudyQuestions=rows.length?validateQuestions(rows.map((line,index)=>{
  const fields=line.split("|").map(field=>field.trim());
- if(fields.length!==11||fields.some(field=>!field))throw Error("Incomplete question "+(index+1));
- const [key,scenario,prompt,...answers]=fields;
+ const [sourceKey,scenario,prompt,...answers]=fields;
+ const [key,orientation]=sourceKey.split(":");
+ const unsafeAnswer=orientation==="unsafe";
+ const studyNote=answers[8];
+ if(fields.length!==(unsafeAnswer?12:11)||fields.some(field=>!field)||orientation&&!unsafeAnswer)throw Error("Incomplete question "+(index+1));
  const source=specificSources[index+1]||sources[key];
  if(!source)throw Error("Missing source for question "+(index+1));
  const options=Array.from({length:4},(_,slot)=>({text:answers[slot*2],rationale:answers[slot*2+1],source}));
@@ -65,9 +68,9 @@ export const newStudyQuestions=rows.length?validateQuestions(rows.map((line,inde
  return {
   id,subject:key==="rv"?"NP1":"NP3",
   topic:key==="rv"?"Expanded Program on Immunization (EPI)":"Integumentary Disorders & Burn Care",
-  stem:scenario+"\n\n"+prompt,options,correctIndex,rationale:correct.rationale,keyPoint:correct.text,
+  stem:scenario+"\n\n"+prompt,options,correctIndex,rationale:correct.rationale,keyPoint:studyNote||correct.text,
   source,sourceTopic:key==="rv"?"Rotavirus vaccination":"Skin and burn nursing",
   origin:"Original NLEReviewer clinical practice",format:"situational",difficulty:"challenge",
-  clinicalObjective:"decision",caseId:id,questionRevision:3,
+  clinicalObjective:unsafeAnswer?"safety":"decision",...(unsafeAnswer?{unsafeAnswer:true}:{}),caseId:id,questionRevision:3,
  };
 })):[];

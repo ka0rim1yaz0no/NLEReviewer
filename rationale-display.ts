@@ -8,7 +8,7 @@ export function displayRationale(text:string){
  return text.replace(genericOpening,'').replace(genericEnding,'').trim()||text;
 }
 export function unsafeDecision(q:Question){
- return q.clinicalObjective==='safety'||/^(CROSS|NP[1-5])-\d{3}-5$/.test(q.id);
+ return q.unsafeAnswer===true||(q.id.startsWith('SIT-')&&q.clinicalObjective==='safety')||/^(CROSS|NP[1-5])-\d{3}-5$/.test(q.id);
 }
 export function choiceExplanationLabel(q:Question,i:number){
  return i!==q.correctIndex?'Why this choice does not fit':unsafeDecision(q)?'Why this action is unsafe':'Why this is the best answer';

@@ -114,6 +114,14 @@
 .setup .topic-count {
   display: block;
 }
+.setup-selection {
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.setup-selection small {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
 .resource-card {
   min-width: 0;
   overflow-wrap: anywhere;
