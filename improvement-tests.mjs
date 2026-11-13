@@ -26,9 +26,19 @@ import {displayRationale,choiceExplanationLabel,unsafeDecision} from './rational
 import {sessionChoiceOrder} from './choice-order.ts';
 import {restoreRepetitionReview} from './repetition-review.ts';
 import {sessionScore} from './engine.ts';
+import {parseRoomCode} from './play-engine.ts';
 import edits from './judgment-edits.json' with {type:'json'};
 import evidence from './situational-evidence.json' with {type:'json'};
 import referenceFacts from './concept-evidence.json' with {type:'json'};
+test('Play accepts a copied room link or ten-character code and rejects unrelated input',()=>{
+ const origin='https://reviewer.test';
+ assert.equal(parseRoomCode(' 123ab cdef0 ',origin),'123ABCDEF0');
+ assert.equal(parseRoomCode(origin+'/play/room/123abcdef0?ref=invite',origin),'123ABCDEF0');
+ assert.equal(parseRoomCode('/play/room/123abcdef0/',origin),'123ABCDEF0');
+ for(const invalid of ['123','ZZZZZZZZZZ','https://elsewhere.test/play/room/123abcdef0',origin+'/play/room/123abcdef0/extra','javascript:123abcdef0']){
+  assert.equal(parseRoomCode(invalid,origin),null);
+ }
+});
 const activeQuestions=questions.filter(q=>!q.retired);
 
 test('canonical UTF-8 preserves published checksums, Unicode, escaping and key ordering',async()=>{

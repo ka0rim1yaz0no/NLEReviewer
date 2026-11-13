@@ -7,7 +7,7 @@ import {clinicalCases,subjects} from './bank';
 import {curriculum,findCurriculumTopic} from './curriculum';
 import {makeTopicGuide} from './pdf-guides';
 import type {CurriculumTopic} from './curriculum';
-import {Card,Empty,Link,SearchBox} from './ui';
+import {Card,Empty,Link,Pagination,SearchBox} from './ui';
 import catalog from './pdf-library-catalog.json';
 import './pdf-library.css';
 
@@ -41,6 +41,7 @@ function PriorityPDFLibrary(){
  const [tab,setTab]=useState('topics'),[subject,setSubject]=useState(initialTopic?.subject||'all'),[search,setSearch]=useState(initialTopic?.name||''),[page,setPage]=useState(0);
  const [job,setJob]=useState<{done:number;total:number;label:string}|null>(null),[error,setError]=useState('');
  const controller=useRef<AbortController|null>(null),mounted=useRef(true);
+ const pageStart=useRef<HTMLHeadingElement>(null);
  useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;controller.current?.abort();};},[]);
  const matching=(name:string)=>name.toLowerCase().includes(search.trim().toLowerCase());
  const topics=useMemo(()=>curriculum.filter(t=>(subject==='all'||t.subject===subject)&&t.name.toLowerCase().includes(search.trim().toLowerCase())),[subject,search]);
@@ -90,8 +91,8 @@ function PriorityPDFLibrary(){
   <div className='tabs pdf-library-tabs' aria-label='Resource type'>{[['topics','Topic PDFs'],['references','Official references'],['boardpal','BoardPal readers']].map(([value,label])=><button key={value} aria-pressed={tab===value} className={tab===value?'active':''} onClick={()=>{setTab(value);setPage(0);}}>{label}</button>)}</div>
   <SearchBox value={search} onChange={value=>{setSearch(value);setPage(0);}} placeholder='Search PDF library'/>
   <div className='tabs' aria-label='Filter PDFs by subject'><button aria-pressed={subject==='all'} className={subject==='all'?'active':''} onClick={()=>{setSubject('all');setPage(0);}}>All subjects</button>{subjects.map(s=><button key={s.id} aria-pressed={subject===s.id} className={subject===s.id?'active':''} onClick={()=>{setSubject(s.id);setPage(0);}}>{s.short}</button>)}</div>
-  <div className='section-head'><h2>{tab==='topics'?'Original topic PDFs':tab==='references'?'Publisher references':'BoardPal reader links'}</h2><small>{length} {length===1?'resource':'resources'}</small></div>
-  {tab==='topics'&&topics.length>0&&<div className='pdf-selection-export'><p>Each download uses the current study material in your reviewer.</p><button className='btn small' disabled={!!job} onClick={()=>void exportTopics(topics,true)}><Download size={15}/>Download these {topics.length} PDFs</button></div>}
+  <div className='section-head'><h2 className='page-start' tabIndex={-1} ref={pageStart}>{tab==='topics'?'Original topic PDFs':tab==='references'?'Publisher references':'BoardPal reader links'}</h2><small>{length} {length===1?'resource':'resources'}</small></div>
+  {tab==='topics'&&topics.length>1&&topics.length<curriculum.length&&<div className='pdf-selection-export'><button className='btn small' disabled={!!job} onClick={()=>void exportTopics(topics,true)}><Download size={15}/>Download these {topics.length} PDFs</button></div>}
   {tab==='boardpal'&&<p className='pdf-library-note'>These are {catalog.boardpalReaders.length} online readers in BoardPal's catalog. BoardPal may require a subscription to open them.</p>}
   {tab==='references'&&<p className='pdf-library-note'>Open the publisher's PDF or download page. Editions are named where available; local clinical guidance may differ.</p>}
   <div className='pdf-library-grid'>
@@ -100,6 +101,6 @@ function PriorityPDFLibrary(){
    {tab==='boardpal'&&readers.slice(start,start+20).map(r=><Card key={r.id} className='pdf-library-card'><span className='tag'>{r.subject==='CROSS'?'Foundations':r.subject}</span><h3>{r.title}</h3><p>BoardPal online reader</p><a className='btn' href={r.url} target='_blank' rel='noreferrer'><ExternalLink size={16}/>Open in BoardPal</a></Card>)}
   </div>
   {!length&&<Empty title='No matching resources' description='Try another subject or clear your search.'/>}
-  {length>20&&<div className='pagination'><button className='btn' disabled={!page} onClick={()=>setPage(page-1)}>Previous</button><span>{start+1}–{Math.min(start+20,length)} of {length}</span><button className='btn' disabled={start+20>=length} onClick={()=>setPage(page+1)}>Next</button></div>}
+  <Pagination page={page} total={length} pageSize={20} onChange={setPage} focusTarget={pageStart}/>
  </>;
 }

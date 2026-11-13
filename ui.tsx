@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef } from "react";
-import type { AriaAttributes, ReactNode } from "react";
-import { ArrowRight, ChevronRight, Search, X } from "lucide-react";
+import type { AriaAttributes, ReactNode, Ref, RefObject } from "react";
+import { ArrowRight, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 import { useApp } from "./store";
 type LinkProps={
  to:string;
@@ -21,7 +21,7 @@ export function Link({to,children,className="",title,label,current,onNavigate}:L
  }}>{children}</a>;
 }
 export function Heading({title,description,action}:{title:string;description?:string;action?:ReactNode}) {return <div className="page-heading"><div><h1>{title}</h1>{description&&<p>{description}</p>}</div>{action}</div>;}
-export function Card({children,className=""}:{children:ReactNode;className?:string}) {return <section className={`card ${className}`}>{children}</section>;}
+export function Card({children,className="",ref,tabIndex}:{children:ReactNode;className?:string;ref?:Ref<HTMLElement>;tabIndex?:number}) {return <section className={`card ${className}`} ref={ref} tabIndex={tabIndex}>{children}</section>;}
 export function Progress({value,max=100,label}:{value:number;max?:number;label?:string}){
  const total=Math.max(1,max);
  const completed=Math.min(total,Math.max(0,value));
@@ -40,6 +40,27 @@ export function SearchBox({value,onChange,placeholder="Search topics"}:{value:st
 }
 export function TextLink({to,children}:{to:string;children:ReactNode}) {return <Link to={to} className="text-link">{children}<ArrowRight size={15}/></Link>;}
 export function RowLink({to,title,description,icon}:{to:string;title:string;description?:string;icon?:ReactNode}) {return <Link to={to} className="row-link">{icon&&<span className="tile-icon">{icon}</span>}<div><strong>{title}</strong>{description&&<small>{description}</small>}</div><ChevronRight size={17}/></Link>;}
+export function Pagination({page,total,pageSize=10,onChange,focusTarget}:{
+ page:number;total:number;pageSize?:number;onChange:(page:number)=>void;focusTarget:RefObject<HTMLElement|null>;
+}){
+ const focusAfterChange=useRef(false);
+ useEffect(()=>{
+  if(!focusAfterChange.current)return;
+  focusAfterChange.current=false;
+  focusTarget.current?.focus({preventScroll:true});
+  focusTarget.current?.scrollIntoView({block:"start",behavior:"instant"});
+ },[page,focusTarget]);
+ function change(next:number){
+  focusAfterChange.current=true;
+  onChange(next);
+ }
+ if(total<=pageSize)return null;
+ return <nav className="pagination" aria-label="Pages">
+  <button type="button" className="btn small" disabled={page===0} onClick={()=>change(page-1)}><ChevronLeft size={15}/>Previous</button>
+  <small role="status">{page*pageSize+1}–{Math.min(total,(page+1)*pageSize)} of {total}</small>
+  <button type="button" className="btn small" disabled={(page+1)*pageSize>=total} onClick={()=>change(page+1)}>Next<ChevronRight size={15}/></button>
+ </nav>;
+}
 export function Modal({title,onClose,children,drawer=false}:{title:string;onClose:()=>void;children:ReactNode;drawer?:boolean}){
  const ref=useRef<HTMLDialogElement>(null);
  const heading=useId();

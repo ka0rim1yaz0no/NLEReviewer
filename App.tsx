@@ -94,7 +94,7 @@ function Dashboard(){
       const pool=bank.filter(question=>question.subject===subject.id);
       const answered=pool.filter(question=>answeredIds.has(question.id)).length,score=rating(subject.attempts,10);
       return <button className="subject-tile" key={subject.id} onClick={()=>start({subject:subject.id,quick:true})}>
-       <span className="subject-code" style={{color:subject.color,background:subject.color+"16"}}>{subject.short}</span>
+       <span className="subject-code" style={{background:subject.color+"26"}}>{subject.short}</span>
        <div><strong>{subject.name}</strong><small>{answered} of {pool.length} answered {score!==null&&"· "+score.toFixed(1)+" rating"}</small>
         <Progress value={answered} max={pool.length}/></div><ChevronRight size={15}/>
       </button>;
@@ -130,7 +130,7 @@ function Help({about=false}:{about?:boolean}){
   ["How does the study timer work?","Pomodoro alternates focus, short breaks, and a long break after your chosen number of sprints. You can choose the lengths, automatic phase starts, and sound volume, or use the stopwatch. Only focus and stopwatch time count toward study hours. The daily chart records timed sessions from this update onward; earlier total hours are kept. The timer stays with you between study pages and pauses when you leave, reload, switch profiles, or open a timed mock or diagnostic."],
   ["Does a retry change my first-try rating?","No. Performance uses the earliest attempt on each question. By default, a successful retry clears the question from your Vault. If you turn on spaced Vault review, it takes two correct reviews at least seven days apart. Your original baseline never changes."],
   ["How are flashcards scheduled?","Again schedules the next review in one minute. Hard, Good, and Easy give increasingly longer intervals. Successful repeated reviews expand the interval. Imported text cards use the same scheduler."],
-  ["Will I lose my work if I close the tab?","Your username profile saves progress on this browser and syncs with Supabase. Return using the same browser to reopen it. Export a backup before clearing browser data or moving devices. Each profile has separate answers; anyone using this browser can open its remembered profiles. The mock clock continues while the tab is closed."],
+  ["Will I lose my work if I close the tab?",`Progress saves on this browser and syncs when connected. Return to the same browser to reopen a personal profile. The shared ${priorityUsername} profile also opens on other devices. Export a backup before clearing browser data. Your mock timer pauses when you leave the exam. The diagnostic keeps its original deadline.`],
   ["Where are the PDFs?",`The PDF library is reserved for the ${priorityUsername} username. Open Resources → PDF library. Download an original topic review individually, or download all topic PDFs in one ZIP. Each guide includes short case summaries, key decisions, and clickable sources. Official publisher PDFs and BoardPal online readers open on their own sites. Your account details, personal notes, and study progress are not included in the PDF export.`],
   ["Can I import my own question bank?","Yes. In Settings, download the sample format and import an authorized JSON export. Each question must contain four distinct choices, a valid correctIndex, a rationale, and an explanation for every choice."],
   ["Does this include subscriptions or payments?","No. All built-in study features and questions are available without a subscription, paywall, or checkout."],

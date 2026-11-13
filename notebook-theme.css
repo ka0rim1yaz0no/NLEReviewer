@@ -42,7 +42,9 @@
 }
 [data-theme=dark] .reviewer-shell { background: color-mix(in srgb,var(--bg) 25%,var(--paper)); }
 .main-shell:focus { outline: none; }
-.main-shell { scroll-margin-top: 76px; }
+.main-shell { scroll-margin-top: calc(var(--study-header-height) + 16px); }
+.page-start { scroll-margin-top: calc(var(--study-header-height) + 16px); }
+.page-start:focus-visible { outline: 2px solid var(--notebook-focus); outline-offset: 3px; }
 .answer-choice-text, .rationale > strong, .game-answer { white-space: pre-line; overflow-wrap: anywhere; }
 .notebook-header {
   padding-top: env(safe-area-inset-top);
@@ -350,6 +352,16 @@
 .username-card input { border-color: var(--notebook-field); }
 .tag, .subject-code { font-weight: 750; }
 .subject-code { box-shadow: inset 0 -2px 0 var(--notebook-edge); }
+.setup-subject > .setup-topic-select {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  width: fit-content;
+  margin: 0;
+}
+.setup-subject .topic-checks label { min-height: 40px; }
 .progress { border-radius: 999px; }
 .progress > span { border-radius: inherit; }
 
@@ -387,7 +399,7 @@
 .quiz .question-card { border-top: 4px solid var(--notebook-field); }
 .quiz-tools button, .quiz-top .icon-btn { min-height: 44px; min-width: 44px; }
 .quiz .option { min-height: 50px; border-radius: 16px 16px 16px 9px; }
-.question-stem { scroll-margin-top: 83px; }
+.question-stem { scroll-margin-top: calc(var(--study-header-height) + 16px); }
 .question-stem:focus { outline: none; }
 .question-stem:focus-visible { outline: 2px solid var(--notebook-focus); outline-offset: 4px; }
 

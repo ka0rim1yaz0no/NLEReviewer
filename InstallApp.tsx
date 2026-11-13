@@ -13,17 +13,23 @@ const appleMobile = /iPhone|iPad|iPod/.test(navigator.userAgent) || navigator.pl
 const androidDownload = "/downloads/nlereviewer.apk";
 let installPrompt: InstallPrompt | undefined;
 let installedInBrowser = false;
+const installPromptListeners = new Set<() => void>();
+
+function setInstallPrompt(prompt: InstallPrompt | undefined) {
+  installPrompt = prompt;
+  for (const listener of installPromptListeners) listener();
+}
 
 // Capture the browser's single-use prompt even if it arrives before React mounts.
 window.addEventListener("beforeinstallprompt", event => {
   event.preventDefault();
-  installPrompt = event as InstallPrompt;
   installedInBrowser = false;
+  setInstallPrompt(event as InstallPrompt);
 });
 
 window.addEventListener("appinstalled", () => {
-  installPrompt = undefined;
   installedInBrowser = true;
+  setInstallPrompt(undefined);
 });
 
 function isInstalled() {
@@ -33,14 +39,14 @@ function isInstalled() {
 
 function subscribeToInstallation(onChange: () => void) {
   standalone.addEventListener("change", onChange);
-  window.addEventListener("beforeinstallprompt", onChange);
-  window.addEventListener("appinstalled", onChange);
+  installPromptListeners.add(onChange);
   return () => {
     standalone.removeEventListener("change", onChange);
-    window.removeEventListener("beforeinstallprompt", onChange);
-    window.removeEventListener("appinstalled", onChange);
+    installPromptListeners.delete(onChange);
   };
 }
+
+const canPromptInstallation = () => !!installPrompt;
 
 function InstallSteps() {
   if (appleMobile) return <ol className="install-app-steps">
@@ -54,6 +60,7 @@ function InstallSteps() {
 
 export function InstallAppButton() {
   const installed = useSyncExternalStore(subscribeToInstallation, isInstalled);
+  const canPrompt = useSyncExternalStore(subscribeToInstallation, canPromptInstallation);
   const [showGuide, setShowGuide] = useState(false);
   const [prompting, setPrompting] = useState(false);
 
@@ -64,7 +71,7 @@ export function InstallAppButton() {
       return;
     }
 
-    installPrompt = undefined;
+    setInstallPrompt(undefined);
     setPrompting(true);
     try {
       await prompt.prompt();
@@ -89,9 +96,9 @@ export function InstallAppButton() {
     {showGuide && <Modal title="Install NLEReviewer" onClose={() => setShowGuide(false)}>
       {!appleMobile && <div className="button-row">
         <a className="btn primary" href={androidDownload} download="NLEReviewer.apk"><Download size={16} aria-hidden="true"/>Download Android app</a>
-        {installPrompt && <button type="button" className="btn" disabled={prompting} onClick={() => void install()}>Install on this device</button>}
+        {(canPrompt || prompting) && <button type="button" className="btn" disabled={prompting} onClick={() => void install()}>{prompting ? "Waiting for browser…" : "Install on this device"}</button>}
       </div>}
-      {(appleMobile || !installPrompt) && <InstallSteps/>}
+      {(appleMobile || !canPrompt && !prompting) && <InstallSteps/>}
       <p>Open NLEReviewer from its new icon. Sign in, then turn on <strong>Push reminders</strong> under <strong>Play</strong> to receive alerts.</p>
     </Modal>}
   </>;

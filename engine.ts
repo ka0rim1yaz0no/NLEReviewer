@@ -98,9 +98,56 @@ export function scheduleCard(previous: CardProgress | undefined, grade: "again" 
 export function isAnswerCorrect(session:Session,id:string,bank:Map<string,Question>):boolean{const question=bank.get(id),answer=session.answers[id];return !!question&&!!answer&&answer.selected===question.correctIndex;}
 export function sessionScore(session: Session, bank: Map<string, Question>): number { return session.questionIds.filter(id => isAnswerCorrect(session,id,bank)).length; }
 export function parseFlashcardText(text: string, deck: string): CustomCard[] {
-  const rows: string[][] = []; let row: string[] = [], value = "", quoted = false;
-  const delimiter = text.includes("\t") ? "\t" : ",";
-  for (let i=0;i<=text.length;i++) { const char = text[i] ?? "\n"; if (char === '"') { if (quoted && text[i+1] === '"') { value += '"'; i++; } else quoted = !quoted; } else if (char === delimiter && !quoted) { row.push(value); value = ""; } else if ((char === "\n" || char === "\r") && !quoted) { if (char === "\r" && text[i+1] === "\n") i++; row.push(value); if (row.some(v=>v.trim())) rows.push(row); row=[];value=""; } else value += char; }
+  text = text.replace(/^\uFEFF/, "");
+  const headers = text.match(/^(?:[ \t]*(?:#[^\r\n]*)?(?:\r\n|\r|\n))+/)?.[0] || "";
+  text = text.slice(headers.length);
+  const separators = new Map([["tab", "\t"], ["comma", ","], ["semicolon", ";"], ["space", " "], ["pipe", "|"], ["colon", ":"]]);
+  const metadataColumns = new Set<number>();
+  let delimiter: string | undefined;
+  for (const line of headers.split(/\r\n|\r|\n/)) {
+    const separator = line.trimStart().match(/^#separator:([^\r\n]*)/i)?.[1];
+    if (separator !== undefined) {
+      delimiter = separators.get(separator.trim().toLowerCase()) ?? [...separators.values()].find(value => separator === value || separator.trim() === value);
+      if (!delimiter) throw new Error("Choose a supported separator for your flashcard export.");
+    }
+    const column = line.match(/^\s*#(?:guid|notetype|deck|tags) column:\s*(\d+)\s*$/i);
+    if (column) metadataColumns.add(Number(column[1]) - 1);
+  }
+  if (!delimiter) {
+    const found = new Set<string>();
+    let quoted = false;
+    for (const char of text) {
+      if (char === '"') quoted = !quoted;
+      else if (!quoted) {
+        if (char === "\n" || char === "\r") break;
+        if (["\t", ",", ";"].includes(char)) found.add(char);
+      }
+    }
+    delimiter = found.has("\t") ? "\t" : found.has(",") || !found.has(";") ? "," : ";";
+  }
+  const rows: string[][] = [];
+  let row: string[] = [], value = "", quoted = false;
+  for (let i = 0; i <= text.length; i++) {
+    const char = text[i] ?? "\n";
+    if (char === '"') {
+      if (quoted && text[i + 1] === '"') { value += '"'; i++; }
+      else quoted = !quoted;
+    } else if (!quoted && char === delimiter) {
+      row.push(value);
+      value = "";
+    } else if (!quoted && (char === "\n" || char === "\r")) {
+      if (char === "\r" && text[i + 1] === "\n") i++;
+      row.push(value);
+      if (row.some(cell => cell.trim())) rows.push(row.filter((_, index) => !metadataColumns.has(index)));
+      row = [];
+      value = "";
+    } else value += char;
+  }
   if (quoted) throw new Error("A quoted cell is not closed.");
-  return rows.filter((r,i) => !(i===0 && /^(front|question)$/i.test(r[0].trim()))).map((r,i) => { if (r.length<2 || !r[0].trim() || !r[1].trim()) throw new Error(`Row ${i+1} needs a front and back.`); return { id: `custom-${crypto.randomUUID()}`, deck, front: r[0].trim(), back: r[1].trim() }; });
+  if (/^(front|question)$/i.test(rows[0]?.[0]?.trim() || "") && /^(back|answer)$/i.test(rows[0]?.[1]?.trim() || "")) rows.shift();
+  return rows.map((row, index) => {
+    const front = row[0]?.trim(), back = row[1]?.trim();
+    if (!front || !back) throw new Error(`Row ${index + 1} needs a front and back.`);
+    return { id: `custom-${crypto.randomUUID()}`, deck, front, back };
+  });
 }

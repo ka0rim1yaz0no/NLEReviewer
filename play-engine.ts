@@ -34,6 +34,17 @@ export function isGameMode(value:unknown):value is GameMode{
  return [...soloModes,...roomModes].includes(value as GameMode);
 }
 
+export function parseRoomCode(value:string,origin:string){
+ const input=value.trim();
+ const code=input.replace(/\s+/g,"");
+ if(/^[a-f0-9]{10}$/i.test(code))return code.toUpperCase();
+ try{
+  const link=new URL(input,origin);
+  const match=/^\/play\/room\/([a-f0-9]{10})\/?$/i.exec(link.pathname);
+  return link.origin===origin&&match?match[1].toUpperCase():null;
+ }catch{return null;}
+}
+
 export function normalizeGameAnswer(value:string){
  return value.normalize("NFKC").toLocaleLowerCase("en").trim().replace(/[\s-]+/g," ").replace(/[.!?]$/,"");
 }

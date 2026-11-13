@@ -143,7 +143,7 @@
 .game-result-banner .button-row {justify-content:center}
 .game-ranks .active {outline:2px solid var(--notebook-focus)}
 .ranked-queue-time {color:var(--muted);font-variant-numeric:tabular-nums}
-.online-game-question {scroll-margin-top:80px}
+.online-game-question {scroll-margin-top:calc(var(--study-header-height) + 16px)}
 .online-game-question h2:focus {outline:none}
 .online-game-question .game-score-bar [role=timer] {font-variant-numeric:tabular-nums}
 .game-standings li>strong {flex-shrink:0;text-align:right}
@@ -170,7 +170,7 @@
 .result-review-tools>.search{flex:1 1 18rem;margin:0}
 .result-review-tools form label{display:flex;align-items:center;gap:.5rem;font-size:.875rem}
 .result-review-tools input[type=number]{width:5rem;font-size:1rem}
-.review-item{scroll-margin-top:6rem;padding-top:.75rem}
+.review-item{scroll-margin-top:calc(var(--study-header-height) + 16px);padding-top:.75rem}
 .review-item:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:.5rem}
 .review-item+.review-item{border-top:1px solid var(--line)}
 .wall-setting{margin-bottom:1rem}

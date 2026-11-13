@@ -4,22 +4,17 @@ A BoardPal-inspired nursing study app with username profiles, separate progress,
 
 ## Published content
 
-The bank has **9,608 active questions**, including **5,217 situational nursing questions across 156 topics**. The 10,771 stored questions include 1,163 retired historical records.
+The bank has **9,608 active questions**, including **5,234 situational nursing questions across 156 topics**. The 10,771 stored questions include 1,163 retired historical records. Current counts come from `bank-summary.json`.
 
 | Question format | Count |
 | --- | ---: |
-| Existing questions in 116 five-part situations | 580 |
-| New questions in 620 seven-part situations | 4,340 |
-| Standalone situational scenarios from the November 3 expansion | 155 |
-| New original clinical judgment cases | 42 |
-| Skin, wound, burn care, and rotavirus immunization cases | 77 |
-| Applied cases revised from concept and comparison questions | 23 |
-| Other earlier standalone originals | 51 |
-| Source-based concept checks | 3,699 |
-| Reference-comparison questions | 639 |
+| Situational nursing questions | 5,234 |
+| Other standalone questions | 42 |
+| Source-based concept checks | 3,692 |
+| Reference-comparison questions | 638 |
 | Corrected supplemental source items | 2 |
 
-The situational bank has 1,033 vignettes across 620 seven-part cases, 116 five-part cases, and 297 standalone cases. The November 13 review revises 33 questions with clinical decisions, plausible alternatives, and sourced explanations.
+The situational bank includes linked and standalone cases. The November 13 review revises 33 questions with clinical decisions, plausible alternatives, and sourced explanations.
 
 Every question has four distinct choices, one keyed answer, an answer explanation, and explanations for all alternatives. `situational-evidence.json` records the clinical findings, care need, safe response, teaching, desired outcome, unsafe proposal, clinical reasoning, and reference for each new situation. The answer key is checked against this authored evidence. References include Open RN nursing chapters, WHO, CDC, NIH/NEI, NHS, NICE, AHA, and Philippine statutes. Checks include all-topic coverage, complete per-choice explanations, unique situations and questions, balanced answer positions, ABG arithmetic, scoring, and preservation of every earlier record. The November 3 audit reviewed the evidence behind all 740 original case sets and checked all 4,940 question records. Reference and structural checking is **not independent professional clinical approval**; independent clinician review remains pending.
 
@@ -27,7 +22,7 @@ There are 4,338 active concept and comparison items for focused review, with all
 
 The [BoardPal practice catalog](https://www.nleboardpal.com/practice) listed 156 topics and 9,598 reference questions on November 11, 2026. The reviewer uses the observed topic names and organization with its own original practice content.
 
-`question-bank.json` is a small export manifest; `question-bank.json.gz` contains the complete lossless JSON array, including 1,163 `retired:true` historical records. There are 10,694 stored records and 9,531 active questions. New practice and decks exclude historical records; saved sessions, results, bookmarks, and notes can still resolve them. Run `node export-bank.mjs --plain` to write an uncompressed array to `outputs/question-bank.json`, or export the active bank from the app's Settings. The gzip format keeps individual files within GitHub's browser upload limit. `situational-questions.json` freezes the new records, `situational-evidence.json` records case evidence, and `situational-review-report.json` records counts and review limits. The six `situations-*.txt` files and `build-situational-bank.mjs` are authoring-only. `build-audited-bank.mjs` preserves published option identities and key positions; replacements get new IDs. `--draft` writes only ignored outputs. Create and review a new immutable release before publishing further changes. See [THIRD_PARTY.md](THIRD_PARTY.md) for references and attribution.
+`question-bank.json` is the manifest for the earlier `question-bank.json.gz` authoring snapshot. It contains 10,694 stored records, including 9,531 active questions and 1,163 retired records. Export the current active bank from the app’s Settings. New practice and decks exclude retired records. Saved sessions, results, bookmarks, and notes can still resolve them. Run `node export-bank.mjs --plain` to write the uncompressed snapshot to `outputs/question-bank.json`. `situational-questions.json` freezes the original expansion, `situational-evidence.json` records case evidence, and `situational-review-report.json` records its counts and review limits. The six `situations-*.txt` files and `build-situational-bank.mjs` are authoring-only. `build-audited-bank.mjs` preserves published option identities and key positions; replacements get new IDs. `--draft` writes only ignored outputs. Create and review a new immutable release before publishing content changes. See [THIRD_PARTY.md](THIRD_PARTY.md) for references and attribution.
 
 A proposed 4,120-item MedMCQA research candidate remains withheld after spot-checks found scenario/key mismatches. It is not counted or available in practice. The two provisional bulk database releases and the superseded first concept-bank candidate remain excluded by row-level security. Only the two separately corrected source items are published from that dataset.
 

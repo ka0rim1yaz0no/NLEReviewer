@@ -28,7 +28,7 @@ import type { Question, Subject } from "./types";
 import type { Session, State } from "./engine";
 import { firstAttempts, gradeSession, recordAnswer, sessionDeadline, sessionScore, isAnswerCorrect } from "./engine";
 import { useApp } from "./store";
-import { Card, Empty, Heading, letters, Link, Modal, Progress, SearchBox, TextLink } from "./ui";
+import { Card, Empty, Heading, letters, Link, Modal, Pagination, Progress, SearchBox, TextLink } from "./ui";
 type StartOptions={collection?:Collection;subject?:Subject;topics?:string[];keyword?:string;count?:number;mode?:"tutor"|"exam";filter?:string;kind?:Session["kind"];ids?:string[];title?:string;mockBoard?:number;mockAttempt?:number;retake?:boolean;perQuestion?:number;review?:boolean;allowRelated?:boolean;supplement?:boolean;difficulty?:PracticeDifficulty;quick?:boolean;planTaskId?:string;seed?:number};
 export function useStartSession() {const {update,bank,navigate,toast}=useApp();return (options:StartOptions={})=>{
   const collection=options.collection||(options.ids?"all":"situational");
@@ -55,6 +55,8 @@ export function useStartSession() {const {update,bank,navigate,toast}=useApp();r
       message="Choose a mock board and section.";
       return state;
     }else if(options.kind==="diagnostic"){
+      const existing=state.sessions.filter(session=>session.kind==="diagnostic"&&!session.finishedAt).at(-1);
+      if(existing){target=`/session/${existing.id}`;return state;}
       ids=diagnosticQuestionIds(bank,state,seed);
       if(ids.length!==minimumStudyQuestions){message=`A new diagnostic needs ${diagnosticPerSubject} unused situations per NP. Resume an earlier diagnostic or use custom practice to review familiar situations.`;return state;}
     }else{
@@ -378,18 +380,24 @@ export function ReviewQuestion({q,selected,expanded,onToggle,choiceOrder}:{q:Que
  </article>;
 }
 function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
- const {state}=useApp(),start=useStartSession();
+ const {state,bankMap:currentBank}=useApp(),start=useStartSession();
  const session=state.sessions.find(s=>s.id===id);
  const [filter,setFilter]=useState("all"),[page,setPage]=useState(0),[query,setQuery]=useState(""),[jumpItem,setJumpItem]=useState("");
  const [target,setTarget]=useState<string>(),targetRef=useRef<HTMLDivElement>(null);
+ const pageStart=useRef<HTMLElement>(null);
  const [expandAll,setExpandAll]=useState(false),[overrides,setOverrides]=useState(new Set<string>());
+ function focusItem(){
+  targetRef.current?.focus({preventScroll:true});
+  targetRef.current?.scrollIntoView({block:"start",behavior:"instant"});
+ }
  useEffect(()=>{
-  if(!target)return;
-  targetRef.current?.focus({preventScroll:true});targetRef.current?.scrollIntoView({block:"start"});
+  if(target)focusItem();
  },[target,page,filter,query]);
  if(!session)return <Empty title="Session not found" description="Open a saved session from your study history." action={<Link to="/history" className="btn primary">Your study history</Link>}/>;
  if(!session.finishedAt)return <Empty title="Your session is still in progress" description="Finish the session to see all answers and rationales." action={<Link to={"/session/"+id} className="btn primary">Resume session</Link>}/>;
  const correct=sessionScore(session,bankMap),percent=Math.round(correct/session.questionIds.length*100);
+ const missed=session.questionIds.filter(questionId=>!isAnswerCorrect(session,questionId,bankMap));
+ const retryIds=missed.filter(questionId=>{const question=currentBank.get(questionId);return question&&!question.retired;});
  const bookmarks=new Set(state.bookmarks),terms=query.toLocaleLowerCase("en").trim().split(/\s+/).filter(Boolean);
  const filtered=session.questionIds.map((questionId,index)=>({questionId,index})).filter(({questionId})=>{
   if(filter==="wrong"&&isAnswerCorrect(session,questionId,bankMap)||filter==="flagged"&&!session.flagged.includes(questionId)||filter==="saved"&&!bookmarks.has(questionId))return false;
@@ -400,7 +408,14 @@ function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
  });
  const activePage=Math.max(0,Math.min(page,Math.ceil(filtered.length/10)-1));
  const jumpIndex=Number(jumpItem)-1;
- return <><Link to={session.mockBoard?`/mock/${session.mockBoard}?attempt=${mockAttemptNumber(session)}`:"/history"} className="back"><ArrowLeft size={15}/>{session.mockBoard?"Back to mock board":"Your study history"}</Link><Heading title="One session closer." description={`${session.title} · ${session.questionIds.length} ${session.questionIds.length===1?"question":"questions"}`}/><Card className="results-summary"><div className="score-ring" style={{background:`conic-gradient(var(--green) ${percent}%, var(--line) 0)`}}><div><strong>{percent}%</strong><span>accuracy</span></div></div><div><h2>{percent>=75?"Keep building on this.":"Every rationale is a chance to improve."}</h2><p>{correct} correct · {session.questionIds.length-correct} incorrect or unanswered</p><p className="muted">{Math.floor(mockDuration(session)/60000)} minutes · Projected rating {(40+percent*.6).toFixed(1)}*</p><div className="button-row"><button className="btn primary" onClick={()=>start({ids:session.questionIds.filter(id=>!isAnswerCorrect(session,id,bankMap)),count:session.questionIds.length,review:true,title:"Review missed questions"})} disabled={correct===session.questionIds.length}>Review missed questions</button><Link to={session.planTaskId?"/schedule":"/practice"} className="btn">{session.planTaskId?"Back to study plan":"Back to practice"}</Link></div></div></Card><p className="fine-print">*Study estimate: 40 + (raw accuracy × 0.6). This is not an official PRC rating or a prediction of passing.</p>
+ function showItem(questionId:string,nextPage:number,nextFilter:string){
+  if(target===questionId&&filter===nextFilter&&page===nextPage&&!query)focusItem();
+  setTarget(questionId);setPage(nextPage);setFilter(nextFilter);setQuery("");
+ }
+ return <><Link to={session.mockBoard?`/mock/${session.mockBoard}?attempt=${mockAttemptNumber(session)}`:"/history"} className="back"><ArrowLeft size={15}/>{session.mockBoard?"Back to mock board":"Your study history"}</Link><Heading title="One session closer." description={`${session.title} · ${session.questionIds.length} ${session.questionIds.length===1?"question":"questions"}`}/><Card className="results-summary"><div className="score-ring" style={{background:`conic-gradient(var(--green) ${percent}%, var(--line) 0)`}}><div><strong>{percent}%</strong><span>accuracy</span></div></div><div><h2>{percent>=75?"Keep building on this.":"Every rationale is a chance to improve."}</h2><p>{correct} correct · {session.questionIds.length-correct} incorrect or unanswered</p><p className="muted">{Math.floor(mockDuration(session)/60000)} minutes · Projected rating {(40+correct/session.questionIds.length*60).toFixed(1)}*</p><div className="button-row">
+  {missed.length>0&&<button type="button" className="btn primary" onClick={()=>showItem(missed[0],0,"wrong")}>Review missed questions</button>}
+  {retryIds.length>0&&<button type="button" className="btn" onClick={()=>start({ids:retryIds,count:retryIds.length,review:true,title:"Practice missed questions"})}>Practice missed questions</button>}
+  <Link to={session.planTaskId?"/schedule":"/practice"} className="btn">{session.planTaskId?"Back to study plan":"Back to practice"}</Link></div></div></Card><p className="fine-print">*Study estimate: 40 + (raw accuracy × 0.6). This is not an official PRC rating or a prediction of passing.</p>
  <div className="section-head"><h2>Your answer review</h2><small>{filtered.length} {filtered.length===1?"question":"questions"}</small></div>
  <button type="button" className="btn small" onClick={()=>{setExpandAll(!expandAll);setOverrides(new Set());}}>{expandAll?"Hide all explanations":"Show all explanations"}</button>
  <div className="result-review-tools">
@@ -408,14 +423,13 @@ function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
   <form className="button-row" onSubmit={event=>{
    event.preventDefault();
    const q=session.questionIds[jumpIndex];if(!Number.isInteger(jumpIndex)||!q)return;
-   if(target===q&&filter==="all"&&!query){targetRef.current?.focus({preventScroll:true});targetRef.current?.scrollIntoView({block:"start"});}
-   setTarget(q);setPage(Math.floor(jumpIndex/10));setFilter("all");setQuery("");
+   showItem(q,Math.floor(jumpIndex/10),"all");
   }}><label>Jump to item <input type="number" min={1} max={session.questionIds.length} required value={jumpItem} onChange={event=>setJumpItem(event.target.value)}/></label>
   <button className="btn small" type="submit">Go</button></form>
  </div>
  <div className="tabs">{[["all","All questions"],["wrong","Incorrect"],["flagged","Flagged"],["saved","Bookmarked"]].map(([value,title])=>
   <button key={value} aria-pressed={filter===value} className={filter===value?"active":""} onClick={()=>{setFilter(value);setPage(0);setTarget(undefined);}}>{title}</button>)}</div>
- <Card>
+ <Card className="page-start" ref={pageStart} tabIndex={-1}>
   {filtered.slice(activePage*10,activePage*10+10).map(({questionId,index})=>{
    const q=bankMap.get(questionId);
    return <div key={questionId} className="review-item" ref={target===questionId?targetRef:undefined} tabIndex={target===questionId?-1:undefined}>
@@ -425,26 +439,29 @@ function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
    </div>;
   })}
   {!filtered.length&&<Empty title="Nothing in this view" description="Try another search or view all questions."/>}
-  <Pagination page={activePage} total={filtered.length} onChange={value=>{setTarget(undefined);setPage(value);}}/>
+  <Pagination page={activePage} total={filtered.length} focusTarget={pageStart} onChange={value=>{setTarget(undefined);setPage(value);}}/>
  </Card></>;
 }
-export function Pagination({page,total,onChange}:{page:number;total:number;onChange:(n:number)=>void}){return <div className="pagination"><button className="btn small" disabled={page===0} onClick={()=>onChange(page-1)}><ChevronLeft size={15}/>Previous</button><small>{total?`${page*10+1}–${Math.min(total,page*10+10)} of ${total}`:"0 questions"}</small><button className="btn small" disabled={(page+1)*10>=total} onClick={()=>onChange(page+1)}>Next<ChevronRight size={15}/></button></div>;}
 export function BankBrowser({saved=false,notes=false}:{saved?:boolean;notes?:boolean}){
   const {state,bank,bankMap}=useApp(),start=useStartSession();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all"),[collection,setCollection]=useState<Collection>("all"),[page,setPage]=useState(0);
+  const pageStart=useRef<HTMLElement>(null);
   const query=search.toLowerCase();
   const browseBank=saved||notes?[...bankMap.values()]:bank;
   const filtered=browseBank.filter(q=>inCollection(q,collection,saved||notes)&&(!saved||state.bookmarks.includes(q.id))&&(!notes||!!state.notes[q.id]?.trim())&&(subject==="all"||q.subject===subject)&&`${q.topic} ${q.stem} ${q.options[q.correctIndex].text} ${notes?state.notes[q.id]||"":""}`.toLowerCase().includes(query));
   const playable=new Set(saved?filtered.filter(q=>!q.retired).map(q=>q.id):[]);
   const bookmarkedIds=saved?state.bookmarks.filter(id=>playable.has(id)).slice(-100):[];
   const topicNotes=notes?savedTopicNotes(state.notes,bank).filter(n=>(subject==="all"||n.subject===subject)&&`${n.title} ${n.text}`.toLowerCase().includes(query)):[];
+  const activePage=Math.max(0,Math.min(page,Math.ceil(filtered.length/10)-1));
   return <>
     <Heading title={notes?"My Notes":saved?"Bookmarks":"Question library"} description={notes?"Your topic, resource, and question notes, gathered in one place.":saved?"The questions you want to come back to.":`${bank.length} available questions. Browse by subject, read the answers, and understand the reasoning.`}/>
     <CollectionPicker bank={bank} value={collection} onChange={value=>{setCollection(value);setPage(0);}}/>
     <SearchBox placeholder={notes?"Search notes or topics":"Search questions or topics"} value={search} onChange={value=>{setSearch(value);setPage(0);}}/>
-    <div className="tabs"><button className={subject==="all"?"active":""} onClick={()=>{setSubject("all");setPage(0);}}>All</button>{subjects.map(s=><button key={s.id} className={subject===s.id?"active":""} onClick={()=>{setSubject(s.id);setPage(0);}}>{s.short}</button>)}</div>
+    <div className="tabs"><button aria-pressed={subject==="all"} className={subject==="all"?"active":""} onClick={()=>{setSubject("all");setPage(0);}}>All</button>{subjects.map(s=><button key={s.id} aria-pressed={subject===s.id} className={subject===s.id?"active":""} onClick={()=>{setSubject(s.id);setPage(0);}}>{s.short}</button>)}</div>
     {bookmarkedIds.length>0&&<div className="button-row"><button className="btn primary" onClick={()=>start({ids:bookmarkedIds,count:bookmarkedIds.length,review:true,title:"Bookmarked questions"})}>Practice {bookmarkedIds.length} bookmarked {bookmarkedIds.length===1?"question":"questions"}<ArrowRight size={15}/></button></div>}
     {topicNotes.length>0&&<Card><h2>Topic notes</h2>{topicNotes.map(note=><article className="saved-topic-note" key={note.key}><span className="tag">{note.subject==="CROSS"?"F&F":note.subject}</span><h3>{note.title}</h3><p>{note.text}</p><Link className="text-button" to={note.to}>Open topic and edit note<ArrowRight size={15}/></Link></article>)}</Card>}
-    {(filtered.length>0||!topicNotes.length)&&<Card>{notes&&filtered.length>0&&<h2>Question notes</h2>}{filtered.slice(page*10,page*10+10).map(q=><Fragment key={q.id}><ReviewQuestion q={q}/>{notes&&<div className="saved-note-body"><strong>Your note</strong><p>{state.notes[q.id]}</p></div>}</Fragment>)}{!filtered.length&&!topicNotes.length&&<Empty icon={<Search/>} title={notes?"No matching notes":"No questions here yet"} description={saved?"Bookmark a question from any answer review.":notes?"Add a note to a topic, resource, or question, or change your search.":"Try a different topic or search."}/>}{filtered.length>0&&<Pagination page={page} total={filtered.length} onChange={setPage}/>}</Card>}
+    {(filtered.length>0||!topicNotes.length)&&<Card className="page-start" ref={pageStart} tabIndex={-1}>{notes&&filtered.length>0&&<h2>Question notes</h2>}{filtered.slice(activePage*10,activePage*10+10).map(q=><Fragment key={q.id}><ReviewQuestion q={q}/>{notes&&<div className="saved-note-body"><strong>Your note</strong><p>{state.notes[q.id]}</p></div>}</Fragment>)}{!filtered.length&&!topicNotes.length&&<Empty icon={<Search/>} title={notes?"No matching notes":"No questions here yet"} description={saved?"Bookmark a question from any answer review.":notes?"Add a note to a topic, resource, or question, or change your search.":"Try a different topic or search."}/>}
+     <Pagination page={activePage} total={filtered.length} focusTarget={pageStart} onChange={setPage}/>
+    </Card>}
   </>;
 }
 export function VaultView(){
@@ -554,4 +571,4 @@ export function Mocks({board}:{board?:number}){
   </Modal>}
  </>;
 }
-export function Diagnostic(){const start=useStartSession();return <><Heading title="Find your starting point." description="See which subjects need more practice."/><Card className="diagnostic"><span className="feature-icon"><Sparkles size={28}/></span><h2>{minimumStudyQuestions} questions. All five NPs.</h2><p>Answer {diagnosticPerSubject} questions per subject in {diagnosticMinutes} minutes. Review the explanations after submitting.</p><div className="diagnostic-stats"><div><strong>{minimumStudyQuestions}</strong><small>questions</small></div><div><strong>{diagnosticMinutes} min</strong><small>time limit</small></div><div><strong>5</strong><small>subjects</small></div></div><button className="btn primary" onClick={()=>start({kind:"diagnostic",mode:"exam",title:`${minimumStudyQuestions}-question diagnostic`})}>Start diagnostic<ArrowRight size={17}/></button><p className="fine-print">Use your result as a study baseline.</p></Card></>;}
+export function Diagnostic(){const {state}=useApp(),start=useStartSession();const inProgress=state.sessions.some(session=>session.kind==="diagnostic"&&!session.finishedAt);return <><Heading title="Find your starting point." description="See which subjects need more practice."/><Card className="diagnostic"><span className="feature-icon"><Sparkles size={28}/></span><h2>{minimumStudyQuestions} questions. All five NPs.</h2><p>Answer {diagnosticPerSubject} questions per subject in {diagnosticMinutes} minutes. Review the explanations after submitting.</p><div className="diagnostic-stats"><div><strong>{minimumStudyQuestions}</strong><small>questions</small></div><div><strong>{diagnosticMinutes} min</strong><small>time limit</small></div><div><strong>5</strong><small>subjects</small></div></div><button className="btn primary" onClick={()=>start({kind:"diagnostic",mode:"exam",title:`${minimumStudyQuestions}-question diagnostic`})}>{inProgress?"Resume diagnostic":"Start diagnostic"}<ArrowRight size={17}/></button><p className="fine-print">Use your result as a study baseline.</p></Card></>;}

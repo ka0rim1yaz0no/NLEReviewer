@@ -2,7 +2,7 @@ import {useEffect,useRef,useState} from "react";
 import {ArrowLeft,ArrowRight,Award,Bell,Clock,Copy,Gamepad2,HeartPulse,Keyboard,Layers3,Radio,ShieldCheck,Swords,Trophy,Users,Zap} from "lucide-react";
 import {callPlay,PlayRequestError,playErrorMessage as humanError} from "./play-api";
 import {curriculum} from "./curriculum";
-import {gameTitles,recordGameRun,roomModes,soloModes} from "./play-engine";
+import {gameTitles,parseRoomCode,recordGameRun,roomModes,soloModes} from "./play-engine";
 import type {GameMode,RoomMode,SoloMode} from "./play-engine";
 import {ReviewQuestion} from "./Quiz";
 import {GameTopics,SoloPlay} from "./SoloPlay";
@@ -48,7 +48,6 @@ const shortRules:Record<GameMode,string>={
  quiz:"Up to ten players. A fast correct answer earns more points.",
  code:"Work together to keep a simulated patient stable.",cup:"A scheduled group quiz with 15 questions.",
 };
-const playCode=(text:string)=>text.trim().toUpperCase().replace(/\s+/g,"");
 const countdownText=(seconds:number)=>seconds<60?seconds+" s":
  Math.floor(seconds/60)+":"+String(seconds%60).padStart(2,"0");
 const manilaDate=new Intl.DateTimeFormat("en-PH",{
@@ -168,7 +167,8 @@ export default function Play({route}:{route:string}){
  const segment=route.split("/")[2];
  if(route==="/play")return <PlayHome/>;
  if(segment==="history")return <GameHistory/>;
- if(segment==="room")return <GameRoom code={route.split("/")[3]||""}/>;
+ if(segment==="room")return <GameRoom code={route.split("/")[3]?.toUpperCase()||""}/>;
+ if(segment==="code-blue")return <RoomSetup mode="code"/>;
  if(soloModes.includes(segment as SoloMode))return <SoloPlay mode={segment as SoloMode}/>;
  if(roomModes.includes(segment as RoomMode))return <RoomSetup mode={segment as RoomMode}/>;
  return <Empty title="Game unavailable" description="Choose a game from Play." action={<Link className="btn" to="/play">Back to Play</Link>}/>;
@@ -178,6 +178,7 @@ function PlayHome(){
  const {state,update,navigate}=useApp();
  const {overview,error,retry}=usePlayOverview(8000);
  const [code,setCode]=useState(""),[joining,setJoining]=useState(false),[joinError,setJoinError]=useState(""),[badges,setBadges]=useState(false);
+ const codeToJoin=parseRoomCode(code,location.origin);
  const runs=state.gameRuns||[];
  const xp=runs.reduce((sum,run)=>sum+20+Math.floor(run.score/100),0);
  const level=Math.floor(xp/125)+1;
@@ -196,8 +197,9 @@ function PlayHome(){
   ["Night round",runs.some(run=>run.mode==="cup")],
  ] as const;
  async function join(value:string){
+  if(joining)return;
   setJoining(true);setJoinError("");
-  try{navigate(roomRoute(await callPlay<string>("play_join",{p_code:playCode(value)})));}
+  try{navigate(roomRoute(await callPlay<string>("play_join",{p_code:value})));}
   catch(failure){setJoinError(humanError(failure));}
   finally{setJoining(false);}
  }
@@ -223,11 +225,14 @@ function PlayHome(){
   <GameGroup title="1 v 1" modes={["ranked","duel"]}/>
   <GameGroup title="With friends" modes={["quiz","code","challenge"]}/>
   <Card className="game-join">
-   <form onSubmit={event=>{event.preventDefault();if(playCode(code))void join(code);}}>
-    <label>Have a room code?<input value={code} onChange={event=>setCode(event.target.value)} maxLength={14} autoComplete="off" autoCapitalize="characters" placeholder="Enter code"/></label>
-    <button className="btn primary" disabled={joining||!playCode(code)}>{joining?"Joining…":"Join room"}</button>
+   <form onSubmit={event=>{event.preventDefault();if(codeToJoin)void join(codeToJoin);}}>
+    <label>Room code or invite link<input value={code} onChange={event=>{setCode(event.target.value);setJoinError("");}} maxLength={240}
+     autoComplete="off" autoCapitalize="characters" spellCheck={false} placeholder="Paste a code or link"
+     aria-describedby={joinError?"room-join-error":code.trim()&&!codeToJoin?"room-code-hint":undefined}/></label>
+    <button className="btn primary" disabled={joining||!codeToJoin}>{joining?"Joining…":"Join room"}</button>
    </form>
-   {joinError&&<p className="form-error" role="alert">{joinError}</p>}
+   {code.trim()&&!codeToJoin&&<p id="room-code-hint" className="fine-print">Use the ten-character code or the invite link from the host.</p>}
+   {joinError&&<p id="room-join-error" className="form-error" role="alert">{joinError}</p>}
    {overview&&<div className="game-rooms">
     <div className="section-head"><h3>Open rooms</h3><button className="text-button" onClick={retry}>Refresh rooms</button></div>
     {overview.openRooms.length?overview.openRooms.map(room=>
