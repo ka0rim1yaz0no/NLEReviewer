@@ -53,7 +53,7 @@ export function ChoiceRationale({ q, index, className, letter }: {
           <strong>{part.label} · {rationaleVerdictLabels[part.verdict]}</strong>
         </span>
         <p>{part.explanation}</p>
-        <OptionReference option={{...option,source:part.source,contextSource:undefined,additionalSources:undefined}}/>
+        <OptionReference option={{...option,source:part.source,contextSource:part.caseSource,additionalSources:undefined}}/>
       </li>)}
     </ul>
   </div>;

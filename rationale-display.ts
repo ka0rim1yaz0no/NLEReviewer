@@ -47,7 +47,7 @@ export function clarifyArchivedDecisions(question:Question,currentBank:ReadonlyM
   const firstSource=option.source||question.source;
   const firstVerdict=decisionVerdict(reason[1]==='fits',correctFirst);
   const secondVerdict=decisionVerdict(reason[3]==='fits',correctSecond);
-  const companionOption=companion?.questionRevision===7?companion.options[Number(option.referenceId?.split(':')[4])]:undefined;
+  const companionOption=companion&&(companion.questionRevision??0)>=7?companion.options[Number(option.referenceId?.split(':')[4])]:undefined;
   const revisedCompanion=companionOption?.text===option.text.split('\n')[1]?.replace(/^Second — /,'')?companionOption:undefined;
   const secondSource=revisedCompanion?.source||option.contextSource||firstSource;
   return {...option,rationale:`${reason[2]}\n\n${revisedCompanion?.rationale||reason[4]}`,

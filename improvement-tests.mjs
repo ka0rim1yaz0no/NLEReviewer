@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {applicationReviewedQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,decisionQuestions,decisionStudyQuestions,revisedStudyQuestions,challengeQuestions} from './author-bank.ts';
+import {applicationReviewedQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,decisionQuestions,decisionStudyQuestions,revisedStudyQuestions,rationaleQuestions,rationaleStudyQuestions,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -12,7 +12,8 @@ import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
+import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
+import {referenceCorrections} from './clinical-reference-corrections.mjs';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -376,7 +377,7 @@ test('all remaining decisions are revised and saved core and expansion answers r
  assert.ok(applicationReviewedQuestions.every(q=>!isStudyAddition(q.id)));
 });
 
-test('the revised bank preserves grading slots and traces each paired decision to its own option and source',async()=>{
+test('the rationale release preserves grading slots and traces each paired decision to its own option and source',async()=>{
  assert.equal(releaseForArchive(6),decisionRelease);
  assert.equal(additionsForArchive(6),decisionAdditionsRelease);
  assert.equal(await contentDigest(decisionQuestions,clinicalCases),'ddf9138dc427aafc3d4c4220712be1a3603381014c1d9aa959c60afbe6203083');
@@ -384,7 +385,8 @@ test('the revised bank preserves grading slots and traces each paired decision t
  const before=new Map([...decisionQuestions,...decisionStudyQuestions].map(q=>[q.id,q]));
  const source=new Map([...applicationReviewedQuestions,...newStudyQuestions].map(q=>[q.id,q]));
  let focused=0,pairs=0,contrasts=0;
- for(const q of [...currentActive,...revisedStudyQuestions]){
+ const rationaleActive=[...rationaleQuestions,...rationaleStudyQuestions].filter(q=>!q.retired);
+ for(const q of rationaleActive){
   const previous=before.get(q.id);
   assert.equal(q.correctIndex,previous.correctIndex,q.id);
   if(q.questionRevision===7)assert.ok(questionNeedsArchive(q,6),q.id);
@@ -427,13 +429,50 @@ test('the revised bank preserves grading slots and traces each paired decision t
  assert.equal(focused,340);
  assert.equal(pairs,3681*4);
  assert.equal(contrasts,2569*4);
- const injection=currentActive.find(q=>q.id==='EXP2-NP1-communicable-diseases-basic-concepts');
+ const injection=rationaleActive.find(q=>q.id==='EXP2-NP1-communicable-diseases-basic-concepts');
  assert.match(injection.options[injection.correctIndex].text,/new sterile needle and syringe/);
  assert.match(injection.options[2].rationale,/contaminate the medication/);
  assert.doesNotMatch(JSON.stringify(injection),/refusal|Second situation/);
- const wound=currentActive.find(q=>q.id==='SIT-NP1-family-nursing-process-03-safety');
+ const wound=rationaleActive.find(q=>q.id==='SIT-NP1-family-nursing-process-03-safety');
  assert.ok(unsafeDecision(wound));
  assert.match(wound.options[wound.correctIndex].rationale,/Document those barriers.*arrange accessible wound care/);
+});
+
+test('the clinical reference release preserves all keys and shows why the distractor fits elsewhere',async()=>{
+ assert.equal(releaseForArchive(7),rationaleRelease);
+ assert.equal(additionsForArchive(7),rationaleAdditionsRelease);
+ assert.equal(await contentDigest(rationaleQuestions,clinicalCases),'1e46a816a4ae6597e401e9ff285c35772222811584ca5274986919c61b01c684');
+ assert.equal(await contentDigest(rationaleStudyQuestions,[]),'9f1f02a94cf70e598c2c5f4e991cc115c944942d49705fef1f36566d5d1f9439');
+ const previous=new Map([...rationaleQuestions,...rationaleStudyQuestions].map(q=>[q.id,q]));
+ const items=[...currentActive,...revisedStudyQuestions];
+ assert.equal(items.length,9608);
+ assert.equal(new Set(items.map(questionChoiceKey)).size,items.length);
+ const referenceItems=items.filter(q=>q.conceptId);
+ let contextualParts=0;
+ for(const q of items){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+  if(q.questionRevision===8)assert.ok(questionNeedsArchive(q,7),q.id);
+  for(const [index,option] of q.options.entries()){
+   const parts=choiceRationaleParts(q,index);
+   for(const part of parts)if(part.explanation.includes('Case reasoning:')){
+    assert.equal(part.verdict,'incorrect',q.id);
+    assert.ok(part.caseSource?.startsWith('https://'),q.id);
+    contextualParts++;
+   }
+   if(!q.conceptId)assert.equal(option.text,previous.get(q.id).options[index].text,q.id);
+  }
+ }
+ assert.ok(contextualParts>5000);
+ for(const correction of referenceCorrections){
+  const q=referenceItems.find(item=>item.id===correction.id);
+  if(q)assert.equal(q.source,correction.source,correction.id);
+  assert.ok(referenceItems.some(item=>[item.stem,...item.options.flatMap(o=>[o.text,o.rationale])].some(text=>text.includes(correction.to))),correction.id);
+  assert.ok(referenceItems.every(item=>![item.stem,item.keyPoint,...item.options.flatMap(o=>[o.text,o.rationale])].some(text=>text.includes(correction.from))),q.id);
+ }
+ const potassium=items.find(q=>q.id==='SIT-CROSS-laboratory-values-01-action');
+ assert.ok(potassium.options.some(o=>o.rationale.includes('This case gives no indication of hemolysis')));
+ assert.match(potassium.rationale,/6\.7 mmol\/L|peaked T waves/);
 });
 
 test('study sounds respect saved preferences and use different feedback in the same audio context',async()=>{

@@ -80,7 +80,8 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
   id:q.id,stem:q.stem,correctIndex:q.correctIndex,objective:guideObjective(q),
   options:q.options.map((option,index)=>({
    text:option.text,rationale:answerExplanation(q,index),
-   references:[...new Set([cite(option.source||q.source),...(option.contextSource?[cite(option.contextSource)]:[]),...(option.additionalSources||[]).map(url=>cite(url))])],
+   references:[...new Set([option.source||q.source,option.contextSource,...(option.additionalSources||[]),
+    ...(option.rationaleParts||[]).flatMap(part=>[part.source,part.caseSource])].filter((url):url is string=>!!url).map(url=>cite(url)))],
   })),
  }));
  const blueprintReference=cite(prcBlueprint,'PRC Enhanced Tables of Specifications for the Nurses Licensure Examination');
