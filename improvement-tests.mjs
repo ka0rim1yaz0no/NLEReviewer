@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,16);
+ assert.equal(currentQuestionRevision,17);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -710,4 +710,24 @@ test('respiratory case reviews distinguish silent chest, sensor errors, and inte
   assert.match(q.options[q.correctIndex].text,text,id);
   assert.match(q.rationale,reason,id);
  }
+});
+
+test('endocrine reviews distinguish metabolic recovery from isolated readings and compare the appropriate emergency treatments',async()=>{
+ assert.equal(archivedQuestionRevision(16),16);
+ assert.equal(releaseForArchive(16),seventhCaseReviewRelease);
+ assert.equal(await contentDigest(seventhCaseQuestions,clinicalCases),'b787516e167c4fa64d0864120380bf1f12b0986b8695bc466cff8da5867a5ed7');
+ const previous=new Map(seventhCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===17);
+ assert.equal(changed.length,121);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,16),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('NP4-086-2').rationale,/immediate parenteral hydrocortisone and IV isotonic saline/);
+ assert.match(byId.get('NP4-088-2').rationale,/possible arginine vasopressin deficiency/);
+ assert.match(byId.get('SIT-NP4-diabetes-mellitus-01-R2-action').rationale,/Pause before administering the due metformin/);
+ assert.match(byId.get('EXP2-NP4-endocrine-emergencies-summary').rationale,/dextrose when glucose is below 250 mg\/dL.*until ketoacidosis resolves/);
+ assert.match(byId.get('SIT-NP4-endocrine-emergencies-summary-04-evaluation').options[1].rationale,/3.1 mmol\/L still requires replacement/);
 });
