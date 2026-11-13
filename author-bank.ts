@@ -46,7 +46,7 @@ export const rationaleStudyQuestions=additionFeedback.questions;
 const originalById=new Map(sources.map(question=>[question.id,question]));
 const reviewChoices=(question:Question)=>applyChoiceContext(applyClinicalReferenceCorrections(question),originalById);
 export const questions=validateQuestions(rationaleQuestions.map(reviewChoices));
-export const revisedStudyQuestions=validateQuestions(rationaleStudyQuestions.map(reviewChoices));
+export const revisedStudyQuestions=rationaleStudyQuestions.length?validateQuestions(rationaleStudyQuestions.map(reviewChoices)):[];
 export const feedbackReviewCounts={core:coreFeedback.counts,additions:additionFeedback.counts};
 export const activeQuestions=questions.filter(q=>!q.retired);
 export const revisedSituationalCount=activeQuestions.filter(isSituational).length;

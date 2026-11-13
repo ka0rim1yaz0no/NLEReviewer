@@ -289,7 +289,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,7);
+ assert.equal(currentQuestionRevision,8);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -468,7 +468,7 @@ test('the clinical reference release preserves all keys and shows why the distra
   const q=referenceItems.find(item=>item.id===correction.id);
   if(q)assert.equal(q.source,correction.source,correction.id);
   assert.ok(referenceItems.some(item=>[item.stem,...item.options.flatMap(o=>[o.text,o.rationale])].some(text=>text.includes(correction.to))),correction.id);
-  assert.ok(referenceItems.every(item=>![item.stem,item.keyPoint,...item.options.flatMap(o=>[o.text,o.rationale])].some(text=>text.includes(correction.from))),q.id);
+  assert.ok(referenceItems.every(item=>![item.stem,item.keyPoint,...item.options.flatMap(o=>[o.text,o.rationale])].some(text=>text.includes(correction.from))),correction.id);
  }
  const potassium=items.find(q=>q.id==='SIT-CROSS-laboratory-values-01-action');
  assert.ok(potassium.options.some(o=>o.rationale.includes('This case gives no indication of hemolysis')));
