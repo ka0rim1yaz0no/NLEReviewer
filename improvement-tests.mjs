@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,14);
+ assert.equal(currentQuestionRevision,15);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -660,4 +660,24 @@ test('medication safety reviews distinguish symptomatic emergencies from prevent
  assert.match(byId.get('NP5-111-2').rationale,/Remove further serotonergic exposure/);
  assert.match(byId.get('SIT-CROSS-pharmacology-drug-classes-04-action').rationale,/prioritize airway evaluation/);
  assert.match(byId.get('SIT-NP5-psychopharmacology-03-R2-action').rationale,/begin ECG monitoring/);
+});
+
+test('cardiovascular case explanations distinguish verified pulses, contraindications and shock findings',async()=>{
+ assert.equal(archivedQuestionRevision(14),14);
+ assert.equal(releaseForArchive(14),fifthCaseReviewRelease);
+ assert.equal(await contentDigest(fifthCaseQuestions,clinicalCases),'7307743099c3b51d03b166c13c125164c7e0efeb507ffcddb1969f5671e45e14');
+ const previous=new Map(fifthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===15);
+ assert.equal(changed.length,106);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,14),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('SIT-NP3-heart-anatomy-ecg-basics-03-action').rationale,/prompt defibrillation/);
+ assert.match(byId.get('SIT-NP3-heart-anatomy-ecg-basics-04-action').rationale,/correct lead contact/);
+ assert.match(byId.get('SIT-NP3-acute-coronary-syndrome-acs-03-reasoning').rationale,/within 24 hours.*below 90 mm Hg/);
+ assert.match(byId.get('SIT-NP5-altered-tissue-perfusion-02-R2-reasoning').rationale,/Critical deterioration with delayed synchronization/);
+ assert.match(byId.get('EXP2-NP5-multi-system-problems-shock-sepsis').rationale,/low qSOFA score does not rule out sepsis/);
 });
