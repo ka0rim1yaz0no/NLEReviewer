@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,11);
+ assert.equal(currentQuestionRevision,12);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -535,13 +535,17 @@ test('study sounds respect saved preferences and use different feedback in the s
  }
 });
 
-test('case findings and choice explanations agree while prior releases is still available for saved sessions',async()=>{
+test('case findings and choice explanations agree while prior releases remain available for saved sessions',async()=>{
  assert.equal(archivedQuestionRevision(9),9);
  assert.equal(releaseForArchive(9),priorityReviewRelease);
  assert.equal(additionsForArchive(9),priorityReviewAdditionsRelease);
  assert.equal(archivedQuestionRevision(10),10);
  assert.equal(releaseForArchive(10),firstCaseReviewRelease);
  assert.equal(additionsForArchive(10),firstCaseReviewAdditionsRelease);
+ assert.equal(archivedQuestionRevision(11),11);
+ assert.equal(releaseForArchive(11),secondCaseReviewRelease);
+ assert.equal(additionsForArchive(11),firstCaseReviewAdditionsRelease);
+ assert.equal(await contentDigest(priorCaseQuestions,clinicalCases),'a360d5bbb00e11dbf835272280bad324a6273b8fa508c690d55ff7b001633386');
  assert.equal(await contentDigest(priorityReviewedQuestions,clinicalCases),'b7735ca30f4ef478dd2f4a06954cd95835cceba829dda4e4471814fd94d6ea11');
  assert.equal(await contentDigest(priorityReviewedAdditions,[]),'ec86e38e43e2981ef3f8f395da1ce8a40a43cabcf48cca227da8a05e2c136908');
  const previous=new Map([...priorityReviewedQuestions,...priorityReviewedAdditions].map(q=>[q.id,q]));
@@ -585,4 +589,36 @@ test('case findings and choice explanations agree while prior releases is still 
  const arrest=byId.get('CH-041');
  assert.match(arrest.rationale,/pulseless ventricular tachycardia.*prompt defibrillation/);
  assert.ok(arrest.options.some(o=>o.rationale.includes('tachycardias in a patient with a pulse')));
+});
+
+test('source-backed case updates keep archived answer positions and distinguish appropriate alternatives',()=>{
+ const previous=new Map(priorCaseQuestions.map(q=>[q.id,q]));
+ const latest=currentActive.filter(q=>q.questionRevision===12);
+ assert.equal(latest.length,224);
+ for(const q of latest){
+  const archived=previous.get(q.id);
+  assert.ok(questionNeedsArchive(q,11),q.id);
+  assert.equal(archived.correctIndex,q.correctIndex,q.id);
+  assert.equal(q.options.length,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>o.source?.startsWith('https://')),q.id);
+ }
+ const byId=new Map(latest.map(q=>[q.id,q]));
+ const dengue=byId.get('NP1-029-2');
+ assert.match(dengue.stem,/severe abdominal pain and persistent vomiting as the fever starts to settle/);
+ assert.match(dengue.options[dengue.correctIndex].text,/urgent hospital assessment/);
+ assert.ok(dengue.options.some((o,i)=>choiceRationaleParts(dengue,i).some(p=>p.verdict==='incorrect'&&p.explanation.includes('when there are no warning signs'))));
+ const prolapse=byId.get('NP2-046-5');
+ assert.match(prolapse.stem,/75\/min.*loop of umbilical cord/);
+ assert.match(prolapse.options[prolapse.correctIndex].text,/Attempt to push the cord back/);
+ assert.ok(choiceRationaleParts(prolapse,prolapse.correctIndex).some(p=>p.verdict==='needs-correction'&&p.explanation.includes('lifting the presenting part')));
+ const newborn=byId.get('NP2-052-2');
+ assert.match(newborn.rationale,/IV dextrose under protocol/);
+ assert.ok(newborn.options.some((o,i)=>choiceRationaleParts(newborn,i).some(p=>p.verdict==='incorrect'&&p.explanation.includes('evaporative loss'))));
+ const postnatal=byId.get('NP2-050-3');
+ assert.match(postnatal.stem,/Two days after birth/);
+ assert.ok(postnatal.options.some((o,i)=>choiceRationaleParts(postnatal,i).some(p=>p.verdict==='incorrect'&&p.explanation.includes('assessment is needed now'))));
+ const diabetic=byId.get('CH-032');
+ assert.match(diabetic.rationale,/basal coverage while fasting/);
+ assert.ok(diabetic.options.some(o=>o.rationale.includes('full basal dose may need adjustment')));
 });

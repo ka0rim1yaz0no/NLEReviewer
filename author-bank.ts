@@ -14,7 +14,7 @@ import {applyClinicalReferenceCorrections} from './clinical-reference-correction
 import {applyChoiceContext} from './choice-context-review.mjs';
 import {reviewPriorityCases} from './priority-case-review.mjs';
 import {continueClinicalCaseReview} from './clinical-case-continuation.mjs';
-import {currentQuestionRevision} from './content-release.ts';
+import {reviewClinicalCases} from './clinical-case-audit-pass.mjs';
 import {newStudyQuestions} from './authored-update.mjs';
 import type {Question} from './types.ts';
 
@@ -52,7 +52,8 @@ export const contextReviewedQuestions=validateQuestions(rationaleQuestions.map(r
 export const contextReviewedAdditions=rationaleStudyQuestions.length?validateQuestions(rationaleStudyQuestions.map(reviewChoices)):[];
 export const priorityReviewedQuestions=validateQuestions(contextReviewedQuestions.map(question=>reviewPriorityCases(question,originalById)));
 export const priorityReviewedAdditions=contextReviewedAdditions.length?validateQuestions(contextReviewedAdditions.map(question=>reviewPriorityCases(question,originalById))):[];
-export const questions=validateQuestions(priorityReviewedQuestions.map(question=>continueClinicalCaseReview(question,originalById,currentQuestionRevision)));
+export const priorCaseQuestions=validateQuestions(priorityReviewedQuestions.map(question=>continueClinicalCaseReview(question,originalById,11)));
+export const questions=validateQuestions(priorCaseQuestions.map(question=>reviewClinicalCases(question,originalById)));
 export const revisedStudyQuestions=priorityReviewedAdditions.length?validateQuestions(priorityReviewedAdditions.map(question=>continueClinicalCaseReview(question,originalById,10))):[];
 export const feedbackReviewCounts={core:coreFeedback.counts,additions:additionFeedback.counts};
 export const activeQuestions=questions.filter(q=>!q.retired);
