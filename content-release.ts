@@ -6,19 +6,27 @@ import type { Question } from "./types.ts";
 import studyAdditions from "./study-additions-summary.json" with {type:"json"};
 // Immutable release: stage all pages before publishing its manifest. Older
 // deployments continue using study_content and never see half a release.
-export const contentRelease="2026-11-13-pnle-decisions-1";
+export const contentRelease="2026-11-14-choice-rationales-1";
 export const studyAdditionsRelease=studyAdditions.release;
 export const priorStudyAdditionsRelease="2026-11-13-practice-expansion-2";
+export const decisionRelease="2026-11-13-pnle-decisions-1";
+export const decisionAdditionsRelease="2026-11-13-practice-decisions-1";
 export const priorQuestionRelease="2026-11-11-challenge-pink-2";
 export const firstJudgmentRelease="2026-11-11-situational-judgment-1";
 export const clinicalAuditRelease="2026-11-11-clinical-audit-1";
 export const choiceReviewRelease="2026-11-11-choice-reference-review-1";
 export const fullBankReviewRelease="2026-11-13-full-bank-review-1";
 export const applicationReviewRelease="2026-11-13-pnle-application-2";
-export const currentQuestionRevision=6;
-export type ArchivedQuestionRevision=0|1|2|3|4|5;
+export const currentQuestionRevision=7;
+export type ArchivedQuestionRevision=0|1|2|3|4|5|6;
 export function releaseForArchive(revision:ArchivedQuestionRevision){
- return [priorQuestionRelease,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease][revision];
+ return [priorQuestionRelease,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease][revision];
+}
+export function archivedQuestionRevision(revision?:number):ArchivedQuestionRevision{
+ return revision===6||revision===5||revision===4||revision===3||revision===2||revision===1?revision:0;
+}
+export function additionsForArchive(revision:ArchivedQuestionRevision){
+ return revision===6?decisionAdditionsRelease:priorStudyAdditionsRelease;
 }
 export function isStudyAddition(id:string){return /^EXP2-(?:SKIN|ROTAVIRUS)-\d{3}$/.test(id);}
 export function questionNeedsArchive(question:Question,revision:ArchivedQuestionRevision){

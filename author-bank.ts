@@ -9,6 +9,7 @@ import {applyClinicalDifficultyReview} from './clinical-difficulty-review.ts';
 import {applicationReviews} from './application-review-data.ts';
 import {reviewReferenceDifficulty} from './difficulty-review.mjs';
 import {reviewRemainingQuestions} from './decision-review.mjs';
+import {correctQuestionFeedback} from './choice-feedback-review.mjs';
 import {newStudyQuestions} from './authored-update.mjs';
 import type {Question} from './types.ts';
 
@@ -33,8 +34,14 @@ export const applicationReviewedQuestions=validateQuestions(referenceReview.ques
 const decisionReview=reviewRemainingQuestions(applicationReviewedQuestions);
 const additionsReview=reviewRemainingQuestions(newStudyQuestions,[...applicationReviewedQuestions,...newStudyQuestions],decisionReview.questions);
 export const decisionReviewCounts=decisionReview.counts;
-export const questions=validateQuestions(decisionReview.questions);
-export const revisedStudyQuestions=additionsReview.questions.length?validateQuestions(additionsReview.questions):[];
+export const decisionQuestions=validateQuestions(decisionReview.questions);
+export const decisionStudyQuestions=additionsReview.questions.length?validateQuestions(additionsReview.questions):[];
+const sources=[...applicationReviewedQuestions,...newStudyQuestions];
+const coreFeedback=correctQuestionFeedback(decisionQuestions,sources);
+const additionFeedback=correctQuestionFeedback(decisionStudyQuestions,sources);
+export const questions=coreFeedback.questions;
+export const revisedStudyQuestions=additionFeedback.questions;
+export const feedbackReviewCounts={core:coreFeedback.counts,additions:additionFeedback.counts};
 export const activeQuestions=questions.filter(q=>!q.retired);
 export const revisedSituationalCount=activeQuestions.filter(isSituational).length;
 export const questionMap=new Map(questions.map(q=>[q.id,q]));

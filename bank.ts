@@ -1,4 +1,4 @@
-import type { ClinicalCase, Question, Subject } from "./types.ts";
+import type { ClinicalCase, Question, RationalePart, Subject } from "./types.ts";
 export const subjects: { id: Subject; name: string; short: string; description: string; color: string }[] = [
   { id: "CROSS", name: "Foundations & Fundamentals", short: "F&F", description: "The essentials behind every nursing decision", color: "#8c7960" },
   { id: "NP1", name: "Community Health Nursing", short: "NP1", description: "Health promotion, prevention, and community care", color: "#6c8a6c" },
@@ -23,6 +23,14 @@ export function installQuestionBank(next:Question[],cases:ClinicalCase[]){
  questionMap=new Map(all.map(q=>[q.id,q]));
  topics=subjects.flatMap(subject=>[...new Set(questions.filter(q=>q.subject===subject.id).map(q=>q.topic))].map(name=>({id:`${subject.id}:${name}`,name,subject:subject.id,count:questions.filter(q=>q.subject===subject.id&&q.topic===name).length})));
 }
+const https=(value:unknown):value is string=>typeof value==="string"&&/^https:\/\//.test(value);
+const partVerdicts=new Set(["supported","incorrect","needs-correction","appropriate"]);
+function isRationalePart(value:unknown):value is RationalePart{
+ if(!value||typeof value!=="object")return false;
+ const part=value as Partial<RationalePart>;
+ return typeof part.label==="string"&&!!part.label.trim()&&typeof part.verdict==="string"&&partVerdicts.has(part.verdict)&&
+  (part.source===undefined||https(part.source));
+}
 export function validateQuestions(value: unknown, options:{allowDuplicateStems?:boolean}={}): Question[] {
   if (!Array.isArray(value) || !value.length || value.length > 20000) throw new Error("Import a JSON array containing 1–20,000 questions.");
   const ids = new Set<string>();
@@ -37,16 +45,26 @@ export function validateQuestions(value: unknown, options:{allowDuplicateStems?:
     if (!Array.isArray(q.options) || q.options.length !== 4 || q.options.some((o: unknown) => !o || typeof o !== "object" || !("text" in o) || !("rationale" in o) || typeof o.text !== "string" || !o.text.trim() || typeof o.rationale !== "string" || !o.rationale.trim())) throw new Error(`Question ${q.id} needs four choices with explanations.`);
     const choices = q.options.map((o: { text: string }) => normalizeChoice(o.text));
     if (choices.includes("") || new Set(choices).size !== 4 || !Number.isInteger(q.correctIndex) || q.correctIndex < 0 || q.correctIndex > 3) throw new Error(`Question ${q.id} has duplicate choices or an invalid answer.`);
+    if(q.questionRevision===7&&q.options.some((option:Question["options"][number])=>option.rationaleParts!==undefined)){
+      for(const [index,option] of q.options.entries()){
+        const parts=option.rationaleParts;
+        if(!Array.isArray(parts)||parts.length!==2||!parts.every(isRationalePart)||option.rationale.split('\n\n').filter(Boolean).length!==2||
+           parts.every(part=>part.verdict==="supported"||part.verdict==="needs-correction")!==(index===q.correctIndex)){
+          throw new Error(`Question ${q.id} has inconsistent decision feedback.`);
+        }
+      }
+    }
   }
   return value.map(q => {
     const {collection,rationaleScope,sourceId,sourceTopic,format,conceptId,caseId,clinicalObjective,difficulty,questionRevision,retired,reviewCaseId,decisionSummary,recall,...rest}=q;
-    const https=(value:unknown):value is string=>typeof value==="string"&&/^https:\/\//.test(value);
-    const options=q.options.map((o:{text:string;rationale:string;source?:unknown;contextSource?:unknown;referenceId?:unknown;additionalSources?:unknown})=>{
+    const options=q.options.map((o:{text:string;rationale:string;source?:unknown;contextSource?:unknown;referenceId?:unknown;additionalSources?:unknown;rationaleParts?:unknown})=>{
       const additional=Array.isArray(o.additionalSources)?[...new Set(o.additionalSources.filter(https))].slice(0,4):[];
-      return {text:o.text,rationale:o.rationale,...(https(o.source)?{source:o.source}:{}),...(https(o.contextSource)?{contextSource:o.contextSource}:{}),...(additional.length?{additionalSources:additional}:{}),...(typeof o.referenceId==="string"?{referenceId:o.referenceId}:{})};
+      const parts=Array.isArray(o.rationaleParts)&&o.rationaleParts.length===2&&o.rationaleParts.every(isRationalePart)
+       ?o.rationaleParts.map(({label,verdict,source})=>({label,verdict,...(source?{source}:{})})):undefined;
+      return {text:o.text,rationale:o.rationale,...(https(o.source)?{source:o.source}:{}),...(https(o.contextSource)?{contextSource:o.contextSource}:{}),...(additional.length?{additionalSources:additional}:{}),...(typeof o.referenceId==="string"?{referenceId:o.referenceId}:{}),...(parts?{rationaleParts:parts}:{})};
     });
     const validRecall=format==="concept"&&typeof recall?.prompt==="string"&&recall.prompt.trim()&&Array.isArray(recall.choices)&&recall.choices.length===4&&recall.choices.every((value:unknown)=>typeof value==="string"&&value.trim());
-    return { ...rest, options, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: https(q.source)?q.source:"", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}),...(format==="concept"||format==="comparison"||format==="situational"?{format}:{}),...(typeof conceptId==="string"?{conceptId}:{}),...(typeof caseId==="string"?{caseId}:{}),...(typeof clinicalObjective==="string"?{clinicalObjective}:{}),...(difficulty==="challenge"?{difficulty}:{}),...(questionRevision===2||questionRevision===3||questionRevision===4||questionRevision===5||questionRevision===6?{questionRevision}:{}),...(retired===true?{retired:true}:{}),...(typeof reviewCaseId==="string"&&reviewCaseId.length<=160?{reviewCaseId}:{}),...(typeof decisionSummary==="string"&&decisionSummary.trim()?{decisionSummary}:{}),...(validRecall?{recall:{prompt:recall.prompt,choices:recall.choices}}:{}) };
+    return { ...rest, options, keyPoint: typeof q.keyPoint==="string"&&q.keyPoint.trim()?q.keyPoint:q.rationale, source: https(q.source)?q.source:"", origin: typeof q.origin==="string"&&q.origin.trim()?q.origin:"Imported by you", ...(collection==="supplemental"?{collection}:{}),...(rationaleScope==="shared"?{rationaleScope}:{}),...(typeof sourceId==="string"?{sourceId}:{}),...(typeof sourceTopic==="string"?{sourceTopic}:{}),...(format==="concept"||format==="comparison"||format==="situational"?{format}:{}),...(typeof conceptId==="string"?{conceptId}:{}),...(typeof caseId==="string"?{caseId}:{}),...(typeof clinicalObjective==="string"?{clinicalObjective}:{}),...(difficulty==="challenge"?{difficulty}:{}),...(questionRevision===2||questionRevision===3||questionRevision===4||questionRevision===5||questionRevision===6||questionRevision===7?{questionRevision}:{}),...(retired===true?{retired:true}:{}),...(typeof reviewCaseId==="string"&&reviewCaseId.length<=160?{reviewCaseId}:{}),...(typeof decisionSummary==="string"&&decisionSummary.trim()?{decisionSummary}:{}),...(validRecall?{recall:{prompt:recall.prompt,choices:recall.choices}}:{}) };
   });
 }
 export function normalizeQuestionStem(text:string){return text.normalize("NFKC").toLowerCase().replace(/[\p{P}\p{S}]/gu," ").replace(/\s+/g," ").trim();}

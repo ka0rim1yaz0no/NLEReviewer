@@ -4,7 +4,7 @@ import { questionsForTopic } from './curriculum.ts';
 import { isSituational } from './collections.ts';
 import { reasoningSummaries } from './reference-guide-summaries.ts';
 import { referenceLabel } from './study-references.ts';
-import { displayRationale, unsafeDecision } from './rationale-display.ts';
+import { answerExplanation, unsafeDecision } from './rationale-display.ts';
 import { distinctQuestionSet, questionFamily } from './question-selection.ts';
 
 export type GuideSection={title:string;scenario:string;summary?:string;points:{text:string;reference:number;avoid:boolean;questionId:string;objective:string}[]};
@@ -78,8 +78,8 @@ export function makeTopicGuide(topic:CurriculumTopic,bank:readonly Question[],ca
  if(!sections.size)throw new Error('No situational study notes are available for this topic.');
  const practice=practiceQuestions(topic,questions).map(q=>({
   id:q.id,stem:q.stem,correctIndex:q.correctIndex,objective:guideObjective(q),
-  options:q.options.map(option=>({
-   text:option.text,rationale:displayRationale(option.rationale),
+  options:q.options.map((option,index)=>({
+   text:option.text,rationale:answerExplanation(q,index),
    references:[...new Set([cite(option.source||q.source),...(option.contextSource?[cite(option.contextSource)]:[]),...(option.additionalSources||[]).map(url=>cite(url))])],
   })),
  }));

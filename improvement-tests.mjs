@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {applicationReviewedQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,revisedStudyQuestions,challengeQuestions} from './author-bank.ts';
+import {applicationReviewedQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,decisionQuestions,decisionStudyQuestions,revisedStudyQuestions,challengeQuestions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -12,7 +12,7 @@ import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease,releaseForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
+import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -22,7 +22,7 @@ import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
 import {choiceReferenceUpdates} from './choice-review.ts';
 import {reasoningSummaries} from './reference-guide-summaries.ts';
-import {displayRationale,choiceExplanationLabel,unsafeDecision} from './rationale-display.ts';
+import {displayRationale,choiceExplanationLabel,choiceRationaleParts,unsafeDecision} from './rationale-display.ts';
 import {sessionChoiceOrder} from './choice-order.ts';
 import {restoreRepetitionReview} from './repetition-review.ts';
 import {sessionScore} from './engine.ts';
@@ -279,6 +279,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  assert.equal(bank.length,9531+newStudyQuestions.length);
  assert.equal(new Set(bank.map(q=>normalizeQuestionStem(q.stem))).size,bank.length);
  assert.equal(new Set(bank.map(q=>q.id)).size,bank.length);
+ assert.equal(new Set(bank.map(questionChoiceKey)).size,bank.length);
  for(const q of bank){
   assert.ok(questionChoiceKey(q),q.id);
   assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
@@ -287,7 +288,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,6);
+ assert.equal(currentQuestionRevision,7);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -363,7 +364,7 @@ test('all remaining decisions are revised and saved core and expansion answers r
  assert.equal(releaseForArchive(5),applicationReviewRelease);
  assert.equal(await contentDigest(applicationReviewedQuestions,clinicalCases),'bfe99d8bc5ef9c85e43075128afd8c915c89d79f0fc6b089b9b17b17a17d4118');
  const prior=new Map([...applicationReviewedQuestions,...newStudyQuestions].map(q=>[q.id,q]));
- const revised=[...currentActive,...revisedStudyQuestions].filter(q=>q.questionRevision===6);
+ const revised=[...decisionQuestions,...decisionStudyQuestions].filter(q=>!q.retired&&q.questionRevision===6);
  assert.equal(revised.length,7090+newStudyQuestions.length);
  assert.equal(new Set(revised.map(questionChoiceKey)).size,revised.length);
  for(const q of revised){
@@ -373,6 +374,66 @@ test('all remaining decisions are revised and saved core and expansion answers r
  }
  assert.ok(revisedStudyQuestions.every(q=>isStudyAddition(q.id)));
  assert.ok(applicationReviewedQuestions.every(q=>!isStudyAddition(q.id)));
+});
+
+test('the revised bank preserves grading slots and traces each paired decision to its own option and source',async()=>{
+ assert.equal(releaseForArchive(6),decisionRelease);
+ assert.equal(additionsForArchive(6),decisionAdditionsRelease);
+ assert.equal(await contentDigest(decisionQuestions,clinicalCases),'ddf9138dc427aafc3d4c4220712be1a3603381014c1d9aa959c60afbe6203083');
+ assert.equal(await contentDigest(decisionStudyQuestions,[]),'7007c4727243a5b9244b2117fad30e12834bf911c51a992d3a014cc27c2bbc70');
+ const before=new Map([...decisionQuestions,...decisionStudyQuestions].map(q=>[q.id,q]));
+ const source=new Map([...applicationReviewedQuestions,...newStudyQuestions].map(q=>[q.id,q]));
+ let focused=0,pairs=0,contrasts=0;
+ for(const q of [...currentActive,...revisedStudyQuestions]){
+  const previous=before.get(q.id);
+  assert.equal(q.correctIndex,previous.correctIndex,q.id);
+  if(q.questionRevision===7)assert.ok(questionNeedsArchive(q,6),q.id);
+  assert.ok(!q.stem.startsWith('First situation\n'),q.id);
+  if(previous.stem.startsWith('First situation\n'))focused++;
+  const raw=source.get(q.id);
+  for(const [index,choice] of q.options.entries()){
+   const parts=choiceRationaleParts(q,index);
+   if(!parts.length)continue;
+   assert.equal(parts.length,2,q.id);
+   assert.ok(parts.every(p=>p.explanation.trim()&&new URL(p.source).protocol==='https:'),q.id);
+   const satisfies=parts.every(p=>p.verdict==='supported'||p.verdict==='needs-correction');
+   assert.equal(satisfies,index===q.correctIndex,q.id);
+   const [id,kind,first,peerId,second]=choice.referenceId.split(':');
+   assert.equal(id,q.id);
+   if(kind==='paired'){
+    const peer=source.get(peerId);
+    const expected=[[raw,Number(first)],[peer,Number(second)]];
+    for(const [part,[item,slot]] of expected.entries()){
+     const o=item.options[slot],key=slot===item.correctIndex;
+     assert.equal(parts[part].verdict,unsafeDecision(item)?key?'needs-correction':'appropriate':key?'supported':'incorrect',q.id);
+     assert.equal(parts[part].source,o.source||item.source,q.id);
+     assert.ok(choice.text.split('\n')[part].endsWith(o.text),q.id);
+    }
+    pairs++;
+   }else{
+    assert.equal(kind,'contrast',q.id);
+    const answers=[raw.options[raw.correctIndex],raw.options.find(o=>o.referenceId===first)];
+    for(const [part,line] of choice.text.split('\n').entries()){
+     const selected=raw.options.find(o=>line.endsWith(' — '+o.text));
+     assert.ok(selected,q.id);
+     assert.equal(parts[part].verdict,selected===answers[part]?'supported':'incorrect',q.id);
+     assert.equal(parts[part].source,selected.source||raw.source,q.id);
+     assert.ok(parts[part].explanation.includes(selected.text),q.id);
+    }
+    contrasts++;
+   }
+  }
+ }
+ assert.equal(focused,340);
+ assert.equal(pairs,3681*4);
+ assert.equal(contrasts,2569*4);
+ const injection=currentActive.find(q=>q.id==='EXP2-NP1-communicable-diseases-basic-concepts');
+ assert.match(injection.options[injection.correctIndex].text,/new sterile needle and syringe/);
+ assert.match(injection.options[2].rationale,/contaminate the medication/);
+ assert.doesNotMatch(JSON.stringify(injection),/refusal|Second situation/);
+ const wound=currentActive.find(q=>q.id==='SIT-NP1-family-nursing-process-03-safety');
+ assert.ok(unsafeDecision(wound));
+ assert.match(wound.options[wound.correctIndex].rationale,/Document those barriers.*arrange accessible wound care/);
 });
 
 test('study sounds respect saved preferences and use different feedback in the same audio context',async()=>{

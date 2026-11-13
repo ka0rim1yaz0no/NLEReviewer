@@ -57,3 +57,19 @@ test("bank previews show the choices with the key hidden, and shared rationales 
   assert.doesNotMatch(result, /Your answer|Choice explanation \d\./);
   assert.match(result, /Source answer explanation.*Reason for the correct choice/);
 });
+
+test("decision explanations distinguish safe care from an unsafe proposal and follow shuffled letters",()=>{
+  const item={...q,questionRevision:7,options:q.options.map((option,index)=>({
+    ...option,rationale:`The assessment explains choice ${index+1}.\n\nThe proposal explains choice ${index+1}.`,
+    rationaleParts:[
+      {label:"Assessment",verdict:index===2?"supported":"incorrect"},
+      {label:"Proposal to question",verdict:index===2?"needs-correction":"appropriate"},
+    ],
+  }))};
+  const html=render({q:item,selected:2,choiceOrder:[2,0,3,1],expanded:true});
+  assert.match(html,/A\. Correct answer.*Assessment · Supported by the findings.*Proposal to question · Needs correction/);
+  assert.match(html,/B\. Incorrect combination.*Assessment · Does not match the findings.*Proposal to question · Appropriate care/);
+  assert.doesNotMatch(html,/Why this choice does not fit/);
+  const preview=render({q:item,expanded:false});
+  assert.doesNotMatch(preview,/Correct answer|Needs correction|Incorrect combination/);
+});

@@ -2,7 +2,7 @@ import {loadProtectedContent} from "./content-access";
 import {displayRationale,unsafeDecision,distinctStudyNote} from "./rationale-display";
 import {referenceLabel} from "./study-references";
 import {formatQuestionForDisplay} from "./clinical-display";
-import {currentQuestionRevision,questionNeedsArchive} from "./content-release";
+import {archivedQuestionRevision,currentQuestionRevision,questionNeedsArchive} from "./content-release";
 import {sessionChoiceOrder} from "./choice-order";
 import {quizShortcut} from "./quiz-shortcuts";
 import {vaultIsDue} from "./vault-schedule";
@@ -21,7 +21,7 @@ import { practiceSessionQuestions, practiceSetupPath } from "./practice-setup";
 import { savedTopicNotes } from "./saved-notes";
 import { findCurriculumTopic } from "./curriculum";
 import { QuestionFlashcard } from "./QuestionFlashcard";
-import { ChoiceRationale, ReviewAnswers } from "./QuestionAnswers";
+import { ChoiceRationale, ChoiceStatus, ReviewAnswers } from "./QuestionAnswers";
 import { StudySoundToggle } from "./StudySoundToggle";
 import { playStudyCue, studySoundsEnabled } from "./study-sound";
 import type { Question, Subject } from "./types";
@@ -90,7 +90,7 @@ function SessionContent({id,results=false}:{id:string;results?:boolean}){
  const {state,bankMap,profileId}=useApp();
  const session=state.sessions.find(s=>s.id===id);
  const storedRevision=session?.questionRevision;
- const revision=storedRevision===5||storedRevision===4||storedRevision===3||storedRevision===2||storedRevision===1?storedRevision:0;
+ const revision=archivedQuestionRevision(storedRevision);
  const archivedIds=useMemo(()=>{
   if(!session||session.questionRevision===currentQuestionRevision)return [];
   const imports=new Set(state.importedQuestions.map(q=>q.id));
@@ -316,18 +316,20 @@ function QuestionSession({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
       return <div key={index} className={`option ${choiceState} ${eliminated?"eliminated":""}`}>
        <button type="button" className="option-main" disabled={revealed} aria-pressed={selected} onClick={()=>pick(index)}>
         <span className="option-letter">{letter}</span>
-        <span className="answer-choice-text" style={{fontSize:state.preferences.textSize}}>{option.text}</span>
+        <span className="quiz-choice-content">
+         <span className="answer-choice-text" style={{fontSize:state.preferences.textSize}}>{option.text}</span>
+         {revealed&&<ChoiceStatus q={q} index={index} chosen={selected}/>}
+        </span>
         {selected&&!revealed&&<span className="selected-dot" aria-hidden="true"/>}
-        {correct&&<Check size={17} className="choice-correct-icon" aria-label="Correct answer"/>}
        </button>
        <button type="button" className="eliminate" aria-label={`Eliminate option ${letter}`} aria-pressed={!!eliminated} disabled={revealed}
         onClick={()=>edit(s=>({...s,eliminated:{...s.eliminated,[q.id]:eliminated?(s.eliminated[q.id]||[]).filter(value=>value!==index):[...(s.eliminated[q.id]||[]),index]}}))}>
         <X size={16}/>
        </button>
-       {revealed&&state.preferences.explanation==="inside"&&q.rationaleScope!=="shared"&&<ChoiceRationale q={q} index={index} className="inline-rationale"/>}
+       {revealed&&state.preferences.explanation==="inside"&&q.rationaleScope!=="shared"&&<ChoiceRationale q={q} index={index} letter={letter} className="inline-rationale"/>}
       </div>;
      })}
-    </div>{state.preferences.confidence&&!revealed&&<div className="confidence"><small>How sure are you?</small><div className="button-row">{["I’m sure","Not sure","Guessing"].map(value=><button key={value} className={answer?.confidence===value?"active":""} onClick={()=>edit(s=>({...s,answers:{...s.answers,[q.id]:{selected:s.answers[q.id]?.selected??-1,submitted:false,confidence:value}}}))}>{value}</button>)}</div></div>}{session.mode==="tutor"&&!revealed&&<button className="btn primary full submit" disabled={answer===undefined||answer.selected<0} onClick={submit}>Submit answer <ArrowRight size={17}/></button>}{revealed&&<div className={`rationale ${answer.selected===q.correctIndex?"correct":"wrong"}`}><h3>{answer.selected===q.correctIndex?<Check size={18}/>:<X size={18}/>} {answer.selected===q.correctIndex?"That’s right":"Let’s learn from this"}</h3><strong>{q.rationaleScope==="shared"?"Source keyed answer":unsafeDecision(q)?"Unsafe action to identify":"Best answer"}: {letters[order.indexOf(q.correctIndex)]}. {q.options[q.correctIndex].text}</strong>{q.rationaleScope==="shared"?<p>{displayRationale(q.rationale)}</p>:state.preferences.explanation!=="inside"&&<ChoiceRationale q={q} index={q.correctIndex}/>} {q.difficulty==="challenge"&&distinctStudyNote(q)&&<div className="clinical-takeaway"><strong>Study note</strong><p>{distinctStudyNote(q)}</p></div>}{state.preferences.explanation!=="inside"&&q.rationaleScope!=="shared"&&<details><summary>Why the other choices aren’t the best answer <ChevronDown size={15}/></summary>{order.map((i,position)=>i!==q.correctIndex&&<ChoiceRationale key={i} q={q} index={i} letter={letters[position]}/>)}</details>}<QuestionExtras q={q}/></div>}<div className="quiz-bottom"><button className="btn" disabled={session.cursor===0} onClick={()=>jump(session.cursor-1)}><ChevronLeft size={16}/>Previous</button><button className="btn primary" onClick={()=>session.cursor===session.questionIds.length-1?setFinish(true):jump(session.cursor+1)}>{session.cursor===session.questionIds.length-1?"Finish session":revealed||session.mode==="exam"&&answer?.selected!==undefined?"Next question":"Skip"}<ChevronRight size={16}/></button></div></Card><Card className="navigator"><div className="section-head"><h2>Question navigator</h2><span className="muted">{answered} / {session.questionIds.length}</span></div><div className="button-row"><button className="text-button" onClick={()=>nextMatching(session.questionIds.filter(id=>!session.answers[id]||session.answers[id].selected<0))}>Next unanswered</button><button className="text-button" disabled={!session.flagged.length} onClick={()=>nextMatching(session.flagged)}>Next flagged ({session.flagged.length})</button></div><SessionNavigator session={session} jump={jump}/><button className="btn full" onClick={()=>setFinish(true)}>Finish — see results ({answered} of {session.questionIds.length} answered)</button><small className="center muted">Your session saves automatically. You can come back anytime.</small></Card>{finish&&<Modal title="Finish this session?" onClose={()=>setFinish(false)}><p>You’ve selected answers for {answered} of {session.questionIds.length} questions. {session.questionIds.length-answered>0?"Unanswered questions count as incorrect in your result.":"Your full answer review will be ready next."}</p><div className="button-row end"><button className="btn" onClick={()=>setFinish(false)}>Keep studying</button><button className="btn primary" onClick={complete}>Submit and see results</button></div></Modal>}</div>;}
+    </div>{state.preferences.confidence&&!revealed&&<div className="confidence"><small>How sure are you?</small><div className="button-row">{["I’m sure","Not sure","Guessing"].map(value=><button key={value} className={answer?.confidence===value?"active":""} onClick={()=>edit(s=>({...s,answers:{...s.answers,[q.id]:{selected:s.answers[q.id]?.selected??-1,submitted:false,confidence:value}}}))}>{value}</button>)}</div></div>}{session.mode==="tutor"&&!revealed&&<button className="btn primary full submit" disabled={answer===undefined||answer.selected<0} onClick={submit}>Submit answer <ArrowRight size={17}/></button>}{revealed&&<div className={`rationale ${answer.selected===q.correctIndex?"correct":"wrong"}`}><h3>{answer.selected===q.correctIndex?<Check size={18}/>:<X size={18}/>} {answer.selected===q.correctIndex?"That’s right":"Let’s learn from this"}</h3><strong>{q.rationaleScope==="shared"?"Source keyed answer":unsafeDecision(q)&&!q.options[q.correctIndex].rationaleParts?"Action to correct":"Correct answer"}: {letters[order.indexOf(q.correctIndex)]}. {q.options[q.correctIndex].text}</strong>{q.rationaleScope==="shared"?<p>{displayRationale(q.rationale)}</p>:state.preferences.explanation!=="inside"&&<ChoiceRationale q={q} index={q.correctIndex}/>} {q.difficulty==="challenge"&&distinctStudyNote(q)&&<div className="clinical-takeaway"><strong>Study note</strong><p>{distinctStudyNote(q)}</p></div>}{state.preferences.explanation!=="inside"&&q.rationaleScope!=="shared"&&<details><summary>Explanations for the other choices <ChevronDown size={15}/></summary>{order.map((i,position)=>i!==q.correctIndex&&<ChoiceRationale key={i} q={q} index={i} letter={letters[position]}/>)}</details>}<QuestionExtras q={q}/></div>}<div className="quiz-bottom"><button className="btn" disabled={session.cursor===0} onClick={()=>jump(session.cursor-1)}><ChevronLeft size={16}/>Previous</button><button className="btn primary" onClick={()=>session.cursor===session.questionIds.length-1?setFinish(true):jump(session.cursor+1)}>{session.cursor===session.questionIds.length-1?"Finish session":revealed||session.mode==="exam"&&answer?.selected!==undefined?"Next question":"Skip"}<ChevronRight size={16}/></button></div></Card><Card className="navigator"><div className="section-head"><h2>Question navigator</h2><span className="muted">{answered} / {session.questionIds.length}</span></div><div className="button-row"><button className="text-button" onClick={()=>nextMatching(session.questionIds.filter(id=>!session.answers[id]||session.answers[id].selected<0))}>Next unanswered</button><button className="text-button" disabled={!session.flagged.length} onClick={()=>nextMatching(session.flagged)}>Next flagged ({session.flagged.length})</button></div><SessionNavigator session={session} jump={jump}/><button className="btn full" onClick={()=>setFinish(true)}>Finish — see results ({answered} of {session.questionIds.length} answered)</button><small className="center muted">Your session saves automatically. You can come back anytime.</small></Card>{finish&&<Modal title="Finish this session?" onClose={()=>setFinish(false)}><p>You’ve selected answers for {answered} of {session.questionIds.length} questions. {session.questionIds.length-answered>0?"Unanswered questions count as incorrect in your result.":"Your full answer review will be ready next."}</p><div className="button-row end"><button className="btn" onClick={()=>setFinish(false)}>Keep studying</button><button className="btn primary" onClick={complete}>Submit and see results</button></div></Modal>}</div>;}
 function SessionNavigator({session,jump}:{session:Session;jump:(index:number)=>void}){
  const [page,setPage]=useState(()=>Math.floor(session.cursor/100));
  useEffect(()=>setPage(Math.floor(session.cursor/100)),[session.cursor]);
@@ -338,16 +340,19 @@ export function QuestionProvenance({q}:{q:Question}){
  if(q.retired)return <p className="notice small-notice"><strong>Historical question</strong> · Replaced after the content audit. Kept here for your saved answers and notes; new study sets use the revised bank.</p>;
  if(q.difficulty==="challenge")return <p className="question-provenance"><strong>Challenge · Clinical judgment</strong></p>;
  if(q.format==="situational")return <p className="question-provenance"><strong>Situational nursing · {q.clinicalObjective}</strong><span>Apply clinical judgment to a fictional care situation. Answer and alternative explanations include reference links.</span></p>;
- if(q.format)return <p className="question-provenance"><strong>{q.format==="concept"?"Original concept check":"Original comparison question"} · Open RN</strong><span>{q.questionRevision===6?"Match two findings to the correct entries.":q.format==="concept"?"Identify a concept from its nursing reference description.":"Compare a specific relationship from a nursing reference table."} Reference-based key and explanations for all four choices.</span></p>;
+ if(q.format)return <p className="question-provenance"><strong>{q.format==="concept"?"Original concept check":"Original comparison question"} · Open RN</strong><span>{q.options[q.correctIndex].rationaleParts?"Match two findings to the correct entries.":q.format==="concept"?"Identify a concept from its nursing reference description.":"Compare a specific relationship from a nursing reference table."} Reference-based key and explanations for all four choices.</span></p>;
  return q.collection==="supplemental"?<p className="question-provenance"><strong>Supplemental medical science · MedMCQA</strong><span>{q.rationaleScope==="shared"?"Shared source explanation; separate rationales for the alternatives were not supplied.":"Source-based correction with per-choice explanations."} Supplemental material, not a PNLE item. Independent clinical review is still needed.</span></p>:null;
 }
 export function QuestionExtras({q}:{q:Question}){
- const {state,update,path}=useApp();
+ const {state,update,path,bankMap}=useApp();
  const saved=state.bookmarks.includes(q.id);
  const topic=findCurriculumTopic(`${q.subject}:${q.topic}`);
  const fromQuiz=path.startsWith("/session/")||path.startsWith("/results/");
  const notesPath=topic?`/resources/read?${new URLSearchParams({topic:topic.slug,...(fromQuiz?{returnTo:path}:{})})}`:undefined;
+ const current=bankMap.get(q.id);
+ const newer=fromQuiz&&current&&!current.retired&&(current.questionRevision??0)>(q.questionRevision??0);
  return <>
+  {newer&&<p className="notice small-notice">This set uses the saved question and score. <Link className="text-button" to={`/questions?item=${encodeURIComponent(q.id)}`}>Read the updated question and explanations<ArrowRight size={14}/></Link></p>}
   <details className="question-attribution"><summary>Question source & attribution</summary>
    <p>{q.origin}</p>{q.sourceTopic&&<p>Source topic: {q.sourceTopic}</p>}
    {(q.format==="concept"||q.format==="comparison")&&<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">Reference adaptation license: CC BY 4.0</a>}
@@ -443,8 +448,16 @@ function SessionResults({id,bankMap}:{id:string;bankMap:Map<string,Question>}){
  </Card></>;
 }
 export function BankBrowser({saved=false,notes=false}:{saved?:boolean;notes?:boolean}){
-  const {state,bank,bankMap}=useApp(),start=useStartSession();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all"),[collection,setCollection]=useState<Collection>("all"),[page,setPage]=useState(0);
+  const {state,bank,bankMap,path}=useApp(),start=useStartSession();const [search,setSearch]=useState(""),[subject,setSubject]=useState("all"),[collection,setCollection]=useState<Collection>("all"),[page,setPage]=useState(0);
   const pageStart=useRef<HTMLElement>(null);
+  const item=!saved&&!notes?new URLSearchParams(path.split("?")[1]).get("item"):null;
+  if(item){
+   const question=bankMap.get(item);
+   return <><Link className="back" to="/questions"><ArrowLeft size={15}/>Question library</Link>
+    {question?<><Heading title="Updated question"/><Card><ReviewQuestion key={question.id} q={question}/></Card></>
+     :<Empty title="Question unavailable" description="Choose a question from the library."/>}
+   </>;
+  }
   const query=search.toLowerCase();
   const browseBank=saved||notes?[...bankMap.values()]:bank;
   const filtered=browseBank.filter(q=>inCollection(q,collection,saved||notes)&&(!saved||state.bookmarks.includes(q.id))&&(!notes||!!state.notes[q.id]?.trim())&&(subject==="all"||q.subject===subject)&&`${q.topic} ${q.stem} ${q.options[q.correctIndex].text} ${notes?state.notes[q.id]||"":""}`.toLowerCase().includes(query));

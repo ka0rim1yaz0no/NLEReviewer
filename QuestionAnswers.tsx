@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { Check, ChevronDown, CircleAlert, X } from "lucide-react";
 import { letters } from "./choice-order";
-import { choiceExplanationLabel, displayRationale, distinctStudyNote } from "./rationale-display";
+import { answerStatus, choiceRationaleParts, displayRationale, distinctStudyNote, rationaleVerdictLabels, unsafeDecision } from "./rationale-display";
 import { referenceLabel } from "./study-references";
 import type { ReactNode } from "react";
 import type { Question, QuestionOption } from "./types";
@@ -19,15 +19,44 @@ function OptionReference({ option }: { option: QuestionOption }) {
   })}</>;
 }
 
+export function ChoiceStatus({q,index,chosen}:{q:Question;index:number;chosen:boolean}){
+  const correct=index===q.correctIndex;
+  const unsafe=unsafeDecision(q);
+  const appropriate=unsafe&&!q.options[index].rationaleParts&&!correct;
+  const Icon=correct&&unsafe?CircleAlert:correct||appropriate?Check:X;
+  return <span className="review-option-status">
+    <span className={correct&&unsafe?"choice-incorrect":correct?"choice-key":appropriate?"choice-appropriate":"choice-incorrect"}>
+      <Icon size={14} aria-hidden="true"/>{answerStatus(q,index)}
+    </span>
+    {chosen&&<span>Your answer</span>}
+  </span>;
+}
+
 export function ChoiceRationale({ q, index, className, letter }: {
   q: Question; index: number; className?: string; letter?: string;
 }) {
   const option = q.options[index];
-  return <p className={className}>
-    <span className="choice-rationale-label">{letter && `${letter}. `}{choiceExplanationLabel(q, index)}</span>
+  const parts=choiceRationaleParts(q,index);
+  const title=answerStatus(q,index);
+  if(!parts.length)return <p className={className}>
+    <span className="choice-rationale-label">{letter && `${letter}. `}{title}</span>
     {displayRationale(option.rationale)}
     <OptionReference option={option.source ? option : { ...option, source: q.source }} />
   </p>;
+  return <div className={`choice-feedback ${className||""}`}>
+    <strong className="choice-rationale-label">{letter && `${letter}. `}{title}</strong>
+    <ul className="choice-feedback-parts">
+      {parts.map(part=><li key={part.label}>
+        <span className={`choice-verdict ${part.verdict}`}>
+          {part.verdict==="needs-correction"?<CircleAlert size={14} aria-hidden="true"/>
+            :part.verdict==="incorrect"?<X size={14} aria-hidden="true"/>:<Check size={14} aria-hidden="true"/>}
+          <strong>{part.label} · {rationaleVerdictLabels[part.verdict]}</strong>
+        </span>
+        <p>{part.explanation}</p>
+        <OptionReference option={{...option,source:part.source,contextSource:undefined,additionalSources:undefined}}/>
+      </li>)}
+    </ul>
+  </div>;
 }
 
 export function ReviewAnswers({ q, selected, expanded, onToggle, choiceOrder, children }: {
@@ -53,10 +82,7 @@ export function ReviewAnswers({ q, selected, expanded, onToggle, choiceOrder, ch
           <span className="option-letter">{letters[position]}</span>
           <div className="review-option-content">
             <strong className="answer-choice-text">{q.options[index].text}</strong>
-            {(correct || chosen) && <div className="review-option-status">
-              {correct && <span>Correct answer</span>}
-              {chosen && <span>Your answer</span>}
-            </div>}
+            {showKey&&<ChoiceStatus q={q} index={index} chosen={chosen}/>}
           </div>
         </li>;
       })}

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {applicationReviewedQuestions,questions,revisedStudyQuestions,clinicalCases} from './author-bank.ts';
+import {applicationReviewedQuestions,decisionQuestions,decisionStudyQuestions,clinicalCases} from './author-bank.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {contentDigest} from './content-integrity.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
@@ -9,7 +9,7 @@ import facts from './concept-evidence.json' with {type:'json'};
 
 const published=[...applicationReviewedQuestions.filter(q=>!q.retired),...newStudyQuestions];
 const prior=new Map(published.map(q=>[q.id,q]));
-const bank=[...questions.filter(q=>!q.retired),...revisedStudyQuestions];
+const bank=[...decisionQuestions.filter(q=>!q.retired),...decisionStudyQuestions];
 const factsById=new Map(facts.map(fact=>[fact.id,fact]));
 const families=Map.groupBy(published,questionFamily);
 const processSource='https://www.ncbi.nlm.nih.gov/books/NBK610818/#ptiv.sec8';
