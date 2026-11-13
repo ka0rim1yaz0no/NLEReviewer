@@ -110,7 +110,7 @@ function reviewDirect(question,option,index,original,standalone){
  return {...option,text:decision.text??option.text,rationale:reason,source:part.source,contextSource:part.caseSource};
 }
 
-export function continueClinicalCaseReview(question,originals){
+export function continueClinicalCaseReview(question,originals,revision){
  if(question.retired||question.conceptId)return question;
  const family=questionFamily(question),standalone=standaloneCases[question.id],original=originals.get(question.id);
  const options=question.options.map((option,index)=>option.rationaleParts
@@ -128,6 +128,6 @@ export function continueClinicalCaseReview(question,originals){
  const source=standalone?.[0]??caseSource(family)??question.source;
  const keyPoint=updatedKeyPoints[family]??question.keyPoint;
  const revisedSummary=question.decisionSummary&&correct.text.split('\n')[0].replace(/^[^—]+ — /,'');
- return {...question,options,stem,source,keyPoint,rationale:correct.rationale,questionRevision:10,
+ return {...question,options,stem,source,keyPoint,rationale:correct.rationale,questionRevision:revision,
   ...(revisedSummary&&{decisionSummary:revisedSummary})};
 }

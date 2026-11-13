@@ -85,7 +85,20 @@ export const choiceEdits={
   0:['Increase lactulose to produce more watery stools despite dizziness'],
  },
  'SIT-NP4-thyroid-disorders-01-R2-action':{
-  1:['Hold the next thionamide dose and arrange urgent assessment and a complete blood count with differential'],
+  3:['Hold the next thionamide dose and arrange urgent assessment and a complete blood count with differential'],
+ },
+ 'SIT-NP4-thyroid-disorders-02-R2-recognition':{
+  0:['Frequent missed doses as the established cause of poor control','Missed doses can worsen thyroid control when medication history confirms them. This client takes the tablet with calcium and iron daily, so check the documented interaction.',ref.levothyroxine],
+ },
+ 'SIT-NP4-thyroid-disorders-02-R2-action':{
+  0:['Arrange routine thyroid monitoring while keeping the tablet and supplements on the same schedule','Testing is useful after a consistent schedule is established. Leaving the tablet and supplements together preserves the likely absorption problem.',ref.levothyroxine],
+  1:['Hold the next thionamide dose and arrange an urgent blood count for fever and severe sore throat'],
+ },
+ 'SIT-NP4-thyroid-disorders-02-R2-planning':{
+  0:['The client attends thyroid monitoring but still takes both supplements with the levothyroxine tablet','Follow-up thyroid testing assesses the effect of treatment. Keeping this tablet and the two supplements together leaves the identified cause unaddressed.',ref.levothyroxine],
+ },
+ 'SIT-NP4-thyroid-disorders-02-R2-reasoning':{
+  0:['Product switching can destabilize thyroid replacement even when doses are taken regularly','A product change can warrant repeat thyroid testing. The case documents no switch and instead identifies taking this tablet with both supplements.',ref.thyroidMonitoring],
  },
  'SIT-NP4-thyroid-disorders-02-R2-teaching':{
   0:['Take the standard levothyroxine tablet as prescribed and separate calcium and iron by at least four hours'],
@@ -98,8 +111,29 @@ export const choiceEdits={
   0:['Hold empagliflozin and initiate emergency DKA assessment despite glucose of 180 mg/dL'],
   1:['Treat as isolated hyperosmolar hyperglycemic state without checking the ketones and acidosis','Fluids and electrolyte monitoring matter in both crises. Isolated HHS does not explain the ketones and metabolic acidosis with glucose of 180 mg/dL. Assess and treat DKA.',ref.hyperglycemic],
  },
+ 'SIT-NP4-endocrine-emergencies-summary-01-R2-recognition':{
+  2:['DKA with marked hyperglycemia at presentation','DKA often presents with high glucose. Ketones and acidosis still support DKA at 180 mg/dL, and empagliflozin makes euglycemic DKA a better fit.',ref.hyperglycemic],
+ },
  'SIT-NP4-endocrine-emergencies-summary-01-R2-planning':{
   0:['Consider recovery complete when osmolality and circulation improve, with acidosis still present','Osmolality and circulation help guide HHS recovery. In ketoacidosis, also demonstrate ketone clearance and acid–base recovery before ending the DKA pathway.',ref.hyperglycemic],
+  2:['Ketones clear and acidosis resolves with safe fluid and electrolyte trends'],
+  3:['Potassium and rhythm are stable while ketosis and acidosis persist','A stable potassium and rhythm are important during DKA treatment. The client’s main emergency continues until the ketones clear and acid–base status recovers.',ref.hyperglycemic],
+ },
+ 'SIT-NP4-endocrine-emergencies-summary-01-R2-reasoning':{
+  0:['An insulin-related fall in potassium explains the acidosis and ketones before treatment','Insulin treatment can reduce serum potassium and requires monitoring. It does not explain the presenting ketosis and metabolic acidosis in someone taking empagliflozin.',ref.hyperglycemic],
+ },
+ 'SIT-NP4-endocrine-emergencies-summary-02-recognition':{
+  3:['Confirmed symptomatic hypokalemia as the primary diagnosis','Hypokalemia can accompany a hyperglycemic crisis and needs treatment if confirmed. There is no potassium result here, and hyperosmolality and severe dehydration explain the presenting pattern.',ref.hyperglycemic],
+ },
+ 'SIT-NP4-endocrine-emergencies-summary-02-action':{
+  2:['Prioritize ketone clearance under a DKA-only pathway without assessing osmolality','A ketone-focused pathway applies to DKA after the biochemical criteria support it. This presentation calls for urgent assessment of hyperosmolality as well as electrolytes, fluids and any overlap with DKA.',ref.hyperglycemic],
+  3:['Arrange urgent assessment and follow the prescribed plan for fluids and gradual correction of osmolality'],
+ },
+ 'SIT-NP4-endocrine-emergencies-summary-02-teaching':{
+  3:['As the only emergency plan, teach supporters how to administer glucagon for severe low glucose','Glucagon rescue is useful for severe hypoglycemia when indicated. The current teaching should also identify severe hyperglycemic dehydration, including worsening thirst, intake or alertness.',ref.hypoglycemia],
+ },
+ 'SIT-NP4-endocrine-emergencies-summary-02-planning':{
+  1:['Consider the crisis resolved when ketones are low even though osmolality is still elevated','Ketone clearance matters in ketoacidosis. In this case, low ketones were present from the start and cannot demonstrate recovery from hyperosmolality and dehydration.',ref.hyperglycemic],
  },
  'SIT-NP4-alzheimer-s-disease-dementia-03-R2-recognition':{
   2:['Progression of dementia as the established cause of agitation','Dementia symptoms can change gradually. An abrupt change after a fall with focal guarding calls for immediate injury and pain assessment, along with assessment for delirium.',ref.delirium],
@@ -115,6 +149,14 @@ export const targetedReasons={
   0:['With a definite pulse and inadequate breathing, start rescue breathing and activate emergency help. Give naloxone when available without delaying ventilation. Reassess breathing and pulse.',ref.bls],
   2:['Chest compressions are indicated when cardiac arrest is suspected and no definite pulse is detected. This adult has a definite pulse and needs ventilation first.',ref.bls],
  },
+ 'SIT-NP1-integrated-management-of-childhood-illness-imci-01-R2-action':{
+  1:['At 18 months, 44 breaths/min while calm meets the 40/min fast-breathing threshold. With no danger sign, stridor or other finding requiring a different pathway, use the local IMCI pneumonia treatment and follow-up plan.',ref.imci],
+  2:['The 50/min cutoff applies from 2 months through 11 months. At 18 months, compare the calm count with 40/min, so this rate supports the pneumonia classification.',ref.imci],
+ },
+ 'SIT-NP1-integrated-management-of-childhood-illness-imci-01-R2-recognition':{
+  1:['Use the persistent-diarrhea pathway when diarrhea has lasted at least 14 days. The cue here is an elevated respiratory rate for age with a cough.',ref.imci],
+  3:['Use a full-minute count when the child is calm. At 12 months to under 5 years, at least 40/min is fast breathing. This 18-month-old’s 44/min meets the criterion.',ref.imci],
+ },
  'SIT-NP1-community-mental-health-program-03-action':{
   0:['Routine blood testing fits a clinically stable client. New fever or throat symptoms while taking clozapine need prompt assessment for infection or neutropenia.',ref.clozapine],
   2:['The federal REMS reporting requirement ended in the United States. Prescribing guidance still calls for neutrophil monitoring, and new symptoms require timely clinical review.',ref.clozapine],
@@ -123,6 +165,30 @@ export const targetedReasons={
  'SIT-NP1-school-occupational-health-nursing-01-action':{
   0:['Glucose of 43 mg/dL and unsafe swallowing support severe hypoglycemia needing help. Give the authorized glucagon, call emergency help, monitor breathing and follow the school response plan.',ref.school],
   3:['Insulin before a meal can apply under the usual plan once glucose is safe. At 43 mg/dL with impaired swallowing, additional insulin worsens the immediate problem.',ref.school],
+ },
+ 'SIT-NP1-school-occupational-health-nursing-01-recognition':{
+  0:['Sweating, tremor and confusion in an insulin-treated pupil call for immediate evaluation for hypoglycemia. Check glucose promptly and assess whether the child can swallow safely.',ref.school],
+  1:['A child with symptoms suggesting a contagious illness may need separation and infection assessment. In this vignette, the symptoms and insulin history call for immediate glucose evaluation and rescue when indicated.',ref.school],
+ },
+ 'SIT-NP2-pediatric-respiratory-disorders-01-R2-action':{
+  1:['Back blows alternating with chest thrusts apply to an infant with severe obstruction. Use abdominal thrusts with back blows for a responsive child at least one year old.',ref.choking],
+  2:['The responsive toddler cannot cough or cry effectively and is becoming cyanotic. Activate emergency help and alternate five back blows and five abdominal thrusts until relief or unresponsiveness. If unresponsive, start the pediatric CPR pathway.',ref.choking],
+ },
+ 'SIT-NP3-pre-operative-phase-01-action':{
+  0:['Pause the sedative and transport, and have the clinician responsible for consent address the client’s questions while the client can still participate. Confirm understanding before proceeding.',ref.preop],
+  2:['A pamphlet can reinforce a discussion after questions have been answered. A new signature does not establish informed understanding when the client cannot explain the procedure.',ref.preop],
+ },
+ 'SIT-NP3-pre-operative-phase-01-recognition':{
+  1:['An anticoagulant plan is important when the client uses a medicine affecting bleeding or clot risk. There is no such cue in this vignette. The client’s unanswered procedure questions should be addressed before sedation.',ref.preop],
+  2:['The signed document does not establish understanding when the client still cannot explain the procedure. Clarify the questions before giving a drug that can affect decision-making.',ref.preop],
+ },
+ 'SIT-NP3-inflammatory-bowel-neuro-inflammatory-disorders-03-action':{
+  0:['Assess for a urinary or other infection and compare symptoms with baseline before labelling this a relapse. The MS team can consider steroids if findings support a true relapse that warrants treatment.',ref.ms],
+  2:['Routine follow-up may suit stable symptoms without new findings. Fever and a neurological change call for prompt evaluation for infection and reassessment of persistent or new deficits.',ref.ms],
+ },
+ 'SIT-NP4-autonomic-dysreflexia-02-action':{
+  2:['Pain treatment can help once the dangerous episode is addressed. This marked increase in systolic pressure calls for immediate assessment of triggers and frequent pressure checks rather than waiting for the next round.',ref.dysreflexia],
+  3:['Sit the client upright if safe, check blood pressure and pulse frequently, and address the visible kink under the emergency plan. Escalate persistent or severe hypertension and verify flow after correcting the kink.',ref.dysreflexia],
  },
  'SIT-NP4-endocrine-emergencies-summary-04-safety':{
   1:['Report the verified potassium of 2.9 mmol/L and new weakness now. These findings alter the safety of continued insulin and require an urgent response.',ref.hyperglycemic],

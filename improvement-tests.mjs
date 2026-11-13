@@ -20,6 +20,7 @@ import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
 import {priorityReviewedQuestions,priorityReviewedAdditions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -291,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,10);
+ assert.equal(currentQuestionRevision,11);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -534,10 +535,13 @@ test('study sounds respect saved preferences and use different feedback in the s
  }
 });
 
-test('case findings and choice explanations agree while revision nine is still available for saved sessions',async()=>{
+test('case findings and choice explanations agree while prior releases is still available for saved sessions',async()=>{
  assert.equal(archivedQuestionRevision(9),9);
  assert.equal(releaseForArchive(9),priorityReviewRelease);
  assert.equal(additionsForArchive(9),priorityReviewAdditionsRelease);
+ assert.equal(archivedQuestionRevision(10),10);
+ assert.equal(releaseForArchive(10),firstCaseReviewRelease);
+ assert.equal(additionsForArchive(10),firstCaseReviewAdditionsRelease);
  assert.equal(await contentDigest(priorityReviewedQuestions,clinicalCases),'b7735ca30f4ef478dd2f4a06954cd95835cceba829dda4e4471814fd94d6ea11');
  assert.equal(await contentDigest(priorityReviewedAdditions,[]),'ec86e38e43e2981ef3f8f395da1ce8a40a43cabcf48cca227da8a05e2c136908');
  const previous=new Map([...priorityReviewedQuestions,...priorityReviewedAdditions].map(q=>[q.id,q]));
@@ -545,7 +549,8 @@ test('case findings and choice explanations agree while revision nine is still a
  assert.equal(clinical.length,5278);
  for(const q of clinical){
   assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
-  if(q.questionRevision===10)assert.ok(questionNeedsArchive(q,9),q.id);
+  if((q.questionRevision??0)>=10)assert.ok(questionNeedsArchive(q,9),q.id);
+  if(q.questionRevision===11)assert.ok(questionNeedsArchive(q,10),q.id);
   for(const [i,choice] of q.options.entries()){
    const parts=choiceRationaleParts(q,i);
    if(!parts.length)continue;
@@ -568,6 +573,13 @@ test('case findings and choice explanations agree while revision nine is still a
  const thyroid=byId.get('SIT-NP4-thyroid-disorders-02-R2-teaching');
  assert.match(thyroid.options[thyroid.correctIndex].text,/at least four hours/);
  assert.ok(thyroid.options.some(o=>o.text.includes('continue to take it with both supplements')&&o.rationale.includes('still reduces absorption')));
+ const thionamide=byId.get('SIT-NP4-thyroid-disorders-01-R2-action');
+ assert.match(thionamide.options[thionamide.correctIndex].text,/Hold the next thionamide dose/);
+ assert.ok(thionamide.options.every((o,i)=>choiceRationaleParts(thionamide,i).every((p,j)=>
+  !o.text.split('\n')[j].includes('Hold the next thionamide dose')||p.verdict==='supported')));
+ const hhs=byId.get('SIT-NP4-endocrine-emergencies-summary-02-action');
+ assert.match(hhs.options[hhs.correctIndex].text,/gradual correction of osmolality/);
+ assert.ok(hhs.options.some(o=>o.text.includes('without assessing osmolality')&&o.rationale.includes('urgent assessment of hyperosmolality')));
  const clozapine=byId.get('SIT-NP1-community-mental-health-program-03-action');
  assert.match(clozapine.rationale,/absolute neutrophil count/);
  const arrest=byId.get('CH-041');

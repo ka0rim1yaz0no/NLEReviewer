@@ -222,7 +222,7 @@ export const reviewedCases={
  'SIT-NP4-alzheimer-s-disease-dementia-03-R2':{
   source:ref.dementia,
   recognition:'A new behavior change with hip guarding after a fall raises concern for acute pain or injury. Check for delirium and other causes alongside the immediate injury assessment.',
-  action:'Assess the fall and protect the client from movement that could worsen a suspected injury. Observe nonverbal pain cues and arrange urgent assessment of the guarded hip.',
+  action:['Assess the fall and protect the client from movement that could worsen a suspected injury. Observe nonverbal pain cues and arrange urgent assessment of the guarded hip.',ref.hip],
   teaching:'Ask staff or family to report new guarding, grimacing, refusal to bear weight or changes from baseline. These may communicate pain when speech cannot.',
   outcome:'Document the injury and pain assessment and response to the treatment plan. Reassess distress and function rather than using sedation alone as a sign of improvement.',
   reasoning:'People with dementia can show pain through changed behavior. The onset immediately after a fall plus unilateral guarding gives a specific reason to assess for injury before treating agitation in isolation.',

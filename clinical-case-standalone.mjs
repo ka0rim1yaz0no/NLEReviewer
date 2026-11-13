@@ -27,7 +27,7 @@ export const standaloneCases={
  ]],
  'ORIG-NP5-collaboration-communication-in-critical-care-01':[ref.sbar,[
   'Clinical background helps the receiver interpret deterioration. A direct request still belongs in the Recommendation step so the receiver understands the action and its urgency.',
-  ['A check-back is especially useful when the plan is urgent and miscommunication could delay care. Ask the receiver to repeat the agreed next step and confirm it before ending the call.',ref.checkback],
+  ['An agreed plan is actionable once the team confirms it was understood. With an urgent change, ask the receiver to repeat the plan and confirm the reply before ending the call.',ref.checkback],
   'Request bedside assessment now and confirm what the two clinicians agreed will happen. This supplies the Recommendation and closes the communication loop.',
   'Admission information belongs in Background when it changes the current decision. Reading the whole record can obscure the deterioration and leaves the immediate request unstated.',
  ]],

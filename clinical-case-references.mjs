@@ -1,6 +1,7 @@
 export const references={
  identity:'https://www.jointcommission.org/en-us/knowledge-library/support-center/standards-interpretation/standards-faqs/000001463',
  surgery:'https://www.jointcommission.org/en/knowledge-library/support-center/standards-interpretation/standards-faqs/000001458',
+ preop:'https://openstax.org/books/medical-surgical-nursing/pages/25-2-preoperative-nursing-priorities',
  insulin:'https://doi.org/10.2337/dc26-s016',
  potassium:'https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=559a0a8c-a8fe-40a5-b196-21f9308780ab',
  opioid:'https://psnet.ahrq.gov/web-mm/patient-safety-events-involving-opioid-dose-stacking',
