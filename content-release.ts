@@ -6,7 +6,7 @@ import type { Question } from "./types.ts";
 import studyAdditions from "./study-additions-summary.json" with {type:"json"};
 // Immutable release: stage all pages before publishing its manifest. Older
 // deployments continue using study_content and never see half a release.
-export const contentRelease="2026-11-14-clinical-case-review-9";
+export const contentRelease="2026-11-14-clinical-case-review-10";
 export const studyAdditionsRelease=studyAdditions.release;
 export const priorStudyAdditionsRelease="2026-11-13-practice-expansion-2";
 export const decisionRelease="2026-11-13-pnle-decisions-1";
@@ -26,19 +26,20 @@ export const fifthCaseReviewRelease="2026-11-14-clinical-case-review-5";
 export const sixthCaseReviewRelease="2026-11-14-clinical-case-review-6";
 export const seventhCaseReviewRelease="2026-11-14-clinical-case-review-7";
 export const eighthCaseReviewRelease="2026-11-14-clinical-case-review-8";
+export const ninthCaseReviewRelease="2026-11-14-clinical-case-review-9";
 export const priorQuestionRelease="2026-11-11-challenge-pink-2";
 export const firstJudgmentRelease="2026-11-11-situational-judgment-1";
 export const clinicalAuditRelease="2026-11-11-clinical-audit-1";
 export const choiceReviewRelease="2026-11-11-choice-reference-review-1";
 export const fullBankReviewRelease="2026-11-13-full-bank-review-1";
 export const applicationReviewRelease="2026-11-13-pnle-application-2";
-export const currentQuestionRevision=18;
-export type ArchivedQuestionRevision=0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17;
+export const currentQuestionRevision=19;
+export type ArchivedQuestionRevision=0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18;
 export function releaseForArchive(revision:ArchivedQuestionRevision){
- return [priorQuestionRelease,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,rationaleRelease,choiceContextRelease,priorityReviewRelease,firstCaseReviewRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease][revision];
+ return [priorQuestionRelease,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,rationaleRelease,choiceContextRelease,priorityReviewRelease,firstCaseReviewRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease][revision];
 }
 export function archivedQuestionRevision(revision?:number):ArchivedQuestionRevision{
- return revision===17||revision===16||revision===15||revision===14||revision===13||revision===12||revision===11||revision===10||revision===9||revision===8||revision===7||revision===6||revision===5||revision===4||revision===3||revision===2||revision===1?revision:0;
+ return revision===18||revision===17||revision===16||revision===15||revision===14||revision===13||revision===12||revision===11||revision===10||revision===9||revision===8||revision===7||revision===6||revision===5||revision===4||revision===3||revision===2||revision===1?revision:0;
 }
 export function additionsForArchive(revision:ArchivedQuestionRevision){
  return revision>=10?firstCaseReviewAdditionsRelease:revision===9?priorityReviewAdditionsRelease:revision===8?choiceContextAdditionsRelease:revision===7?rationaleAdditionsRelease:revision===6?decisionAdditionsRelease:priorStudyAdditionsRelease;
