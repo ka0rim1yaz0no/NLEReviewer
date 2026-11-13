@@ -488,7 +488,7 @@ test('the priority case review disambiguates clinical choices and preserves revi
   assert.equal(q.correctIndex,prior.get(q.id).correctIndex,q.id);
   if(q.questionRevision===9)assert.ok(questionNeedsArchive(q,8),q.id);
  }
- const items=new Map([...currentActive,...revisedStudyQuestions].map(q=>[q.id,q]));
+ const items=new Map([...priorityReviewedQuestions,...priorityReviewedAdditions].map(q=>[q.id,q]));
  const teaching=items.get('SIT-NP2-postpartum-complications-03-R2-teaching');
  const option=teaching.options.find(o=>o.text.includes('home blood-pressure monitoring'));
  assert.ok(option);
