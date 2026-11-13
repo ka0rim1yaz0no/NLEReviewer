@@ -84,7 +84,7 @@
  "https://www.activase.com/ais/dosing-and-administration/patient-monitoring.html": "Monitoring Patients in the First 24 Hours",
  "https://www.ahajournals.org/doi/pdf/10.1161/STR.0000000000000513": "AHA/ASA: acute ischemic stroke guideline, 2026",
  "https://www.ahrq.gov/patient-safety/settings/hospital/match/intro.html": "ahrq.gov",
- "https://www.ahrq.gov/patient-safety/settings/labor-delivery/perinatal-care/modules/strategies/medication/tool-safe-mgso4.html": "ahrq.gov",
+ "https://www.ahrq.gov/patient-safety/settings/labor-delivery/perinatal-care/modules/strategies/medication/tool-safe-mgso4.html": "AHRQ: safe magnesium sulfate administration",
  "https://www.ahrq.gov/sites/default/files/publications2/files/fallpxtoolkit-update.pdf": "AHRQ: measuring hospital fall rates",
  "https://www.ahrq.gov/sites/default/files/publications2/files/health-literacy-universal-precautions-toolkit-3rd-edition.pdf": "AHRQ: teach-back and health literacy",
  "https://www.ahrq.gov/sites/default/files/wysiwyg/teamstepps-program/teamstepps-pocket-guide.pdf": "AHRQ: TeamSTEPPS pocket guide",
@@ -490,5 +490,15 @@
  "https://braintrauma.org/coma/guidelines/severe-tbi": "Brain Trauma Foundation: severe traumatic brain injury",
  "https://pmc.ncbi.nlm.nih.gov/articles/PMC11175651/": "AAN, AES and SMFM: antiseizure medicines in pregnancy",
  "https://www.cuh.nhs.uk/patient-information/-guidance-on-the-use-of-routine-antenatal-anti-d-prophylaxis-raadp-and-postnatal-care-for-rhd-negative-women/": "Cambridge University Hospitals: anti-D prophylaxis",
- "https://www.bfmed.org/assets/ABM%20Protocol%20%2336.pdf": "Academy of Breastfeeding Medicine: mastitis"
+ "https://www.bfmed.org/assets/ABM%20Protocol%20%2336.pdf": "Academy of Breastfeeding Medicine: mastitis",
+ "https://sps.nhs.uk/monitorings/lithium-monitoring/": "NHS SPS: lithium monitoring and toxicity",
+ "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7d1a9689-23c8-44ef-a474-8c607e13d794": "DailyMed: haloperidol and neuroleptic malignant syndrome",
+ "https://www.medsafe.govt.nz/profs/PUArticles/SerotoninSyndromeToxicityReminder.htm": "Medsafe: serotonin toxicity",
+ "https://sps.nhs.uk/articles/choosing-medicines-formulations-in-swallowing-difficulties/": "NHS SPS: choosing formulations for swallowing difficulties",
+ "https://www.aaem.org/statements/ed-patients-angioedema-secondary/": "AAEM: ACE inhibitor angioedema",
+ "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=df892a65-52e4-8eb2-e053-2a95a90aa25f": "DailyMed: tranylcypromine",
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC6702465/": "British Heart Rhythm Society: antipsychotics and QT prolongation",
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC11666347/": "Japanese Society of Neuropsychopharmacology: antipsychotic adverse effects",
+ "https://sps.nhs.uk/monitorings/doacs-direct-oral-anticoagulants-monitoring/": "NHS SPS: direct oral anticoagulant monitoring",
+ "https://www.nccih.nih.gov/health/providers/digest/herb-drug-interactions": "NCCIH: herb–drug interactions"
 }

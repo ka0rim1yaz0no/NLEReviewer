@@ -7,6 +7,7 @@ import {standaloneCases} from './clinical-audit-standalone.mjs';
 import {challengeCases} from './clinical-audit-challenges.mjs';
 import {maternalCases,maternalAlternatives} from './clinical-audit-maternal.mjs';
 import {additionalDirectCases,legacyNeurologyCases,neurologyCases,neurologyAlternatives} from './clinical-audit-neurology.mjs';
+import {medicationDirectCases,medicationLegacyCases,medicationCases,medicationAlternatives} from './clinical-audit-medication.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -20,6 +21,12 @@ const clinicalReviews={
   cases:{...cases,...neurologyCases},
   legacy:{...legacyReviews,...legacyNeurologyCases},
   alternatives:{...alternatives,...neurologyAlternatives},
+ },
+ 14:{
+  selected:{...medicationCases,...medicationLegacyCases,...medicationDirectCases},
+  cases:{...cases,...neurologyCases,...medicationCases},
+  legacy:{...legacyReviews,...legacyNeurologyCases,...medicationLegacyCases},
+  alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives},
  },
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};

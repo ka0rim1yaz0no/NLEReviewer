@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,13);
+ assert.equal(currentQuestionRevision,14);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -641,4 +641,23 @@ test('neurology and medication updates preserve the immediately preceding releas
  assert.match(byId.get('SIT-CROSS-laboratory-values-01-recognition').rationale,/6.7 mmol\/L.*severe hyperkalemia/);
  assert.match(byId.get('SIT-NP5-high-acuity-emergency-situations-01-R2-action').rationale,/give epinephrine promptly/);
  assert.match(byId.get('EXP2-NP4-seizure-disorders').rationale,/before conception.*Avoid abrupt cessation/s);
+});
+
+test('medication safety reviews distinguish symptomatic emergencies from preventive monitoring',async()=>{
+ assert.equal(archivedQuestionRevision(13),13);
+ assert.equal(releaseForArchive(13),fourthCaseReviewRelease);
+ assert.equal(await contentDigest(fourthCaseQuestions,clinicalCases),'7f5bd9cfc250ce942705efb6f770130add7b421340fa18b979031c4978fc89c9');
+ const previous=new Map(fourthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===14);
+ assert.equal(changed.length,64);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,13),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('NP5-109-2').rationale,/withholding the due dose.*urgent evaluation/s);
+ assert.match(byId.get('NP5-111-2').rationale,/Remove further serotonergic exposure/);
+ assert.match(byId.get('SIT-CROSS-pharmacology-drug-classes-04-action').rationale,/prioritize airway evaluation/);
+ assert.match(byId.get('SIT-NP5-psychopharmacology-03-R2-action').rationale,/begin ECG monitoring/);
 });
