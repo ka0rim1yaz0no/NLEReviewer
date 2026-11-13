@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions,eighthCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,17);
+ assert.equal(currentQuestionRevision,18);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -730,4 +730,24 @@ test('endocrine reviews distinguish metabolic recovery from isolated readings an
  assert.match(byId.get('SIT-NP4-diabetes-mellitus-01-R2-action').rationale,/Pause before administering the due metformin/);
  assert.match(byId.get('EXP2-NP4-endocrine-emergencies-summary').rationale,/dextrose when glucose is below 250 mg\/dL.*until ketoacidosis resolves/);
  assert.match(byId.get('SIT-NP4-endocrine-emergencies-summary-04-evaluation').options[1].rationale,/3.1 mmol\/L still requires replacement/);
+});
+
+test('renal case reviews distinguish acute changes and misleading signs from confirmed kidney and electrolyte risks',async()=>{
+ assert.equal(archivedQuestionRevision(17),17);
+ assert.equal(releaseForArchive(17),eighthCaseReviewRelease);
+ assert.equal(await contentDigest(eighthCaseQuestions,clinicalCases),'c81d1c4b9eb9e279b103cf9ddc471aa7d407533764aae0911287bf353758ef60');
+ const previous=new Map(eighthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===18);
+ assert.equal(changed.length,96);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,17),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('NP2-060-2').rationale,/Edema can coexist with intravascular depletion/);
+ assert.match(byId.get('SIT-NP3-acute-kidney-injury-aki-01-R2-recognition').rationale,/0.4 mg\/dL within 36 hours/);
+ assert.match(byId.get('SIT-NP3-electrolyte-imbalances-02-recognition').rationale,/carpal spasms.*symptomatic hypocalcemia/);
+ assert.match(byId.get('SIT-NP3-electrolyte-imbalances-04-recognition').rationale,/risen 5 mmol\/L in four hours/);
+ assert.match(byId.get('EXP2-NP3-acid-base-balance-abg').rationale,/combined respiratory and metabolic acidosis/);
 });

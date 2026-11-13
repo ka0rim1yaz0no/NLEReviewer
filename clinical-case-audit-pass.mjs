@@ -11,6 +11,7 @@ import {medicationDirectCases,medicationLegacyCases,medicationCases,medicationAl
 import {cardiacDirectCases,cardiacLegacyCases,cardiacCases,cardiacAlternatives} from './clinical-audit-cardiac.mjs';
 import {respiratoryCases,respiratoryLegacyCases,respiratoryDirectCases,respiratoryAlternatives} from './clinical-audit-respiratory.mjs';
 import {endocrineCases,endocrineLegacyCases,endocrineDirectCases} from './clinical-audit-endocrine.mjs';
+import {renalCases,renalLegacyCases,renalDirectCases} from './clinical-audit-renal.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -47,6 +48,12 @@ const clinicalReviews={
   selected:{...endocrineCases,...endocrineLegacyCases,...endocrineDirectCases},
   cases:{...cases,...neurologyCases,...medicationCases,...cardiacCases,...respiratoryCases,...endocrineCases},
   legacy:{...legacyReviews,...legacyNeurologyCases,...medicationLegacyCases,...cardiacLegacyCases,...respiratoryLegacyCases,...endocrineLegacyCases},
+  alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives,...cardiacAlternatives,...respiratoryAlternatives},
+ },
+ 18:{
+  selected:{...renalCases,...renalLegacyCases,...renalDirectCases},
+  cases:{...cases,...neurologyCases,...medicationCases,...cardiacCases,...respiratoryCases,...endocrineCases,...renalCases},
+  legacy:{...legacyReviews,...legacyNeurologyCases,...medicationLegacyCases,...cardiacLegacyCases,...respiratoryLegacyCases,...endocrineLegacyCases,...renalLegacyCases},
   alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives,...cardiacAlternatives,...respiratoryAlternatives},
  },
 };
