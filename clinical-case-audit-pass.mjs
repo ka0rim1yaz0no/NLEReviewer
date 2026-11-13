@@ -13,6 +13,7 @@ import {respiratoryCases,respiratoryLegacyCases,respiratoryDirectCases,respirato
 import {endocrineCases,endocrineLegacyCases,endocrineDirectCases} from './clinical-audit-endocrine.mjs';
 import {renalCases,renalLegacyCases,renalDirectCases} from './clinical-audit-renal.mjs';
 import {perioperativeCases,perioperativeLegacyCases,perioperativeDirectCases} from './clinical-audit-perioperative.mjs';
+import {neuromuscularCases,neuromuscularDirectCases,neuromuscularAlternatives,earlierCaseCorrections} from './clinical-audit-neuromuscular.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -62,6 +63,13 @@ const clinicalReviews={
   cases:{...cases,...neurologyCases,...medicationCases,...cardiacCases,...respiratoryCases,...endocrineCases,...renalCases,...perioperativeCases},
   legacy:{...legacyReviews,...legacyNeurologyCases,...medicationLegacyCases,...cardiacLegacyCases,...respiratoryLegacyCases,...endocrineLegacyCases,...renalLegacyCases,...perioperativeLegacyCases},
   alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives,...cardiacAlternatives,...respiratoryAlternatives},
+ },
+ 20:{
+  selected:{...neuromuscularCases,...neuromuscularDirectCases},
+  cases:{...cases,...neurologyCases,...medicationCases,...cardiacCases,...respiratoryCases,...endocrineCases,...renalCases,...perioperativeCases,...neuromuscularCases},
+  legacy:{...legacyReviews,...legacyNeurologyCases,...medicationLegacyCases,...cardiacLegacyCases,...respiratoryLegacyCases,...endocrineLegacyCases,...renalLegacyCases,...perioperativeLegacyCases},
+  alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives,...cardiacAlternatives,...respiratoryAlternatives,...neuromuscularAlternatives},
+  corrections:earlierCaseCorrections,
  },
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};
@@ -188,7 +196,7 @@ function reviewFollowUp(question,option,index,reviewed,originals,review){
 
 function reviewSingleChoice(question,index,reviewed,originals,review){
  const option=question.options[index];
- if(reviewed.reasons)return {...option,rationale:reviewed.reasons[index],source:reviewed.choiceSources?.[index]??reviewed.source,contextSource:undefined,additionalSources:undefined};
+ if(reviewed.reasons)return {...option,text:reviewed.choices?.[index]??option.text,rationale:reviewed.reasons[index],source:reviewed.choiceSources?.[index]??reviewed.source,contextSource:undefined,additionalSources:undefined};
  if(question.clinicalObjective==='evaluation')return reviewFollowUp(question,option,index,reviewed,originals,review);
  const original=originals.get(question.id);
  const actual=original?.options[index];
@@ -200,10 +208,11 @@ function reviewSingleChoice(question,index,reviewed,originals,review){
 }
 
 export function reviewClinicalCases(question,originals,revision){
- if(question.retired||question.conceptId||question.questionRevision>=10)return question;
- const family=questionFamily(question);
  const review=clinicalReviews[revision];
- const reviewed=review.selected[question.id]??review.selected[family];
+ const correction=review.corrections?.[question.id];
+ if(question.retired||question.conceptId||(!correction&&question.questionRevision>=10))return question;
+ const family=questionFamily(question);
+ const reviewed=correction??review.selected[question.id]??review.selected[family];
  if(!reviewed)return question;
  const options=question.options.map((option,index)=>option.rationaleParts
   ?reviewPairedChoice(question,option,originals,review)

@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions,eighthCaseQuestions,ninthCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions,eighthCaseQuestions,ninthCaseQuestions,tenthCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease,tenthCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,19);
+ assert.equal(currentQuestionRevision,20);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -737,7 +737,7 @@ test('renal case reviews distinguish acute changes and misleading signs from con
  assert.equal(releaseForArchive(17),eighthCaseReviewRelease);
  assert.equal(await contentDigest(eighthCaseQuestions,clinicalCases),'c81d1c4b9eb9e279b103cf9ddc471aa7d407533764aae0911287bf353758ef60');
  const previous=new Map(eighthCaseQuestions.map(q=>[q.id,q]));
- const changed=currentActive.filter(q=>q.questionRevision===18);
+ const changed=ninthCaseQuestions.filter(q=>!q.retired&&q.questionRevision===18);
  assert.equal(changed.length,96);
  for(const q of changed){
   assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
@@ -757,7 +757,7 @@ test('perioperative case reviews distinguish urgent patient risks from measureme
  assert.equal(releaseForArchive(18),ninthCaseReviewRelease);
  assert.equal(await contentDigest(ninthCaseQuestions,clinicalCases),'751aa95bdb4d7740dc965f7959bdf9c62d54205c06dd1ea7b91572bf8615cf40');
  const previous=new Map(ninthCaseQuestions.map(q=>[q.id,q]));
- const changed=currentActive.filter(q=>q.questionRevision===19);
+ const changed=tenthCaseQuestions.filter(q=>!q.retired&&q.questionRevision===19);
  assert.equal(changed.length,104);
  for(const q of changed){
   assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
@@ -771,4 +771,27 @@ test('perioperative case reviews distinguish urgent patient risks from measureme
  assert.match(byId.get('SIT-CROSS-asepsis-iv-therapy-wound-care-02-evaluation').rationale,/further exposure stopped/);
  assert.match(byId.get('EXP2-NP5-critical-care-equipment').rationale,/hard limit blocks out-of-range programming/);
  assert.match(byId.get('EXP2-CROSS-asepsis-iv-therapy-wound-care').rationale,/fits stage 3/);
+});
+
+test('neuromuscular case reviews distinguish sustained deficits and impending ventilatory failure from stable symptoms',async()=>{
+ assert.equal(archivedQuestionRevision(19),19);
+ assert.equal(releaseForArchive(19),tenthCaseReviewRelease);
+ assert.equal(await contentDigest(tenthCaseQuestions,clinicalCases),'25b0ecaa754c22737827f0c351d37d3b303d09ce8f2f7b73e9b664949be6309e');
+ const previous=new Map(tenthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===20);
+ assert.equal(changed.length,123);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,19),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('SIT-NP4-myasthenia-gravis-mg-01-recognition').rationale,/normal oxygen saturation may persist early/);
+ assert.match(byId.get('SIT-NP4-guillain-barr-syndrome-gbs-01-reasoning').rationale,/below 20 mL\/kg/);
+ assert.match(byId.get('SIT-NP4-multiple-sclerosis-ms-04-evaluation').rationale,/Verify the clinician’s impression/);
+ assert.match(byId.get('EXP2-NP4-myasthenia-gravis-mg').rationale,/postsynaptic/);
+ assert.match(byId.get('EXP2-NP4-myasthenia-gravis-mg').options[3].rationale,/Lambert–Eaton syndrome/);
+ assert.match(byId.get('SIT-NP2-pediatric-renal-disorders-01-safety').rationale,/unlimited salt and fluid can aggravate overload/);
+ assert.match(byId.get('SIT-NP3-acute-kidney-injury-aki-03-safety').rationale,/do not establish permanent renal failure/);
+ assert.match(byId.get('SIT-NP3-classification-of-surgery-04-safety').rationale,/guarantee of zero risk misstates the benefit/);
 });
