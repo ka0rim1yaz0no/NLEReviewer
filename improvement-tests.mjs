@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,12);
+ assert.equal(currentQuestionRevision,13);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -621,4 +621,24 @@ test('source-backed case updates keep archived answer positions and distinguish 
  const diabetic=byId.get('CH-032');
  assert.match(diabetic.rationale,/basal coverage while fasting/);
  assert.ok(diabetic.options.some(o=>o.rationale.includes('full basal dose may need adjustment')));
+});
+
+test('neurology and medication updates preserve the immediately preceding release',async()=>{
+ assert.equal(archivedQuestionRevision(12),12);
+ assert.equal(releaseForArchive(12),thirdCaseReviewRelease);
+ assert.equal(await contentDigest(thirdCaseQuestions,clinicalCases),'7a43f7e4de4789e9e9b97b2cc9b6fafe0c1b4de597f75f573129488d837d883f');
+ const previous=new Map(thirdCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===13);
+ assert.ok(changed.length>=45);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,12),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('NP2-043-2').rationale,/airway and ventilation.*ordered antidote/s);
+ assert.match(byId.get('NP2-058-2').rationale,/returned to baseline/);
+ assert.match(byId.get('SIT-CROSS-laboratory-values-01-recognition').rationale,/6.7 mmol\/L.*severe hyperkalemia/);
+ assert.match(byId.get('SIT-NP5-high-acuity-emergency-situations-01-R2-action').rationale,/give epinephrine promptly/);
+ assert.match(byId.get('EXP2-NP4-seizure-disorders').rationale,/before conception.*Avoid abrupt cessation/s);
 });

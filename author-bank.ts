@@ -53,7 +53,8 @@ export const contextReviewedAdditions=rationaleStudyQuestions.length?validateQue
 export const priorityReviewedQuestions=validateQuestions(contextReviewedQuestions.map(question=>reviewPriorityCases(question,originalById)));
 export const priorityReviewedAdditions=contextReviewedAdditions.length?validateQuestions(contextReviewedAdditions.map(question=>reviewPriorityCases(question,originalById))):[];
 export const priorCaseQuestions=validateQuestions(priorityReviewedQuestions.map(question=>continueClinicalCaseReview(question,originalById,11)));
-export const questions=validateQuestions(priorCaseQuestions.map(question=>reviewClinicalCases(question,originalById)));
+export const thirdCaseQuestions=validateQuestions(priorCaseQuestions.map(question=>reviewClinicalCases(question,originalById,12)));
+export const questions=validateQuestions(thirdCaseQuestions.map(question=>reviewClinicalCases(question,originalById,13)));
 export const revisedStudyQuestions=priorityReviewedAdditions.length?validateQuestions(priorityReviewedAdditions.map(question=>continueClinicalCaseReview(question,originalById,10))):[];
 export const feedbackReviewCounts={core:coreFeedback.counts,additions:additionFeedback.counts};
 export const activeQuestions=questions.filter(q=>!q.retired);

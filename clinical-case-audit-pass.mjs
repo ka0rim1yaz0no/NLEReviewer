@@ -6,11 +6,22 @@ import {emergencyCases} from './clinical-audit-emergency.mjs';
 import {standaloneCases} from './clinical-audit-standalone.mjs';
 import {challengeCases} from './clinical-audit-challenges.mjs';
 import {maternalCases,maternalAlternatives} from './clinical-audit-maternal.mjs';
+import {additionalDirectCases,legacyNeurologyCases,neurologyCases,neurologyAlternatives} from './clinical-audit-neurology.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
 const cases={...infectionCases,...emergencyCases};
 const legacyReviews={...legacyCases,...maternalCases};
+const alternatives={...alternativeDecisions,...maternalAlternatives};
+const clinicalReviews={
+ 12:{selected:{...cases,...legacyReviews,...standaloneCases,...challengeCases},cases,legacy:legacyReviews,alternatives},
+ 13:{
+  selected:{...neurologyCases,...legacyNeurologyCases,...additionalDirectCases},
+  cases:{...cases,...neurologyCases},
+  legacy:{...legacyReviews,...legacyNeurologyCases},
+  alternatives:{...alternatives,...neurologyAlternatives},
+ },
+};
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};
 const legacyQuestion=/^(?:CROSS|NP[1-5])-\d{3}-([1-5])$/;
 const legacyRole=['assessment','action','teaching','outcome','safety'];
@@ -22,20 +33,20 @@ function evidence(value,source){
  return typeof value==='string'?{rationale:value,source}:{rationale:value[0],source:value[1]??source};
 }
 
-function roleEvidence(family,role){
- const reviewed=cases[family];
+function roleEvidence(family,role,review){
+ const reviewed=review.cases[family];
  if(reviewed?.[role])return evidence(reviewed[role],reviewed.source);
  const alternative=family+':'+(role==='assessment'?'recognition':role);
- return evidence(maternalAlternatives[alternative]??alternativeDecisions[alternative]);
+ return evidence(review.alternatives[alternative]);
 }
 
 function optionText(text){
  return text?.replace(/^(?:Provide this instruction\. |Review this instruction at the appropriate time: |Reassess for this result: )/,'');
 }
 
-function baseDecision(item,slot,originals){
+function baseDecision(item,slot,originals,review){
  const family=questionFamily(item),option=item.options[slot];
- const reviewed=cases[family],legacy=legacyReviews[family];
+ const reviewed=review.cases[family],legacy=review.legacy[family];
  const refParts=option.referenceId?.split(':')??[];
  const [peer,rawRole]=refParts;
  const itemRole=item.clinicalObjective??item.id.split('-').at(-1);
@@ -49,11 +60,11 @@ function baseDecision(item,slot,originals){
   // Audit-specific records can have arbitrary alternatives in the current
   // case. A per-role rationale only describes the original correct decision.
   if(!customReference.test(rawRole??'')||slot===item.correctIndex){
-   result=roleEvidence(family,role);
+   result=roleEvidence(family,role,review);
   }
  }else{
-  result=roleEvidence(peer,role);
-  const peerNumber=legacyNumbers[role],peerLegacy=legacyReviews[peer];
+  result=roleEvidence(peer,role,review);
+  const peerNumber=legacyNumbers[role],peerLegacy=review.legacy[peer];
   if(!result&&peerLegacy){
    const peerItem=originals.get(peer+'-'+peerNumber);
    const peerKey=peerItem&&peerLegacy.decisions[peerNumber]?.[peerItem.correctIndex];
@@ -63,14 +74,14 @@ function baseDecision(item,slot,originals){
  return result?{...result,text:edit?.[0],otherCase:!sameCase}:undefined;
 }
 
-function contextualFeedback(item,slot,verdict,prior,originals){
+function contextualFeedback(item,slot,verdict,prior,originals,review){
  const family=questionFamily(item);
- const current=cases[family]??legacyReviews[family];
- const detail=baseDecision(item,slot,originals);
+ const current=review.cases[family]??review.legacy[family];
+ const detail=baseDecision(item,slot,originals,review);
  const source=detail?.source??prior.source??item.source;
  let rationale=detail?.rationale??prior.rationale;
  if(verdict==='incorrect'&&current&&(detail?.otherCase||!detail)){
-  const key=baseDecision(item,item.correctIndex,originals);
+  const key=baseDecision(item,item.correctIndex,originals,review);
   const caseReason=key?.rationale??displayRationale(item.rationale);
   const principle=displayRationale(rationale.split(/\n(?:Case reasoning:|In this case,)/)[0]);
   rationale=principle+'\nIn this case, '+caseReason[0].toLowerCase()+caseReason.slice(1);
@@ -81,7 +92,7 @@ function contextualFeedback(item,slot,verdict,prior,originals){
  return {text:detail?.text,rationale,source,caseSource:caseSource===source?undefined:caseSource};
 }
 
-function reviewPairedChoice(question,option,originals){
+function reviewPairedChoice(question,option,originals,review){
  const [id,kind,a,companion,b]=option.referenceId?.split(':')??[];
  if(kind!=='paired')throw Error('Expected linked case for '+question.id);
  const decisions=[[id,Number(a)],[companion,Number(b)]];
@@ -89,7 +100,7 @@ function reviewPairedChoice(question,option,originals){
  const reviewed=option.rationaleParts.map((part,index)=>{
   const [base,slot]=decisions[index],item=originals.get(base);
   if(!item)throw Error('Missing original case for '+question.id);
-  return contextualFeedback(item,slot,part.verdict,{rationale:rationales[index],source:part.source??option.source,caseSource:part.caseSource},originals);
+  return contextualFeedback(item,slot,part.verdict,{rationale:rationales[index],source:part.source??option.source,caseSource:part.caseSource},originals,review);
  });
  const rationaleParts=option.rationaleParts.map((part,index)=>{
   const {source,caseSource}=reviewed[index];
@@ -101,7 +112,7 @@ function reviewPairedChoice(question,option,originals){
   rationale:reviewed.map(part=>part.rationale).join('\n\n')};
 }
 
-function reviewFollowUp(question,option,index,reviewed,originals){
+function reviewFollowUp(question,option,index,reviewed,originals,review){
  if(reviewed.evaluation){
   return {...option,rationale:reviewed.evaluation[index],source:ref.process,contextSource:reviewed.source};
  }
@@ -118,7 +129,7 @@ function reviewFollowUp(question,option,index,reviewed,originals){
    const plan=originals.get(question.id.replace(/-evaluation$/,'-planning'));
    const alternate=plan.options.find(o=>option.text.includes(optionText(o.text)));
    const [peer]=alternate?.referenceId?.split(':')??[];
-   rationale=(roleEvidence(peer,'outcome')?.rationale??displayRationale(option.rationale.split('Case reasoning:')[0]))
+   rationale=(roleEvidence(peer,'outcome',review)?.rationale??displayRationale(option.rationale.split('Case reasoning:')[0]))
     +' The current follow-up instead checks whether the intervention addressed the findings that led to this plan.';
   }
  }else if(option.text.startsWith('Record the intervention alone:')){
@@ -133,31 +144,32 @@ function reviewFollowUp(question,option,index,reviewed,originals){
  return {...option,rationale,source:ref.process,contextSource:target.source};
 }
 
-function reviewSingleChoice(question,index,reviewed,originals){
+function reviewSingleChoice(question,index,reviewed,originals,review){
  const option=question.options[index];
  if(reviewed.reasons)return {...option,rationale:reviewed.reasons[index],source:reviewed.choiceSources?.[index]??reviewed.source,contextSource:undefined,additionalSources:undefined};
- if(question.clinicalObjective==='evaluation')return reviewFollowUp(question,option,index,reviewed,originals);
+ if(question.clinicalObjective==='evaluation')return reviewFollowUp(question,option,index,reviewed,originals,review);
  const original=originals.get(question.id);
  const actual=original?.options[index];
  if(!actual||actual.referenceId!==option.referenceId)throw Error('Reordered source decisions for '+question.id);
  const key=index===question.correctIndex,unsafe=unsafeDecision(question);
  const part=contextualFeedback(original,index,unsafe?key?'needs-correction':'appropriate':key?'supported':'incorrect',
-  {rationale:option.rationale,source:option.source,caseSource:option.contextSource},originals);
+  {rationale:option.rationale,source:option.source,caseSource:option.contextSource},originals,review);
  return {...option,text:part.text??option.text,rationale:part.rationale,source:part.source,contextSource:part.caseSource,additionalSources:undefined};
 }
 
-export function reviewClinicalCases(question,originals){
+export function reviewClinicalCases(question,originals,revision){
  if(question.retired||question.conceptId||question.questionRevision>=10)return question;
  const family=questionFamily(question);
- const reviewed=standaloneCases[question.id]??challengeCases[question.id]??cases[family]??legacyReviews[family];
+ const review=clinicalReviews[revision];
+ const reviewed=review.selected[question.id]??review.selected[family];
  if(!reviewed)return question;
  const options=question.options.map((option,index)=>option.rationaleParts
-  ?reviewPairedChoice(question,option,originals)
-  :reviewSingleChoice(question,index,reviewed,originals));
+  ?reviewPairedChoice(question,option,originals,review)
+  :reviewSingleChoice(question,index,reviewed,originals,review));
  const stem=reviewed.scenario?question.stem.replace(/^[\s\S]*?\n\n/,reviewed.scenario+'\n\n'):question.stem;
  const answer=options[question.correctIndex];
  const keyPoint=reviewed.keyPoint??evidence(reviewed.reasoning,reviewed.source)?.rationale??question.keyPoint;
  const decisionSummary=question.decisionSummary&&question.clinicalObjective!=='evaluation'
   ?answer.text.split('\n')[0].replace(/^[^—]+ — /,''):question.decisionSummary;
- return {...question,stem,source:reviewed.source,options,rationale:answer.rationale,keyPoint,decisionSummary,questionRevision:12};
+ return {...question,stem,source:reviewed.source,options,rationale:answer.rationale,keyPoint,decisionSummary,questionRevision:revision};
 }
