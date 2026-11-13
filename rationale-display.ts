@@ -20,6 +20,42 @@ export const rationaleVerdictLabels:Record<RationalePart['verdict'],string>={
  'needs-correction':'Needs correction',
  appropriate:'Appropriate care',
 };
+
+function decisionVerdict(matches:boolean,asksForCorrection:boolean):RationalePart['verdict']{
+ return asksForCorrection?(matches?'needs-correction':'appropriate'):(matches?'supported':'incorrect');
+}
+
+// Revision 6 embedded these original prompts in separate archived cases.
+const archivedCorrectionPrompt=/\b(?:Which proposed plan entry should the nurse revise before putting the plan into effect|Which proposed identity check should be rejected|Which care plan should the nurse question)\?/i;
+const legacyDecisionReason=/^First (fits|does not fit)\. ([\s\S]+?) Second (fits|does not fit)\. ([\s\S]+)$/;
+
+export function clarifyArchivedDecisions(question:Question,currentBank:ReadonlyMap<string,Question>):Question{
+ if(question.questionRevision!==6)return question;
+ const reference=question.options[question.correctIndex].referenceId?.split(':');
+ if(reference?.[1]!=='paired')return question;
+ const latest=currentBank.get(question.id);
+ const companion=currentBank.get(reference[3]);
+ const separateCases=question.stem.startsWith('First situation\n');
+ const [firstCase,secondCase]=question.stem.split('\n\n');
+ const correctFirst=archivedCorrectionPrompt.test(firstCase),correctSecond=archivedCorrectionPrompt.test(secondCase);
+ const options=question.options.map(option=>{
+  const corrected=latest?.options.find(candidate=>candidate.referenceId===option.referenceId&&candidate.text===option.text);
+  if(corrected?.rationaleParts)return {...option,rationale:corrected.rationale,rationaleParts:corrected.rationaleParts};
+  if(!separateCases)return option;
+  const reason=option.rationale.match(legacyDecisionReason);
+  if(!reason)return option;
+  const firstSource=option.source||question.source;
+  const firstVerdict=decisionVerdict(reason[1]==='fits',correctFirst);
+  const secondVerdict=decisionVerdict(reason[3]==='fits',correctSecond);
+  const companionOption=companion?.questionRevision===7?companion.options[Number(option.referenceId?.split(':')[4])]:undefined;
+  const revisedCompanion=companionOption?.text===option.text.split('\n')[1]?.replace(/^Second — /,'')?companionOption:undefined;
+  const secondSource=revisedCompanion?.source||option.contextSource||firstSource;
+  return {...option,rationale:`${reason[2]}\n\n${revisedCompanion?.rationale||reason[4]}`,
+   rationaleParts:[{label:'First',verdict:firstVerdict,source:firstSource},{label:'Second',verdict:secondVerdict,source:secondSource}]};
+ });
+ return options.every((option,index)=>option===question.options[index])?question:{...question,options,rationale:options[question.correctIndex].rationale};
+}
+
 export function answerStatus(q:Question,index:number){
  if(index===q.correctIndex)return unsafeDecision(q)&&!q.options[index].rationaleParts?'Correct answer · Action to correct':'Correct answer';
  if(q.options[index].rationaleParts)return 'Incorrect combination';

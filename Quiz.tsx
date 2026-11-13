@@ -1,5 +1,5 @@
 import {loadProtectedContent} from "./content-access";
-import {displayRationale,unsafeDecision,distinctStudyNote} from "./rationale-display";
+import {clarifyArchivedDecisions,displayRationale,unsafeDecision,distinctStudyNote} from "./rationale-display";
 import {referenceLabel} from "./study-references";
 import {formatQuestionForDisplay} from "./clinical-display";
 import {archivedQuestionRevision,currentQuestionRevision,questionNeedsArchive} from "./content-release";
@@ -117,7 +117,7 @@ function SessionContent({id,results=false}:{id:string;results?:boolean}){
  const sessionBank=useMemo(()=>{
   if(!savedQuestions)return bankMap;
   const selected=new Map(bankMap);
-  for(const q of savedQuestions)selected.set(q.id,formatQuestionForDisplay(q));
+  for(const q of savedQuestions)selected.set(q.id,formatQuestionForDisplay(clarifyArchivedDecisions(q,bankMap)));
   return selected;
  },[bankMap,savedQuestions]);
  if(archivedIds.length&&!savedQuestions){
@@ -352,7 +352,7 @@ export function QuestionExtras({q}:{q:Question}){
  const current=bankMap.get(q.id);
  const newer=fromQuiz&&current&&!current.retired&&(current.questionRevision??0)>(q.questionRevision??0);
  return <>
-  {newer&&<p className="notice small-notice">This set uses the saved question and score. <Link className="text-button" to={`/questions?item=${encodeURIComponent(q.id)}`}>Read the updated question and explanations<ArrowRight size={14}/></Link></p>}
+  {newer&&<p className="notice small-notice">This set keeps the original choices and grading. <Link className="text-button" to={`/questions?item=${encodeURIComponent(q.id)}`}>Read the updated question and explanations<ArrowRight size={14}/></Link></p>}
   <details className="question-attribution"><summary>Question source & attribution</summary>
    <p>{q.origin}</p>{q.sourceTopic&&<p>Source topic: {q.sourceTopic}</p>}
    {(q.format==="concept"||q.format==="comparison")&&<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">Reference adaptation license: CC BY 4.0</a>}

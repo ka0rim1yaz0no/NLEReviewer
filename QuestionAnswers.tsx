@@ -21,8 +21,8 @@ function OptionReference({ option }: { option: QuestionOption }) {
 
 export function ChoiceStatus({q,index,chosen}:{q:Question;index:number;chosen:boolean}){
   const correct=index===q.correctIndex;
-  const unsafe=unsafeDecision(q);
-  const appropriate=unsafe&&!q.options[index].rationaleParts&&!correct;
+  const unsafe=unsafeDecision(q)&&!q.options[index].rationaleParts;
+  const appropriate=unsafe&&!correct;
   const Icon=correct&&unsafe?CircleAlert:correct||appropriate?Check:X;
   return <span className="review-option-status">
     <span className={correct&&unsafe?"choice-incorrect":correct?"choice-key":appropriate?"choice-appropriate":"choice-incorrect"}>

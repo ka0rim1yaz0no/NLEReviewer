@@ -3,6 +3,7 @@ import { after, before, test } from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createServer } from "vite";
+import { clarifyArchivedDecisions } from "./rationale-display.ts";
 
 let server;
 let ReviewAnswers;
@@ -72,4 +73,26 @@ test("decision explanations distinguish safe care from an unsafe proposal and fo
   assert.doesNotMatch(html,/Why this choice does not fit/);
   const preview=render({q:item,expanded:false});
   assert.doesNotMatch(preview,/Correct answer|Needs correction|Incorrect combination/);
+});
+
+test("archived questions label a proposal to correct and preserve the original choices and grade",()=>{
+  const source="https://example.org/care-planning";
+  const archived={...q,questionRevision:6,stem:"First situation\nAn outreach clinic. What should the nurse do?\n\nSecond situation\nThe family lacks transport. Which proposed plan entry should the nurse revise before putting the plan into effect?",
+    options:q.options.map((option,index)=>({...option,
+      text:`First — ${index<2?'Reuse the syringe':'Use a sterile syringe'}\nSecond — ${index%2===0?'Record refusal':'Discuss transport'}`,
+      referenceId:`${q.id}:paired:${index<2?0:1}:wound:${index%2}`,
+      rationale:`First ${index<2?'does not fit':'fits'}. Assess injection safety. Second ${index%2===0?'fits':'does not fit'}. Assess access to wound care.`,contextSource:source,
+    }))};
+  const companion={...q,id:"wound",questionRevision:7,options:[
+    {text:"Record refusal",rationale:"Document the transport barrier and arrange accessible wound care.",source},
+    {text:"Discuss transport",rationale:"Choose a schedule the family can follow.",source},
+  ]};
+  const updated=clarifyArchivedDecisions(archived,new Map([[companion.id,companion]]));
+  assert.equal(updated.correctIndex,archived.correctIndex);
+  assert.equal(updated.stem,archived.stem);
+  assert.deepEqual(updated.options.map(option=>option.text),archived.options.map(option=>option.text));
+  const html=render({q:updated,selected:2,choiceOrder:[2,0,3,1],expanded:true});
+  assert.match(html,/A\. Correct answer.*Second · Needs correction.*Document the transport barrier and arrange accessible wound care/);
+  assert.match(html,/D\. Incorrect combination.*Second · Appropriate care.*Choose a schedule the family can follow/);
+  assert.doesNotMatch(html,/Second (?:fits|does not fit)/);
 });
