@@ -9,6 +9,7 @@ import {maternalCases,maternalAlternatives} from './clinical-audit-maternal.mjs'
 import {additionalDirectCases,legacyNeurologyCases,neurologyCases,neurologyAlternatives} from './clinical-audit-neurology.mjs';
 import {medicationDirectCases,medicationLegacyCases,medicationCases,medicationAlternatives} from './clinical-audit-medication.mjs';
 import {cardiacDirectCases,cardiacLegacyCases,cardiacCases,cardiacAlternatives} from './clinical-audit-cardiac.mjs';
+import {respiratoryCases,respiratoryLegacyCases,respiratoryDirectCases,respiratoryAlternatives} from './clinical-audit-respiratory.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -34,6 +35,12 @@ const clinicalReviews={
   cases:{...cases,...neurologyCases,...medicationCases,...cardiacCases},
   legacy:{...legacyReviews,...legacyNeurologyCases,...medicationLegacyCases,...cardiacLegacyCases},
   alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives,...cardiacAlternatives},
+ },
+ 16:{
+  selected:{...respiratoryCases,...respiratoryLegacyCases,...respiratoryDirectCases},
+  cases:{...cases,...neurologyCases,...medicationCases,...cardiacCases,...respiratoryCases},
+  legacy:{...legacyReviews,...legacyNeurologyCases,...medicationLegacyCases,...cardiacLegacyCases,...respiratoryLegacyCases},
+  alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives,...cardiacAlternatives,...respiratoryAlternatives},
  },
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};

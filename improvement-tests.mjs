@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,15);
+ assert.equal(currentQuestionRevision,16);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -680,4 +680,34 @@ test('cardiovascular case explanations distinguish verified pulses, contraindica
  assert.match(byId.get('SIT-NP3-acute-coronary-syndrome-acs-03-reasoning').rationale,/within 24 hours.*below 90 mm Hg/);
  assert.match(byId.get('SIT-NP5-altered-tissue-perfusion-02-R2-reasoning').rationale,/Critical deterioration with delayed synchronization/);
  assert.match(byId.get('EXP2-NP5-multi-system-problems-shock-sepsis').rationale,/low qSOFA score does not rule out sepsis/);
+});
+
+test('respiratory case reviews distinguish silent chest, sensor errors, and interrupted ventilation',async()=>{
+ assert.equal(archivedQuestionRevision(15),15);
+ assert.equal(releaseForArchive(15),sixthCaseReviewRelease);
+ assert.equal(await contentDigest(sixthCaseQuestions,clinicalCases),'7546e773cf9c341baaedb907755ee359150204cdbc13c1b916a5adf5a3743bba');
+ const previous=new Map(sixthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===16);
+ assert.equal(changed.length,146);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,15),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('NP3-063-1').rationale,/life-threatening finding/);
+ assert.match(byId.get('CROSS-013-2').rationale,/check waveform and pulse agreement/);
+ assert.match(byId.get('SIT-NP2-pediatric-respiratory-disorders-01-R2-reasoning').rationale,/five back blows then five abdominal thrusts/);
+ assert.match(byId.get('SIT-NP5-altered-ventilatory-function-02-evaluation').rationale,/partial evidence/);
+ assert.match(byId.get('SIT-NP5-altered-ventilatory-function-03-R2-action').rationale,/Stop the trial and restore the prescribed/);
+ const matchedReasons=[
+  ['SIT-NP3-bronchial-asthma-02-recognition',/symptom improvement does not justify stopping/,/reduces exacerbation risk even when symptoms are absent/],
+  ['SIT-NP3-bronchial-asthma-04-recognition',/Nonselective beta blockade/,/Propranolol is nonselective/],
+  ['SIT-NP2-pediatric-respiratory-disorders-02-R2-recognition',/Pancreatic enzyme replacement must be available/,/present as food is digested/],
+ ];
+ for(const [id,text,reason] of matchedReasons){
+  const q=byId.get(id);
+  assert.match(q.options[q.correctIndex].text,text,id);
+  assert.match(q.rationale,reason,id);
+ }
 });
