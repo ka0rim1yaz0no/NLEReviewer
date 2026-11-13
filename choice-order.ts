@@ -1,5 +1,6 @@
 import type {Session} from './engine.ts';
 
+export const letters = ["A", "B", "C", "D"] as const;
 const originalOrder=[0,1,2,3] as const;
 
 // Persisted selections and keys use the source index. Only display order changes.

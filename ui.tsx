@@ -68,4 +68,4 @@ export function Modal({title,onClose,children,drawer=false}:{title:string;onClos
   {children}
  </dialog>;
 }
-export const letters=["A","B","C","D"];
+export { letters } from "./choice-order";
