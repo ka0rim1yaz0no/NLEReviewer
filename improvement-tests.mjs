@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {gzipSync} from 'node:zlib';
 import {setTimeout as pause} from 'node:timers/promises';
-import {applicationReviewedQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,decisionQuestions,decisionStudyQuestions,revisedStudyQuestions,rationaleQuestions,rationaleStudyQuestions,challengeQuestions} from './author-bank.ts';
+import {applicationReviewedQuestions,fullBankReviewedQuestions,choiceReviewedQuestions as questions,previousQuestions,judgmentQuestions,clinicalAuditQuestions,clinicalCases,activeQuestions as currentActive,decisionQuestions,decisionStudyQuestions,revisedStudyQuestions,rationaleQuestions,rationaleStudyQuestions,challengeQuestions,contextReviewedQuestions,contextReviewedAdditions} from './author-bank.ts';
 import {canonicalBytes} from './canonical-json.ts';
 import {contentDigest} from './content-integrity.ts';
 import {processContentRelease} from './content-processing.ts';
@@ -12,7 +12,7 @@ import {curriculum,questionsForTopic} from './curriculum.ts';
 import {isSituational} from './collections.ts';
 import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
-import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
+import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
@@ -289,7 +289,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,8);
+ assert.equal(currentQuestionRevision,9);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -444,7 +444,7 @@ test('the clinical reference release preserves all keys and shows why the distra
  assert.equal(await contentDigest(rationaleQuestions,clinicalCases),'1e46a816a4ae6597e401e9ff285c35772222811584ca5274986919c61b01c684');
  assert.equal(await contentDigest(rationaleStudyQuestions,[]),'9f1f02a94cf70e598c2c5f4e991cc115c944942d49705fef1f36566d5d1f9439');
  const previous=new Map([...rationaleQuestions,...rationaleStudyQuestions].map(q=>[q.id,q]));
- const items=[...currentActive,...revisedStudyQuestions];
+ const items=[...contextReviewedQuestions.filter(q=>!q.retired),...contextReviewedAdditions];
  assert.equal(items.length,9608);
  assert.equal(new Set(items.map(questionChoiceKey)).size,items.length);
  const referenceItems=items.filter(q=>q.conceptId);
@@ -473,6 +473,32 @@ test('the clinical reference release preserves all keys and shows why the distra
  const potassium=items.find(q=>q.id==='SIT-CROSS-laboratory-values-01-action');
  assert.ok(potassium.options.some(o=>o.rationale.includes('This case gives no indication of hemolysis')));
  assert.match(potassium.rationale,/6\.7 mmol\/L|peaked T waves/);
+});
+
+test('the priority case review disambiguates clinical choices and preserves revision eight for saved answers',async()=>{
+ assert.equal(releaseForArchive(8),choiceContextRelease);
+ assert.equal(additionsForArchive(8),choiceContextAdditionsRelease);
+ assert.equal(await contentDigest(contextReviewedQuestions,clinicalCases),'8fe44a67717b880de16261306966f49c40b89b16f7196ca2a68e1043f0e07d1b');
+ assert.equal(await contentDigest(contextReviewedAdditions,[]),'ce246102f0072faf007512fe4ce776ff0d1771c943aded64b17fa7ad6f53bb6e');
+ const prior=new Map([...contextReviewedQuestions,...contextReviewedAdditions].map(q=>[q.id,q]));
+ for(const q of [...currentActive,...revisedStudyQuestions]){
+  assert.equal(q.correctIndex,prior.get(q.id).correctIndex,q.id);
+  if(q.questionRevision===9)assert.ok(questionNeedsArchive(q,8),q.id);
+ }
+ const items=new Map([...currentActive,...revisedStudyQuestions].map(q=>[q.id,q]));
+ const teaching=items.get('SIT-NP2-postpartum-complications-03-R2-teaching');
+ const option=teaching.options.find(o=>o.text.includes('home blood-pressure monitoring'));
+ assert.ok(option);
+ assert.match(option.rationale,/newly symptomatic client/);
+ assert.doesNotMatch(teaching.options[teaching.correctIndex].text,/home blood-pressure monitoring/);
+ const asystole=items.get('SIT-NP5-high-acuity-emergency-situations-01-R2-safety');
+ assert.match(asystole.options[asystole.correctIndex].rationale,/early epinephrine/);
+ assert.match(asystole.options[2].text,/Direct available staff/);
+ assert.match(asystole.options[3].text,/whether CPR/);
+ const magnesium=items.get('NP2-043-2');
+ assert.match(magnesium.rationale,/calcium gluconate/);
+ assert.ok(choiceRationaleParts(magnesium,magnesium.correctIndex).some(p=>p.source.includes('dailymed.nlm.nih.gov')));
+ assert.match(items.get('EXP2-SKIN-064').rationale,/without assigning a skin stage/);
 });
 
 test('study sounds respect saved preferences and use different feedback in the same audio context',async()=>{
