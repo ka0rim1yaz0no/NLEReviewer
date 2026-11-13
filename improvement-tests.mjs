@@ -18,6 +18,8 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions} from './author-bank.ts';
+import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -289,7 +291,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,9);
+ assert.equal(currentQuestionRevision,10);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -530,4 +532,45 @@ test('study sounds respect saved preferences and use different feedback in the s
   if(originalWindow===undefined)delete globalThis.window;
   else globalThis.window=originalWindow;
  }
+});
+
+test('case findings and choice explanations agree while revision nine is still available for saved sessions',async()=>{
+ assert.equal(archivedQuestionRevision(9),9);
+ assert.equal(releaseForArchive(9),priorityReviewRelease);
+ assert.equal(additionsForArchive(9),priorityReviewAdditionsRelease);
+ assert.equal(await contentDigest(priorityReviewedQuestions,clinicalCases),'b7735ca30f4ef478dd2f4a06954cd95835cceba829dda4e4471814fd94d6ea11');
+ assert.equal(await contentDigest(priorityReviewedAdditions,[]),'ec86e38e43e2981ef3f8f395da1ce8a40a43cabcf48cca227da8a05e2c136908');
+ const previous=new Map([...priorityReviewedQuestions,...priorityReviewedAdditions].map(q=>[q.id,q]));
+ const clinical=[...currentActive,...revisedStudyQuestions].filter(q=>!q.conceptId);
+ assert.equal(clinical.length,5278);
+ for(const q of clinical){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  if(q.questionRevision===10)assert.ok(questionNeedsArchive(q,9),q.id);
+  for(const [i,choice] of q.options.entries()){
+   const parts=choiceRationaleParts(q,i);
+   if(!parts.length)continue;
+   assert.equal(parts.length,2,q.id);
+   assert.ok(parts.every(p=>p.explanation.trim()&&new URL(p.source).protocol==='https:'),q.id);
+   assert.equal(parts.every(p=>p.verdict==='supported'||p.verdict==='needs-correction'),i===q.correctIndex,q.id);
+   assert.equal(choice.text.split('\n').length,2,q.id);
+  }
+ }
+ const byId=new Map(clinical.map(q=>[q.id,q]));
+ const repeatGlucose=byId.get('NP4-081-4');
+ assert.match(repeatGlucose.stem,/56 mg\/dL.*62 mg\/dL.*swallowing remains safe/);
+ assert.equal(choiceRationaleParts(repeatGlucose,repeatGlucose.correctIndex)[0].label,'Next action');
+ assert.match(repeatGlucose.rationale,/repeat fast-acting glucose/);
+ assert.doesNotMatch(previous.get(repeatGlucose.id).stem,/62 mg\/dL/);
+ const pleural=byId.get('NP3-067-2');
+ assert.match(pleural.stem,/drain was accidentally left clamped/);
+ assert.match(pleural.rationale,/correcting the inadvertent clamp/);
+ assert.ok(choiceRationaleParts(pleural,pleural.correctIndex).every(p=>p.source.includes('aci.health.nsw.gov.au')));
+ const thyroid=byId.get('SIT-NP4-thyroid-disorders-02-R2-teaching');
+ assert.match(thyroid.options[thyroid.correctIndex].text,/at least four hours/);
+ assert.ok(thyroid.options.some(o=>o.text.includes('continue to take it with both supplements')&&o.rationale.includes('still reduces absorption')));
+ const clozapine=byId.get('SIT-NP1-community-mental-health-program-03-action');
+ assert.match(clozapine.rationale,/absolute neutrophil count/);
+ const arrest=byId.get('CH-041');
+ assert.match(arrest.rationale,/pulseless ventricular tachycardia.*prompt defibrillation/);
+ assert.ok(arrest.options.some(o=>o.rationale.includes('tachycardias in a patient with a pulse')));
 });

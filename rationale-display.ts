@@ -39,7 +39,8 @@ export function clarifyArchivedDecisions(question:Question,currentBank:ReadonlyM
  const [firstCase,secondCase]=question.stem.split('\n\n');
  const correctFirst=archivedCorrectionPrompt.test(firstCase),correctSecond=archivedCorrectionPrompt.test(secondCase);
  const options=question.options.map(option=>{
-  const corrected=latest?.options.find(candidate=>candidate.referenceId===option.referenceId&&candidate.text===option.text);
+  const matchingStem=latest&&(latest.stem===question.stem||(latest.questionRevision??0)<=9);
+  const corrected=matchingStem?latest.options.find(candidate=>candidate.referenceId===option.referenceId&&candidate.text===option.text):undefined;
   if(corrected?.rationaleParts)return {...option,rationale:corrected.rationale,rationaleParts:corrected.rationaleParts};
   if(!separateCases)return option;
   const reason=option.rationale.match(legacyDecisionReason);
