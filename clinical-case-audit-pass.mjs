@@ -14,6 +14,7 @@ import {endocrineCases,endocrineLegacyCases,endocrineDirectCases} from './clinic
 import {renalCases,renalLegacyCases,renalDirectCases} from './clinical-audit-renal.mjs';
 import {perioperativeCases,perioperativeLegacyCases,perioperativeDirectCases} from './clinical-audit-perioperative.mjs';
 import {neuromuscularCases,neuromuscularDirectCases,neuromuscularAlternatives,earlierCaseCorrections} from './clinical-audit-neuromuscular.mjs';
+import {pediatricCases,pediatricDirectCases} from './clinical-audit-pediatrics.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -71,6 +72,7 @@ const clinicalReviews={
   alternatives:{...alternatives,...neurologyAlternatives,...medicationAlternatives,...cardiacAlternatives,...respiratoryAlternatives,...neuromuscularAlternatives},
   corrections:earlierCaseCorrections,
  },
+ 21:{selected:pediatricDirectCases,singleDecisionCases:pediatricCases},
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};
 const legacyQuestion=/^(?:CROSS|NP[1-5])-\d{3}-([1-5])$/;
@@ -207,11 +209,24 @@ function reviewSingleChoice(question,index,reviewed,originals,review){
  return {...option,text:part.text??option.text,rationale:part.rationale,source:part.source,contextSource:part.caseSource,additionalSources:undefined};
 }
 
+function reviewSingleDecision(question,reviewed,revision){
+ const [prompt,correct,...alternatives]=reviewed[question.clinicalObjective];
+ alternatives.splice(question.correctIndex,0,correct);
+ const options=alternatives.map(([text,rationale,source=reviewed.source],index)=>({
+  text,rationale,source,referenceId:`${question.id}:reviewed:${index}`,
+ }));
+ const answer=options[question.correctIndex];
+ return {...question,stem:reviewed.scenario+'\n\n'+prompt,source:answer.source,options,
+  rationale:answer.rationale,keyPoint:answer.rationale,decisionSummary:answer.text,questionRevision:revision};
+}
+
 export function reviewClinicalCases(question,originals,revision){
  const review=clinicalReviews[revision];
  const correction=review.corrections?.[question.id];
  if(question.retired||question.conceptId||(!correction&&question.questionRevision>=10))return question;
  const family=questionFamily(question);
+ const singleDecision=review.singleDecisionCases?.[family];
+ if(singleDecision)return reviewSingleDecision(question,singleDecision,revision);
  const reviewed=correction??review.selected[question.id]??review.selected[family];
  if(!reviewed)return question;
  const options=question.options.map((option,index)=>option.rationaleParts

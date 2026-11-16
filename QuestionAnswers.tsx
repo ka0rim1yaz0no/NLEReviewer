@@ -6,6 +6,15 @@ import { referenceLabel } from "./study-references";
 import type { ReactNode } from "react";
 import type { Question, QuestionOption } from "./types";
 
+export function AnswerChoiceText({option,fontSize}:{option:QuestionOption;fontSize?:number}){
+  const lines=option.text.split('\n');
+  const parts=option.rationaleParts;
+  const labeled=parts?.length===2&&lines.length===2&&parts.every(({label},index)=>lines[index].startsWith(`${label} — `));
+  return <span className="answer-choice-text" style={{fontSize}}>{labeled?parts.map(({label},index)=><span className="answer-choice-part" key={label}>
+    <strong>{label} — </strong>{lines[index].slice(label.length+3)}
+  </span>):option.text}</span>;
+}
+
 function OptionReference({ option }: { option: QuestionOption }) {
   const sources = new Set([option.source, option.contextSource, ...(option.additionalSources ?? [])]);
   return <>{[...sources].map(source => {
@@ -81,7 +90,7 @@ export function ReviewAnswers({ q, selected, expanded, onToggle, choiceOrder, ch
         return <li key={index} className={state}>
           <span className="option-letter">{letters[position]}</span>
           <div className="review-option-content">
-            <strong className="answer-choice-text">{q.options[index].text}</strong>
+            <AnswerChoiceText option={q.options[index]}/>
             {showKey&&<ChoiceStatus q={q} index={index} chosen={chosen}/>}
           </div>
         </li>;

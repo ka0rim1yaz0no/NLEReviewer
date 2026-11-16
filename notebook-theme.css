@@ -46,6 +46,10 @@
 .page-start { scroll-margin-top: calc(var(--study-header-height) + 16px); }
 .page-start:focus-visible { outline: 2px solid var(--notebook-focus); outline-offset: 3px; }
 .answer-choice-text, .rationale > strong, .game-answer { white-space: pre-line; overflow-wrap: anywhere; }
+.answer-choice-part { display: block; }
+.answer-choice-part + .answer-choice-part { margin-top: .3em; }
+.review-option-content > .answer-choice-text { font-weight: 600; }
+.answer-choice-instruction { color: var(--muted); font-size: .875rem; margin: 0 0 9px; }
 .notebook-header {
   padding-top: env(safe-area-inset-top);
   background: var(--paper);

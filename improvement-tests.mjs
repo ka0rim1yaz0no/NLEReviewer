@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions,eighthCaseQuestions,ninthCaseQuestions,tenthCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions,eighthCaseQuestions,ninthCaseQuestions,tenthCaseQuestions,eleventhCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease,tenthCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease,tenthCaseReviewRelease,eleventhCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,20);
+ assert.equal(currentQuestionRevision,21);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -794,4 +794,27 @@ test('neuromuscular case reviews distinguish sustained deficits and impending ve
  assert.match(byId.get('SIT-NP2-pediatric-renal-disorders-01-safety').rationale,/unlimited salt and fluid can aggravate overload/);
  assert.match(byId.get('SIT-NP3-acute-kidney-injury-aki-03-safety').rationale,/do not establish permanent renal failure/);
  assert.match(byId.get('SIT-NP3-classification-of-surgery-04-safety').rationale,/guarantee of zero risk misstates the benefit/);
+});
+
+test('revised pediatric case questions ask for one decision and retain the original grading identity',async()=>{
+ assert.equal(archivedQuestionRevision(20),20);
+ assert.equal(releaseForArchive(20),eleventhCaseReviewRelease);
+ assert.equal(await contentDigest(eleventhCaseQuestions,clinicalCases),'f090c7e200986e539067d52fa2aab12bb04ceb8579f2134e9f685858b8fd0604');
+ const previous=new Map(eleventhCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===21);
+ assert.equal(changed.length,90);
+ assert.equal(changed.filter(q=>q.id.startsWith('SIT-')).length,84);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,20),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')),q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ const spell=byId.get('SIT-NP2-pediatric-cardiovascular-disorders-01-action');
+ assert.match(spell.stem,/What should the nurse do immediately\?/);
+ assert.match(spell.options[spell.correctIndex].text,/position the infant knee-to-chest/);
+ assert.match(byId.get('SIT-NP2-pediatric-hematologic-oncologic-disorders-03-R2-action').rationale,/confirm specialist guidance for immune recovery/);
+ assert.match(byId.get('SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-01-action').rationale,/prevent whole-body cooling/);
 });
