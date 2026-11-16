@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,23);
+ assert.equal(currentQuestionRevision,24);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -866,4 +866,27 @@ test('skin, renal and oncology care updates keep four decisions and preserve sav
  assert.match(heel.options[heel.correctIndex].text,/Offload the heel/);
  assert.match(byId.get('SIT-NP3-dialysis-hemodialysis-peritoneal-03-action').rationale,/Stop ongoing volume removal/);
  assert.match(byId.get('SIT-NP3-cancer-treatment-modalities-01-action').rationale,/Keep the device in place for aspiration/);
+});
+
+test('the respiratory, neurologic and follow-up revisions preserve the previous saved question bank',()=>{
+ assert.equal(archivedQuestionRevision(23),23);
+ assert.equal(releaseForArchive(23),fourteenthCaseReviewRelease);
+ assert.equal(additionsForArchive(23),secondCaseReviewAdditionsRelease);
+ const previous=new Map(fourteenthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===24);
+ assert.equal(changed.length,216);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,23),q.id);
+  assert.equal(q.options.length,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+ }
+ const answers=new Map(changed.map(q=>[q.id,q.options[q.correctIndex].text]));
+ assert.match(answers.get('SIT-NP4-increased-intracranial-pressure-iicp-01-R2-evaluation'),/57 mm Hg and remains below goal/);
+ assert.match(answers.get('SIT-NP4-autonomic-dysreflexia-01-R2-recognition'),/Symptomatic hypotension/);
+ assert.match(answers.get('SIT-NP3-copd-01-action'),/88–92%/);
+ assert.match(answers.get('SIT-NP3-pneumonia-cap-hap-vap-03-action'),/pause unsafe oral intake/);
 });

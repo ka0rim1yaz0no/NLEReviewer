@@ -19,6 +19,10 @@ import {oncologyCases,oncologyDirectCases} from './clinical-audit-oncology.mjs';
 import {skinDirectCases} from './clinical-audit-skin.mjs';
 import {ckdDialysisCases,ckdDialysisDirectCases} from './clinical-audit-ckd-dialysis.mjs';
 import {oncologyCareCases,oncologyCareDirectCases} from './clinical-audit-oncology-care.mjs';
+import {pituitaryCases,pituitaryDirectCases} from './clinical-audit-pituitary.mjs';
+import {spinalCases,spinalDirectCases} from './clinical-audit-spinal.mjs';
+import {pulmonaryCases,pulmonaryDirectCases} from './clinical-audit-pulmonary.mjs';
+import {followupCases,followupDirectCases} from './clinical-audit-followup.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -81,6 +85,11 @@ const clinicalReviews={
  23:{
   selected:{...skinDirectCases,...ckdDialysisDirectCases,...oncologyCareDirectCases},
   singleDecisionCases:{...ckdDialysisCases,...oncologyCareCases},
+  updateDirectSummary:true,
+ },
+ 24:{
+  selected:{...pituitaryDirectCases,...spinalDirectCases,...pulmonaryDirectCases,...followupDirectCases},
+  singleDecisionCases:{...pituitaryCases,...spinalCases,...pulmonaryCases,...followupCases},
   updateDirectSummary:true,
  },
 };
