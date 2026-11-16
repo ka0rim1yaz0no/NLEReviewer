@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,nineteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,nineteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,28);
+ assert.equal(currentQuestionRevision,29);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -981,4 +981,28 @@ test('pediatric gastrointestinal and development revisions keep saved answers an
  assert.match(answers.get('SIT-NP2-developmental-milestones-03-evaluation'),/comprehensive audiology evaluation/);
  assert.equal(answers.get('SIT-NP2-developmental-milestones-04-R3-teaching'),'About eight weeks');
  assert.match(answers.get('EXP2-NP2-developmental-milestones'),/need for further evaluation/);
+});
+
+test('immunization and inpatient infection revisions preserve keys, distinguish timing and clarify precautions',()=>{
+ assert.equal(releaseForArchive(archivedQuestionRevision(28)),nineteenthCaseReviewRelease);
+ assert.equal(additionsForArchive(28),secondCaseReviewAdditionsRelease);
+ const previous=new Map(nineteenthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===29);
+ assert.equal(changed.length,58);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,28),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('EXP2-NP1-expanded-program-on-immunization-epi').rationale,/18 days from today/);
+ assert.match(byId.get('SIT-NP1-expanded-program-on-immunization-epi-02-R2-evaluation').rationale,/local reporting and follow-up/);
+ assert.match(byId.get('SIT-NP3-infectious-disorders-01-R2-evaluation').rationale,/no longer asymptomatic/);
+ assert.match(byId.get('SIT-NP3-infectious-disorders-04-action').rationale,/Do not delay escalation for imaging/);
+ const zoster=byId.get('EXP2-NP3-infectious-disorders');
+ assert.equal(zoster.options[zoster.correctIndex].text,'Airborne, contact and standard precautions');
+ assert.equal(unsafeDecision(zoster),false);
 });

@@ -34,6 +34,8 @@ import {pregnancyComplicationCases} from './clinical-audit-pregnancy-complicatio
 import {puerperiumCases} from './clinical-audit-puerperium.mjs';
 import {pediatricGiCases} from './clinical-audit-pediatric-gi.mjs';
 import {developmentalCases,developmentalDirectCases} from './clinical-audit-development.mjs';
+import {immunizationCases,immunizationDirectCases} from './clinical-audit-immunization.mjs';
+import {inpatientInfectionCases,inpatientInfectionDirectCases} from './clinical-audit-inpatient-infection.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -115,6 +117,11 @@ const clinicalReviews={
  },
  27:{selected:{},singleDecisionCases:{...pregnancyComplicationCases,...puerperiumCases}},
  28:{selected:developmentalDirectCases,singleDecisionCases:{...pediatricGiCases,...developmentalCases},updateDirectSummary:true},
+ 29:{
+  selected:{...immunizationDirectCases,...inpatientInfectionDirectCases},
+  singleDecisionCases:{...immunizationCases,...inpatientInfectionCases},
+  updateDirectSummary:true,
+ },
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};
 const legacyQuestion=/^(?:CROSS|NP[1-5])-\d{3}-([1-5])$/;
