@@ -16,6 +16,9 @@ import {perioperativeCases,perioperativeLegacyCases,perioperativeDirectCases} fr
 import {neuromuscularCases,neuromuscularDirectCases,neuromuscularAlternatives,earlierCaseCorrections} from './clinical-audit-neuromuscular.mjs';
 import {pediatricCases,pediatricDirectCases} from './clinical-audit-pediatrics.mjs';
 import {oncologyCases,oncologyDirectCases} from './clinical-audit-oncology.mjs';
+import {skinDirectCases} from './clinical-audit-skin.mjs';
+import {ckdDialysisCases,ckdDialysisDirectCases} from './clinical-audit-ckd-dialysis.mjs';
+import {oncologyCareCases,oncologyCareDirectCases} from './clinical-audit-oncology-care.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -75,6 +78,11 @@ const clinicalReviews={
  },
  21:{selected:pediatricDirectCases,singleDecisionCases:pediatricCases},
  22:{selected:oncologyDirectCases,singleDecisionCases:oncologyCases},
+ 23:{
+  selected:{...skinDirectCases,...ckdDialysisDirectCases,...oncologyCareDirectCases},
+  singleDecisionCases:{...ckdDialysisCases,...oncologyCareCases},
+  updateDirectSummary:true,
+ },
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};
 const legacyQuestion=/^(?:CROSS|NP[1-5])-\d{3}-([1-5])$/;
@@ -234,10 +242,13 @@ export function reviewClinicalCases(question,originals,revision){
  const options=question.options.map((option,index)=>option.rationaleParts
   ?reviewPairedChoice(question,option,originals,review)
   :reviewSingleChoice(question,index,reviewed,originals,review));
- const stem=reviewed.scenario?question.stem.replace(/^[\s\S]*?\n\n/,reviewed.scenario+'\n\n'):question.stem;
+ const scenario=reviewed.question?question.stem.split('\n\n').slice(0,-1).join('\n\n'):null;
+ const stem=reviewed.question?scenario+'\n\n'+reviewed.question
+  :reviewed.scenario?question.stem.replace(/^[\s\S]*?\n\n/,reviewed.scenario+'\n\n'):question.stem;
  const answer=options[question.correctIndex];
- const keyPoint=reviewed.keyPoint??evidence(reviewed.reasoning,reviewed.source)?.rationale??question.keyPoint;
+ const keyPoint=review.updateDirectSummary?answer.rationale
+  :reviewed.keyPoint??evidence(reviewed.reasoning,reviewed.source)?.rationale??question.keyPoint;
  const decisionSummary=question.decisionSummary&&question.clinicalObjective!=='evaluation'
   ?answer.text.split('\n')[0].replace(/^[^—]+ — /,''):question.decisionSummary;
- return {...question,stem,source:reviewed.source,options,rationale:answer.rationale,keyPoint,decisionSummary,questionRevision:revision};
+ return {...question,...(reviewed.question?{unsafeAnswer:false}:{}),stem,source:reviewed.source,options,rationale:answer.rationale,keyPoint,decisionSummary,questionRevision:revision};
 }

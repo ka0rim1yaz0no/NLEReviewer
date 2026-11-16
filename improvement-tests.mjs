@@ -14,6 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
+import {thirteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -292,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,22);
+ assert.equal(currentQuestionRevision,23);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -837,4 +839,31 @@ test('revised oncology questions use one decision and distinguish acute care fro
  assert.match(byId.get('SIT-NP3-site-specific-cancers-03-safety').rationale,/complete obstruction/);
  assert.match(byId.get('EXP2-NP3-site-specific-cancers').rationale,/flush is already included.*300 mL/);
  assert.match(byId.get('ORIG-NP3-site-specific-cancers-01').rationale,/routine screening date cannot replace investigation/);
+});
+
+test('skin, renal and oncology care updates keep four decisions and preserve saved choices',async()=>{
+ assert.equal(archivedQuestionRevision(22),22);
+ assert.equal(releaseForArchive(22),thirteenthCaseReviewRelease);
+ assert.equal(additionsForArchive(22),firstCaseReviewAdditionsRelease);
+ assert.equal(await contentDigest(thirteenthCaseQuestions,clinicalCases),'c86fef981f01c285ffb02ecff173d398d39e94153d501419f7f177ff971f1202');
+ assert.equal(await contentDigest(firstCaseReviewedAdditions,[]),'1bce9a34ce0c22aaa9a5192716e737bfdec4f2d77edc7e8d8dbcfa1b78fa6dc9');
+ const previous=new Map([...thirteenthCaseQuestions,...firstCaseReviewedAdditions].map(q=>[q.id,q]));
+ const changed=[...currentActive,...revisedStudyQuestions].filter(q=>q.questionRevision===23);
+ assert.equal(changed.length,188);
+ assert.equal(changed.filter(q=>isStudyAddition(q.id)).length,71);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,22),q.id);
+  assert.equal(q.options.length,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ const heel=byId.get('EXP2-SKIN-063');
+ assert.equal(unsafeDecision(heel),false);
+ assert.match(heel.options[heel.correctIndex].text,/Offload the heel/);
+ assert.match(byId.get('SIT-NP3-dialysis-hemodialysis-peritoneal-03-action').rationale,/Stop ongoing volume removal/);
+ assert.match(byId.get('SIT-NP3-cancer-treatment-modalities-01-action').rationale,/Keep the device in place for aspiration/);
 });
