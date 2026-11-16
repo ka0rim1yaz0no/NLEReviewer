@@ -6,7 +6,7 @@ import type { Question } from "./types.ts";
 import studyAdditions from "./study-additions-summary.json" with {type:"json"};
 // Immutable release: stage all pages before publishing its manifest. Older
 // deployments continue using study_content and never see half a release.
-export const contentRelease="2026-11-17-clinical-case-review-17";
+export const contentRelease="2026-11-17-clinical-case-review-18";
 export const studyAdditionsRelease=studyAdditions.release;
 export const priorStudyAdditionsRelease="2026-11-13-practice-expansion-2";
 export const decisionRelease="2026-11-13-pnle-decisions-1";
@@ -35,19 +35,20 @@ export const thirteenthCaseReviewRelease="2026-11-16-clinical-case-review-13";
 export const fourteenthCaseReviewRelease="2026-11-16-clinical-case-review-14";
 export const fifteenthCaseReviewRelease="2026-11-17-clinical-case-review-15";
 export const sixteenthCaseReviewRelease="2026-11-17-clinical-case-review-16";
+export const seventeenthCaseReviewRelease="2026-11-17-clinical-case-review-17";
 export const priorQuestionRelease="2026-11-11-challenge-pink-2";
 export const firstJudgmentRelease="2026-11-11-situational-judgment-1";
 export const clinicalAuditRelease="2026-11-11-clinical-audit-1";
 export const choiceReviewRelease="2026-11-11-choice-reference-review-1";
 export const fullBankReviewRelease="2026-11-13-full-bank-review-1";
 export const applicationReviewRelease="2026-11-13-pnle-application-2";
-export const currentQuestionRevision=26;
-export type ArchivedQuestionRevision=0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25;
+export const currentQuestionRevision=27;
+export type ArchivedQuestionRevision=0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26;
 export function releaseForArchive(revision:ArchivedQuestionRevision){
- return [priorQuestionRelease,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,rationaleRelease,choiceContextRelease,priorityReviewRelease,firstCaseReviewRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease,tenthCaseReviewRelease,eleventhCaseReviewRelease,twelfthCaseReviewRelease,thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease][revision];
+ return [priorQuestionRelease,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,rationaleRelease,choiceContextRelease,priorityReviewRelease,firstCaseReviewRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease,tenthCaseReviewRelease,eleventhCaseReviewRelease,twelfthCaseReviewRelease,thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease][revision];
 }
 export function archivedQuestionRevision(revision?:number):ArchivedQuestionRevision{
- return revision===25||revision===24||revision===23||revision===22||revision===21||revision===20||revision===19||revision===18||revision===17||revision===16||revision===15||revision===14||revision===13||revision===12||revision===11||revision===10||revision===9||revision===8||revision===7||revision===6||revision===5||revision===4||revision===3||revision===2||revision===1?revision:0;
+ return revision===26||revision===25||revision===24||revision===23||revision===22||revision===21||revision===20||revision===19||revision===18||revision===17||revision===16||revision===15||revision===14||revision===13||revision===12||revision===11||revision===10||revision===9||revision===8||revision===7||revision===6||revision===5||revision===4||revision===3||revision===2||revision===1?revision:0;
 }
 export function additionsForArchive(revision:ArchivedQuestionRevision){
  return revision>=23?secondCaseReviewAdditionsRelease:revision>=10?firstCaseReviewAdditionsRelease:revision===9?priorityReviewAdditionsRelease:revision===8?choiceContextAdditionsRelease:revision===7?rationaleAdditionsRelease:revision===6?decisionAdditionsRelease:priorStudyAdditionsRelease;

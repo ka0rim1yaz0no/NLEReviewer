@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,26);
+ assert.equal(currentQuestionRevision,27);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -933,4 +933,29 @@ test('perioperative, blood and IV revisions use four clear options and preserve 
  assert.match(answers.get('SIT-NP3-post-operative-phase-03-R2-action'),/bladder decompression/);
  assert.match(answers.get('SIT-NP3-hematologic-disorders-02-R2-safety'),/Keep heparin flushes/);
  assert.equal(answers.get('SIT-NP3-iv-fluids-03-evaluation'),'1,600 mL');
+});
+
+test('pregnancy and postpartum revisions preserve grading and distinguish actions to correct',()=>{
+ assert.equal(archivedQuestionRevision(26),26);
+ assert.equal(releaseForArchive(26),seventeenthCaseReviewRelease);
+ assert.equal(additionsForArchive(26),secondCaseReviewAdditionsRelease);
+ const previous=new Map(seventeenthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===27);
+ assert.equal(changed.length,56);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,26),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ const thiamine=byId.get('SIT-NP2-complications-during-pregnancy-01-R2-safety');
+ assert.equal(unsafeDecision(thiamine),true);
+ assert.match(thiamine.rationale,/thiamine is recommended/);
+ const mastitis=byId.get('SIT-NP2-normal-puerperium-03-safety');
+ assert.equal(unsafeDecision(mastitis),true);
+ assert.match(mastitis.options[mastitis.correctIndex].text,/Wait for the scheduled visit/);
+ assert.match(byId.get('SIT-NP2-complications-during-pregnancy-04-evaluation').rationale,/Notify the team immediately/);
 });
