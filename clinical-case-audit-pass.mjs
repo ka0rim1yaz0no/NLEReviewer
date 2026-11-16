@@ -26,6 +26,10 @@ import {followupCases,followupDirectCases} from './clinical-audit-followup.mjs';
 import {communityTbCases,communityTbDirectCases} from './clinical-audit-community-tb.mjs';
 import {hansenCases,hansenDirectCases} from './clinical-audit-hansen.mjs';
 import {mosquitoCases,mosquitoDirectCases} from './clinical-audit-mosquito.mjs';
+import {fluidCareCases,fluidCareDirectCases} from './clinical-audit-fluid-care.mjs';
+import {hematologyCases,hematologyDirectCases} from './clinical-audit-hematology.mjs';
+import {operativeSafetyCases,operativeSafetyDirectCases} from './clinical-audit-operative-safety.mjs';
+import {postoperativeCases,postoperativeDirectCases} from './clinical-audit-postoperative.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -98,6 +102,11 @@ const clinicalReviews={
  25:{
   selected:{...communityTbDirectCases,...hansenDirectCases,...mosquitoDirectCases},
   singleDecisionCases:{...communityTbCases,...hansenCases,...mosquitoCases},
+  updateDirectSummary:true,
+ },
+ 26:{
+  selected:{...fluidCareDirectCases,...hematologyDirectCases,...operativeSafetyDirectCases,...postoperativeDirectCases},
+  singleDecisionCases:{...fluidCareCases,...hematologyCases,...operativeSafetyCases,...postoperativeCases},
   updateDirectSummary:true,
  },
 };

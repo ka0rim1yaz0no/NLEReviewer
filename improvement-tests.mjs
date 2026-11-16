@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,25);
+ assert.equal(currentQuestionRevision,26);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -911,4 +911,26 @@ test('community infection revisions preserve saved choices and the correct actio
  assert.match(answers.get('SIT-NP1-leprosy-02-action'),/Prompt leprosy-program review/);
  assert.match(answers.get('SIT-NP1-mosquito-borne-diseases-01-R2-evaluation'),/urgent hospital evaluation/);
  assert.match(answers.get('SIT-NP1-mosquito-borne-diseases-02-R2-action'),/Continue the indicated blood-stage regimen/);
+});
+
+test('perioperative, blood and IV revisions use four clear options and preserve archived grading',()=>{
+ assert.equal(archivedQuestionRevision(25),25);
+ assert.equal(releaseForArchive(25),sixteenthCaseReviewRelease);
+ assert.equal(additionsForArchive(25),secondCaseReviewAdditionsRelease);
+ const previous=new Map(sixteenthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===26);
+ assert.equal(changed.length,116);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,25),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+ }
+ const answers=new Map(changed.map(q=>[q.id,q.options[q.correctIndex].text]));
+ assert.match(answers.get('SIT-NP3-intra-operative-phase-03-action'),/activate the crisis protocol/);
+ assert.match(answers.get('SIT-NP3-post-operative-phase-03-R2-action'),/bladder decompression/);
+ assert.match(answers.get('SIT-NP3-hematologic-disorders-02-R2-safety'),/Keep heparin flushes/);
+ assert.equal(answers.get('SIT-NP3-iv-fluids-03-evaluation'),'1,600 mL');
 });
