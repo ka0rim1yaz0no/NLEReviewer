@@ -23,6 +23,9 @@ import {pituitaryCases,pituitaryDirectCases} from './clinical-audit-pituitary.mj
 import {spinalCases,spinalDirectCases} from './clinical-audit-spinal.mjs';
 import {pulmonaryCases,pulmonaryDirectCases} from './clinical-audit-pulmonary.mjs';
 import {followupCases,followupDirectCases} from './clinical-audit-followup.mjs';
+import {communityTbCases,communityTbDirectCases} from './clinical-audit-community-tb.mjs';
+import {hansenCases,hansenDirectCases} from './clinical-audit-hansen.mjs';
+import {mosquitoCases,mosquitoDirectCases} from './clinical-audit-mosquito.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -90,6 +93,11 @@ const clinicalReviews={
  24:{
   selected:{...pituitaryDirectCases,...spinalDirectCases,...pulmonaryDirectCases,...followupDirectCases},
   singleDecisionCases:{...pituitaryCases,...spinalCases,...pulmonaryCases,...followupCases},
+  updateDirectSummary:true,
+ },
+ 25:{
+  selected:{...communityTbDirectCases,...hansenDirectCases,...mosquitoDirectCases},
+  singleDecisionCases:{...communityTbCases,...hansenCases,...mosquitoCases},
   updateDirectSummary:true,
  },
 };
