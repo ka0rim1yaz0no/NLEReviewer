@@ -32,6 +32,8 @@ import {operativeSafetyCases,operativeSafetyDirectCases} from './clinical-audit-
 import {postoperativeCases,postoperativeDirectCases} from './clinical-audit-postoperative.mjs';
 import {pregnancyComplicationCases} from './clinical-audit-pregnancy-complications.mjs';
 import {puerperiumCases} from './clinical-audit-puerperium.mjs';
+import {pediatricGiCases} from './clinical-audit-pediatric-gi.mjs';
+import {developmentalCases,developmentalDirectCases} from './clinical-audit-development.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -112,6 +114,7 @@ const clinicalReviews={
   updateDirectSummary:true,
  },
  27:{selected:{},singleDecisionCases:{...pregnancyComplicationCases,...puerperiumCases}},
+ 28:{selected:developmentalDirectCases,singleDecisionCases:{...pediatricGiCases,...developmentalCases},updateDirectSummary:true},
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};
 const legacyQuestion=/^(?:CROSS|NP[1-5])-\d{3}-([1-5])$/;

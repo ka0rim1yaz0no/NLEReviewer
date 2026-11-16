@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,27);
+ assert.equal(currentQuestionRevision,28);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -958,4 +958,27 @@ test('pregnancy and postpartum revisions preserve grading and distinguish action
  assert.equal(unsafeDecision(mastitis),true);
  assert.match(mastitis.options[mastitis.correctIndex].text,/Wait for the scheduled visit/);
  assert.match(byId.get('SIT-NP2-complications-during-pregnancy-04-evaluation').rationale,/Notify the team immediately/);
+});
+
+test('pediatric gastrointestinal and development revisions keep saved answers and distinguish screening from diagnosis',()=>{
+ assert.equal(archivedQuestionRevision(27),27);
+ assert.equal(releaseForArchive(27),eighteenthCaseReviewRelease);
+ assert.equal(additionsForArchive(27),secondCaseReviewAdditionsRelease);
+ const previous=new Map(eighteenthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===28);
+ assert.equal(changed.length,57);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,27),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+ }
+ const answers=new Map(changed.map(q=>[q.id,q.options[q.correctIndex].text]));
+ assert.match(answers.get('SIT-NP2-pediatric-gastrointestinal-disorders-01-evaluation'),/continue the prescribed correction/);
+ assert.match(answers.get('SIT-NP2-pediatric-gastrointestinal-disorders-02-R2-action'),/Stop oral feeding/);
+ assert.match(answers.get('SIT-NP2-developmental-milestones-03-evaluation'),/comprehensive audiology evaluation/);
+ assert.equal(answers.get('SIT-NP2-developmental-milestones-04-R3-teaching'),'About eight weeks');
+ assert.match(answers.get('EXP2-NP2-developmental-milestones'),/need for further evaluation/);
 });
