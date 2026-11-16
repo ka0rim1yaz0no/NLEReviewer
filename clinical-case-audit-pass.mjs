@@ -15,6 +15,7 @@ import {renalCases,renalLegacyCases,renalDirectCases} from './clinical-audit-ren
 import {perioperativeCases,perioperativeLegacyCases,perioperativeDirectCases} from './clinical-audit-perioperative.mjs';
 import {neuromuscularCases,neuromuscularDirectCases,neuromuscularAlternatives,earlierCaseCorrections} from './clinical-audit-neuromuscular.mjs';
 import {pediatricCases,pediatricDirectCases} from './clinical-audit-pediatrics.mjs';
+import {oncologyCases,oncologyDirectCases} from './clinical-audit-oncology.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -73,6 +74,7 @@ const clinicalReviews={
   corrections:earlierCaseCorrections,
  },
  21:{selected:pediatricDirectCases,singleDecisionCases:pediatricCases},
+ 22:{selected:oncologyDirectCases,singleDecisionCases:oncologyCases},
 };
 const roles={recognition:'assessment',problem:'assessment',action:'action',teaching:'teaching',planning:'outcome',outcome:'outcome',reason:'reasoning',reasoning:'reasoning',safety:'safety'};
 const legacyQuestion=/^(?:CROSS|NP[1-5])-\d{3}-([1-5])$/;

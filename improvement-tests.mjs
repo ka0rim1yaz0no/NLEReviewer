@@ -18,9 +18,9 @@ import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
 import {playStudyCue,playStudyTone,studySoundsEnabled} from './study-sound.ts';
-import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions,eighthCaseQuestions,ninthCaseQuestions,tenthCaseQuestions,eleventhCaseQuestions} from './author-bank.ts';
+import {priorityReviewedQuestions,priorityReviewedAdditions,priorCaseQuestions,thirdCaseQuestions,fourthCaseQuestions,fifthCaseQuestions,sixthCaseQuestions,seventhCaseQuestions,eighthCaseQuestions,ninthCaseQuestions,tenthCaseQuestions,eleventhCaseQuestions,twelfthCaseQuestions} from './author-bank.ts';
 import {archivedQuestionRevision,priorityReviewRelease,priorityReviewAdditionsRelease} from './content-release.ts';
-import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease,tenthCaseReviewRelease,eleventhCaseReviewRelease} from './content-release.ts';
+import {firstCaseReviewRelease,firstCaseReviewAdditionsRelease,secondCaseReviewRelease,thirdCaseReviewRelease,fourthCaseReviewRelease,fifthCaseReviewRelease,sixthCaseReviewRelease,seventhCaseReviewRelease,eighthCaseReviewRelease,ninthCaseReviewRelease,tenthCaseReviewRelease,eleventhCaseReviewRelease,twelfthCaseReviewRelease} from './content-release.ts';
 import {auditCases} from './clinical-audit-data.ts';
 import {auditedReferenceUpdates} from './clinical-audit.ts';
 import {choiceReviewCases} from './choice-review-data.ts';
@@ -292,7 +292,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,21);
+ assert.equal(currentQuestionRevision,22);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -817,4 +817,24 @@ test('revised pediatric case questions ask for one decision and retain the origi
  assert.match(spell.options[spell.correctIndex].text,/position the infant knee-to-chest/);
  assert.match(byId.get('SIT-NP2-pediatric-hematologic-oncologic-disorders-03-R2-action').rationale,/confirm specialist guidance for immune recovery/);
  assert.match(byId.get('SIT-NP2-pediatric-integumentary-musculoskeletal-disorders-01-action').rationale,/prevent whole-body cooling/);
+});
+
+test('revised oncology questions use one decision and distinguish acute care from workup or surveillance',async()=>{
+ assert.equal(releaseForArchive(21),twelfthCaseReviewRelease);
+ assert.equal(await contentDigest(twelfthCaseQuestions,clinicalCases),'001a03d05d1e371cc7a8dc07df6577feebb2118fd4c78e06f87b1c0c31eca9c8');
+ const previous=new Map(twelfthCaseQuestions.map(q=>[q.id,q]));
+ const changed=currentActive.filter(q=>q.questionRevision===22);
+ assert.equal(changed.length,60);
+ assert.equal(changed.filter(q=>q.id.startsWith('SIT-')).length,56);
+ for(const q of changed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,21),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')),q.id);
+ }
+ const byId=new Map(changed.map(q=>[q.id,q]));
+ assert.match(byId.get('SIT-NP3-site-specific-cancers-02-action').rationale,/Do not delay for diagnostic testing/);
+ assert.match(byId.get('SIT-NP3-site-specific-cancers-03-safety').rationale,/complete obstruction/);
+ assert.match(byId.get('EXP2-NP3-site-specific-cancers').rationale,/flush is already included.*300 mL/);
+ assert.match(byId.get('ORIG-NP3-site-specific-cancers-01').rationale,/routine screening date cannot replace investigation/);
 });

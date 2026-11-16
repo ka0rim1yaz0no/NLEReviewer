@@ -613,5 +613,17 @@
  "https://www.cancer.gov/types/leukemia/patient/child-all-treatment-pdq": "National Cancer Institute: childhood acute lymphoblastic leukemia",
  "https://www.rch.org.au/clinicalguide/guideline_index/Burns_Acute_Management/": "Royal Children’s Hospital: acute burn care",
  "https://www.nice.org.uk/guidance/cg57/chapter/Recommendations": "NICE: atopic eczema in children",
- "https://www.rch.org.au/kidsinfo/fact_sheets/Eczema_(atopic_dermatitis)/": "Royal Children’s Hospital: atopic dermatitis"
+ "https://www.rch.org.au/kidsinfo/fact_sheets/Eczema_(atopic_dermatitis)/": "Royal Children’s Hospital: atopic dermatitis",
+ "https://www.cancer.gov/about-cancer/diagnosis-staging/staging": "National Cancer Institute: cancer staging",
+ "https://www.nice.org.uk/guidance/ng12/resources/suspected-cancer-recognition-and-referral-pdf-1837268071621": "NICE: evaluating symptoms of suspected cancer",
+ "https://www.health.gov.au/sites/default/files/2025-09/national-cervical-screening-program-understanding-the-national-cervical-screening-program-management-pathway.pdf": "Australian National Cervical Screening Program: investigating symptomatic bleeding",
+ "https://www.cancer.gov/types/metastatic-cancer": "National Cancer Institute: metastatic cancer",
+ "https://www.cancer.gov/types/brain/patient/adult-brain-treatment-pdq": "National Cancer Institute: adult brain and spinal cord tumors",
+ "https://www.cancer.gov/about-cancer/treatment/side-effects/appetite-loss/nutrition-hp-pdq": "National Cancer Institute: nutrition during cancer care",
+ "https://www.mskcc.org/cancer-care/patient-education/caring-your-jackson-pratt-drain": "Memorial Sloan Kettering: home care for a Jackson-Pratt drain",
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC10289864/": "Society of Chest Imaging and Interventions: hemoptysis management",
+ "https://www.cancer.gov/about-cancer/treatment/side-effects/bowel-obstruction": "National Cancer Institute: bowel obstruction in cancer care",
+ "https://pmc.ncbi.nlm.nih.gov/articles/PMC9046338/": "MASCC: malignant bowel obstruction guidance",
+ "https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-retention/symptoms-causes": "NIDDK: urinary retention symptoms and causes",
+ "https://aci.health.nsw.gov.au/networks/urology/resources/bladder-irrigation/overview": "NSW Agency for Clinical Innovation: measuring urine during bladder irrigation"
 }
