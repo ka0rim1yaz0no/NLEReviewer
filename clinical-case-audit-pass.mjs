@@ -42,6 +42,12 @@ import {chestDrainCases,chestDrainDirectCases} from './clinical-audit-chest-drai
 import {ardsCases,ardsDirectCases} from './clinical-audit-ards.mjs';
 import {vascularCases,vascularDirectCases} from './clinical-audit-vascular-care.mjs';
 import {shockFollowupCases} from './clinical-audit-shock-followup.mjs';
+import {upperGiCases,upperGiDirectCases} from './clinical-audit-upper-gi.mjs';
+import {intestinalCareCases,intestinalDirectCases} from './clinical-audit-intestinal-care.mjs';
+import {ostomyCareCases,ostomyCareDirectCases} from './clinical-audit-ostomy-care.mjs';
+import {glaucomaCataractCases,glaucomaCataractDirectCases} from './clinical-audit-glaucoma-cataract-care.mjs';
+import {retinalCareCases,retinalCareDirectCases} from './clinical-audit-retinal-care.mjs';
+import {eyeSafetyCases,eyeSafetyDirectCases} from './clinical-audit-eye-safety.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -131,6 +137,11 @@ const clinicalReviews={
  30:{
   selected:{...chestDrainDirectCases,...ardsDirectCases,...vascularDirectCases},
   singleDecisionCases:{...intrapartumCases,...postpartumCases,...chestDrainCases,...ardsCases,...vascularCases,...shockFollowupCases},
+  updateDirectSummary:true,
+ },
+ 31:{
+  selected:{...upperGiDirectCases,...intestinalDirectCases,...ostomyCareDirectCases,...glaucomaCataractDirectCases,...retinalCareDirectCases,...eyeSafetyDirectCases},
+  singleDecisionCases:{...upperGiCases,...intestinalCareCases,...ostomyCareCases,...glaucomaCataractCases,...retinalCareCases,...eyeSafetyCases},
   updateDirectSummary:true,
  },
 };

@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,nineteenthCaseQuestions,twentiethCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,nineteenthCaseReviewRelease,twentiethCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,nineteenthCaseQuestions,twentiethCaseQuestions,twentyFirstCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,nineteenthCaseReviewRelease,twentiethCaseReviewRelease,twentyFirstCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,30);
+ assert.equal(currentQuestionRevision,31);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -1039,4 +1039,34 @@ test('maternal and respiratory review keeps archived grading and links each inde
  assert.match(answer('EXP2-NP3-peripheral-vascular-diseases-hypertension'),/toe pressure and waveforms/);
  assert.match(answer('SIT-NP5-multi-system-problems-shock-sepsis-04-R2-safety'),/Stop looking for hemorrhage/);
  assert.match(answer('SIT-NP5-multi-system-problems-shock-sepsis-02-R2-action'),/rapid bedside assessment/);
+});
+
+test('gastrointestinal ostomy and eye reviews preserve archived answers and clarify clinical choices',()=>{
+ assert.equal(releaseForArchive(archivedQuestionRevision(30)),twentyFirstCaseReviewRelease);
+ assert.equal(additionsForArchive(30),secondCaseReviewAdditionsRelease);
+ const previous=new Map(twentyFirstCaseQuestions.map(q=>[q.id,q]));
+ const reviewed=currentActive.filter(q=>q.questionRevision===31);
+ assert.equal(reviewed.length,174);
+ for(const q of reviewed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,30),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+  assert.equal(q.keyPoint,q.rationale,q.id);
+  assert.equal(unsafeDecision(q),q.id.startsWith('SIT-')&&q.clinicalObjective==='safety',q.id);
+ }
+ const byId=new Map(reviewed.map(q=>[q.id,q]));
+ const key=id=>{const q=byId.get(id);return q.options[q.correctIndex];};
+ assert.match(key('EXP2-NP4-oral-esophageal-gastric-disorders').rationale,/at least four weeks/);
+ assert.match(key('SIT-NP4-gi-absorption-elimination-04-R2-action').text,/complete colonoscopy/);
+ assert.match(key('SIT-NP4-gi-absorption-elimination-02-safety').text,/without reassessing/);
+ assert.match(key('SIT-NP4-ostomies-01-R2-action').text,/avoid attempting home irrigation/);
+ assert.match(key('SIT-NP4-ostomies-03-action').text,/refit the barrier/);
+ assert.match(key('SIT-NP4-glaucoma-cataract-01-R2-recognition').text,/Systemic beta-blocker/);
+ assert.match(key('SIT-NP4-retinal-detachment-macular-degeneration-02-R2-safety').rationale,/Nitrous oxide/);
+ assert.match(key('SIT-NP4-other-eye-conditions-surgery-care-01-action').text,/clean water immediately/);
+ assert.match(key('SIT-NP4-other-eye-conditions-surgery-care-02-action').text,/rigid shield/);
+ assert.match(key('EXP2-NP4-other-eye-conditions-surgery-care').text,/prompt eye assessment/);
 });

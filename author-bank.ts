@@ -71,7 +71,8 @@ export const seventeenthCaseQuestions=validateQuestions(sixteenthCaseQuestions.m
 export const eighteenthCaseQuestions=validateQuestions(seventeenthCaseQuestions.map(question=>reviewClinicalCases(question,originalById,27)));
 export const nineteenthCaseQuestions=validateQuestions(eighteenthCaseQuestions.map(question=>reviewClinicalCases(question,originalById,28)));
 export const twentiethCaseQuestions=validateQuestions(nineteenthCaseQuestions.map(question=>reviewClinicalCases(question,originalById,29)));
-export const questions=validateQuestions(twentiethCaseQuestions.map(question=>reviewClinicalCases(question,originalById,30)));
+export const twentyFirstCaseQuestions=validateQuestions(twentiethCaseQuestions.map(question=>reviewClinicalCases(question,originalById,30)));
+export const questions=validateQuestions(twentyFirstCaseQuestions.map(question=>reviewClinicalCases(question,originalById,31)));
 export const firstCaseReviewedAdditions=priorityReviewedAdditions.length?validateQuestions(priorityReviewedAdditions.map(question=>continueClinicalCaseReview(question,originalById,10))):[];
 export const revisedStudyQuestions=firstCaseReviewedAdditions.length?validateQuestions(firstCaseReviewedAdditions.map(question=>reviewClinicalCases(question,originalById,23))):[];
 export const feedbackReviewCounts={core:coreFeedback.counts,additions:additionFeedback.counts};
