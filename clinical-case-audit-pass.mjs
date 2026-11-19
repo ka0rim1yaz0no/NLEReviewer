@@ -36,6 +36,12 @@ import {pediatricGiCases} from './clinical-audit-pediatric-gi.mjs';
 import {developmentalCases,developmentalDirectCases} from './clinical-audit-development.mjs';
 import {immunizationCases,immunizationDirectCases} from './clinical-audit-immunization.mjs';
 import {inpatientInfectionCases,inpatientInfectionDirectCases} from './clinical-audit-inpatient-infection.mjs';
+import {intrapartumCases} from './clinical-audit-intrapartum.mjs';
+import {postpartumCases} from './clinical-audit-postpartum.mjs';
+import {chestDrainCases,chestDrainDirectCases} from './clinical-audit-chest-drain.mjs';
+import {ardsCases,ardsDirectCases} from './clinical-audit-ards.mjs';
+import {vascularCases,vascularDirectCases} from './clinical-audit-vascular-care.mjs';
+import {shockFollowupCases} from './clinical-audit-shock-followup.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -120,6 +126,11 @@ const clinicalReviews={
  29:{
   selected:{...immunizationDirectCases,...inpatientInfectionDirectCases},
   singleDecisionCases:{...immunizationCases,...inpatientInfectionCases},
+  updateDirectSummary:true,
+ },
+ 30:{
+  selected:{...chestDrainDirectCases,...ardsDirectCases,...vascularDirectCases},
+  singleDecisionCases:{...intrapartumCases,...postpartumCases,...chestDrainCases,...ardsCases,...vascularCases,...shockFollowupCases},
   updateDirectSummary:true,
  },
 };

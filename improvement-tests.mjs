@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,nineteenthCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,nineteenthCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,nineteenthCaseQuestions,twentiethCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,nineteenthCaseReviewRelease,twentiethCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,29);
+ assert.equal(currentQuestionRevision,30);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -1005,4 +1005,38 @@ test('immunization and inpatient infection revisions preserve keys, distinguish 
  const zoster=byId.get('EXP2-NP3-infectious-disorders');
  assert.equal(zoster.options[zoster.correctIndex].text,'Airborne, contact and standard precautions');
  assert.equal(unsafeDecision(zoster),false);
+});
+
+test('maternal and respiratory review keeps archived grading and links each independent choice',()=>{
+ assert.equal(releaseForArchive(archivedQuestionRevision(29)),twentiethCaseReviewRelease);
+ assert.equal(additionsForArchive(29),secondCaseReviewAdditionsRelease);
+ const prior=new Map(twentiethCaseQuestions.map(q=>[q.id,q]));
+ const revised=currentActive.filter(q=>q.questionRevision===30);
+ assert.equal(revised.length,140);
+ for(const q of revised){
+  assert.equal(q.correctIndex,prior.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,29),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+  assert.equal(q.keyPoint,q.rationale,q.id);
+  assert.equal(unsafeDecision(q),q.clinicalObjective==='safety',q.id);
+ }
+ const byId=new Map(revised.map(q=>[q.id,q]));
+ const answer=id=>{
+  const q=byId.get(id);
+  return q.options[q.correctIndex].text;
+ };
+ assert.match(answer('SIT-NP2-postpartum-complications-01-R2-planning'),/quantify loss, and help assess genital tract bleeding/);
+ assert.match(answer('SIT-NP2-postpartum-complications-02-R2-action'),/safe supervised care for the infant/);
+ const headache=byId.get('SIT-NP2-postpartum-complications-03-R2-safety');
+ assert.equal(unsafeDecision(headache),true);
+ assert.match(headache.rationale,/urgent medical assessment/);
+ assert.match(answer('SIT-NP3-pneumothorax-hemothorax-chest-tubes-01-action'),/urgent decompression by a trained clinician/);
+ assert.match(answer('SIT-NP3-ards-04-planning'),/conservative fluid plan and monitor perfusion/);
+ assert.equal(answer('EXP2-NP3-ards'),'300 mL');
+ assert.match(answer('EXP2-NP3-peripheral-vascular-diseases-hypertension'),/toe pressure and waveforms/);
+ assert.match(answer('SIT-NP5-multi-system-problems-shock-sepsis-04-R2-safety'),/Stop looking for hemorrhage/);
+ assert.match(answer('SIT-NP5-multi-system-problems-shock-sepsis-02-R2-action'),/rapid bedside assessment/);
 });
