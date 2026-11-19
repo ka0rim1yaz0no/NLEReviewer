@@ -48,6 +48,11 @@ import {ostomyCareCases,ostomyCareDirectCases} from './clinical-audit-ostomy-car
 import {glaucomaCataractCases,glaucomaCataractDirectCases} from './clinical-audit-glaucoma-cataract-care.mjs';
 import {retinalCareCases,retinalCareDirectCases} from './clinical-audit-retinal-care.mjs';
 import {eyeSafetyCases,eyeSafetyDirectCases} from './clinical-audit-eye-safety.mjs';
+import {sensoryCases,sensoryDirectCases} from './clinical-audit-final-sensory.mjs';
+import {transferredCases,transferredDirectCases} from './clinical-audit-final-cross.mjs';
+import {mentalCases,mentalDirectCases} from './clinical-audit-final-mental.mjs';
+import {communityCases,communityDirectCases} from './clinical-audit-final-community.mjs';
+import {foundationsCases,foundationsDirectCases} from './clinical-audit-final-foundations.mjs';
 import {alternativeDecisions} from './clinical-audit-alternatives.mjs';
 import {references as ref} from './clinical-audit-references.mjs';
 
@@ -142,6 +147,11 @@ const clinicalReviews={
  31:{
   selected:{...upperGiDirectCases,...intestinalDirectCases,...ostomyCareDirectCases,...glaucomaCataractDirectCases,...retinalCareDirectCases,...eyeSafetyDirectCases},
   singleDecisionCases:{...upperGiCases,...intestinalCareCases,...ostomyCareCases,...glaucomaCataractCases,...retinalCareCases,...eyeSafetyCases},
+  updateDirectSummary:true,
+ },
+ 32:{
+  selected:{...sensoryDirectCases,...transferredDirectCases,...mentalDirectCases,...communityDirectCases,...foundationsDirectCases},
+  singleDecisionCases:{...sensoryCases,...transferredCases,...mentalCases,...communityCases,...foundationsCases},
   updateDirectSummary:true,
  },
 };
@@ -300,10 +310,15 @@ export function reviewClinicalCases(question,originals,revision){
  if(singleDecision)return reviewSingleDecision(question,singleDecision,revision);
  const reviewed=correction??review.selected[question.id]??review.selected[family];
  if(!reviewed)return question;
- const options=question.options.map((option,index)=>option.rationaleParts
+ const options=question.options.map((option,index)=>revision>=32&&reviewed.reasons
+  ?{text:reviewed.choices?.[index]??option.text,rationale:reviewed.reasons[index],
+    source:reviewed.choiceSources?.[index]??reviewed.source,referenceId:`${question.id}:reviewed:${index}`}
+  :option.rationaleParts
   ?reviewPairedChoice(question,option,originals,review)
   :reviewSingleChoice(question,index,reviewed,originals,review));
- const scenario=reviewed.question?question.stem.split('\n\n').slice(0,-1).join('\n\n'):null;
+ const scenario=reviewed.question
+  ?revision>=32&&reviewed.scenario?reviewed.scenario:question.stem.split('\n\n').slice(0,-1).join('\n\n')
+  :null;
  const stem=reviewed.question?scenario+'\n\n'+reviewed.question
   :reviewed.scenario?question.stem.replace(/^[\s\S]*?\n\n/,reviewed.scenario+'\n\n'):question.stem;
  const answer=options[question.correctIndex];
@@ -311,5 +326,7 @@ export function reviewClinicalCases(question,originals,revision){
   :reviewed.keyPoint??evidence(reviewed.reasoning,reviewed.source)?.rationale??question.keyPoint;
  const decisionSummary=question.decisionSummary&&question.clinicalObjective!=='evaluation'
   ?answer.text.split('\n')[0].replace(/^[^—]+ — /,''):question.decisionSummary;
- return {...question,...(reviewed.question?{unsafeAnswer:false}:{}),stem,source:reviewed.source,options,rationale:answer.rationale,keyPoint,decisionSummary,questionRevision:revision};
+ const answerType=revision>=32&&typeof reviewed.unsafeAnswer==='boolean'
+  ?{unsafeAnswer:reviewed.unsafeAnswer}:reviewed.question?{unsafeAnswer:false}:{};
+ return {...question,...answerType,stem,source:reviewed.source,options,rationale:answer.rationale,keyPoint,decisionSummary,questionRevision:revision};
 }

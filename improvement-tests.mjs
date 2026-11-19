@@ -14,8 +14,8 @@ import {quizShortcut} from './quiz-shortcuts.ts';
 import {normalizeChoice,normalizeQuestionStem} from './bank.ts';
 import {decodeContentRelease,releaseForArchive,additionsForArchive,firstJudgmentRelease,clinicalAuditRelease,choiceReviewRelease,fullBankReviewRelease,applicationReviewRelease,decisionRelease,decisionAdditionsRelease,rationaleRelease,rationaleAdditionsRelease,choiceContextRelease,choiceContextAdditionsRelease,currentQuestionRevision,questionNeedsArchive,isStudyAddition} from './content-release.ts';
 import {referenceCorrections} from './clinical-reference-corrections.mjs';
-import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,nineteenthCaseQuestions,twentiethCaseQuestions,twentyFirstCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
-import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,nineteenthCaseReviewRelease,twentiethCaseReviewRelease,twentyFirstCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
+import {thirteenthCaseQuestions,fourteenthCaseQuestions,fifteenthCaseQuestions,sixteenthCaseQuestions,seventeenthCaseQuestions,eighteenthCaseQuestions,nineteenthCaseQuestions,twentiethCaseQuestions,twentyFirstCaseQuestions,twentySecondCaseQuestions,firstCaseReviewedAdditions} from './author-bank.ts';
+import {thirteenthCaseReviewRelease,fourteenthCaseReviewRelease,fifteenthCaseReviewRelease,sixteenthCaseReviewRelease,seventeenthCaseReviewRelease,eighteenthCaseReviewRelease,nineteenthCaseReviewRelease,twentiethCaseReviewRelease,twentyFirstCaseReviewRelease,twentySecondCaseReviewRelease,secondCaseReviewAdditionsRelease} from './content-release.ts';
 import {questionChoiceKey,questionFamily} from './question-selection.ts';
 import {bankReviews} from './bank-review-data.ts';
 import {newStudyQuestions} from './authored-update.mjs';
@@ -294,7 +294,7 @@ test('the current bank has distinct stems, four distinct explained choices, and 
  }
  const previous=new Map(questions.map(q=>[q.id,q]));
  const edits=new Map(bankReviews.map(e=>[e.id,e]));
- assert.equal(currentQuestionRevision,31);
+ assert.equal(currentQuestionRevision,32);
  assert.equal(releaseForArchive(3),choiceReviewRelease);
  assert.equal(await contentDigest(questions,clinicalCases),'a85625fd219a1c591fdffbdab00376dabdacf1f45258d95c5215df0a2c697b93');
  for(const q of fullBankReviewedQuestions){
@@ -1069,4 +1069,36 @@ test('gastrointestinal ostomy and eye reviews preserve archived answers and clar
  assert.match(key('SIT-NP4-other-eye-conditions-surgery-care-01-action').text,/clean water immediately/);
  assert.match(key('SIT-NP4-other-eye-conditions-surgery-care-02-action').text,/rigid shield/);
  assert.match(key('EXP2-NP4-other-eye-conditions-surgery-care').text,/prompt eye assessment/);
+});
+
+test('final clinical review covers every pending case and preserves archived grading',()=>{
+ assert.equal(releaseForArchive(archivedQuestionRevision(31)),twentySecondCaseReviewRelease);
+ assert.equal(additionsForArchive(31),secondCaseReviewAdditionsRelease);
+ const previous=new Map(twentySecondCaseQuestions.map(q=>[q.id,q]));
+ const pending=twentySecondCaseQuestions.filter(q=>!q.retired&&!q.conceptId&&(q.questionRevision??0)<10);
+ const reviewed=currentActive.filter(q=>q.questionRevision===32);
+ assert.equal(pending.length,2605);
+ assert.deepEqual(reviewed.map(q=>q.id).sort(),pending.map(q=>q.id).sort());
+ assert.equal(currentActive.length+revisedStudyQuestions.filter(q=>!q.retired).length,9608);
+ assert.equal([...currentActive,...revisedStudyQuestions].filter(q=>!q.retired&&!q.conceptId&&(q.questionRevision??0)<10).length,0);
+ for(const q of reviewed){
+  assert.equal(q.correctIndex,previous.get(q.id).correctIndex,q.id);
+  assert.ok(questionNeedsArchive(q,31),q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.text))).size,4,q.id);
+  assert.equal(new Set(q.options.map(o=>normalizeChoice(o.rationale))).size,4,q.id);
+  assert.ok(q.options.every(o=>!o.rationaleParts&&!o.text.includes('\n')&&o.rationale.trim()&&o.source.startsWith('https://')),q.id);
+  assert.equal(q.rationale,q.options[q.correctIndex].rationale,q.id);
+  assert.equal(q.keyPoint,q.rationale,q.id);
+  if(q.id.startsWith('SIT-'))assert.equal(unsafeDecision(q),q.clinicalObjective==='safety',q.id);
+ }
+ const byId=new Map(reviewed.map(q=>[q.id,q]));
+ const key=id=>{const q=byId.get(id);return q.options[q.correctIndex];};
+ assert.match(key('SIT-CROSS-dosage-calculation-medication-administration-02-R2-action').text,/2.mL/);
+ assert.match(key('SIT-CROSS-laboratory-values-04-R2-planning').text,/continuous cardiac monitoring/);
+ assert.match(key('EXP2-NP4-neuroanatomy-assessment-basics-R2').text,/not testable/);
+ assert.match(key('SIT-NP4-parkinson-s-disease-03-R2-safety').rationale,/adequate total protein/);
+ const correctedLegacy=byId.get('NP4-089-5');
+ assert.equal(unsafeDecision(correctedLegacy),true);
+ assert.match(correctedLegacy.stem,/Which proposed action/);
+ assert.ok(!correctedLegacy.options.some(o=>o.text.includes('Assessment —')));
 });
